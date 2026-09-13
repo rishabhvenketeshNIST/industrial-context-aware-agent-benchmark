@@ -178,6 +178,10 @@ Implemented and under test:
 - CIM entities/observations/relationships and JSON Schemas
 - Historian (TimescaleDB), knowledge graph (Neo4j), UNS, i3X, and OPC UA context
   sources, unified behind the Agent Gateway
+- A real, closed-loop Tennessee Eastman Process simulator
+  (`icab.tep.simulator.TEPSimulator`, wrapping the `tep-studio` Downs & Vogel
+  kernel) alongside the original static prototype scenario path — see
+  [`docs/architecture/tep-simulator.md`](docs/architecture/tep-simulator.md)
 - `StructuredRetrievalAgent`, `ContextAwareAgent`, `ArchitectureAwareAgent`
 - Trace collection/storage and a first-cut investigation evaluator
 - `ArchitectureComparisonRunner` for running one case across architectures
@@ -185,7 +189,8 @@ Implemented and under test:
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):
 
-- `docs/architecture/`, `docs/benchmark/`, `docs/research/` — design docs
+- MQTT as a context/data source (Phase 2 of the ongoing benchmark buildout)
+- `docs/benchmark/`, `docs/research/` — design docs
 - `configs/benchmark/`, `configs/experiments/`, `configs/prototype/budget.yaml`,
   `configs/prototype/environment.yaml` — versioned benchmark and experiment
   definitions beyond the single `normal_001` prototype scenario

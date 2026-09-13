@@ -54,6 +54,31 @@ baseline agents, none of which were touched -- keeps working unchanged.
 `LLMInvestigationAgent.run()` now sets it explicitly at each of its three
 return points.
 
+## `evaluate_task` (M13-C, additive)
+
+`GroundedInvestigationEvaluator.evaluate_task(task: BenchmarkTask, result, trace, *, generation_id=None)`
+runs the EXACT same scoring logic as `evaluate` (both now delegate to a
+shared private `_evaluate`), keyed on a `BenchmarkTask`'s own
+`ground_truth`/`difficulty` rather than a `BenchmarkScenario`'s -- since
+a task's objective/required evidence can be a narrower or different view
+of its underlying scenario's full state (see
+[`docs/benchmark/tasks.md`](tasks.md)'s scenario/task separation). The
+only other change is `EvaluationReport` gaining an additive
+`task_id: str | None = None` field (`None` for the original
+scenario-only `evaluate` path, unchanged).
+
+**A minor, real limitation surfaced while validating M13-C tasks against
+the real stack:** `_slug()` normalizes underscores to spaces
+(`"reactor_pressure"` -> `"reactor pressure"`) for the
+`conclusion_correctness_score` mention check, but NOT hyphens --
+`urn:icab:equipment:purge-system`'s slug stays `"purge-system"`, so a
+conclusion naturally written as "Purge System" (space) does not match;
+it must say "Purge-System" (hyphenated) to register. Caught directly by
+`tests/integration/test_benchmark_tasks_against_real_stack.py`, not
+worked around silently -- documented here rather than fixed with a
+broader (and unverified) hyphen-normalization rule this milestone didn't
+have space to characterize properly.
+
 ## Verified against a real trace, not just hand-written dicts
 
 `tests/integration/test_grounded_evaluator_real_trace.py` runs the D3

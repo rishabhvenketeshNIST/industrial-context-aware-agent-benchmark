@@ -1,0 +1,54 @@
+scenario_id: d2_reactor_cooling_deviation
+
+name: Reactor cooling water outlet temperature deviation
+
+description: >
+  Context-combination (D2) scenario built on M13-B's empirically verified
+  idv_17 (Random reactor heat transfer deviation): a clean, single-variable,
+  single-equipment effect (see configs/benchmark/fault_catalog.json). The
+  objective asks for a value (historian) AND confirmation of which
+  equipment it belongs to (knowledge graph) -- neither source alone
+  answers it, the same "obvious single-variable" pattern as
+  docs/architecture/tep-fault-injection.md's initial fault-suite entry
+  for idv_17.
+
+difficulty: D2
+task_mode: investigation
+
+objective: >
+  Reactor cooling water outlet temperature appears to have shifted from
+  its normal reading over the past several hours. Retrieve its current
+  value and use the knowledge graph to confirm which equipment this
+  measurement belongs to.
+
+seed: 105
+warmup_hours: 1.0
+duration_hours: 4.0
+sync_interval_hours: 0.25
+
+faults:
+  - disturbance: idv_17
+    activate_at_hours: 1.0
+    magnitude: 1.0
+    description: "Random reactor heat transfer deviation (Bathelt/Ricker/Jelali IDV 17)"
+
+available_architectures:
+  - historian
+  - knowledge_graph
+
+ground_truth:
+  conclusion: >
+    Reactor cooling water outlet temperature deviates measurably from its
+    prior nominal level after a reactor heat-transfer disturbance (IDV
+    17) -- a clean, single-measurement effect, not a broader plant-wide
+    one. The knowledge graph confirms the Reactor equipment (via its
+    MONITORS relationship) is the entity this measurement belongs to.
+  root_cause_disturbance: idv_17
+  affected_measurements:
+    - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+  affected_equipment:
+    - "urn:icab:equipment:reactor"
+  expected_relationships:
+    - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"]
+  expected_evidence:
+    - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"

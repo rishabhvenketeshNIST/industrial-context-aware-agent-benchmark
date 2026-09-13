@@ -1,0 +1,165 @@
+# M13-C tasks against configs/benchmark/scenarios/d4_feed_pressure_reactor_effect.yaml
+# (D4, full architecture set, idv_24 -- empirically verified "affected
+# equipment not obvious from the fault's own name" disturbance, M13-B).
+
+tasks:
+  - task_id: d4feed-diagnosis-investigate-suspected-feed-system
+    scenario_id: d4_feed_pressure_reactor_effect
+    task_type: diagnosis
+    difficulty: D4
+    objective: >
+      A feed-system disturbance is suspected as a possible cause of
+      abnormal plant behavior. Investigate whether the feed system
+      itself, or some other equipment, actually shows the measurable
+      deviation, and identify what is really affected.
+    available_architectures: [historian, knowledge_graph, uns, opcua, mqtt]
+    required_context_dimensions: [C4, C3, C5]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+    expected_entities:
+      - "urn:icab:equipment:feed-system"
+      - "urn:icab:equipment:reactor"
+      - "urn:icab:equipment:separator"
+      - "urn:icab:equipment:stripper"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        Reactor, separator, and stripper pressure all rise together over
+        the four hours following the disturbance. Despite the
+        disturbance being nominally a feed-system perturbation (IDV 24),
+        NONE of the feed system's own measurements show a significant
+        deviation -- the feed system itself is NOT where the measurable
+        effect appears; the reactor/separator/stripper pressure train is.
+      root_cause_disturbance: idv_24
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:separator_pressure"
+        - "urn:icab:measurement:stripper_pressure"
+      affected_equipment:
+        - "urn:icab:equipment:reactor"
+        - "urn:icab:equipment:separator"
+        - "urn:icab:equipment:stripper"
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      known_limitations:
+        - "The evaluator cannot independently verify a NEGATIVE claim ('the feed system shows nothing') beyond checking that the ground truth's actually-affected assets are mentioned -- it does not penalize an agent for failing to explicitly rule out the feed system."
+    provenance: "icab.benchmark: reuses d4_feed_pressure_reactor_effect's own scenario objective/ground truth verbatim"
+    version: "1.0.0"
+
+  - task_id: d4feed-qa-feed-system-check
+    scenario_id: d4_feed_pressure_reactor_effect
+    task_type: qa
+    difficulty: D4
+    objective: "Does the feed system itself show any measurable deviation?"
+    available_architectures: [historian]
+    required_context_dimensions: [C5]
+    required_evidence:
+      - "urn:icab:measurement:feed_d_flow"
+    expected_entities:
+      - "urn:icab:measurement:feed_d_flow"
+    expected_relationships: []
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: "No -- the feed system's own measurements (e.g. feed_D_flow) show no significant deviation."
+      root_cause_disturbance: idv_24
+      affected_measurements: []
+      affected_equipment: []
+      expected_relationships: []
+      expected_evidence:
+        - "urn:icab:measurement:feed_d_flow"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      known_limitations:
+        - "affected_measurements is intentionally empty here -- this task's ground truth is that the NAMED evidence (feed_D_flow) is UNaffected, so required_evidence_score checks retrieval, not that a deviation was found."
+    provenance: "icab.benchmark: negative-check variant isolating the 'feed system shows nothing' claim"
+    version: "1.0.0"
+
+  - task_id: d4feed-investigation-actual-affected-equipment
+    scenario_id: d4_feed_pressure_reactor_effect
+    task_type: investigation
+    difficulty: D4
+    objective: >
+      Determine which equipment (not the feed system) actually shows the
+      deviation, and confirm via the knowledge graph.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:measurement:separator_pressure"
+    expected_entities:
+      - "urn:icab:equipment:reactor"
+      - "urn:icab:equipment:separator"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+      - ["urn:icab:equipment:separator", "MONITORS", "urn:icab:measurement:separator_pressure"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        Reactor and Separator (and Stripper) pressure measurements show
+        the real deviation -- confirmed via the knowledge graph's
+        MONITORS relationships.
+      root_cause_disturbance: idv_24
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:separator_pressure"
+      affected_equipment:
+        - "urn:icab:equipment:reactor"
+        - "urn:icab:equipment:separator"
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+        - ["urn:icab:equipment:separator", "MONITORS", "urn:icab:measurement:separator_pressure"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:separator_pressure"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score, completeness_score]
+    provenance: "icab.benchmark: positive-identification variant of d4_feed_pressure_reactor_effect"
+    version: "1.0.0"
+
+  - task_id: d4feed-diagnosis-explain-naming-mismatch
+    scenario_id: d4_feed_pressure_reactor_effect
+    task_type: diagnosis
+    difficulty: D4
+    objective: >
+      Explain why a feed-system-named disturbance produces no measurable
+      feed-system effect, based on what you actually observe.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3, C5]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:measurement:feed_d_flow"
+    expected_entities:
+      - "urn:icab:equipment:reactor"
+      - "urn:icab:equipment:feed-system"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        The disturbance (IDV 24, random D feed pressure/flow) is named
+        after the feed system, but its measurable, repeatable effect is
+        on reactor/separator/stripper pressure, not on any feed-system
+        measurement -- a fault's own name does not reliably predict
+        which equipment will show the observable effect.
+      root_cause_disturbance: idv_24
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+      affected_equipment:
+        - "urn:icab:equipment:reactor"
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:feed_d_flow"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      known_limitations:
+        - "conclusion_correctness_score checks that idv_24/reactor are mentioned, not that the agent's EXPLANATION for the naming mismatch is itself a sound physical argument -- same causal-reasoning-is-approximated limitation noted throughout docs/benchmark/evaluation.md."
+    provenance: "icab.benchmark: explanatory framing of d4_feed_pressure_reactor_effect's central finding"
+    version: "1.0.0"

@@ -1,0 +1,179 @@
+# M13-C tasks against configs/benchmark/scenarios/d3_reactor_pressure_deviation.yaml
+# (D3, historian + knowledge_graph, idv_01 -- empirically verified widest
+# cross-unit disturbance, M13-B).
+
+tasks:
+  - task_id: d3pressure-diagnosis-trend-and-equipment
+    scenario_id: d3_reactor_pressure_deviation
+    task_type: diagnosis
+    difficulty: D3
+    objective: >
+      Reactor pressure appears to have drifted from its normal operating
+      point over the last several hours. Investigate the historical
+      trend and determine what changed, and use the knowledge graph to
+      confirm which equipment the affected measurement belongs to.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+    expected_entities:
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:equipment:reactor"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        Reactor pressure decreases measurably (tens of kPa) below its
+        prior nominal ~2705 kPa gauge level after the disturbance begins,
+        alongside similar declines in separator pressure, stripper
+        level, and compressor work -- consistent with a feed
+        composition/ratio disturbance (IDV 1) rather than instrument
+        drift. The knowledge graph confirms the Reactor equipment (via
+        MONITORS) is the entity the affected pressure measurement
+        belongs to.
+      root_cause_disturbance: idv_01
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:separator_pressure"
+        - "urn:icab:measurement:stripper_level"
+        - "urn:icab:measurement:compressor_work"
+      affected_equipment:
+        - "urn:icab:equipment:reactor"
+        - "urn:icab:equipment:separator"
+        - "urn:icab:equipment:stripper"
+        - "urn:icab:equipment:compressor"
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      known_limitations:
+        - "temporal_evidence_acquired (was a historical query made) is tracked on the EvaluationReport but is a bool, not a 0-1 score, so it cannot itself be a binding_scores entry -- see icab.tasks.benchmark_task.KNOWN_SCORE_FIELDS."
+        - "conclusion_correctness_score checks whether root_cause_disturbance/affected assets are MENTIONED in the conclusion text, not that the causal argument for 'why IDV 1' is itself sound."
+    provenance: "icab.benchmark: reuses d3_reactor_pressure_deviation's own scenario objective/ground truth verbatim"
+    version: "1.0.0"
+
+  - task_id: d3pressure-qa-trend-direction
+    scenario_id: d3_reactor_pressure_deviation
+    task_type: qa
+    difficulty: D3
+    objective: "Has reactor pressure been declining or rising over the past several hours?"
+    available_architectures: [historian]
+    required_context_dimensions: [C4]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+    expected_entities:
+      - "urn:icab:measurement:reactor_pressure"
+    expected_relationships: []
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: "Reactor pressure has been declining measurably over the recorded history."
+      root_cause_disturbance: idv_01
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+      affected_equipment: ["urn:icab:equipment:reactor"]
+      expected_relationships: []
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      known_limitations:
+        - "The evaluator confirms a historical query was made and the measurement was retrieved, not that the agent's stated DIRECTION (declining vs rising) matches the retrieved trend -- see docs/benchmark/evaluation.md."
+    provenance: "icab.benchmark: historian-only, temporal-only variant, isolating C4 from C3"
+    version: "1.0.0"
+
+  - task_id: d3pressure-investigation-related-measurements
+    scenario_id: d3_reactor_pressure_deviation
+    task_type: investigation
+    difficulty: D3
+    objective: >
+      Identify all measurements that show a related deviation alongside
+      reactor pressure, and confirm via the knowledge graph which
+      equipment each belongs to.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:measurement:separator_pressure"
+      - "urn:icab:measurement:stripper_level"
+      - "urn:icab:measurement:compressor_work"
+    expected_entities:
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:measurement:separator_pressure"
+      - "urn:icab:measurement:stripper_level"
+      - "urn:icab:measurement:compressor_work"
+      - "urn:icab:equipment:reactor"
+      - "urn:icab:equipment:separator"
+      - "urn:icab:equipment:stripper"
+      - "urn:icab:equipment:compressor"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+      - ["urn:icab:equipment:separator", "MONITORS", "urn:icab:measurement:separator_pressure"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        Reactor pressure, separator pressure, stripper level, and
+        compressor work all decline together -- a multi-measurement,
+        cross-unit pattern, not an isolated reactor-only effect.
+      root_cause_disturbance: idv_01
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:separator_pressure"
+        - "urn:icab:measurement:stripper_level"
+        - "urn:icab:measurement:compressor_work"
+      affected_equipment:
+        - "urn:icab:equipment:reactor"
+        - "urn:icab:equipment:separator"
+        - "urn:icab:equipment:stripper"
+        - "urn:icab:equipment:compressor"
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+        - ["urn:icab:equipment:separator", "MONITORS", "urn:icab:measurement:separator_pressure"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+        - "urn:icab:measurement:separator_pressure"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score, completeness_score]
+    provenance: "icab.benchmark: multi-measurement broadening of d3_reactor_pressure_deviation's own ground truth"
+    version: "1.0.0"
+
+  - task_id: d3pressure-diagnosis-disturbance-category
+    scenario_id: d3_reactor_pressure_deviation
+    task_type: diagnosis
+    difficulty: D3
+    objective: >
+      Based on the historical trend and the affected equipment, what
+      general category of process disturbance is occurring -- a feed
+      composition/ratio change, or an instrument fault?
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_pressure"
+    expected_entities:
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:equipment:reactor"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        A feed composition/ratio disturbance (IDV 1: A/C ratio of stream
+        4) -- multiple related measurements (separator pressure,
+        stripper level, compressor work) move together, which is not
+        consistent with a single-sensor instrument fault.
+      root_cause_disturbance: idv_01
+      affected_measurements:
+        - "urn:icab:measurement:reactor_pressure"
+      affected_equipment: ["urn:icab:equipment:reactor"]
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_pressure"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      known_limitations:
+        - "The evaluator cannot deterministically verify the DISTINGUISHING argument ('multiple measurements moving together rules out a single-sensor fault') -- only that IDV 1 and the reactor are mentioned in the conclusion. This is exactly the 'causal reasoning is approximated, not verified' limitation documented in icab.evaluation.grounded's module docstring and docs/benchmark/evaluation.md."
+    provenance: "icab.benchmark: category-diagnosis framing of d3_reactor_pressure_deviation"
+    version: "1.0.0"

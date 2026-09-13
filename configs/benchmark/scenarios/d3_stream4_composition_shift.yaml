@@ -1,0 +1,65 @@
+scenario_id: d3_stream4_composition_shift
+
+name: Stream 4 composition shift -- compressor/purge/reactor-feed drift
+
+description: >
+  Temporal/cross-unit (D3) scenario built on M13-B's empirically verified
+  idv_02 (B composition of stream 4, A/C ratio constant): a moderate
+  multi-variable effect spanning three equipment items (compressor, purge
+  system, reactor) -- see configs/benchmark/fault_catalog.json. Answering
+  correctly requires retrieving more than one measurement's historical
+  trend and using the knowledge graph to confirm which equipment each
+  belongs to, not a single current-value read.
+
+difficulty: D3
+task_mode: diagnosis
+
+objective: >
+  Several measurements around the compressor, purge system, and reactor
+  feed appear to be drifting together over the past several hours.
+  Investigate the historical trend across these measurements and use the
+  knowledge graph to confirm which equipment is implicated.
+
+seed: 106
+warmup_hours: 1.0
+duration_hours: 4.0
+sync_interval_hours: 0.25
+
+faults:
+  - disturbance: idv_02
+    activate_at_hours: 1.0
+    magnitude: 1.0
+    description: "B composition of stream 4, A/C ratio constant (Downs & Vogel IDV 2)"
+
+available_architectures:
+  - historian
+  - knowledge_graph
+
+ground_truth:
+  conclusion: >
+    Compressor work, purge flow, purge composition (A/B/F), and reactor
+    feed composition (B/F) all drift measurably over the four hours
+    following the disturbance -- consistent with a feed-composition
+    change (IDV 2: B composition of stream 4) propagating through the
+    compressor/recycle loop and purge system. The knowledge graph
+    confirms the Compressor and Purge System equipment (via MONITORS)
+    are implicated alongside the Reactor's own feed measurements.
+  root_cause_disturbance: idv_02
+  affected_measurements:
+    - "urn:icab:measurement:compressor_work"
+    - "urn:icab:measurement:purge_a_concentration"
+    - "urn:icab:measurement:purge_b_concentration"
+    - "urn:icab:measurement:purge_f_concentration"
+    - "urn:icab:measurement:purge_flow"
+    - "urn:icab:measurement:reactor_feed_b_concentration"
+    - "urn:icab:measurement:reactor_feed_f_concentration"
+  affected_equipment:
+    - "urn:icab:equipment:compressor"
+    - "urn:icab:equipment:purge-system"
+    - "urn:icab:equipment:reactor"
+  expected_relationships:
+    - ["urn:icab:equipment:compressor", "MONITORS", "urn:icab:measurement:compressor_work"]
+    - ["urn:icab:equipment:purge-system", "MONITORS", "urn:icab:measurement:purge_flow"]
+  expected_evidence:
+    - "urn:icab:measurement:compressor_work"
+    - "urn:icab:measurement:purge_flow"

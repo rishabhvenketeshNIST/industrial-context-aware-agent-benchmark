@@ -1,0 +1,134 @@
+# M13-C tasks against configs/benchmark/scenarios/d3_stream4_composition_shift.yaml
+# (D3, historian + knowledge_graph, idv_02 -- empirically verified moderate
+# multi-variable disturbance, M13-B).
+
+tasks:
+  - task_id: d3stream4-diagnosis-drift-and-equipment
+    scenario_id: d3_stream4_composition_shift
+    task_type: diagnosis
+    difficulty: D3
+    objective: >
+      Several measurements around the compressor, purge system, and
+      reactor feed appear to be drifting together over the past several
+      hours. Investigate the historical trend across these measurements
+      and use the knowledge graph to confirm which equipment is
+      implicated.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3]
+    required_evidence:
+      - "urn:icab:measurement:compressor_work"
+      - "urn:icab:measurement:purge_flow"
+    expected_entities:
+      - "urn:icab:measurement:compressor_work"
+      - "urn:icab:measurement:purge_flow"
+      - "urn:icab:equipment:compressor"
+      - "urn:icab:equipment:purge-system"
+    expected_relationships:
+      - ["urn:icab:equipment:compressor", "MONITORS", "urn:icab:measurement:compressor_work"]
+      - ["urn:icab:equipment:purge-system", "MONITORS", "urn:icab:measurement:purge_flow"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        Compressor work, purge flow, purge composition (A/B/F), and
+        reactor feed composition (B/F) all drift measurably over the
+        four hours following the disturbance -- consistent with a feed
+        composition change (IDV 2) propagating through the
+        compressor/recycle loop and purge system. The knowledge graph
+        confirms the Compressor and Purge System equipment are
+        implicated.
+      root_cause_disturbance: idv_02
+      affected_measurements:
+        - "urn:icab:measurement:compressor_work"
+        - "urn:icab:measurement:purge_a_concentration"
+        - "urn:icab:measurement:purge_b_concentration"
+        - "urn:icab:measurement:purge_f_concentration"
+        - "urn:icab:measurement:purge_flow"
+        - "urn:icab:measurement:reactor_feed_b_concentration"
+        - "urn:icab:measurement:reactor_feed_f_concentration"
+      affected_equipment:
+        - "urn:icab:equipment:compressor"
+        - "urn:icab:equipment:purge-system"
+        - "urn:icab:equipment:reactor"
+      expected_relationships:
+        - ["urn:icab:equipment:compressor", "MONITORS", "urn:icab:measurement:compressor_work"]
+        - ["urn:icab:equipment:purge-system", "MONITORS", "urn:icab:measurement:purge_flow"]
+      expected_evidence:
+        - "urn:icab:measurement:compressor_work"
+        - "urn:icab:measurement:purge_flow"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      known_limitations:
+        - "conclusion_correctness_score checks mention of IDV 2/affected assets, not the propagation ARGUMENT (feed change -> compressor/recycle -> purge)."
+    provenance: "icab.benchmark: reuses d3_stream4_composition_shift's own scenario objective/ground truth verbatim"
+    version: "1.0.0"
+
+  - task_id: d3stream4-qa-compressor-trend
+    scenario_id: d3_stream4_composition_shift
+    task_type: qa
+    difficulty: D3
+    objective: "What is the trend in compressor work over the past several hours?"
+    available_architectures: [historian]
+    required_context_dimensions: [C4]
+    required_evidence:
+      - "urn:icab:measurement:compressor_work"
+    expected_entities:
+      - "urn:icab:measurement:compressor_work"
+    expected_relationships: []
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: "Compressor work has been drifting measurably over the recorded history, following the stream-4 composition disturbance."
+      root_cause_disturbance: idv_02
+      affected_measurements:
+        - "urn:icab:measurement:compressor_work"
+      affected_equipment: ["urn:icab:equipment:compressor"]
+      expected_relationships: []
+      expected_evidence:
+        - "urn:icab:measurement:compressor_work"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      known_limitations:
+        - "Direction of the trend is not independently verified, same limitation as d3pressure-qa-trend-direction."
+    provenance: "icab.benchmark: historian-only, single-measurement temporal variant"
+    version: "1.0.0"
+
+  - task_id: d3stream4-investigation-implicated-equipment
+    scenario_id: d3_stream4_composition_shift
+    task_type: investigation
+    difficulty: D3
+    objective: >
+      Identify which equipment items show a related deviation alongside
+      the compressor, and confirm each via the knowledge graph.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C4, C3]
+    required_evidence:
+      - "urn:icab:measurement:compressor_work"
+      - "urn:icab:measurement:purge_flow"
+    expected_entities:
+      - "urn:icab:measurement:compressor_work"
+      - "urn:icab:measurement:purge_flow"
+      - "urn:icab:equipment:compressor"
+      - "urn:icab:equipment:purge-system"
+    expected_relationships:
+      - ["urn:icab:equipment:compressor", "MONITORS", "urn:icab:measurement:compressor_work"]
+    expected_temporal_evidence: true
+    ground_truth:
+      conclusion: >
+        The Compressor and Purge System equipment both show related
+        deviations alongside the reactor feed composition -- a
+        multi-equipment, not single-equipment, pattern.
+      root_cause_disturbance: idv_02
+      affected_measurements:
+        - "urn:icab:measurement:compressor_work"
+        - "urn:icab:measurement:purge_flow"
+      affected_equipment:
+        - "urn:icab:equipment:compressor"
+        - "urn:icab:equipment:purge-system"
+      expected_relationships:
+        - ["urn:icab:equipment:compressor", "MONITORS", "urn:icab:measurement:compressor_work"]
+      expected_evidence:
+        - "urn:icab:measurement:compressor_work"
+        - "urn:icab:measurement:purge_flow"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score, completeness_score]
+    provenance: "icab.benchmark: cross-unit-emphasis framing of d3_stream4_composition_shift"
+    version: "1.0.0"

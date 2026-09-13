@@ -56,13 +56,22 @@ callers/tests are unaffected.
 from __future__ import annotations
 
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, ConfigDict
 
 from icab.agent.interface import InvestigationResult, TerminationReason
-from icab.scenarios.models import BenchmarkScenario, ScenarioDifficulty
+from icab.scenarios.models import BenchmarkScenario, GroundTruth, ScenarioDifficulty
 from icab.trace.models import TraceEvent
+
+if TYPE_CHECKING:
+    # M13-C: evaluate_task's parameter type -- TYPE_CHECKING-only so
+    # icab.evaluation does not gain a hard runtime dependency on
+    # icab.tasks (which itself does not depend on icab.evaluation; no
+    # cycle either way, this just keeps the import one-directional at
+    # runtime, matching how `from __future__ import annotations` already
+    # makes every annotation in this file a lazily-evaluated string).
+    from icab.tasks.benchmark_task import BenchmarkTask
 
 #: ICAB canonical id shape (see icab.cim.identifiers.CanonicalId). Only
 #: evidence sourced from these CIM/canonical-id-based tools is checked
@@ -118,6 +127,11 @@ class EvaluationReport(BaseModel):
 
     scenario_id: str
 
+    #: M13-C: the BenchmarkTask this report evaluated, when evaluated via
+    #: `evaluate_task` rather than `evaluate` -- None for the original
+    #: scenario-only path (unchanged).
+    task_id: str | None = None
+
     #: The scenario-preparation generation this report was scoped to (see
     #: module docstring); None if the caller didn't pass one, in which case
     #: relationship confirmation is ungated (original M8 behavior).
@@ -171,7 +185,58 @@ class GroundedInvestigationEvaluator:
         *,
         generation_id: str | None = None,
     ) -> EvaluationReport:
-        ground_truth = scenario.ground_truth
+        return self._evaluate(
+            scenario_id=scenario.scenario_id,
+            task_id=None,
+            ground_truth=scenario.ground_truth,
+            difficulty=scenario.difficulty,
+            result=result,
+            trace=trace,
+            generation_id=generation_id,
+        )
+
+    def evaluate_task(
+        self,
+        task: "BenchmarkTask",
+        result: InvestigationResult,
+        trace: list[TraceEvent],
+        *,
+        generation_id: str | None = None,
+    ) -> EvaluationReport:
+        """
+        M13-C: evaluate against a `BenchmarkTask`'s OWN ground truth/
+        difficulty (which may be a narrower, task-specific view of its
+        underlying scenario's full ground truth -- e.g. a QA task about
+        one measurement doesn't need the whole scenario's
+        affected_measurements list) rather than the scenario's.
+
+        Everything else -- the scoring logic itself, generation_id
+        scoping, the non-LLM-judge design -- is identical to `evaluate`;
+        this only changes WHICH ground_truth/difficulty/id fields feed
+        it, and additionally stamps `EvaluationReport.task_id`.
+        """
+
+        return self._evaluate(
+            scenario_id=task.scenario_id,
+            task_id=task.task_id,
+            ground_truth=task.ground_truth,
+            difficulty=task.difficulty,
+            result=result,
+            trace=trace,
+            generation_id=generation_id,
+        )
+
+    def _evaluate(
+        self,
+        *,
+        scenario_id: str,
+        task_id: str | None,
+        ground_truth: GroundTruth,
+        difficulty: ScenarioDifficulty,
+        result: InvestigationResult,
+        trace: list[TraceEvent],
+        generation_id: str | None,
+    ) -> EvaluationReport:
         text = self._collect_text(result).lower()
 
         retrieved_ids = self._retrieved_value_ids(trace)
@@ -203,7 +268,7 @@ class GroundedInvestigationEvaluator:
         )
 
         temporal_required = (
-            scenario.difficulty in (ScenarioDifficulty.D3, ScenarioDifficulty.D4)
+            difficulty in (ScenarioDifficulty.D3, ScenarioDifficulty.D4)
             or ground_truth.root_cause_disturbance is not None
         )
         temporal_acquired = any(event.tool in _TEMPORAL_TOOLS for event in trace)
@@ -269,7 +334,8 @@ class GroundedInvestigationEvaluator:
         completeness_score = sum(completeness_components) / len(completeness_components)
 
         return EvaluationReport(
-            scenario_id=scenario.scenario_id,
+            scenario_id=scenario_id,
+            task_id=task_id,
             generation_id=generation_id,
             required_evidence_hits=required_hits,
             required_evidence_score=required_score,

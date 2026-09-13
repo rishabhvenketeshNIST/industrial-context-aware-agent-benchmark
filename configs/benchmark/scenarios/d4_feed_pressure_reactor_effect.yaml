@@ -1,0 +1,64 @@
+scenario_id: d4_feed_pressure_reactor_effect
+
+name: Feed-system-named disturbance whose effect is NOT in the feed system
+
+description: >
+  Non-obvious/context-intensive (D4) scenario built on M13-B's
+  empirically verified idv_24 (Random D feed pressure/flow) -- the
+  sharpest available "affected equipment not obvious from the fault's
+  own name" case: despite being named after the D-feed/feed system, its
+  empirically verified effect lands entirely on reactor/separator/stripper
+  PRESSURE measurements -- nothing in the feed system itself clears the
+  deviation threshold (see configs/benchmark/fault_catalog.json and
+  docs/architecture/tep-fault-injection.md). An agent that investigates
+  the feed system because of the disturbance's name finds nothing there.
+
+difficulty: D4
+task_mode: diagnosis
+
+objective: >
+  A feed-system disturbance is suspected as a possible cause of abnormal
+  plant behavior. Investigate whether the feed system itself, or some
+  other equipment, actually shows the measurable deviation, and identify
+  what is really affected.
+
+seed: 109
+warmup_hours: 1.0
+duration_hours: 4.0
+sync_interval_hours: 0.25
+
+faults:
+  - disturbance: idv_24
+    activate_at_hours: 1.0
+    magnitude: 1.0
+    description: "Random D feed pressure/flow (Bathelt/Ricker/Jelali IDV 24)"
+
+available_architectures:
+  - historian
+  - knowledge_graph
+  - uns
+  - opcua
+  - mqtt
+
+ground_truth:
+  conclusion: >
+    Reactor, separator, and stripper pressure all rise together over the
+    four hours following the disturbance. Despite the disturbance being
+    nominally a feed-system perturbation (D feed pressure/flow, IDV 24),
+    NONE of the feed system's own measurements (feed_D_flow and related)
+    show a significant deviation -- the feed system itself is NOT where
+    the measurable effect appears; the reactor/separator/stripper
+    pressure train is.
+  root_cause_disturbance: idv_24
+  affected_measurements:
+    - "urn:icab:measurement:reactor_pressure"
+    - "urn:icab:measurement:separator_pressure"
+    - "urn:icab:measurement:stripper_pressure"
+  affected_equipment:
+    - "urn:icab:equipment:reactor"
+    - "urn:icab:equipment:separator"
+    - "urn:icab:equipment:stripper"
+  expected_relationships:
+    - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+  expected_evidence:
+    - "urn:icab:measurement:reactor_pressure"

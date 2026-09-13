@@ -385,15 +385,34 @@ Implemented and under test:
   or `GroundTruth`) is verified end to end against the real simulator +
   real Neo4j + real Historian + real MQTT, not merely asserted. See
   [`docs/architecture/tep-fault-injection.md`](docs/architecture/tep-fault-injection.md)
+- Automated TEP benchmark task/question suite (M13-C): a first-class
+  `BenchmarkTask` model (`icab.tasks`), explicitly separate from
+  `BenchmarkScenario` — a scenario defines the process/fault conditions,
+  a task defines the question/required evidence/evaluation criteria
+  asked against it, and one scenario carries several tasks. 38 tasks
+  across 9 scenarios (4 original + 5 new, built on M13-B's remaining
+  verified faults), spanning all three locked task types
+  (QA/investigation/diagnosis), all four difficulty levels (D1-D4, not
+  D1-dominated), and all seven locked context dimensions (C1-C7, newly
+  operationalized and architecturally enforced — a task cannot declare
+  a dimension none of its own architectures can supply). Evaluated via
+  `GroundedInvestigationEvaluator.evaluate_task` — the same
+  deterministic, non-LLM-judge scoring `evaluate` already used, keyed on
+  a task's own ground truth/difficulty. Development/validation/test
+  splits are assigned per-SCENARIO specifically to prevent leakage (two
+  tasks sharing a scenario always land in the same split). See
+  [`docs/benchmark/specification.md`](docs/benchmark/specification.md),
+  [`docs/benchmark/tasks.md`](docs/benchmark/tasks.md), and
+  [`docs/benchmark/splits.md`](docs/benchmark/splits.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):
 
-- `docs/benchmark/specification.md`,
-  `docs/benchmark/splits.md` — design docs
 - `configs/experiments/`, `configs/prototype/budget.yaml`,
   `configs/prototype/environment.yaml` — versioned experiment definitions
-  and a scenario suite broader than one scenario per difficulty level
+- A benchmark task suite broader than the current 38 tasks/9 scenarios
+  (e.g. an i3X-specific task, more seeds per scenario) — see
+  `docs/benchmark/tasks.md`'s known limitations
 - `LICENSE`, `Makefile`
 
 ## License

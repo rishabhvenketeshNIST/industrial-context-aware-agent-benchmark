@@ -1,0 +1,147 @@
+# M13-C tasks against configs/benchmark/scenarios/d2_reactor_cooling_deviation.yaml
+# (D2, historian + knowledge_graph, idv_17 -- empirically verified single-
+# variable disturbance, M13-B).
+
+tasks:
+  - task_id: d2cooling-investigation-value-and-equipment
+    scenario_id: d2_reactor_cooling_deviation
+    task_type: investigation
+    difficulty: D2
+    objective: >
+      Reactor cooling water outlet temperature appears to have shifted
+      from its normal reading over the past several hours. Retrieve its
+      current value and use the knowledge graph to confirm which
+      equipment this measurement belongs to.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C5, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    expected_entities:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      - "urn:icab:equipment:reactor"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"]
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: >
+        Reactor cooling water outlet temperature deviates measurably from
+        its prior nominal level after a reactor heat-transfer disturbance
+        (IDV 17). The knowledge graph confirms the Reactor equipment
+        MONITORS this measurement.
+      root_cause_disturbance: idv_17
+      affected_measurements:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      affected_equipment: ["urn:icab:equipment:reactor"]
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score]
+    provenance: "icab.benchmark: reuses d2_reactor_cooling_deviation's own scenario objective/ground truth verbatim"
+    version: "1.0.0"
+
+  - task_id: d2cooling-diagnosis-heat-transfer-category
+    scenario_id: d2_reactor_cooling_deviation
+    task_type: diagnosis
+    difficulty: D2
+    objective: >
+      Reactor cooling water outlet temperature has deviated from normal.
+      Based on the affected measurement and equipment, what general
+      category of process issue does this suggest, and which equipment
+      is implicated according to the knowledge graph?
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C5, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    expected_entities:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      - "urn:icab:equipment:reactor"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"]
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: >
+        A reactor heat-transfer disturbance (IDV 17) -- consistent with a
+        cooling/heat-exchange issue at the Reactor, confirmed by the
+        knowledge graph's MONITORS relationship.
+      root_cause_disturbance: idv_17
+      affected_measurements:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      affected_equipment: ["urn:icab:equipment:reactor"]
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"]
+      expected_evidence:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      known_limitations:
+        - "conclusion_correctness_score checks whether the ground truth's root_cause_disturbance/affected assets are MENTIONED in the conclusion text, not that the agent's causal reasoning for 'why a heat-transfer issue' is itself sound -- see docs/benchmark/evaluation.md."
+    provenance: "icab.benchmark: diagnosis-framed variant of d2_reactor_cooling_deviation"
+    version: "1.0.0"
+
+  - task_id: d2cooling-qa-current-value
+    scenario_id: d2_reactor_cooling_deviation
+    task_type: qa
+    difficulty: D2
+    objective: "What is the current reading of reactor cooling water outlet temperature?"
+    available_architectures: [historian]
+    required_context_dimensions: [C5]
+    required_evidence:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    expected_entities:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    expected_relationships: []
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: "Reactor cooling water outlet temperature is measurably shifted from its nominal reading."
+      root_cause_disturbance: idv_17
+      affected_measurements:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      affected_equipment: ["urn:icab:equipment:reactor"]
+      expected_relationships: []
+      expected_evidence:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+    provenance: "icab.benchmark: historian-only value variant, isolating C5 from C3"
+    version: "1.0.0"
+
+  - task_id: d2cooling-investigation-isolated-or-broader
+    scenario_id: d2_reactor_cooling_deviation
+    task_type: investigation
+    difficulty: D2
+    objective: >
+      Determine whether the reactor cooling water outlet temperature
+      deviation is an isolated reading, or whether reactor pressure and
+      level are affected as well.
+    available_architectures: [historian, knowledge_graph]
+    required_context_dimensions: [C5, C3]
+    required_evidence:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:measurement:reactor_level"
+    expected_entities:
+      - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      - "urn:icab:measurement:reactor_pressure"
+      - "urn:icab:measurement:reactor_level"
+    expected_relationships: []
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: >
+        The deviation is isolated to reactor cooling water outlet
+        temperature -- reactor pressure and level remain near their
+        nominal values, unaffected by IDV 17.
+      root_cause_disturbance: idv_17
+      affected_measurements:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      affected_equipment: ["urn:icab:equipment:reactor"]
+      expected_relationships: []
+      expected_evidence:
+        - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      known_limitations:
+        - "required_evidence_score only checks that the three named measurements were retrieved/cited, not that the agent's ISOLATED-vs-broader conclusion is itself verified beyond conclusion_correctness_score's keyword-mention heuristic."
+    provenance: "icab.benchmark: distinguishes 'isolated measurement' from 'broader pattern' -- see docs/benchmark/tasks.md design principles"
+    version: "1.0.0"

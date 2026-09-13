@@ -1,0 +1,34 @@
+# M13-C benchmark task splits.
+#
+# Grouped by SCENARIO, not by individual task -- every task built on a
+# given scenario always lands in the same split. Two tasks against the
+# same scenario share the exact same underlying process trajectory (same
+# seed, same fault, same synced historian/KG/MQTT state); splitting them
+# across development/test would let "unseen" test performance partly
+# reflect memorized familiarity with that specific trajectory rather than
+# genuine generalization. See docs/benchmark/splits.md and
+# icab.tasks.splits module docstring.
+
+development:
+  # The three original, longest-standing, no-fault-or-single-fault
+  # scenarios -- suited to iterating on baseline agent/tool behavior.
+  - d1_reactor_pressure_reading
+  - d2_reactor_context_combination
+  - d3_reactor_pressure_deviation
+
+validation:
+  # Two new (M13-C), moderate-difficulty scenarios -- for tuning/
+  # comparing configurations before committing to a final test-split run.
+  - d2_reactor_cooling_deviation
+  - d3_stream4_composition_shift
+
+test:
+  # Held out: the hardest and/or most novel scenarios -- the stochastic/
+  # gradual D3 case, the existing D4 flagship, and both new D4 "non-
+  # obvious equipment" scenarios. Deliberately weighted toward D3/D4,
+  # since a benchmark's test split should emphasize the genuinely
+  # difficult cases, not dilute them with easy D1/D2 repeats.
+  - d3_stochastic_composition_drift
+  - d4_plant_wide_investigation
+  - d4_unknown_plant_disturbance
+  - d4_feed_pressure_reactor_effect

@@ -439,3 +439,164 @@ def test_relationship_confirmation_is_scoped_to_the_current_generation():
         scenario, result, trace=trace, generation_id="some-other-run"
     )
     assert scoped_to_same_run.relationship_score == 1.0
+
+
+# ---------------------------------------------------------------------------
+# M13-C: evaluate_task -- the same scoring logic, keyed on a BenchmarkTask's
+# OWN ground_truth/difficulty rather than a BenchmarkScenario's.
+# ---------------------------------------------------------------------------
+
+
+def _task(**overrides):
+    from icab.scenarios.models import GroundTruth, ScenarioDifficulty, TaskMode
+    from icab.tasks.benchmark_task import BenchmarkTask, EvaluationCriteria
+    from icab.tasks.context_dimensions import ContextDimension
+
+    base = dict(
+        task_id="eval-task-test",
+        scenario_id="d1_reactor_pressure_reading",
+        task_type=TaskMode.QA,
+        difficulty=ScenarioDifficulty.D1,
+        objective="What is the current reactor pressure?",
+        available_architectures=["historian"],
+        required_context_dimensions=[ContextDimension.C5_OPERATIONAL],
+        required_evidence=["urn:icab:measurement:reactor_pressure"],
+        ground_truth=GroundTruth(conclusion="Reactor pressure is near 2705 kPa gauge."),
+        evaluation_criteria=EvaluationCriteria(binding_scores=["required_evidence_score"]),
+    )
+    base.update(overrides)
+    return BenchmarkTask(**base)
+
+
+def test_evaluate_task_stamps_task_id_and_the_tasks_own_scenario_id():
+    evaluator = GroundedInvestigationEvaluator()
+    task = _task()
+
+    result = InvestigationResult(
+        objective=task.objective,
+        conclusion="urn:icab:measurement:reactor_pressure is 2705 kPa, normal.",
+        evidence=[
+            EvidenceReference(source="get_current_value", identifier="urn:icab:measurement:reactor_pressure")
+        ],
+        termination=TerminationReason.SUBMITTED,
+    )
+    trace = [
+        _event(
+            "get_current_value",
+            {"observation": {"measurement_id": "urn:icab:measurement:reactor_pressure", "value": 2705.0}},
+        )
+    ]
+
+    report = evaluator.evaluate_task(task, result, trace)
+
+    assert report.task_id == "eval-task-test"
+    assert report.scenario_id == "d1_reactor_pressure_reading"
+    assert report.required_evidence_score == 1.0
+
+
+def test_evaluate_task_uses_the_tasks_own_ground_truth_not_the_scenario_default():
+    """
+    A task's ground_truth can genuinely differ from (be narrower/broader
+    than) its underlying scenario's own ground_truth -- confirm
+    evaluate_task actually reads FROM THE TASK, not silently reloading
+    the scenario's own ground truth from the registry.
+    """
+
+    from icab.scenarios.models import GroundTruth
+
+    task = _task(
+        ground_truth=GroundTruth(
+            conclusion="Reactor level is nominal.",
+            root_cause_disturbance=None,
+            expected_evidence=["urn:icab:measurement:reactor_level"],
+        ),
+        required_evidence=["urn:icab:measurement:reactor_level"],
+    )
+
+    evaluator = GroundedInvestigationEvaluator()
+    result = InvestigationResult(
+        objective=task.objective,
+        conclusion="urn:icab:measurement:reactor_level is 75%, normal.",
+        evidence=[EvidenceReference(source="get_current_value", identifier="urn:icab:measurement:reactor_level")],
+        termination=TerminationReason.SUBMITTED,
+    )
+    trace = [
+        _event(
+            "get_current_value",
+            {"observation": {"measurement_id": "urn:icab:measurement:reactor_level", "value": 75.0}},
+        )
+    ]
+
+    report = evaluator.evaluate_task(task, result, trace)
+
+    # Required evidence is reactor_LEVEL (the task's own ground truth),
+    # not reactor_pressure (what the DEFAULT _task() fixture's ground
+    # truth would have asked for) -- proves the task's own ground_truth
+    # is what's actually consulted.
+    assert report.required_evidence_hits == {"urn:icab:measurement:reactor_level": True}
+
+
+def test_evaluate_task_uses_the_tasks_own_difficulty_for_temporal_requirement():
+    """difficulty D3/D4 makes temporal_evidence_required True even
+    without a root_cause_disturbance -- confirm this reads the TASK's
+    difficulty, not the underlying scenario's (which could differ)."""
+
+    from icab.scenarios.models import GroundTruth, ScenarioDifficulty
+
+    task = _task(difficulty=ScenarioDifficulty.D3, ground_truth=GroundTruth(conclusion="ok"))
+
+    evaluator = GroundedInvestigationEvaluator()
+    result = InvestigationResult(objective=task.objective, conclusion="ok", termination=TerminationReason.SUBMITTED)
+
+    report = evaluator.evaluate_task(task, result, trace=[])
+
+    assert report.temporal_evidence_required is True
+    assert report.temporal_evidence_acquired is False
+
+
+def test_evaluate_task_generation_id_scoping_matches_evaluate():
+    """evaluate_task's generation_id gating must behave identically to
+    evaluate's (same underlying _evaluate logic) -- not a second,
+    divergent implementation."""
+
+    from icab.scenarios.models import GroundTruth
+
+    from icab.tasks.context_dimensions import ContextDimension
+
+    task = _task(
+        available_architectures=["historian", "knowledge_graph"],
+        required_context_dimensions=[ContextDimension.C5_OPERATIONAL, ContextDimension.C3_RELATIONAL],
+        ground_truth=GroundTruth(
+            conclusion="ok",
+            expected_relationships=[
+                ("urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure")
+            ],
+        ),
+        expected_relationships=[
+            ("urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure")
+        ],
+    )
+
+    evaluator = GroundedInvestigationEvaluator()
+    result = InvestigationResult(objective=task.objective, conclusion="ok", termination=TerminationReason.SUBMITTED)
+    trace = [
+        _event(
+            "get_entity_relationships",
+            {
+                "relationships": [
+                    {
+                        "subject": "urn:icab:equipment:reactor",
+                        "predicate": "MONITORS",
+                        "object": "urn:icab:measurement:reactor_pressure",
+                        "generation_id": "gen-a",
+                    }
+                ]
+            },
+        )
+    ]
+
+    matching = evaluator.evaluate_task(task, result, trace, generation_id="gen-a")
+    assert matching.relationship_score == 1.0
+
+    mismatched = evaluator.evaluate_task(task, result, trace, generation_id="gen-b")
+    assert mismatched.relationship_score == 0.0

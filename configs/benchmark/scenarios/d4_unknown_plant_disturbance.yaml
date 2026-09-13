@@ -1,0 +1,71 @@
+scenario_id: d4_unknown_plant_disturbance
+
+name: Open-ended investigation of an undocumented disturbance
+
+description: >
+  Non-obvious/context-intensive (D4) scenario built on M13-B's
+  empirically verified idv_20 -- the TEP kernel's own description for
+  this disturbance is literally "Unknown random disturbance" (see
+  tep_studio.list_disturbances()). Despite having no documented physical
+  meaning, its real effect is empirically characterized (cross-unit,
+  spanning separator/stripper/purge-system/reactor -- see
+  configs/benchmark/fault_catalog.json) rather than assumed from a name
+  that offers no clue at all. The objective deliberately names no
+  equipment, forcing active discovery across the plant.
+
+difficulty: D4
+task_mode: investigation
+
+objective: >
+  Operators report subtle abnormal behavior across the plant, but no
+  specific cause or location has been identified. Investigate broadly
+  across equipment and measurements -- do not assume the reactor alone
+  is where the problem lies -- and determine which equipment is actually
+  affected.
+
+seed: 108
+warmup_hours: 1.0
+duration_hours: 4.0
+sync_interval_hours: 0.25
+
+faults:
+  - disturbance: idv_20
+    activate_at_hours: 1.0
+    magnitude: 1.0
+    description: "Unknown random disturbance (Bathelt/Ricker/Jelali IDV 20 -- no documented physical mechanism)"
+
+available_architectures:
+  - historian
+  - knowledge_graph
+  - uns
+  - opcua
+  - mqtt
+
+ground_truth:
+  conclusion: >
+    Separator pressure and temperature, stripper pressure, purge flow,
+    and reactor cooling water outlet temperature all deviate measurably
+    over the four hours following the disturbance -- a genuinely
+    cross-unit effect (Separator, Stripper, Purge System, and Reactor),
+    even though the disturbance itself ("IDV 20") has no documented
+    physical description in the reference model. An agent that only
+    checks the reactor's primary measurements (pressure/level/temperature)
+    would miss most of the real evidence.
+  root_cause_disturbance: idv_20
+  affected_measurements:
+    - "urn:icab:measurement:purge_flow"
+    - "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+    - "urn:icab:measurement:separator_pressure"
+    - "urn:icab:measurement:separator_temperature"
+    - "urn:icab:measurement:stripper_pressure"
+  affected_equipment:
+    - "urn:icab:equipment:purge-system"
+    - "urn:icab:equipment:reactor"
+    - "urn:icab:equipment:separator"
+    - "urn:icab:equipment:stripper"
+  expected_relationships:
+    - ["urn:icab:equipment:separator", "MONITORS", "urn:icab:measurement:separator_pressure"]
+    - ["urn:icab:equipment:stripper", "MONITORS", "urn:icab:measurement:stripper_pressure"]
+  expected_evidence:
+    - "urn:icab:measurement:separator_pressure"
+    - "urn:icab:measurement:stripper_pressure"

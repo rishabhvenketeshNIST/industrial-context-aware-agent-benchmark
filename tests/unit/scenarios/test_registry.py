@@ -16,10 +16,17 @@ def test_load_each_committed_scenario_file():
         assert scenario.ground_truth.conclusion
 
 
-def test_registry_discovers_one_scenario_per_difficulty():
+def test_registry_discovers_at_least_one_scenario_per_difficulty():
+    """
+    M13-C added 5 more scenarios (9 total) built on additional
+    empirically-verified M13-B faults -- this no longer asserts an exact
+    count (that would need updating every time a scenario is added), just
+    that every locked difficulty level still has real coverage.
+    """
+
     registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
 
-    assert len(registry) == 4
+    assert len(registry) >= 4
 
     difficulties = {registry.get(scenario_id).difficulty for scenario_id in registry.list_ids()}
 

@@ -1,0 +1,674 @@
+{
+  "entries": [
+    {
+      "disturbance": "idv_01",
+      "name": "A/C ratio of stream 4, B composition constant",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:compressor_work",
+        "urn:icab:measurement:condenser_cooling_water_outlet_temperature",
+        "urn:icab:measurement:feed_a_flow",
+        "urn:icab:measurement:feed_ac_flow",
+        "urn:icab:measurement:purge_a_concentration",
+        "urn:icab:measurement:purge_b_concentration",
+        "urn:icab:measurement:purge_c_concentration",
+        "urn:icab:measurement:purge_e_concentration",
+        "urn:icab:measurement:purge_f_concentration",
+        "urn:icab:measurement:purge_flow",
+        "urn:icab:measurement:purge_g_concentration",
+        "urn:icab:measurement:purge_h_concentration",
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+        "urn:icab:measurement:reactor_feed_a_concentration",
+        "urn:icab:measurement:reactor_feed_b_concentration",
+        "urn:icab:measurement:reactor_feed_c_concentration",
+        "urn:icab:measurement:reactor_feed_d_concentration",
+        "urn:icab:measurement:reactor_feed_e_concentration",
+        "urn:icab:measurement:reactor_feed_f_concentration",
+        "urn:icab:measurement:reactor_feed_flow",
+        "urn:icab:measurement:recycle_flow",
+        "urn:icab:measurement:separator_temperature",
+        "urn:icab:measurement:stripper_level",
+        "urn:icab:measurement:stripper_steam_flow",
+        "urn:icab:measurement:stripper_temperature",
+        "urn:icab:measurement:stripper_underflow_e_concentration"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:compressor",
+        "urn:icab:equipment:condenser",
+        "urn:icab:equipment:feed-system",
+        "urn:icab:equipment:purge-system",
+        "urn:icab:equipment:reactor",
+        "urn:icab:equipment:separator",
+        "urn:icab:equipment:stripper"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_02",
+      "name": "B composition of stream 4, A/C ratio constant",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:compressor_work",
+        "urn:icab:measurement:purge_a_concentration",
+        "urn:icab:measurement:purge_b_concentration",
+        "urn:icab:measurement:purge_f_concentration",
+        "urn:icab:measurement:purge_flow",
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+        "urn:icab:measurement:reactor_feed_b_concentration",
+        "urn:icab:measurement:reactor_feed_f_concentration"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:compressor",
+        "urn:icab:equipment:purge-system",
+        "urn:icab:equipment:reactor"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_03",
+      "name": "D feed temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_04",
+      "name": "Reactor cooling water inlet temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_05",
+      "name": "Separator cooling water inlet temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_06",
+      "name": "A feed loss",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:compressor_work",
+        "urn:icab:measurement:condenser_cooling_water_outlet_temperature",
+        "urn:icab:measurement:feed_a_flow",
+        "urn:icab:measurement:purge_a_concentration",
+        "urn:icab:measurement:purge_c_concentration",
+        "urn:icab:measurement:purge_d_concentration",
+        "urn:icab:measurement:purge_e_concentration",
+        "urn:icab:measurement:purge_f_concentration",
+        "urn:icab:measurement:purge_flow",
+        "urn:icab:measurement:purge_g_concentration",
+        "urn:icab:measurement:purge_h_concentration",
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+        "urn:icab:measurement:reactor_feed_a_concentration",
+        "urn:icab:measurement:reactor_feed_b_concentration",
+        "urn:icab:measurement:reactor_feed_c_concentration",
+        "urn:icab:measurement:reactor_feed_d_concentration",
+        "urn:icab:measurement:reactor_feed_e_concentration",
+        "urn:icab:measurement:reactor_feed_f_concentration",
+        "urn:icab:measurement:reactor_feed_flow",
+        "urn:icab:measurement:recycle_flow",
+        "urn:icab:measurement:separator_temperature",
+        "urn:icab:measurement:stripper_level",
+        "urn:icab:measurement:stripper_pressure",
+        "urn:icab:measurement:stripper_steam_flow",
+        "urn:icab:measurement:stripper_temperature",
+        "urn:icab:measurement:stripper_underflow_e_concentration",
+        "urn:icab:measurement:stripper_underflow_h_concentration"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:compressor",
+        "urn:icab:equipment:condenser",
+        "urn:icab:equipment:feed-system",
+        "urn:icab:equipment:purge-system",
+        "urn:icab:equipment:reactor",
+        "urn:icab:equipment:separator",
+        "urn:icab:equipment:stripper"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_07",
+      "name": "C header pressure loss",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_08",
+      "name": "Random A/B/C composition of stream 4",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:compressor_work",
+        "urn:icab:measurement:purge_a_concentration",
+        "urn:icab:measurement:purge_flow",
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+        "urn:icab:measurement:reactor_feed_a_concentration"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:compressor",
+        "urn:icab:equipment:purge-system",
+        "urn:icab:equipment:reactor",
+        "urn:icab:equipment:separator",
+        "urn:icab:equipment:stripper"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_09",
+      "name": "Random D feed temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_10",
+      "name": "Random C feed temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_11",
+      "name": "Random reactor cooling water inlet temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_12",
+      "name": "Random separator cooling water inlet temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_13",
+      "name": "Reaction kinetics drift",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_14",
+      "name": "Reactor cooling water valve stiction",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_15",
+      "name": "Separator cooling water valve stiction",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_16",
+      "name": "Random stripper heat transfer deviation",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_17",
+      "name": "Random reactor heat transfer deviation",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:reactor"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_18",
+      "name": "Random condenser heat transfer deviation",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_19",
+      "name": "Valve stiction group",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_20",
+      "name": "Unknown random disturbance",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+        "urn:icab:measurement:separator_pressure"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:reactor",
+        "urn:icab:equipment:separator"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_21",
+      "name": "Random A feed temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_22",
+      "name": "Random E feed temperature",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_23",
+      "name": "Random A feed pressure/flow",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_24",
+      "name": "Random D feed pressure/flow",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": true,
+      "affected_measurements": [
+        "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas"
+      ],
+      "affected_equipment": [
+        "urn:icab:equipment:reactor"
+      ],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_25",
+      "name": "Random E feed pressure/flow",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_26",
+      "name": "Random A and C feed pressure/flow",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_27",
+      "name": "Random reactor cooling water pressure/flow",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    },
+    {
+      "disturbance": "idv_28",
+      "name": "Random condenser cooling water pressure/flow",
+      "simulator_supported": true,
+      "icab_injectable": true,
+      "empirically_verified": false,
+      "affected_measurements": [],
+      "affected_equipment": [],
+      "plant_tripped_in_any_seed": false,
+      "characterization_seeds": [
+        101,
+        202
+      ],
+      "warmup_hours": 1.0,
+      "duration_hours": 4.0,
+      "magnitude": 1.0,
+      "deviation_threshold_stdevs": 4.0,
+      "tep_studio_version": "0.1.1",
+      "characterized_at": "2026-09-13T22:25:30.495535+00:00"
+    }
+  ]
+}

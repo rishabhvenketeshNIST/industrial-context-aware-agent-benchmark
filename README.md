@@ -370,6 +370,21 @@ Implemented and under test:
   every nontrivial relationship traceable to a specific, citable source,
   no causal/diagnostic edges invented. See
   [`docs/architecture/tep-context-model.md`](docs/architecture/tep-context-model.md)
+- Automated TEP fault injection (M13-B): all 28 real TEP disturbances are
+  injectable through ICAB without error; an empirical, paired
+  same-seed-baseline characterization
+  (`icab.tep.fault_characterization`, `scripts/characterize_tep_disturbances.py`,
+  persisted at `configs/benchmark/fault_catalog.json`) establishes that
+  **7 of 28** repeatably (across every tested seed) produce a real,
+  above-noise-floor measurement effect -- distinct, explicit tiers
+  (`simulator_supported`/`icab_injectable`/`empirically_verified`, never
+  conflated). `FaultSchedule` gained scheduled deactivation
+  (`duration_hours`); `BenchmarkScenario` gained an enforced technical
+  safeguard rejecting a scenario whose objective leaks its own fault id.
+  Hidden ground-truth separation (agent never sees the fault identifier
+  or `GroundTruth`) is verified end to end against the real simulator +
+  real Neo4j + real Historian + real MQTT, not merely asserted. See
+  [`docs/architecture/tep-fault-injection.md`](docs/architecture/tep-fault-injection.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):

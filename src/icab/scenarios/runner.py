@@ -83,6 +83,22 @@ class ScenarioRunner:
         fault_index = 0
         total_hours = scenario.warmup_hours + scenario.duration_hours
 
+        # M13-B: faults with a `duration_hours` are cleared at
+        # activate_at_hours + duration_hours (deactivated, not merely
+        # left at magnitude -- inject_fault(active=False) zeroes the
+        # disturbance vector entry) rather than staying active for the
+        # rest of the scenario -- pre-M13-B behavior (duration_hours is
+        # None) is unchanged: once activated, never cleared.
+        pending_deactivations = sorted(
+            (
+                (fault.activate_at_hours + fault.duration_hours, fault.disturbance)
+                for fault in scenario.faults
+                if fault.duration_hours is not None
+            ),
+            key=lambda item: item[0],
+        )
+        deactivation_index = 0
+
         self.context_sync.sync(simulator, generation_id=generation_id)
         sync_count += 1
 
@@ -94,6 +110,14 @@ class ScenarioRunner:
                 fault = pending_faults[fault_index]
                 simulator.inject_fault(fault.disturbance, magnitude=fault.magnitude)
                 fault_index += 1
+
+            while (
+                deactivation_index < len(pending_deactivations)
+                and pending_deactivations[deactivation_index][0] <= elapsed + 1e-9
+            ):
+                _, disturbance = pending_deactivations[deactivation_index]
+                simulator.inject_fault(disturbance, active=False)
+                deactivation_index += 1
 
             step = min(scenario.sync_interval_hours, total_hours - elapsed)
             simulator.step(duration=step)

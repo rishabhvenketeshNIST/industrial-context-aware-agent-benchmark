@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from enum import StrEnum
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class ScenarioDifficulty(StrEnum):
@@ -40,12 +40,25 @@ class TaskMode(StrEnum):
 
 
 class FaultSchedule(BaseModel):
-    """A TEP disturbance (IDV) activated at a specific point in simulated time."""
+    """
+    A TEP disturbance (IDV) activated at a specific point in simulated
+    time -- the scenario-authoring surface for
+    `icab.tep.simulator.TEPSimulator.inject_fault`. This is deliberately
+    lean: `disturbance` is the simulator's own real fault identifier (not
+    a second, ICAB-invented id), and the disturbance's own name/
+    provenance/empirical-verification status live in the separate
+    `icab.tep.faults.FaultCatalogEntry` (M13-B) -- one authoritative
+    place per concept, not duplicated here.
+    """
 
     model_config = ConfigDict(extra="forbid")
 
     disturbance: str = Field(min_length=1, description="e.g. 'idv_04'")
     activate_at_hours: float = Field(ge=0.0)
+    #: M13-B: how long the fault stays active before being cleared, in
+    #: simulated hours. None (default) preserves pre-M13-B behavior: once
+    #: activated, a fault is never cleared for the rest of the scenario.
+    duration_hours: float | None = Field(default=None, gt=0.0)
     magnitude: float = Field(default=1.0)
     description: str | None = None
 
@@ -134,3 +147,28 @@ class BenchmarkScenario(BaseModel):
     )
 
     ground_truth: GroundTruth
+
+    @model_validator(mode="after")
+    def _objective_must_not_leak_the_fault_schedule(self) -> "BenchmarkScenario":
+        """
+        M13-B technical safeguard (not just authoring discipline): the
+        agent only ever sees `objective` (never `ground_truth`/`faults`
+        directly -- see icab.agent.llm.agent.LLMInvestigationAgent and
+        icab.experiments.ExperimentRunner, neither of which reads either
+        field), so this is the one place a fault id COULD accidentally
+        leak into agent-visible text. Reject that at construction time
+        rather than relying on scenario authors to remember not to.
+        """
+
+        objective_lower = self.objective.lower()
+
+        for fault in self.faults:
+            if fault.disturbance.lower() in objective_lower:
+                raise ValueError(
+                    f"Scenario {self.scenario_id!r}'s objective must not mention its own "
+                    f"fault identifier {fault.disturbance!r} -- the agent must discover "
+                    "what is wrong, not be told. See GroundTruth.root_cause_disturbance "
+                    "for where this belongs instead."
+                )
+
+        return self

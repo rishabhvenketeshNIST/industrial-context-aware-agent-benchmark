@@ -253,3 +253,11 @@ recognizable as referring to the same real process variable.
 - `tests/integration/test_tep_context_model_completeness.py` -- the
   above, but against the REAL TEP simulator, REAL Neo4j, and REAL MQTT
   broker (not an in-memory KG).
+
+## Where the 28 disturbances (IDV 1-28) fit
+
+Out of scope for this document -- the 28 disturbances are process
+*perturbations*, not the static context model this document describes.
+See [`docs/architecture/tep-fault-injection.md`](tep-fault-injection.md)
+(M13-B) for their empirical characterization, injection mechanism, and
+the fault catalog.

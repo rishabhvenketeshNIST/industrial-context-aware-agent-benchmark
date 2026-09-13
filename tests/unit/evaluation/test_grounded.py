@@ -204,6 +204,25 @@ def test_unsupported_numeric_claims_flags_fabricated_values():
     assert report.grounding_score == 0.0
 
 
+def test_numbers_given_in_the_objective_are_not_flagged_as_unsupported():
+    """A number the agent was told (e.g. a stated trip threshold), not one it fabricated."""
+
+    scenario = _d1_scenario()
+    assert "3000" in scenario.objective  # the scenario's high-pressure trip threshold
+
+    evaluator = GroundedInvestigationEvaluator()
+    trace = [_event("get_current_value", {"observation": {"value": 2705.3}})]
+
+    result = InvestigationResult(
+        objective=scenario.objective,
+        conclusion="Reactor pressure is 2705.3 kPa, below the 3000 kPa trip threshold.",
+    )
+    report = evaluator.evaluate(scenario, result, trace=trace)
+
+    assert report.unsupported_numeric_claims == []
+    assert report.grounding_score == 1.0
+
+
 def test_context_acquired_and_consumed_come_from_trace():
     scenario = _d1_scenario()
     evaluator = GroundedInvestigationEvaluator()

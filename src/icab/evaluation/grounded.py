@@ -173,7 +173,14 @@ class GroundedInvestigationEvaluator:
             root_cause_identified, affected_mentioned
         )
 
-        observed_numbers = self._observed_numbers(trace)
+        # Numbers already given in the objective (e.g. a stated trip
+        # threshold) are cited context, not a claim the agent needs to have
+        # observed through a tool -- caught via a real run during M9
+        # validation (a correct answer that cited the objective's own
+        # "3000 kPa" threshold was otherwise flagged as unsupported).
+        observed_numbers = self._observed_numbers(trace) + [
+            float(match) for match in _NUMBER_PATTERN.findall(result.objective)
+        ]
         conclusion_numbers = [
             float(match) for match in _NUMBER_PATTERN.findall(result.conclusion)
         ]

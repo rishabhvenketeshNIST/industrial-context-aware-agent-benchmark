@@ -167,11 +167,32 @@ Loads the `normal_001` TEP scenario, seeds the historian/knowledge graph, runs
 `ContextAwareAgent` against the gateway, prints the `InvestigationResult`, and
 writes a trace to `results/prototype/context_aware_trace.json`.
 
+### Run a real experiment (M9)
+
+```bash
+uv run python scripts/run_experiment.py \
+    --scenario d1_reactor_pressure_reading --architectures historian --agent-type llm
+
+# architecture comparison: same scenario/seed/fault, only tools vary
+uv run python scripts/run_experiment.py --compare \
+    --scenario d2_reactor_context_combination \
+    --architectures historian --architectures historian,knowledge_graph --agent-type llm
+```
+
+Runs any agent (deterministic or LLM) against a real `BenchmarkScenario`
+through the real gateway, evaluates the result, and persists everything
+under `results/{raw,traces,evaluations,aggregate}/`. See
+[`docs/research/experiment-plan.md`](docs/research/experiment-plan.md) for
+the full schema, reproducibility notes, and a flagged limitation with the
+deterministic baselines against real scenario data.
+
 Other scripts in [`scripts/`](scripts/):
 
 - `run_agent.py` — run an agent against the gateway
 - `run_opcua_demo_server.py` — start a small static-value OPC UA demo server
   (backs `test_opcua_client.py` and `ArchitectureAwareAgent`'s OPC UA path)
+- `run_tep_opcua_server.py` — the real, TEP-backed OPC UA server (containerized
+  as the `opcua_tep` compose service; backs the private i3X instance)
 - `test_opcua_client.py` — smoke-test the OPC UA client against that server
 - `load_scenario.py` — load a TEP scenario into the historian/knowledge graph
 
@@ -243,18 +264,29 @@ Implemented and under test:
   deliberately not an LLM-as-judge; see
   [`docs/benchmark/evaluation.md`](docs/benchmark/evaluation.md)
 - `ArchitectureComparisonRunner` for running one case across architectures
+  (unchanged since before M9 — see `icab.experiments.ExperimentRunner`
+  below for the newer, scenario-based path)
 - A D1-D4 investigation scenario framework (`icab.scenarios`) driving the
   real simulator over time with deterministic seeds, scheduled faults, and
   structured ground truth, plus one real, empirically-verified scenario per
   difficulty level under `configs/benchmark/scenarios/` — connected
   end-to-end to `LLMInvestigationAgent` and the real gateway/LLM provider;
   see [`docs/benchmark/tasks.md`](docs/benchmark/tasks.md)
+- A locally reproducible experiment runner (`icab.experiments.
+  ExperimentRunner`, `scripts/run_experiment.py`) that runs any agent
+  (deterministic or LLM) against a `BenchmarkScenario`, holding the
+  process/seed/objective/model fixed while varying only which
+  architectures' tools are exposed — persisted as raw/trace/evaluation/
+  aggregate JSON+CSV under `results/`; see
+  [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
+  (including a flagged, unresolved issue with the pre-M5 deterministic
+  baselines and real scenario data)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):
 
 - `docs/benchmark/specification.md`,
-  `docs/benchmark/splits.md`, `docs/research/` — design docs
+  `docs/benchmark/splits.md` — design docs
 - `configs/experiments/`, `configs/prototype/budget.yaml`,
   `configs/prototype/environment.yaml` — versioned experiment definitions
   and a scenario suite broader than one scenario per difficulty level

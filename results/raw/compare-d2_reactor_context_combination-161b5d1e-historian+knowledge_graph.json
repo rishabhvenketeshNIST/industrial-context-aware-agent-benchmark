@@ -1,0 +1,173 @@
+{
+  "run_id": "compare-d2_reactor_context_combination-161b5d1e-historian+knowledge_graph",
+  "experiment_id": "compare-d2_reactor_context_combination-161b5d1e",
+  "config": {
+    "scenario_id": "d2_reactor_context_combination",
+    "architectures": [
+      "historian",
+      "knowledge_graph"
+    ],
+    "agent_type": "llm",
+    "deterministic_agent": null,
+    "llm_model": "gemma-4-31B-it",
+    "llm_temperature": 0.0,
+    "max_steps": 10,
+    "random_seed": null
+  },
+  "scenario_difficulty": "D2",
+  "simulation_seed": 102,
+  "icab_version": "0.1.0",
+  "started_at": "2026-09-13T14:19:47.232597Z",
+  "completed_at": "2026-09-13T14:19:51.772147Z",
+  "status": "completed",
+  "error": null,
+  "result": {
+    "objective": "Report the reactor's current pressure and level, and identify which piece of equipment monitors the reactor pressure measurement according to the knowledge graph.\n",
+    "conclusion": "The reactor's current pressure is 2708.3738998073495 kPa gauge and its current level is 77.18937150095974%. According to the knowledge graph, the reactor (urn:icab:equipment:reactor) monitors the reactor pressure measurement (urn:icab:measurement:reactor_pressure).",
+    "findings": {
+      "get_entity_relationships#1": {
+        "relationships": [
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+            "source": "tep",
+            "source_id": "REACTOR_COOLING_WATER_OUTLET_TEMPERATURE_MEAS"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_a_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_A_CONCENTRATION"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_b_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_B_CONCENTRATION"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_c_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_C_CONCENTRATION"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_d_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_D_CONCENTRATION"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_e_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_E_CONCENTRATION"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_f_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_F_CONCENTRATION"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_flow",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_FLOW"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_level",
+            "source": "tep",
+            "source_id": "REACTOR_LEVEL"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_pressure",
+            "source": "tep",
+            "source_id": "REACTOR_PRESSURE"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_temperature",
+            "source": "tep",
+            "source_id": "REACTOR_TEMPERATURE"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:tep_pv_reactor_level",
+            "source": "tep",
+            "source_id": "TEP_PV_REACTOR_LEVEL"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:tep_pv_reactor_pressure",
+            "source": "tep",
+            "source_id": "TEP_PV_REACTOR_PRESSURE"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:tep_pv_reactor_temperature",
+            "source": "tep",
+            "source_id": "TEP_PV_REACTOR_TEMPERATURE"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "PART_OF",
+            "object": "urn:icab:processcell:reaction",
+            "source": "tep",
+            "source_id": null
+          }
+        ]
+      },
+      "get_current_value#2": {
+        "observation": {
+          "observation_id": "2026-04-15T05:00:00+00:00:REACTOR_LEVEL",
+          "measurement_id": "urn:icab:measurement:reactor_level",
+          "timestamp": "2026-04-15T05:00:00Z",
+          "value": 77.18937150095974,
+          "unit": "%",
+          "quality": "GOOD",
+          "source": "tep",
+          "source_id": "REACTOR_LEVEL"
+        }
+      }
+    },
+    "context": {
+      "assets": [],
+      "measurements": [],
+      "relationships": [],
+      "provenance": []
+    },
+    "evidence": [
+      {
+        "source": "get_entity_relationships",
+        "identifier": "urn:icab:equipment:reactor"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_level"
+      }
+    ],
+    "termination": "submitted"
+  },
+  "trace_event_count": 3
+}

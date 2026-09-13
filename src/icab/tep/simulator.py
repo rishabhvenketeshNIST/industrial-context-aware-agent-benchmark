@@ -286,6 +286,11 @@ class TEPSimulator:
         """Whether the plant has tripped (shut down) since the last reset."""
         return bool(self._last_shutdown.get("terminated", False))
 
+    @property
+    def epoch(self) -> datetime:
+        """The wall-clock instant `time == 0.0` (the last reset) corresponds to."""
+        return self._epoch
+
     def available_measurements(self) -> tuple[str, ...]:
         return self._measurement_names
 

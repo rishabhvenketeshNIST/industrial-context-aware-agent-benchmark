@@ -1,0 +1,61 @@
+scenario_id: d3_reactor_pressure_deviation
+
+name: Reactor pressure deviation investigation
+
+description: >
+  Requires-relationships/history (D3) scenario: IDV(1) (A/C feed ratio,
+  stream 4 composition) is activated after a one-hour settled baseline,
+  producing a real, measurable reactor pressure decline over the
+  following four hours. Answering correctly requires retrieving the
+  historical trend (not just a current value) AND using the knowledge
+  graph to confirm which equipment the measurement belongs to.
+
+difficulty: D3
+task_mode: diagnosis
+
+objective: >
+  Reactor pressure appears to have drifted from its normal operating
+  point over the last several hours. Investigate the historical trend
+  and determine what changed, and use the knowledge graph to confirm
+  which equipment the affected measurement belongs to.
+
+seed: 103
+warmup_hours: 1.0
+duration_hours: 4.0
+sync_interval_hours: 0.25
+
+faults:
+  - disturbance: idv_01
+    activate_at_hours: 1.0
+    magnitude: 1.0
+    description: "A/C ratio of stream 4, B composition constant (Downs & Vogel IDV 1)"
+
+available_architectures:
+  - historian
+  - knowledge_graph
+
+ground_truth:
+  conclusion: >
+    Reactor pressure decreases measurably (tens of kPa) below its prior
+    nominal ~2705 kPa gauge level after the disturbance begins, alongside
+    similar declines in separator pressure, stripper level, and
+    compressor work -- consistent with a feed composition/ratio
+    disturbance (IDV 1: A/C ratio of stream 4) rather than instrument
+    drift. The knowledge graph confirms the Reactor equipment (via its
+    MONITORS relationship) is the entity the affected pressure
+    measurement belongs to.
+  root_cause_disturbance: idv_01
+  affected_measurements:
+    - "urn:icab:measurement:reactor_pressure"
+    - "urn:icab:measurement:separator_pressure"
+    - "urn:icab:measurement:stripper_level"
+    - "urn:icab:measurement:compressor_work"
+  affected_equipment:
+    - "urn:icab:equipment:reactor"
+    - "urn:icab:equipment:separator"
+    - "urn:icab:equipment:stripper"
+    - "urn:icab:equipment:compressor"
+  expected_relationships:
+    - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+  expected_evidence:
+    - "urn:icab:measurement:reactor_pressure"

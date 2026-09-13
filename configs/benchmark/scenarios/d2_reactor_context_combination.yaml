@@ -1,0 +1,44 @@
+scenario_id: d2_reactor_context_combination
+
+name: Reactor pressure and level with equipment context
+
+description: >
+  Requires-combining-sources (D2) scenario: the objective cannot be fully
+  answered from either source alone -- current values come from the
+  historian, the equipment/measurement relationship comes from the
+  knowledge graph.
+
+difficulty: D2
+task_mode: investigation
+
+objective: >
+  Report the reactor's current pressure and level, and identify which
+  piece of equipment monitors the reactor pressure measurement according
+  to the knowledge graph.
+
+seed: 102
+warmup_hours: 1.0
+duration_hours: 0.5
+sync_interval_hours: 0.25
+
+faults: []
+
+available_architectures:
+  - historian
+  - knowledge_graph
+
+ground_truth:
+  conclusion: >
+    Reactor pressure and level are both near their nominal closed-loop
+    steady-state values (~2705 kPa gauge and ~75% respectively); the
+    knowledge graph confirms the Reactor equipment entity has a MONITORS
+    relationship to the reactor pressure measurement.
+  root_cause_disturbance: null
+  affected_measurements: []
+  affected_equipment:
+    - "urn:icab:equipment:reactor"
+  expected_relationships:
+    - ["urn:icab:equipment:reactor", "MONITORS", "urn:icab:measurement:reactor_pressure"]
+  expected_evidence:
+    - "urn:icab:measurement:reactor_pressure"
+    - "urn:icab:measurement:reactor_level"

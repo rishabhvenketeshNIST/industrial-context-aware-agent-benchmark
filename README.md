@@ -184,10 +184,11 @@ uv run pytest
 - `tests/unit/` — pure unit tests, no external services required.
 - `tests/integration/` — require the historian/knowledge graph/MQTT broker
   from `docker compose up -d` (Postgres/TimescaleDB, Neo4j, Mosquitto).
-- `tests/integration/test_llm_rchat.py` is additionally gated behind
-  `ICAB_RUN_LLM_INTEGRATION_TESTS=1` — it makes real, metered calls to the
-  configured LLM provider, so it is skipped by default even when the rest
-  of `tests/integration/` runs.
+- `tests/integration/test_llm_rchat.py` and
+  `tests/integration/test_scenario_llm_end_to_end.py` are additionally
+  gated behind `ICAB_RUN_LLM_INTEGRATION_TESTS=1` — they make real,
+  metered calls to the configured LLM provider, so they are skipped by
+  default even when the rest of `tests/integration/` runs.
 
 ## Project status
 
@@ -218,14 +219,21 @@ Implemented and under test:
   [`docs/architecture/llm-agent.md`](docs/architecture/llm-agent.md)
 - Trace collection/storage and a first-cut investigation evaluator
 - `ArchitectureComparisonRunner` for running one case across architectures
+- A D1-D4 investigation scenario framework (`icab.scenarios`) driving the
+  real simulator over time with deterministic seeds, scheduled faults, and
+  structured ground truth, plus one real, empirically-verified scenario per
+  difficulty level under `configs/benchmark/scenarios/` — connected
+  end-to-end to `LLMInvestigationAgent` and the real gateway/LLM provider;
+  see [`docs/benchmark/tasks.md`](docs/benchmark/tasks.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):
 
-- `docs/benchmark/`, `docs/research/` — design docs
-- `configs/benchmark/`, `configs/experiments/`, `configs/prototype/budget.yaml`,
-  `configs/prototype/environment.yaml` — versioned benchmark and experiment
-  definitions beyond the single `normal_001` prototype scenario
+- `docs/benchmark/evaluation.md`, `docs/benchmark/specification.md`,
+  `docs/benchmark/splits.md`, `docs/research/` — design docs
+- `configs/experiments/`, `configs/prototype/budget.yaml`,
+  `configs/prototype/environment.yaml` — versioned experiment definitions
+  and a scenario suite broader than one scenario per difficulty level
 - `LICENSE`, `Makefile`
 
 ## License

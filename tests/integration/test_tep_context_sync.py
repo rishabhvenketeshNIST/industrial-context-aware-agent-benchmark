@@ -9,6 +9,8 @@ Confirms canonical IDs, units, timestamps, and provenance ("source") agree
 across all three architectures for the same underlying observation.
 """
 
+from datetime import timedelta
+
 from icab.cim import RelationshipType
 from icab.context.historian.repository import PostgresHistorianRepository
 from icab.context.historian.service import HistorianService
@@ -62,7 +64,19 @@ def test_tep_context_sync_reaches_historian_kg_and_mqtt():
         expected_timestamp = simulator.get_state().timestamp
 
         # -- Historian --------------------------------------------------
-        observation = historian.get_current_value(REACTOR_PRESSURE_ID)
+        # A bounded query, not get_current_value's global "latest timestamp
+        # across everything" semantics: the historian is shared, persistent
+        # infrastructure, and other scenarios' data can legitimately carry
+        # a later simulated timestamp than this test's own (default-epoch)
+        # simulator -- this test only needs to confirm *its own* write
+        # landed correctly, not that it is globally the most recent row.
+        matches = historian.get_historical_values(
+            REACTOR_PRESSURE_ID,
+            expected_timestamp - timedelta(seconds=1),
+            expected_timestamp + timedelta(seconds=1),
+        )
+        assert len(matches) == 1
+        observation = matches[0]
 
         assert observation is not None
         assert observation.value == expected_pressure

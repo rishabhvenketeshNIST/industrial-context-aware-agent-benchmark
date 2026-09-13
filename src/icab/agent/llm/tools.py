@@ -159,3 +159,37 @@ def build_tool_specs(
     """Build the full OpenAI-format ``tools=[...]`` list, including submission."""
 
     return [build_tool_spec(tool) for tool in tools] + [_SUBMIT_INVESTIGATION_SPEC]
+
+
+#: Which AGENT_TOOLS belong to each named context architecture. Used to
+#: restrict a scenario's agent to only the architectures it declares
+#: available (`BenchmarkScenario.available_architectures`) -- per the
+#: locked research principle that architecture comparisons must reflect
+#: real tool restrictions, not just a relabeled run with every tool given
+#: to every agent.
+ARCHITECTURE_TOOL_NAMES: dict[str, tuple[str, ...]] = {
+    "historian": ("get_current_value", "get_historical_values"),
+    "knowledge_graph": ("get_entity_relationships",),
+    "uns": ("browse_uns",),
+    "opcua": ("opcua_browse", "opcua_read"),
+    "mqtt": ("browse_mqtt", "read_mqtt"),
+}
+
+
+def tools_for_architectures(
+    architectures: list[str],
+    *,
+    tools: tuple[AgentTool, ...] = AGENT_TOOLS,
+) -> tuple[AgentTool, ...]:
+    """Return only the tools belonging to the given architecture names."""
+
+    tools_by_name = {tool.name: tool for tool in tools}
+    allowed_names: set[str] = set()
+
+    for architecture in architectures:
+        try:
+            allowed_names.update(ARCHITECTURE_TOOL_NAMES[architecture])
+        except KeyError:
+            raise ValueError(f"Unknown architecture: {architecture!r}") from None
+
+    return tuple(tool for tool in tools if tool.name in allowed_names)

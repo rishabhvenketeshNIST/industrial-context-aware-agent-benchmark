@@ -1,3 +1,5 @@
+from datetime import UTC, datetime
+
 from icab.tep.simulator import DEFAULT_CHECKPOINT_INTERVAL, TEPSimulator
 
 
@@ -129,6 +131,18 @@ def test_available_variable_names():
     assert len(simulator.available_disturbances()) == 28
     assert "idv_01" in simulator.available_disturbances()
     assert "reactor_pressure" in simulator.available_measurements()
+
+
+def test_epoch_defaults_and_is_overridable():
+    default_simulator = TEPSimulator()
+    assert default_simulator.epoch == datetime(2026, 1, 1, tzinfo=UTC)
+
+    custom_epoch = datetime(2030, 6, 15, tzinfo=UTC)
+    custom_simulator = TEPSimulator(epoch=custom_epoch)
+    assert custom_simulator.epoch == custom_epoch
+
+    state = custom_simulator.reset(seed=1)
+    assert state.timestamp == custom_epoch
 
 
 def test_open_loop_mode_does_not_use_controller():

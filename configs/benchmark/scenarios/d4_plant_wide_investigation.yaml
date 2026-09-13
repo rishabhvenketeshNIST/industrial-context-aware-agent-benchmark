@@ -1,0 +1,73 @@
+scenario_id: d4_plant_wide_investigation
+
+name: Plant-wide open-ended investigation
+
+description: >
+  Open-ended investigation (D4) scenario: IDV(6) (A feed loss, stream 1)
+  is activated after a one-hour settled baseline. This disturbance barely
+  moves the reactor's own measurements (pressure/level/temperature stay
+  close to nominal) but produces large deviations downstream --
+  compressor work, stripper level/temperature, and condenser cooling
+  water outlet temperature all drop substantially. The objective
+  deliberately names no equipment or measurement, so answering correctly
+  requires actively discovering the plant's structure (UNS/OPC UA
+  browsing) and checking multiple equipment items -- not just the
+  reactor -- before combining historian/MQTT readings with knowledge
+  graph relationships to identify what is actually affected.
+
+difficulty: D4
+task_mode: diagnosis
+
+objective: >
+  Operators report the plant is behaving abnormally, but no specific
+  cause or location has been identified. Investigate across the process
+  -- discover what equipment and measurements exist, check for
+  deviations, and determine which equipment is actually affected and
+  why.
+
+seed: 104
+warmup_hours: 1.0
+duration_hours: 4.0
+sync_interval_hours: 0.25
+
+faults:
+  - disturbance: idv_06
+    activate_at_hours: 1.0
+    magnitude: 1.0
+    description: "A feed loss (Downs & Vogel IDV 6)"
+
+available_architectures:
+  - historian
+  - knowledge_graph
+  - uns
+  - opcua
+  - mqtt
+
+ground_truth:
+  conclusion: >
+    Feed component A is lost (IDV 6: A feed loss, stream 1). This does
+    not primarily disturb the reactor -- its pressure, level, and
+    temperature all stay close to normal -- but produces large
+    deviations further downstream: compressor work drops substantially,
+    stripper level and temperature drop sharply, separator temperature
+    drops, and condenser cooling water outlet temperature drops. The
+    Stripper, Compressor, Separator, and Condenser are the affected
+    equipment, not the Reactor.
+  root_cause_disturbance: idv_06
+  affected_measurements:
+    - "urn:icab:measurement:stripper_level"
+    - "urn:icab:measurement:stripper_temperature"
+    - "urn:icab:measurement:compressor_work"
+    - "urn:icab:measurement:condenser_cooling_water_outlet_temperature"
+    - "urn:icab:measurement:separator_temperature"
+  affected_equipment:
+    - "urn:icab:equipment:stripper"
+    - "urn:icab:equipment:compressor"
+    - "urn:icab:equipment:separator"
+    - "urn:icab:equipment:condenser"
+  expected_relationships:
+    - ["urn:icab:equipment:stripper", "MONITORS", "urn:icab:measurement:stripper_level"]
+    - ["urn:icab:equipment:compressor", "MONITORS", "urn:icab:measurement:compressor_work"]
+  expected_evidence:
+    - "urn:icab:measurement:stripper_level"
+    - "urn:icab:measurement:compressor_work"

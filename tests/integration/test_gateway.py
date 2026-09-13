@@ -56,9 +56,22 @@ def test_gateway_reads_loaded_tep_relationships():
 
     relationships = body["relationships"]
 
-    assert len(relationships) == 4
+    # "urn:icab:equipment:reactor" is shared, by design, between the legacy
+    # static prototype path and the real-simulator path (M2/M4) -- both
+    # legitimately add relationships for the same physical reactor to this
+    # shared, persistent Neo4j instance, so this asserts on the expected
+    # legacy relationships being present rather than an exact total count.
+    assert len(relationships) >= 4
 
     predicates = {relationship["predicate"] for relationship in relationships}
 
     assert "PART_OF" in predicates
     assert "MONITORS" in predicates
+
+    monitored_objects = {
+        relationship["object"]
+        for relationship in relationships
+        if relationship["predicate"] == "MONITORS"
+    }
+
+    assert "urn:icab:measurement:tep_pv_reactor_pressure" in monitored_objects

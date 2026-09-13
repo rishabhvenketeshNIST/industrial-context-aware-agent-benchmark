@@ -164,9 +164,16 @@ writes a trace to `results/prototype/context_aware_trace.json`.
 Other scripts in [`scripts/`](scripts/):
 
 - `run_agent.py` — run an agent against the gateway
-- `run_opcua_demo_server.py` — start a local OPC UA server for testing the OPC UA architecture
+- `run_opcua_demo_server.py` — start a small static-value OPC UA demo server
+  (backs `test_opcua_client.py` and `ArchitectureAwareAgent`'s OPC UA path)
 - `test_opcua_client.py` — smoke-test the OPC UA client against that server
 - `load_scenario.py` — load a TEP scenario into the historian/knowledge graph
+
+The real-simulator context bridges (`icab.tep.context_sync.TEPContextSync`,
+`icab.context.opcua.TEPOPCUAServer`) are exercised directly by
+`tests/integration/test_tep_context_sync.py` and
+`tests/integration/test_opcua_tep_server.py` — see
+[`docs/architecture/context-architecture.md`](docs/architecture/context-architecture.md).
 
 ## Testing
 
@@ -197,6 +204,14 @@ Implemented and under test:
   a `TEPMeasurementPublisher` bridge from the simulator onto an ICAB MQTT
   topic namespace and gateway `browse_mqtt`/`read_mqtt` tools — see
   [`docs/architecture/mqtt.md`](docs/architecture/mqtt.md)
+- The real simulator wired into Historian + Knowledge Graph
+  (`icab.tep.context_sync.TEPContextSync`), UNS
+  (`icab.context.uns.tep_builder`), and a real, self-hosted OPC UA server
+  mirroring the full measurement set (`icab.context.opcua.TEPOPCUAServer`)
+  — each architecture deliberately keeps its own access pattern rather than
+  exposing an identical view; see
+  [`docs/architecture/context-architecture.md`](docs/architecture/context-architecture.md)
+  (also documents why i3X is *not* wired to the simulator)
 - `StructuredRetrievalAgent`, `ContextAwareAgent`, `ArchitectureAwareAgent`
   (deterministic baselines) and `LLMInvestigationAgent` (real tool-calling
   LLM agent, provider-configurable, NIST RChat by default) — see

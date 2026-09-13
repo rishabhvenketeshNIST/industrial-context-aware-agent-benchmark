@@ -11,6 +11,7 @@ from icab.context.opcua import OPCUAClient
 from icab.context.uns.models import UNSNode
 from icab.context.uns.repository import InMemoryUNSRepository
 from icab.context.uns.service import UNSService
+from icab.context.uns.tep_builder import build_real_uns_nodes
 from icab.gateway.schemas import (
     BrowseMQTTRequest,
     BrowseMQTTResponse,
@@ -58,6 +59,11 @@ knowledge_graph = KnowledgeGraphService(knowledge_graph_repository)
 
 trace_collector = TraceCollector()
 
+#: The legacy hand-built prototype tree (path prefix "site/tep/reaction/...")
+#: is kept for backward compatibility with the static prototype scenario;
+#: `build_real_uns_nodes()` adds the full real-simulator equipment/
+#: measurement tree (path prefix "site/tep/<equipment>/...") alongside it.
+#: Both trees' "site/tep" root node is identical, so merging them is safe.
 uns_repository = InMemoryUNSRepository(
     [
         UNSNode(
@@ -96,6 +102,7 @@ uns_repository = InMemoryUNSRepository(
             node_type="measurement",
             canonical_id="urn:icab:measurement:tep_pv_reactor_level",
         ),
+        *build_real_uns_nodes(),
     ]
 )
 uns_service = UNSService(uns_repository)

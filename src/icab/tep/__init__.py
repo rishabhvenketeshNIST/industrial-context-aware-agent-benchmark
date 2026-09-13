@@ -1,4 +1,5 @@
 from .adapter import TEPAdapter
+from .context_sync import TEPContextSync
 from .measurements import (
     REAL_TEP_EQUIPMENT,
     TEP_VARIABLES,
@@ -21,6 +22,7 @@ __all__ = [
     "ScenarioMeasurement",
     "ScenarioRegistry",
     "TEPAdapter",
+    "TEPContextSync",
     "TEPEvent",
     "TEPProcessState",
     "TEPScenario",

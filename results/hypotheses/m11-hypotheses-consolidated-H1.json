@@ -1,0 +1,29 @@
+{
+  "hypothesis": "H1",
+  "statement": "Structured context improves investigation accuracy.",
+  "metric": "conclusion_correctness_score",
+  "higher_is_better": true,
+  "treatment_combinations": [
+    "kg_historian"
+  ],
+  "control_combinations": [
+    "historian_only"
+  ],
+  "treatment_run_ids": [
+    "m10-d4-combo-validation-v2-kg_historian"
+  ],
+  "control_run_ids": [
+    "m10-d4-combo-validation-v2-historian_only"
+  ],
+  "treatment_values": [
+    0.16666666666666666
+  ],
+  "control_values": [
+    0.0
+  ],
+  "treatment_mean": 0.16666666666666666,
+  "control_mean": 0.0,
+  "mean_difference": 0.16666666666666666,
+  "direction_supports_hypothesis": true,
+  "caveat": "Descriptive comparison of a small number of real runs -- not a significance test, and not proof or disproof of the hypothesis. See docs/research/experiment-plan.md."
+}

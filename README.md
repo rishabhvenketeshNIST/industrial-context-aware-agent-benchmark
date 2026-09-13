@@ -183,6 +183,11 @@ uv run python scripts/run_experiment.py \
     --scenario d4_plant_wide_investigation \
     --combination historian_only --combination kg_historian --combination full \
     --agent-type llm
+
+# hypothesis comparison (M11) -- runs H3's treatment/control combinations
+# and writes a HypothesisTestResult to results/hypotheses/
+uv run python scripts/run_hypothesis_experiment.py \
+    --scenario d4_plant_wide_investigation --hypothesis H3
 ```
 
 Runs any agent (deterministic or LLM) against a real `BenchmarkScenario`
@@ -306,6 +311,19 @@ Implemented and under test:
   write_aggregate` that refuses to treat a set of runs as a controlled
   architecture comparison unless their scenario/seed/model/budget actually
   match. See [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
+- H1-H5 hypothesis-testing infrastructure (M11): `icab.experiments
+  .hypotheses` maps each locked hypothesis
+  ([`docs/research/hypotheses.md`](docs/research/hypotheses.md)) to a
+  specific treatment/control architecture-combination pair and an
+  existing evaluator/information-flow metric, and produces a descriptive
+  (never inferential -- no significance test, no "proven" claim)
+  `HypothesisTestResult`; `scripts/run_hypothesis_experiment.py
+  --scenario <id> --hypothesis H<n>` runs it end-to-end. Real validation
+  against the live stack (one D4 run per arm) surfaced and fixed two
+  evaluator measurement bugs (`tool_call_count` double-counting a new
+  M10 trace-event kind; a cited timestamp's year misread as an
+  unsupported numeric claim) -- see
+  [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):

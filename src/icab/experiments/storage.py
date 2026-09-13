@@ -10,6 +10,7 @@ second trace-serialization format.
       traces/<run_id>.jsonl      the run's TraceEvent list (JsonlTraceStorage)
       evaluations/<run_id>.json  the run's EvaluationReport alone
       aggregate/<experiment_id>.json / .csv   cross-run comparison tables
+      hypotheses/<experiment_id>-<hypothesis>.json  M11 HypothesisTestResult
 """
 
 from __future__ import annotations
@@ -21,6 +22,7 @@ from pathlib import Path
 from icab.trace.models import TraceEvent
 from icab.trace.storage import JsonlTraceStorage
 
+from .hypotheses import HypothesisTestResult
 from .models import ExperimentRecord, RunValidity
 
 #: Flat columns written by `write_aggregate_csv`, one row per run. Kept
@@ -126,6 +128,7 @@ class ExperimentResultStore:
         self.traces_dir = self.root / "traces"
         self.evaluations_dir = self.root / "evaluations"
         self.aggregate_dir = self.root / "aggregate"
+        self.hypotheses_dir = self.root / "hypotheses"
         self._trace_storage = JsonlTraceStorage()
 
     def save(self, record: ExperimentRecord, trace: list[TraceEvent]) -> None:
@@ -309,3 +312,30 @@ class ExperimentResultStore:
             "total_latency_ms": record.total_latency_ms if record.total_latency_ms is not None else "",
             "total_tokens": record.total_tokens if record.total_tokens is not None else "",
         }
+
+    def write_hypothesis_result(
+        self,
+        result: HypothesisTestResult,
+        *,
+        experiment_id: str,
+    ) -> Path:
+        """
+        Persist one M11 `HypothesisTestResult` under `results/hypotheses/`,
+        named `<experiment_id>-<hypothesis>.json`. `experiment_id` is
+        supplied by the caller (typically the same id used for the
+        `compare_combinations` run(s) the result was computed from)
+        rather than embedded in the result itself, since one result can
+        legitimately be recomputed from records spanning several
+        experiment ids.
+        """
+
+        self.hypotheses_dir.mkdir(parents=True, exist_ok=True)
+
+        path = self.hypotheses_dir / f"{experiment_id}-{result.hypothesis.value}.json"
+        path.write_text(result.model_dump_json(indent=2), encoding="utf-8")
+
+        return path
+
+    def load_hypothesis_result(self, experiment_id: str, hypothesis: str) -> HypothesisTestResult:
+        path = self.hypotheses_dir / f"{experiment_id}-{hypothesis}.json"
+        return HypothesisTestResult.model_validate_json(path.read_text(encoding="utf-8"))

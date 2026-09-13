@@ -65,7 +65,7 @@
     "urn:icab:processcell:reaction"
   ],
   "context_consumed": [],
-  "tool_call_count": 20,
+  "tool_call_count": 10,
   "unique_tools_used": [
     "get_current_value",
     "get_entity_relationships"

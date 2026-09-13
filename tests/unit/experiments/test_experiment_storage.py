@@ -280,3 +280,29 @@ def test_write_aggregate_reports_controls_consistent_when_uniform(tmp_path):
     aggregate_data = json.loads(json_path.read_text(encoding="utf-8"))
     assert aggregate_data["controls_consistent"] is True
     assert aggregate_data["control_variance"] == {}
+
+
+def test_write_and_load_hypothesis_result_round_trip(tmp_path):
+    from icab.experiments.hypotheses import HypothesisID, get_spec, evaluate_hypothesis
+
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    record_a, _ = _record(
+        "run-hyp-a", architecture_combination_key="kg_historian", architectures=["knowledge_graph", "historian"]
+    )
+    record_b, _ = _record(
+        "run-hyp-b", architecture_combination_key="historian_only", architectures=["historian"]
+    )
+
+    spec = get_spec(HypothesisID.H1)
+    result = evaluate_hypothesis(spec, [record_a, record_b])
+
+    path = store.write_hypothesis_result(result, experiment_id="hyp-exp-1")
+
+    assert path.exists()
+    assert path == store.hypotheses_dir / "hyp-exp-1-H1.json"
+
+    loaded = store.load_hypothesis_result("hyp-exp-1", "H1")
+    assert loaded.hypothesis == HypothesisID.H1
+    assert loaded.treatment_run_ids == result.treatment_run_ids
+    assert loaded.control_run_ids == result.control_run_ids

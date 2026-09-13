@@ -223,6 +223,46 @@ def test_numbers_given_in_the_objective_are_not_flagged_as_unsupported():
     assert report.grounding_score == 1.0
 
 
+def test_years_and_times_in_a_cited_timestamp_are_not_flagged_as_unsupported():
+    """
+    Regression (M11): a conclusion that echoes an ISO-8601 timestamp from
+    a real get_historical_values observation (e.g. "...2705.3 kPa at
+    2026-04-15T01:15:00Z...") must not have "2026" (or "15", "01") pulled
+    out as a bare unsupported numeric claim -- caught via real D4
+    validation runs, where a conclusion grounded entirely in retrieved
+    historical values still scored a nonzero unsupported-claims count.
+    """
+
+    scenario = _d1_scenario()
+    evaluator = GroundedInvestigationEvaluator()
+    trace = [
+        _event(
+            "get_historical_values",
+            {
+                "observations": [
+                    {
+                        "measurement_id": "urn:icab:measurement:reactor_pressure",
+                        "value": 2705.3,
+                        "timestamp": "2026-04-15T01:15:00Z",
+                    }
+                ]
+            },
+        )
+    ]
+
+    result = InvestigationResult(
+        objective=scenario.objective,
+        conclusion=(
+            "Reactor pressure was 2705.3 kPa at 2026-04-15T01:15:00Z, "
+            "within the normal operating range."
+        ),
+    )
+    report = evaluator.evaluate(scenario, result, trace=trace)
+
+    assert report.unsupported_numeric_claims == []
+    assert report.grounding_score == 1.0
+
+
 def test_context_acquired_and_consumed_come_from_trace():
     scenario = _d1_scenario()
     evaluator = GroundedInvestigationEvaluator()
@@ -247,6 +287,38 @@ def test_context_acquired_and_consumed_come_from_trace():
     assert report.context_consumed == ["site/tep/reactor"]
     assert report.tool_call_count == 2
     assert report.unique_tools_used == ["browse_uns", "get_current_value"]
+
+
+def test_tool_call_count_excludes_llm_generate_trace_events():
+    """
+    Regression (M10 hardening): since M10, LLMInvestigationAgent also
+    records an "llm_generate" trace event alongside each real "tool_call"
+    event (for token-usage accounting) -- caught via live D4 validation
+    reporting tool_call_count roughly double the agent's actual tool
+    calls. tool_call_count must count only "tool_call" actions.
+    """
+
+    scenario = _d1_scenario()
+    evaluator = GroundedInvestigationEvaluator()
+    result = InvestigationResult(objective=scenario.objective, conclusion="ok")
+
+    trace = [
+        TraceEvent(
+            timestamp=datetime(2026, 9, 13, tzinfo=UTC), step=1, action="llm_generate",
+            token_usage={"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15},
+        ),
+        _event("get_current_value", {}),
+        TraceEvent(
+            timestamp=datetime(2026, 9, 13, tzinfo=UTC), step=2, action="llm_generate",
+            token_usage={"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15},
+        ),
+        _event("submit_investigation", {}),
+    ]
+
+    report = evaluator.evaluate(scenario, result, trace=trace)
+
+    assert report.tool_call_count == 2
+    assert report.unique_tools_used == ["get_current_value", "submit_investigation"]
 
 
 def test_completeness_penalizes_step_budget_exceeded():

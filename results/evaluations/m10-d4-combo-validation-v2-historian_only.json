@@ -207,7 +207,7 @@
     "urn:icab:measurement:separator_temperature_sp"
   ],
   "context_consumed": [],
-  "tool_call_count": 101,
+  "tool_call_count": 81,
   "unique_tools_used": [
     "get_current_value"
   ],

@@ -1,0 +1,29 @@
+{
+  "hypothesis": "H2",
+  "statement": "Structured semantics reduce context/tool usage.",
+  "metric": "tool_call_count",
+  "higher_is_better": false,
+  "treatment_combinations": [
+    "uns_historian_kg"
+  ],
+  "control_combinations": [
+    "kg_historian"
+  ],
+  "treatment_run_ids": [
+    "m11-h2-uns_historian_kg-uns_historian_kg"
+  ],
+  "control_run_ids": [
+    "m10-d4-combo-validation-v2-kg_historian"
+  ],
+  "treatment_values": [
+    14.0
+  ],
+  "control_values": [
+    18.0
+  ],
+  "treatment_mean": 14.0,
+  "control_mean": 18.0,
+  "mean_difference": -4.0,
+  "direction_supports_hypothesis": true,
+  "caveat": "Descriptive comparison of a small number of real runs -- not a significance test, and not proof or disproof of the hypothesis. See docs/research/experiment-plan.md."
+}

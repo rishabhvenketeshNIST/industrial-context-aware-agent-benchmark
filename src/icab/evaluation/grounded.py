@@ -87,6 +87,18 @@ _RELATIONSHIP_TOOLS = frozenset({"get_entity_relationships"})
 
 _NUMBER_PATTERN = re.compile(r"-?\d+\.\d+|-?\d{3,}")
 
+#: An ISO-8601 timestamp's date/time components (e.g. "2026" out of
+#: "2026-04-15T01:15:00Z") are not a claimed measurement value -- without
+#: stripping these first, a conclusion that correctly cites a timestamp
+#: echoed from a real get_historical_values observation gets its own
+#: cited year misidentified as an unsupported numeric claim. Caught via
+#: real D4 validation runs (M11): a conclusion grounded entirely in real
+#: retrieved historical values still scored a nonzero unsupported-claims
+#: count, from "2026" alone.
+_ISO_TIMESTAMP_PATTERN = re.compile(
+    r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?"
+)
+
 
 class RelationshipCheck(BaseModel):
     """Whether one expected (subject, predicate, object) triple was confirmed in the trace."""
@@ -231,10 +243,12 @@ class GroundedInvestigationEvaluator:
         # validation (a correct answer that cited the objective's own
         # "3000 kPa" threshold was otherwise flagged as unsupported).
         observed_numbers = self._observed_numbers(trace) + [
-            float(match) for match in _NUMBER_PATTERN.findall(result.objective)
+            float(match)
+            for match in _NUMBER_PATTERN.findall(self._strip_timestamps(result.objective))
         ]
         conclusion_numbers = [
-            float(match) for match in _NUMBER_PATTERN.findall(result.conclusion)
+            float(match)
+            for match in _NUMBER_PATTERN.findall(self._strip_timestamps(result.conclusion))
         ]
         unsupported = [
             number
@@ -273,7 +287,11 @@ class GroundedInvestigationEvaluator:
             grounding_score=grounding_score,
             context_acquired=context_acquired,
             context_consumed=context_consumed,
-            tool_call_count=len(trace),
+            # `len(trace)` alone would over-count: since M10, the trace
+            # also carries "llm_generate" events (token-usage accounting,
+            # icab.agent.llm.agent.LLMInvestigationAgent) that are not
+            # Gateway tool calls -- filter to "tool_call" specifically.
+            tool_call_count=sum(1 for event in trace if event.action == "tool_call"),
             unique_tools_used=sorted({event.tool for event in trace if event.tool}),
             terminated_properly=terminated_properly,
             completeness_score=completeness_score,
@@ -421,3 +439,9 @@ class GroundedInvestigationEvaluator:
     def _is_supported(number: float, observed: list[float]) -> bool:
         tolerance = max(1.0, abs(number) * 0.02)
         return any(abs(number - value) <= tolerance for value in observed)
+
+    @staticmethod
+    def _strip_timestamps(text: str) -> str:
+        """Remove ISO-8601 timestamp substrings before numeric-claim scanning -- see _ISO_TIMESTAMP_PATTERN."""
+
+        return _ISO_TIMESTAMP_PATTERN.sub(" ", text)

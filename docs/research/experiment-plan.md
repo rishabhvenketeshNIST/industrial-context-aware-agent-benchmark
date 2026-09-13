@@ -549,3 +549,115 @@ See `results/aggregate/m10-d4-combo-validation{,-v2}.{json,csv}` for the
 full per-run rows (this table is a pointer to them, not a duplicate
 source of truth), and `results/raw/`, `results/traces/`,
 `results/evaluations/` for each run's full record/trace/evaluation.
+
+## M11: H1-H5 hypothesis-testing infrastructure
+
+`icab.experiments.hypotheses` is a comparison LAYER over already-persisted
+`ExperimentRecord`s (M9) and the M10 architecture-combination registry --
+it adds no new experiment mechanics, benchmark metric, or ground truth.
+It maps each locked hypothesis (`docs/research/hypotheses.md`) to a
+specific treatment/control architecture-combination pair and an existing
+metric already computed by `GroundedInvestigationEvaluator`/
+`InformationFlowAnalyzer`:
+
+| Hypothesis | Treatment | Control | Metric | Direction supporting H |
+|---|---|---|---|---|
+| H1 -- structured context improves accuracy | `kg_historian` | `historian_only` | `conclusion_correctness_score` | higher |
+| H2 -- structured semantics reduce context/tool usage | `uns_historian_kg` | `kg_historian` | `tool_call_count` | lower |
+| H3 -- KG relationships improve causal reasoning | `kg_historian` | `historian_only` | `relationship_score` | higher |
+| H4 -- selective retrieval beats undifferentiated context | `kg_historian` | `full` | `information_flow.redundant_acquisition_count` | lower |
+| H5 -- grounded data/relationships reduce unsupported claims | `kg_historian` | `historian_only` | `unsupported_numeric_claims_count` (synthetic: `len(evaluation.unsupported_numeric_claims)`) | lower |
+
+`evaluate_hypothesis`/`evaluate_all_hypotheses` produce a
+`HypothesisTestResult`: arm means, their difference, and
+`direction_supports_hypothesis` -- a **descriptive** statement about
+which way the observed means point on the records supplied, never a
+significance test or a proof/disproof claim (every result carries a
+plain-language `caveat` saying exactly that). Records are filtered to
+`RunValidity.VALID` and `ExperimentRunStatus.COMPLETED` before being
+placed in either arm; an arm with no matching, usable records reports
+`None` rather than a fabricated value. `scripts/run_hypothesis_experiment.py
+--scenario <id> --hypothesis H<n>` runs a hypothesis's combinations via
+`ExperimentRunner.compare_combinations` and persists the result to
+`results/hypotheses/<experiment_id>-H<n>.json`; `evaluate_hypothesis` can
+equally be pointed at records from **different** prior experiment ids
+(only the actual controls -- scenario/seed/model/temperature/max_steps --
+need to match, which is exactly `write_aggregate`'s
+`HeterogeneousControlsError` check, run separately as a sanity check
+below), so an existing comparison need not be re-run from scratch just to
+evaluate a hypothesis against it.
+
+### Two measurement bugs caught by this validation (both fixed)
+
+Running `evaluate_all_hypotheses` against the real M10 D4 records
+surfaced two real, narrow evaluator bugs -- caught the same way the M9
+Neo4j read-path bug was: by real data producing an implausible number,
+not by a unit test (both bugs are invisible to the existing unit tests,
+which construct traces that don't happen to exercise either path). Both
+are fixed in `icab.evaluation.grounded`, covered by new regression tests,
+and the affected persisted evaluations/aggregates were recomputed from
+their already-saved traces (no new LLM calls needed).
+
+1. **`tool_call_count` silently doubled.** `EvaluationReport.tool_call_count`
+   was computed as `len(trace)`. That was correct back when a trace only
+   ever contained `action="tool_call"` events -- but M10 added a second
+   kind of trace event, `action="llm_generate"` (token-usage accounting,
+   `LLMInvestigationAgent`), into the SAME trace. From then on,
+   `len(trace)` silently counted both, roughly doubling every reported
+   tool-call count (`kg_historian`'s D4 v2 run: 18 real tool calls
+   reported as 37). Fixed to
+   `sum(1 for event in trace if event.action == "tool_call")`.
+   `unique_tools_used` was unaffected (`llm_generate` events carry
+   `tool=None`, already filtered out). This directly affects RQ3
+   (efficiency) and H2 specifically -- H2's real comparison changed from
+   29-vs-37 to the corrected 14-vs-18, same direction either way, but the
+   uncorrected numbers were simply wrong.
+2. **A cited timestamp's year misread as an unsupported claim.** The
+   unsupported-numeric-claims scan (`_NUMBER_PATTERN`) matches any bare
+   3+-digit integer in the conclusion. A conclusion that correctly cited
+   an ISO-8601 timestamp echoed from a real `get_historical_values`
+   observation (e.g. "...50.757% at 2026-04-15T01:15:00Z...") had "2026"
+   extracted as a claimed measurement value -- which never matches any
+   real process reading, so it was flagged unsupported even though the
+   agent's actual claim (50.757%) was fully grounded. This produced the
+   D4 `kg_historian` run's `grounding_score=0.5` (real value: 1.0). Fixed
+   by stripping ISO-8601 timestamp substrings from the conclusion/objective
+   text before the numeric scan (`_strip_timestamps`), so a timestamp's
+   digits are never treated as a candidate value claim in the first
+   place.
+
+### Real hypothesis comparison against the live stack
+
+Records used: the M10 D4 (`d4_plant_wide_investigation`, seed 104,
+`max_steps=20`) `historian_only`/`kg_historian`/`full` runs
+(`m10-d4-combo-validation-v2-*`) plus one additional real run,
+`uns_historian_kg`, under the same scenario/seed/model/temperature/
+max_steps (`m11-h2-uns_historian_kg-uns_historian_kg`) -- run specifically
+to complete real coverage of H2's treatment arm. `write_aggregate` over
+all four (spanning two different `experiment_id`s) reports
+`controls_consistent: true`, confirming they are in fact a valid
+"vary only architecture" set to compare. Corrected (post-bugfix) result,
+`results/hypotheses/m11-hypotheses-consolidated-H{1..5}.json`:
+
+| Hypothesis | Treatment value | Control value | Difference | Supports? |
+|---|---|---|---|---|
+| H1 | 0.17 | 0.00 | +0.17 | **yes** |
+| H2 | 14 | 18 | -4 | **yes** |
+| H3 | 0.50 | 0.00 | +0.50 | **yes** |
+| H4 | 2 | 5 | -3 | **yes** |
+| H5 | 0.00 | 0.00 | 0 | **no** (tie) |
+
+Read honestly, not as confirmation: this is **one real scenario, one
+real run per arm** (n=1) -- exactly the "descriptive, not inferential"
+comparison the module promises, nothing more. H1-H4 happen to point in
+the predicted direction on this data. H5 is a genuine tie, not a
+supporting result: both arms produced a fully grounded conclusion (zero
+unsupported numeric claims) on this run, so there is no directional
+evidence for H5 either way here -- reported as such rather than omitted
+or rounded up. A single D4 run is also the hardest, most open-ended
+scenario in the suite; nothing here should be read as evidence about
+D1-D3, and repeating this with `--repeat` (crude, since only one real
+scenario per difficulty currently exists -- see
+`docs/benchmark/tasks.md`) or against additional scenarios once a larger
+scenario suite exists would be needed before treating any of these
+directions as more than a single data point.

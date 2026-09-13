@@ -83,7 +83,7 @@
     "urn:icab:measurement:stripper_underflow_g_concentration"
   ],
   "context_consumed": [],
-  "tool_call_count": 39,
+  "tool_call_count": 24,
   "unique_tools_used": [
     "browse_uns",
     "get_current_value",

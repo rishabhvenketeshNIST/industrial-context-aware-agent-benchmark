@@ -22,8 +22,19 @@ def test_build_real_uns_nodes_includes_site_equipment_and_measurements():
         == "urn:icab:measurement:reactor_pressure"
     )
 
-    # 1 site + 7 equipment + 41 measurements
-    assert len(nodes) == 1 + 7 + 41
+    # 1 site + 7 equipment + 41 measurements + 12 actuators (M13-A)
+    assert len(nodes) == 1 + 7 + 41 + 12
+
+
+def test_build_real_uns_nodes_includes_actuators():
+    nodes = build_real_uns_nodes()
+
+    by_path = {node.path: node for node in nodes}
+
+    assert "site/tep/reactor/reactor_cooling_water_valve" in by_path
+    actuator = by_path["site/tep/reactor/reactor_cooling_water_valve"]
+    assert actuator.node_type == "actuator"
+    assert actuator.canonical_id == "urn:icab:actuator:reactor_cooling_water_valve"
 
 
 def test_build_real_uns_nodes_are_browsable():

@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from icab.cim import (
+    Actuator,
+    Alarm,
     Area,
     CIMEnvironment,
     Equipment,
@@ -15,7 +17,10 @@ from icab.cim import (
 from .measurements import (
     REAL_TEP_EQUIPMENT,
     TEP_VARIABLES,
+    build_real_tep_manipulated_variables,
     build_real_tep_variables,
+    real_control_loop_pairs,
+    real_control_overrides,
 )
 from .state import TEPProcessState
 
@@ -297,6 +302,165 @@ class TEPAdapter:
 
         return relationships
 
+    # -----------------------------------------------------------------
+    # M13-A: manipulated variables (actuators) and control/limit
+    # relationships -- additive to the measurement-only KG projection
+    # above. See icab.tep.measurements module docstring for the
+    # structural/process-control/causal source distinction this follows.
+    # -----------------------------------------------------------------
+
+    def get_real_actuators(self) -> list[Actuator]:
+        """Return an Actuator entity for each of the 12 real TEP manipulated variables."""
+
+        return [
+            Actuator(
+                canonical_id=mv.canonical_id,
+                name=mv.name,
+                description=mv.description or None,
+                source="tep",
+                source_id=mv.variable_id,
+            )
+            for mv in build_real_tep_manipulated_variables()
+        ]
+
+    def get_real_actuator_relationships(
+        self,
+        *,
+        generation_id: str | None = None,
+    ) -> list[Relationship]:
+        """
+        Equipment ACTUATES actuator, one per manipulated variable --
+        structural (the simulator's own MV-naming convention, same
+        equipment-assignment heuristic as measurements' MONITORS edges),
+        not a control-loop claim.
+        """
+
+        return [
+            Relationship(
+                subject=mv.equipment_id,
+                predicate=RelationshipType.ACTUATES,
+                object=mv.canonical_id,
+                source="tep",
+                source_id=mv.variable_id,
+                generation_id=generation_id,
+            )
+            for mv in build_real_tep_manipulated_variables()
+        ]
+
+    def get_real_control_relationships(
+        self,
+        *,
+        generation_id: str | None = None,
+    ) -> list[Relationship]:
+        """
+        Actuator CONTROLS measurement, for every DIRECT process-variable
+        <- manipulated-variable pairing in the real decentralized control
+        strategy the simulator runs closed-loop (see
+        icab.tep.measurements.real_control_loop_pairs -- a
+        process/control relationship, sourced from the control-loop
+        definition itself, not inferred from simulated behavior).
+        """
+
+        measurement_ids = {
+            variable.variable_id: variable.canonical_id
+            for variable in build_real_tep_variables()
+        }
+        actuator_ids = {
+            mv.variable_id: mv.canonical_id for mv in build_real_tep_manipulated_variables()
+        }
+
+        return [
+            Relationship(
+                subject=actuator_ids[mv_id],
+                predicate=RelationshipType.CONTROLS,
+                object=measurement_ids[pv_id],
+                source="tep_studio.control.registry.RICKER_MODE1",
+                source_id=citation,
+                generation_id=generation_id,
+            )
+            for pv_id, mv_id, citation in real_control_loop_pairs()
+        ]
+
+    def get_real_alarms(self) -> list[Alarm]:
+        """
+        One Alarm entity per documented Mode-1 constraint override (see
+        icab.tep.measurements.real_control_overrides) -- e.g. the
+        high-reactor-pressure override that cuts production. Not a FAULT:
+        these are protective control actions the plant takes on its own
+        measurements, not a diagnosed process fault.
+        """
+
+        alarms = []
+
+        for override in real_control_overrides():
+            alarms.append(
+                Alarm(
+                    canonical_id=f"urn:icab:alarm:{override.name.replace('_', '-')}",
+                    name=override.name.replace("_", " "),
+                    description=(
+                        f"Overrides {override.target} when {override.trigger_pv} "
+                        f"crosses {override.threshold} (gain {override.gain})."
+                    ),
+                    source="tep_studio.control.registry.RICKER_MODE1",
+                    source_id=override.confirmed_source,
+                )
+            )
+
+        return alarms
+
+    def get_real_limit_relationships(
+        self,
+        *,
+        generation_id: str | None = None,
+    ) -> list[Relationship]:
+        """
+        measurement HAS_LIMIT alarm, for each documented override's
+        trigger measurement; alarm ASSOCIATED_WITH actuator when the
+        override's target is itself a real manipulated variable (one
+        override's target, "production_index", is an internal signal
+        with no ICAB entity, so it gets a HAS_LIMIT edge but no second
+        ASSOCIATED_WITH edge -- left absent rather than invented).
+        """
+
+        measurement_ids = {
+            variable.variable_id.lower(): variable.canonical_id
+            for variable in build_real_tep_variables()
+        }
+        actuator_ids = {
+            mv.variable_id.lower(): mv.canonical_id
+            for mv in build_real_tep_manipulated_variables()
+        }
+
+        relationships = []
+
+        for override in real_control_overrides():
+            alarm_id = f"urn:icab:alarm:{override.name.replace('_', '-')}"
+
+            relationships.append(
+                Relationship(
+                    subject=measurement_ids[override.trigger_pv],
+                    predicate=RelationshipType.HAS_LIMIT,
+                    object=alarm_id,
+                    source="tep_studio.control.registry.RICKER_MODE1",
+                    source_id=override.confirmed_source,
+                    generation_id=generation_id,
+                )
+            )
+
+            if override.target in actuator_ids:
+                relationships.append(
+                    Relationship(
+                        subject=alarm_id,
+                        predicate=RelationshipType.ASSOCIATED_WITH,
+                        object=actuator_ids[override.target],
+                        source="tep_studio.control.registry.RICKER_MODE1",
+                        source_id=override.confirmed_source,
+                        generation_id=generation_id,
+                    )
+                )
+
+        return relationships
+
     def create_real_observation(
         self,
         variable_id: str,
@@ -368,11 +532,16 @@ class TEPAdapter:
             self.get_process_cell(),
             *self.get_real_equipment(),
             *self.get_real_measurements(),
+            *self.get_real_actuators(),
+            *self.get_real_alarms(),
         ]
 
         relationships = [
             *self.get_real_hierarchy_relationships(generation_id=generation_id),
             *self.get_real_measurement_relationships(generation_id=generation_id),
+            *self.get_real_actuator_relationships(generation_id=generation_id),
+            *self.get_real_control_relationships(generation_id=generation_id),
+            *self.get_real_limit_relationships(generation_id=generation_id),
         ]
 
         observations = []

@@ -23,6 +23,14 @@ TEP-backed instance -- see
 reasoning about the *public* conformance server (ICAB still never writes
 to it), but is otherwise superseded.
 
+**Update (M13-A):** the knowledge-graph projection this document describes
+now also covers the 12 real manipulated variables (actuators) and their
+`CONTROLS`/`ACTUATES`/`HAS_LIMIT`/`ASSOCIATED_WITH` relationships, not
+just the 41 measurements' `MONITORS` edges. See
+[`docs/architecture/tep-context-model.md`](tep-context-model.md) for the
+complete variable/relationship/provenance catalog -- this document's
+architecture-by-architecture comparison below is otherwise unchanged.
+
 ## The shared source of truth: `TEPAdapter.build_real_environment`
 
 Historian and Knowledge Graph both derive from exactly one call:

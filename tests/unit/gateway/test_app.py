@@ -54,9 +54,13 @@ def test_opcua_browse_endpoint():
 
 
 def test_opcua_read_endpoint():
+    # ns=2;i=14 is "Reactor pressure" on the real, TEP-backed OPC UA
+    # server (icab.context.opcua.tep_server.TEPOPCUAServer) -- a real
+    # Variable node, unlike an Object/folder node (reading one of those
+    # raises BadAttributeIdInvalid, not a 200).
     response = client.post(
         "/tools/opcua_read",
-        json={"node_id": "ns=2;i=2"},
+        json={"node_id": "ns=2;i=14"},
     )
 
     assert response.status_code == 200

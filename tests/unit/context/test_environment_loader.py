@@ -76,3 +76,49 @@ def test_environment_loader_loads_all_environment_data():
 
     assert current is not None
     assert current.value == 42.0
+
+
+def test_environment_loader_syncs_the_complete_real_tep_context_model():
+    """
+    M13-A requirement 3/4/5/6: every real TEP measurement, actuator, and
+    alarm entity -- and their MONITORS/ACTUATES/CONTROLS/HAS_LIMIT/
+    ASSOCIATED_WITH relationships -- actually lands in the knowledge
+    graph via the same EnvironmentLoader path TEPContextSync uses, not
+    just a hand-picked few. (A real-Neo4j version of this same check
+    lives in tests/integration/test_tep_context_model_completeness.py --
+    this in-memory one is the fast regression, not the only coverage.)
+    """
+
+    from icab.tep.adapter import TEPAdapter
+    from icab.tep.measurements import (
+        build_real_tep_manipulated_variables,
+        build_real_tep_variables,
+    )
+
+    knowledge_graph = KnowledgeGraphService(InMemoryKnowledgeGraphRepository())
+    loader = EnvironmentLoader(
+        historian=HistorianService(InMemoryHistorianRepository()),
+        knowledge_graph=knowledge_graph,
+    )
+
+    environment = TEPAdapter().build_real_environment(generation_id="loader-real-tep-test")
+    loader.load(environment)
+
+    for variable in build_real_tep_variables():
+        assert knowledge_graph.get_entity(variable.canonical_id) is not None
+
+    for mv in build_real_tep_manipulated_variables():
+        assert knowledge_graph.get_entity(mv.canonical_id) is not None
+
+    reactor_relationships = knowledge_graph.get_entity_relationships("urn:icab:equipment:reactor")
+    predicates = {relationship.predicate for relationship in reactor_relationships}
+    assert RelationshipType.MONITORS in predicates
+    assert RelationshipType.ACTUATES in predicates
+    assert RelationshipType.PART_OF in predicates
+
+    cooling_valve_relationships = knowledge_graph.get_entity_relationships(
+        "urn:icab:actuator:reactor_cooling_water_valve"
+    )
+    controls = [r for r in cooling_valve_relationships if r.predicate == RelationshipType.CONTROLS]
+    assert len(controls) == 1
+    assert controls[0].generation_id == "loader-real-tep-test"

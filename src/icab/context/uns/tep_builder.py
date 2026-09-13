@@ -11,7 +11,11 @@ generic graph walk.
 """
 
 from icab.tep.adapter import TEPAdapter
-from icab.tep.measurements import REAL_TEP_EQUIPMENT, build_real_tep_variables
+from icab.tep.measurements import (
+    REAL_TEP_EQUIPMENT,
+    build_real_tep_manipulated_variables,
+    build_real_tep_variables,
+)
 
 from .models import UNSNode
 
@@ -55,6 +59,24 @@ def build_real_uns_nodes() -> list[UNSNode]:
                 display_name=variable.name,
                 node_type="measurement",
                 canonical_id=variable.canonical_id,
+            )
+        )
+
+    # M13-A: manipulated variables (actuators) -- discoverable in the UNS
+    # tree alongside the equipment/measurements they belong to, same as
+    # the knowledge graph's ACTUATES relationships. Structural/identity
+    # only: browse_uns never returns a live value, so this adds no
+    # requirement for a current-value source (see
+    # icab.tep.measurements.build_real_tep_manipulated_variables).
+    for mv in build_real_tep_manipulated_variables():
+        equipment_key = equipment_key_by_canonical_id[mv.equipment_id]
+
+        nodes.append(
+            UNSNode(
+                path=f"{SITE_PATH}/{equipment_key}/{mv.variable_id.lower()}",
+                display_name=mv.name,
+                node_type="actuator",
+                canonical_id=mv.canonical_id,
             )
         )
 

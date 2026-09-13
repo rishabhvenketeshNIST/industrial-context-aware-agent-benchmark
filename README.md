@@ -355,6 +355,21 @@ Implemented and under test:
   entirely on already-persisted runs -- no simulator/gateway/LLM calls --
   and write `results/reports/*.{json,md}` + `results/figures/*.png`. See
   [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
+- Complete TEP process-context model and knowledge graph (M13-A): all 53
+  real TEP process variables (41 measurements + 12 manipulated
+  variables/actuators, verified against `tep_studio` directly rather than
+  assumed) now have a canonical identity, required metadata (unit,
+  equipment location, a unit-derived physical-quantity `category`,
+  source/provenance), and are synchronized into the knowledge graph.
+  Beyond the pre-existing `PART_OF`/`MONITORS` hierarchy, the KG now
+  represents `ACTUATES` (equipment -> actuator, structural),
+  `CONTROLS` (actuator -> measurement, sourced from the real
+  decentralized controller's own control-loop registry,
+  `tep_studio.control.registry.RICKER_MODE1`), and `HAS_LIMIT`/
+  `ASSOCIATED_WITH` (the two documented Mode-1 constraint overrides) --
+  every nontrivial relationship traceable to a specific, citable source,
+  no causal/diagnostic edges invented. See
+  [`docs/architecture/tep-context-model.md`](docs/architecture/tep-context-model.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):

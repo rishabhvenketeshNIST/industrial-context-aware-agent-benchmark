@@ -52,7 +52,12 @@ except Exception as error:  # noqa: BLE001 -- deliberately broad: any connection
     print(f"Warning: could not connect to i3X at {settings.i3x_base_url}: {error}")
     i3x = None
 
-opcua = OPCUAClient("opc.tcp://127.0.0.1:4840/icab/")
+# Matches icab.context.opcua.tep_server.TEPOPCUAServer's own default
+# endpoint (the real, TEP-backed server -- see docs/architecture/
+# context-architecture.md) and the opcua_tep compose service's port
+# mapping (4841:4841). Pre-M13-A this pointed at the port/path of an
+# earlier, no-longer-running static demo OPC UA server.
+opcua = OPCUAClient("opc.tcp://127.0.0.1:4841/icab/tep/")
 
 mqtt = MQTTClient(settings.mqtt_host, settings.mqtt_port)
 

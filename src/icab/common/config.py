@@ -31,6 +31,18 @@ class ICABSettings(BaseSettings):
         min_length=1,
     )
 
+    mqtt_host: str = Field(
+        default="localhost",
+        validation_alias="ICAB_MQTT_HOST",
+        min_length=1,
+    )
+
+    mqtt_port: int = Field(
+        default=1883,
+        validation_alias="ICAB_MQTT_PORT",
+        gt=0,
+    )
+
 
 def get_settings() -> ICABSettings:
     """Return the current ICAB application settings."""

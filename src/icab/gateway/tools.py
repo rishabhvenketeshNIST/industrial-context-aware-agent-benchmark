@@ -3,9 +3,12 @@ from typing import Any
 from icab.context.historian.service import HistorianService
 from icab.context.i3x.client import I3XClient
 from icab.context.knowledge_graph.service import KnowledgeGraphService
+from icab.context.mqtt.client import MQTTClient
 from icab.context.opcua.client import OPCUAClient
 from icab.context.uns.service import UNSService
 from icab.gateway.schemas import (
+    BrowseMQTTRequest,
+    BrowseMQTTResponse,
     BrowseUNSRequest,
     BrowseUNSResponse,
     GetCurrentValueRequest,
@@ -22,6 +25,8 @@ from icab.gateway.schemas import (
     I3XGetObjectTypesResponse,
     I3XGetRelatedObjectsResponse,
     I3XGetValueResponse,
+    ReadMQTTRequest,
+    ReadMQTTResponse,
 )
 from icab.trace.collector import TraceCollector
 
@@ -39,6 +44,7 @@ class GatewayTools:
         i3x: I3XClient,
         opcua: OPCUAClient,
         trace_collector: TraceCollector | None = None,
+        mqtt: MQTTClient | None = None,
     ) -> None:
         self.historian = historian
         self.knowledge_graph = knowledge_graph
@@ -46,6 +52,7 @@ class GatewayTools:
         self.i3x = i3x
         self.trace_collector = trace_collector
         self.opcua = opcua
+        self.mqtt = mqtt
 
     def get_current_value(
         self,
@@ -405,3 +412,41 @@ class GatewayTools:
             "node_id": node_id,
             "value": value,
         }
+
+    def browse_mqtt(self, request: BrowseMQTTRequest) -> BrowseMQTTResponse:
+        if self.mqtt is None:
+            raise RuntimeError("GatewayTools was not configured with an MQTT client.")
+
+        messages = self.mqtt.discover(request.topic_filter, timeout=request.timeout)
+
+        response = BrowseMQTTResponse(messages=messages)
+
+        if self.trace_collector is not None:
+            self.trace_collector.record(
+                step=0,
+                action="browse_mqtt",
+                tool="browse_mqtt",
+                arguments=request.model_dump(mode="json"),
+                result=response.model_dump(mode="json"),
+            )
+
+        return response
+
+    def read_mqtt(self, request: ReadMQTTRequest) -> ReadMQTTResponse:
+        if self.mqtt is None:
+            raise RuntimeError("GatewayTools was not configured with an MQTT client.")
+
+        message = self.mqtt.read(request.topic, timeout=request.timeout)
+
+        response = ReadMQTTResponse(message=message)
+
+        if self.trace_collector is not None:
+            self.trace_collector.record(
+                step=0,
+                action="read_mqtt",
+                tool="read_mqtt",
+                arguments=request.model_dump(mode="json"),
+                result=response.model_dump(mode="json"),
+            )
+
+        return response

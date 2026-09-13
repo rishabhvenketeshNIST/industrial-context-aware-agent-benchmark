@@ -26,16 +26,16 @@ efficiency, and context reuse.
 ## How it works
 
 ```
-                 ┌─────────────────────────┐
-  TEP scenario → │   Agent Gateway (FastAPI)│ ← Agent (HTTP tool calls)
-  (YAML)         │  src/icab/gateway/       │
-                 └───────────┬─────────────┘
-                              │
-        ┌──────────┬─────────┼─────────┬───────────┐
-        ▼          ▼         ▼         ▼           ▼
-     Historian   Knowledge   UNS      i3X        OPC UA
-    (Timescale/  Graph     (in-mem   client    client (asyncua)
-     Postgres)   (Neo4j)   tree)    (HTTP)
+                        ┌─────────────────────────┐
+  TEP simulator/scenario │   Agent Gateway (FastAPI)│ ← Agent (HTTP tool calls)
+                        │  src/icab/gateway/       │
+                        └───────────┬─────────────┘
+                                     │
+        ┌──────────┬─────────┬──────┼──────┬───────────┐
+        ▼          ▼         ▼      ▼      ▼           ▼
+     Historian   Knowledge   UNS   MQTT    i3X        OPC UA
+    (Timescale/  Graph     (in-mem (Mosquitto client    client (asyncua)
+     Postgres)   (Neo4j)   tree)   /paho)  (HTTP)
 ```
 
 1. A **TEP scenario** (`configs/prototype/scenarios/*.yaml`) defines a
@@ -123,7 +123,7 @@ uv sync
 cp .env.example .env
 # edit .env if you change ports/credentials
 
-# Start the historian and knowledge graph
+# Start the historian, knowledge graph, and MQTT broker
 docker compose up -d
 ```
 
@@ -135,6 +135,8 @@ docker compose up -d
 | `ICAB_NEO4J_URI` | Bolt URI for the knowledge graph |
 | `ICAB_NEO4J_USERNAME` | Neo4j username |
 | `ICAB_NEO4J_PASSWORD` | Neo4j password |
+| `ICAB_MQTT_HOST` | MQTT broker host (optional, defaults to `localhost`) |
+| `ICAB_MQTT_PORT` | MQTT broker port (optional, defaults to `1883`) |
 
 ### Run the agent gateway
 
@@ -168,20 +170,24 @@ uv run pytest
 ```
 
 - `tests/unit/` — pure unit tests, no external services required.
-- `tests/integration/` — require the historian/knowledge graph from
-  `docker compose up -d` (Postgres/TimescaleDB, Neo4j).
+- `tests/integration/` — require the historian/knowledge graph/MQTT broker
+  from `docker compose up -d` (Postgres/TimescaleDB, Neo4j, Mosquitto).
 
 ## Project status
 
 Implemented and under test:
 
 - CIM entities/observations/relationships and JSON Schemas
-- Historian (TimescaleDB), knowledge graph (Neo4j), UNS, i3X, and OPC UA context
-  sources, unified behind the Agent Gateway
+- Historian (TimescaleDB), knowledge graph (Neo4j), UNS, i3X, OPC UA, and MQTT
+  (Mosquitto) context sources, unified behind the Agent Gateway
 - A real, closed-loop Tennessee Eastman Process simulator
   (`icab.tep.simulator.TEPSimulator`, wrapping the `tep-studio` Downs & Vogel
   kernel) alongside the original static prototype scenario path — see
   [`docs/architecture/tep-simulator.md`](docs/architecture/tep-simulator.md)
+- MQTT as a first-class context/data source (`icab.context.mqtt`), including
+  a `TEPMeasurementPublisher` bridge from the simulator onto an ICAB MQTT
+  topic namespace and gateway `browse_mqtt`/`read_mqtt` tools — see
+  [`docs/architecture/mqtt.md`](docs/architecture/mqtt.md)
 - `StructuredRetrievalAgent`, `ContextAwareAgent`, `ArchitectureAwareAgent`
 - Trace collection/storage and a first-cut investigation evaluator
 - `ArchitectureComparisonRunner` for running one case across architectures
@@ -189,7 +195,6 @@ Implemented and under test:
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):
 
-- MQTT as a context/data source (Phase 2 of the ongoing benchmark buildout)
 - `docs/benchmark/`, `docs/research/` — design docs
 - `configs/benchmark/`, `configs/experiments/`, `configs/prototype/budget.yaml`,
   `configs/prototype/environment.yaml` — versioned benchmark and experiment

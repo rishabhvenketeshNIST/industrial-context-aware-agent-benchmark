@@ -11,13 +11,17 @@ from icab.context.knowledge_graph.repository import (
     InMemoryKnowledgeGraphRepository,
 )
 from icab.context.knowledge_graph.service import KnowledgeGraphService
+from icab.context.mqtt.client import MQTTClient
+from icab.context.mqtt.models import MQTTMessage
 from icab.context.opcua import OPCUAClient
 from icab.context.uns.repository import InMemoryUNSRepository
 from icab.context.uns.service import UNSService
 from icab.gateway.schemas import (
+    BrowseMQTTRequest,
     GetCurrentValueRequest,
     GetEntityRelationshipsRequest,
     GetHistoricalValuesRequest,
+    ReadMQTTRequest,
 )
 from icab.gateway.tools import GatewayTools
 from icab.trace.collector import TraceCollector
@@ -30,6 +34,7 @@ def build_gateway_tools(trace_collector: TraceCollector | None = None) -> Gatewa
         uns=UNSService(InMemoryUNSRepository()),
         i3x=Mock(spec=I3XClient),
         opcua=Mock(spec=OPCUAClient),
+        mqtt=Mock(spec=MQTTClient),
         trace_collector=trace_collector,
     )
 
@@ -247,3 +252,78 @@ async def test_opcua_read():
     }
 
     tools.opcua.read.assert_awaited_once_with("ns=2;i=2")
+
+
+def test_browse_mqtt():
+    tools = build_gateway_tools()
+
+    discovered = [
+        MQTTMessage(
+            topic="icab/tep/reactor/reactor_pressure",
+            timestamp=datetime(2026, 9, 10, 12, 0, tzinfo=UTC),
+            source="tep-simulator",
+            value=2705.0,
+            unit="kPa gauge",
+            canonical_id="urn:icab:measurement:reactor_pressure",
+        )
+    ]
+    tools.mqtt.discover = Mock(return_value=discovered)
+
+    response = tools.browse_mqtt(BrowseMQTTRequest(topic_filter="icab/tep/#"))
+
+    assert response.messages == discovered
+    tools.mqtt.discover.assert_called_once_with("icab/tep/#", timeout=1.0)
+
+
+def test_browse_mqtt_records_trace():
+    trace_collector = TraceCollector()
+    tools = build_gateway_tools(trace_collector)
+
+    tools.mqtt.discover = Mock(return_value=[])
+
+    tools.browse_mqtt(BrowseMQTTRequest())
+
+    events = trace_collector.events()
+
+    assert len(events) == 1
+    assert events[0].action == "browse_mqtt"
+    assert events[0].tool == "browse_mqtt"
+
+
+def test_read_mqtt():
+    tools = build_gateway_tools()
+
+    message = MQTTMessage(
+        topic="icab/tep/reactor/reactor_pressure",
+        timestamp=datetime(2026, 9, 10, 12, 0, tzinfo=UTC),
+        source="tep-simulator",
+        value=2705.0,
+    )
+    tools.mqtt.read = Mock(return_value=message)
+
+    response = tools.read_mqtt(
+        ReadMQTTRequest(topic="icab/tep/reactor/reactor_pressure")
+    )
+
+    assert response.message == message
+    tools.mqtt.read.assert_called_once_with(
+        "icab/tep/reactor/reactor_pressure", timeout=1.0
+    )
+
+
+def test_read_mqtt_missing_topic_returns_none():
+    tools = build_gateway_tools()
+
+    tools.mqtt.read = Mock(return_value=None)
+
+    response = tools.read_mqtt(ReadMQTTRequest(topic="icab/tep/unknown"))
+
+    assert response.message is None
+
+
+def test_browse_mqtt_without_configured_client_raises():
+    tools = build_gateway_tools()
+    tools.mqtt = None
+
+    with pytest.raises(RuntimeError):
+        tools.browse_mqtt(BrowseMQTTRequest())

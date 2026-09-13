@@ -4,6 +4,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from icab.cim import Observation, Relationship
+from icab.context.mqtt.models import MQTTMessage
 from icab.context.uns.models import UNSNode
 
 
@@ -137,3 +138,33 @@ class OPCUAReadRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     node_id: str
+
+
+class BrowseMQTTRequest(BaseModel):
+    """Discover ICAB MQTT topics (and their retained values) under a filter."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    topic_filter: str = Field(default="icab/#", min_length=1)
+    timeout: float = Field(default=1.0, gt=0.0, le=10.0)
+
+
+class BrowseMQTTResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    messages: list[MQTTMessage]
+
+
+class ReadMQTTRequest(BaseModel):
+    """Read the (retained) value on a single, fully-qualified MQTT topic."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    topic: str = Field(min_length=1)
+    timeout: float = Field(default=1.0, gt=0.0, le=10.0)
+
+
+class ReadMQTTResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    message: MQTTMessage | None

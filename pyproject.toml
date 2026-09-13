@@ -15,6 +15,7 @@ dependencies = [
     "i3x-client>=1.0.0",
     "asyncua>=2.0.1",
     "tep-studio==0.1.1",
+    "paho-mqtt>=2.1.0",
 ]
 
 [dependency-groups]

@@ -60,3 +60,23 @@ def test_opcua_read_endpoint():
     )
 
     assert response.status_code == 200
+
+
+def test_read_mqtt_endpoint_for_unknown_topic():
+    response = client.post(
+        "/tools/read_mqtt",
+        json={"topic": "icab/test/definitely-unknown-topic", "timeout": 0.5},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"message": None}
+
+
+def test_browse_mqtt_endpoint():
+    response = client.post(
+        "/tools/browse_mqtt",
+        json={"topic_filter": "icab/test/definitely-unknown-prefix/#", "timeout": 0.5},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"messages": []}

@@ -6,11 +6,14 @@ from icab.context.historian.service import HistorianService
 from icab.context.i3x.client import I3XClient
 from icab.context.knowledge_graph.repository import Neo4jKnowledgeGraphRepository
 from icab.context.knowledge_graph.service import KnowledgeGraphService
+from icab.context.mqtt.client import MQTTClient
 from icab.context.opcua import OPCUAClient
 from icab.context.uns.models import UNSNode
 from icab.context.uns.repository import InMemoryUNSRepository
 from icab.context.uns.service import UNSService
 from icab.gateway.schemas import (
+    BrowseMQTTRequest,
+    BrowseMQTTResponse,
     BrowseUNSRequest,
     BrowseUNSResponse,
     GetCurrentValueRequest,
@@ -29,6 +32,8 @@ from icab.gateway.schemas import (
     I3XGetValueResponse,
     OPCUABrowseRequest,
     OPCUAReadRequest,
+    ReadMQTTRequest,
+    ReadMQTTResponse,
 )
 from icab.gateway.tools import GatewayTools
 from icab.trace.collector import TraceCollector
@@ -38,6 +43,8 @@ settings = get_settings()
 i3x = I3XClient("https://api.i3x.dev/v1")
 
 opcua = OPCUAClient("opc.tcp://127.0.0.1:4840/icab/")
+
+mqtt = MQTTClient(settings.mqtt_host, settings.mqtt_port)
 
 historian = HistorianService(PostgresHistorianRepository(settings.database_url))
 
@@ -100,6 +107,7 @@ tools = GatewayTools(
     i3x=i3x,
     trace_collector=trace_collector,
     opcua=opcua,
+    mqtt=mqtt,
 )
 
 app = FastAPI(
@@ -253,3 +261,19 @@ async def opcua_browse(request: OPCUABrowseRequest):
 @app.post("/tools/opcua_read")
 async def opcua_read(request: OPCUAReadRequest):
     return await tools.opcua_read(request.node_id)
+
+
+@app.post(
+    "/tools/browse_mqtt",
+    response_model=BrowseMQTTResponse,
+)
+def browse_mqtt(request: BrowseMQTTRequest) -> BrowseMQTTResponse:
+    return tools.browse_mqtt(request)
+
+
+@app.post(
+    "/tools/read_mqtt",
+    response_model=ReadMQTTResponse,
+)
+def read_mqtt(request: ReadMQTTRequest) -> ReadMQTTResponse:
+    return tools.read_mqtt(request)

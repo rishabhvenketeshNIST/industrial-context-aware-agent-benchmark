@@ -31,7 +31,12 @@ import json
 from typing import Any
 
 from icab.agent.client import AgentGatewayClient
-from icab.agent.interface import Agent, EvidenceReference, InvestigationResult
+from icab.agent.interface import (
+    Agent,
+    EvidenceReference,
+    InvestigationResult,
+    TerminationReason,
+)
 
 from .client import LLMClient, ToolCall
 from .tools import AGENT_TOOLS, SUBMIT_INVESTIGATION_TOOL_NAME, AgentTool, build_tool_specs
@@ -103,6 +108,7 @@ class LLMInvestigationAgent(Agent):
                     conclusion=response.content or "",
                     findings=findings,
                     evidence=evidence,
+                    termination=TerminationReason.NO_TOOL_CALL,
                 )
 
             messages.append(self._assistant_message(response.content, response.tool_calls))
@@ -114,6 +120,7 @@ class LLMInvestigationAgent(Agent):
                         conclusion=str(call.arguments.get("conclusion", "")),
                         findings=findings,
                         evidence=evidence,
+                        termination=TerminationReason.SUBMITTED,
                     )
 
                 result = self._execute_tool(call, step=step)
@@ -133,6 +140,7 @@ class LLMInvestigationAgent(Agent):
             conclusion="Investigation did not conclude within the step budget.",
             findings=findings,
             evidence=evidence,
+            termination=TerminationReason.STEP_BUDGET_EXCEEDED,
         )
 
     def _execute_tool(self, call: ToolCall, *, step: int) -> dict[str, Any]:

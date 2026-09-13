@@ -232,7 +232,16 @@ Implemented and under test:
   (deterministic baselines) and `LLMInvestigationAgent` (real tool-calling
   LLM agent, provider-configurable, NIST RChat by default) — see
   [`docs/architecture/llm-agent.md`](docs/architecture/llm-agent.md)
-- Trace collection/storage and a first-cut investigation evaluator
+- Trace collection/storage, the original keyword-matching investigation
+  evaluator (`icab.evaluation.investigation.InvestigationEvaluator`,
+  unchanged), and a stronger, fully deterministic, structured evaluator
+  (`icab.evaluation.grounded.GroundedInvestigationEvaluator`) scoring
+  required evidence, evidence provenance, canonical-id validity, temporal
+  and relationship evidence, causal-reasoning/conclusion-correctness
+  heuristics, unsupported numeric claims, acquired-vs-consumed context, and
+  investigation completeness against a `BenchmarkScenario`'s ground truth —
+  deliberately not an LLM-as-judge; see
+  [`docs/benchmark/evaluation.md`](docs/benchmark/evaluation.md)
 - `ArchitectureComparisonRunner` for running one case across architectures
 - A D1-D4 investigation scenario framework (`icab.scenarios`) driving the
   real simulator over time with deterministic seeds, scheduled faults, and
@@ -244,7 +253,7 @@ Implemented and under test:
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):
 
-- `docs/benchmark/evaluation.md`, `docs/benchmark/specification.md`,
+- `docs/benchmark/specification.md`,
   `docs/benchmark/splits.md`, `docs/research/` — design docs
 - `configs/experiments/`, `configs/prototype/budget.yaml`,
   `configs/prototype/environment.yaml` — versioned experiment definitions

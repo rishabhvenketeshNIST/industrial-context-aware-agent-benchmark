@@ -1,7 +1,16 @@
 from abc import ABC, abstractmethod
+from enum import StrEnum
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
+
+
+class TerminationReason(StrEnum):
+    """How an investigation ended (used by evaluation for completeness scoring)."""
+
+    SUBMITTED = "submitted"
+    NO_TOOL_CALL = "no_tool_call"
+    STEP_BUDGET_EXCEEDED = "step_budget_exceeded"
 
 
 class EvidenceReference(BaseModel):
@@ -32,6 +41,14 @@ class InvestigationResult(BaseModel):
     findings: dict[str, Any] = Field(default_factory=dict)
     context: NormalizedContext = Field(default_factory=NormalizedContext)
     evidence: list[EvidenceReference] = Field(default_factory=list)
+    termination: TerminationReason = Field(
+        default=TerminationReason.SUBMITTED,
+        description=(
+            "How the investigation ended. Deterministic baseline agents "
+            "always complete their fixed sequence and use the default; "
+            "LLMInvestigationAgent sets this explicitly."
+        ),
+    )
 
 
 class Agent(ABC):

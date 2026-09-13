@@ -1,6 +1,7 @@
 import httpx
 
 from icab.agent.client import AgentGatewayClient
+from icab.agent.interface import TerminationReason
 from icab.agent.llm.agent import LLMInvestigationAgent
 from icab.agent.llm.client import LLMResponse, MockLLMClient, ToolCall
 
@@ -166,3 +167,58 @@ def test_agent_passes_objective_and_initial_state_to_llm(monkeypatch):
 
     assert "Investigate the reactor." in user_message["content"]
     assert "NORMAL" in user_message["content"]
+
+
+def test_termination_reason_submitted(monkeypatch):
+    gateway_client = _client(monkeypatch, {})
+
+    llm = MockLLMClient(
+        [
+            LLMResponse(
+                content=None,
+                tool_calls=(ToolCall(id="call-1", name="submit_investigation", arguments={"conclusion": "done"}),),
+            )
+        ]
+    )
+    agent = LLMInvestigationAgent(gateway_client, llm)
+
+    result = agent.run(objective="obj", initial_state={})
+
+    assert result.termination == TerminationReason.SUBMITTED
+
+
+def test_termination_reason_no_tool_call(monkeypatch):
+    gateway_client = _client(monkeypatch, {})
+
+    llm = MockLLMClient([LLMResponse(content="I cannot investigate this.", tool_calls=())])
+    agent = LLMInvestigationAgent(gateway_client, llm)
+
+    result = agent.run(objective="obj", initial_state={})
+
+    assert result.termination == TerminationReason.NO_TOOL_CALL
+
+
+def test_termination_reason_step_budget_exceeded(monkeypatch):
+    gateway_client = _client(monkeypatch, {"observation": {"value": 1.0}})
+
+    responses = [
+        LLMResponse(
+            content=None,
+            tool_calls=(ToolCall(id=f"call-{i}", name="get_current_value", arguments={"measurement_id": "x"}),),
+        )
+        for i in range(3)
+    ]
+    llm = MockLLMClient(responses)
+    agent = LLMInvestigationAgent(gateway_client, llm, max_steps=3)
+
+    result = agent.run(objective="obj", initial_state={})
+
+    assert result.termination == TerminationReason.STEP_BUDGET_EXCEEDED
+
+
+def test_deterministic_baseline_result_defaults_to_submitted():
+    from icab.agent.interface import InvestigationResult
+
+    result = InvestigationResult(objective="obj", conclusion="done")
+
+    assert result.termination == TerminationReason.SUBMITTED

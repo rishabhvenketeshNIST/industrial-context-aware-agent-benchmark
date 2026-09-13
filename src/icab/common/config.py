@@ -43,6 +43,26 @@ class ICABSettings(BaseSettings):
         gt=0,
     )
 
+    llm_provider: str | None = Field(
+        default=None,
+        validation_alias="ICAB_LLM_PROVIDER",
+    )
+
+    llm_base_url: str | None = Field(
+        default=None,
+        validation_alias="ICAB_LLM_BASE_URL",
+    )
+
+    llm_api_key: str | None = Field(
+        default=None,
+        validation_alias="ICAB_LLM_API_KEY",
+    )
+
+    llm_model: str | None = Field(
+        default=None,
+        validation_alias="ICAB_LLM_MODEL",
+    )
+
 
 def get_settings() -> ICABSettings:
     """Return the current ICAB application settings."""

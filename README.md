@@ -77,6 +77,7 @@ entities ICAB needs for investigation: `Measurement`, `ProcessVariable`,
 | `StructuredRetrievalAgent` | `agent/baseline/structured_retrieval.py` | Minimal deterministic baseline: reads one measurement + one relationship set directly by ID. |
 | `ContextAwareAgent` | `agent/context_aware.py` | Discovers reactor measurements by browsing the UNS, then reads each one's current value. |
 | `ArchitectureAwareAgent` | `agent/architecture_aware.py` | Same investigation logic, parameterized by architecture (`uns`, `opcua`, `i3x`, `kg`) — the workhorse for architecture comparison experiments. |
+| `LLMInvestigationAgent` | `agent/llm/agent.py` | Drives a tool-calling LLM (`LLMClient`) through the gateway's tools in a loop until it submits a conclusion. Real provider is configurable (NIST RChat by default); unit tests use a deterministic `MockLLMClient`. See [`docs/architecture/llm-agent.md`](docs/architecture/llm-agent.md). |
 
 ## Repository layout
 
@@ -137,6 +138,10 @@ docker compose up -d
 | `ICAB_NEO4J_PASSWORD` | Neo4j password |
 | `ICAB_MQTT_HOST` | MQTT broker host (optional, defaults to `localhost`) |
 | `ICAB_MQTT_PORT` | MQTT broker port (optional, defaults to `1883`) |
+| `ICAB_LLM_PROVIDER` | Label for the configured LLM provider (optional, e.g. `nist-rchat`) |
+| `ICAB_LLM_BASE_URL` | Base URL of an OpenAI-compatible chat-completions endpoint (optional; required to run `LLMInvestigationAgent` with a real provider) |
+| `ICAB_LLM_API_KEY` | API key for that endpoint (optional; **never commit a real value** — `.env.example` only documents the variable name) |
+| `ICAB_LLM_MODEL` | Model name to request (optional) |
 
 ### Run the agent gateway
 
@@ -172,6 +177,10 @@ uv run pytest
 - `tests/unit/` — pure unit tests, no external services required.
 - `tests/integration/` — require the historian/knowledge graph/MQTT broker
   from `docker compose up -d` (Postgres/TimescaleDB, Neo4j, Mosquitto).
+- `tests/integration/test_llm_rchat.py` is additionally gated behind
+  `ICAB_RUN_LLM_INTEGRATION_TESTS=1` — it makes real, metered calls to the
+  configured LLM provider, so it is skipped by default even when the rest
+  of `tests/integration/` runs.
 
 ## Project status
 
@@ -189,6 +198,9 @@ Implemented and under test:
   topic namespace and gateway `browse_mqtt`/`read_mqtt` tools — see
   [`docs/architecture/mqtt.md`](docs/architecture/mqtt.md)
 - `StructuredRetrievalAgent`, `ContextAwareAgent`, `ArchitectureAwareAgent`
+  (deterministic baselines) and `LLMInvestigationAgent` (real tool-calling
+  LLM agent, provider-configurable, NIST RChat by default) — see
+  [`docs/architecture/llm-agent.md`](docs/architecture/llm-agent.md)
 - Trace collection/storage and a first-cut investigation evaluator
 - `ArchitectureComparisonRunner` for running one case across architectures
 

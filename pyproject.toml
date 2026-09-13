@@ -17,6 +17,7 @@ dependencies = [
     "tep-studio==0.1.1",
     "paho-mqtt>=2.1.0",
     "openai>=3.13.0",
+    "matplotlib>=3.8,<4.0",
 ]
 
 [dependency-groups]

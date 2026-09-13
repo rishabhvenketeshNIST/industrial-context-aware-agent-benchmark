@@ -87,9 +87,11 @@ src/icab/
   cim/              Canonical Information Model (entities, observations, relationships, JSON Schemas)
   common/           Shared settings (pydantic-settings, .env-driven)
   context/          Context sources: historian, knowledge_graph, uns, i3x, opcua + normalizer
-  evaluation/       Investigation cases and scoring
-  experiments/       Cross-architecture comparison runner
+  evaluation/       Investigation scoring (keyword + grounded evaluators, information-flow analysis)
+  experiments/       Experiment config/runner/storage, architecture combinations, H1-H5 hypotheses
   gateway/          FastAPI app exposing context sources as agent tools
+  reporting/         M12 aggregation, hypothesis reports, plotting -- reads persisted results/ only
+  scenarios/         D1-D4 BenchmarkScenario model, YAML registry, ScenarioRunner
   tasks/            Investigation task models
   tep/              Tennessee Eastman Process state/scenario/adapter
   trace/            Trace event models, collector, JSONL storage
@@ -103,7 +105,7 @@ docs/               Architecture, benchmark, and research docs (placeholder)
 scripts/            Runnable entry points (see below)
 services/           Per-component Dockerfiles (gateway, historian, knowledge_graph, tep)
 tests/              Unit, integration, and benchmark test suites
-results/            Recorded investigation traces
+results/            raw/traces/evaluations/aggregate/hypotheses (M9-M11) + reports/figures (M12)
 ```
 
 ## Getting started
@@ -188,6 +190,18 @@ uv run python scripts/run_experiment.py \
 # and writes a HypothesisTestResult to results/hypotheses/
 uv run python scripts/run_hypothesis_experiment.py \
     --scenario d4_plant_wide_investigation --hypothesis H3
+
+# aggregation/reporting (M12) -- reads already-persisted runs only, no
+# simulator/gateway/LLM calls; writes results/reports/*.{json,md} and
+# results/figures/*.png
+uv run python scripts/generate_report.py \
+    --experiment-id m10-d4-combo-validation-v2 \
+    --group-by architecture_combination_key --name my-report \
+    --plot-metric conclusion_correctness_score
+
+uv run python scripts/generate_hypothesis_report.py \
+    --hypothesis H3 --experiment-id m10-d4-combo-validation-v2 \
+    --name my-h3-report --plot
 ```
 
 Runs any agent (deterministic or LLM) against a real `BenchmarkScenario`
@@ -323,6 +337,23 @@ Implemented and under test:
   evaluator measurement bugs (`tool_call_count` double-counting a new
   M10 trace-event kind; a cited timestamp's year misread as an
   unsupported numeric claim) -- see
+  [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
+- Result aggregation and reporting (M12): `icab.reporting` turns
+  persisted `results/{raw,traces,evaluations}/` artifacts into grouped
+  summaries (`aggregate_records` -- by scenario, difficulty, architecture
+  (combination), agent type, LLM model, or seed/run, with
+  mean/median/stdev/min/max/n and success/failure counts per group,
+  reusing the same heterogeneous-controls safeguard as M9/M10's
+  `write_aggregate`), richer hypothesis reports
+  (`build_hypothesis_report` -- per-arm statistics plus data-derived
+  `limitations`, never a "proven"/"significant" verdict), and
+  reproducible plots (`icab.reporting.plotting`, matplotlib, headless).
+  Effectiveness and efficiency metrics are kept in two explicit, separate
+  groups rather than one collapsed score
+  (`icab.reporting.metrics.EFFECTIVENESS_METRICS`/`EFFICIENCY_METRICS`).
+  `scripts/generate_report.py`/`generate_hypothesis_report.py` operate
+  entirely on already-persisted runs -- no simulator/gateway/LLM calls --
+  and write `results/reports/*.{json,md}` + `results/figures/*.png`. See
   [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended

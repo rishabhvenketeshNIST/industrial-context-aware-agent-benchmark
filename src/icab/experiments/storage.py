@@ -22,8 +22,15 @@ from pathlib import Path
 from icab.trace.models import TraceEvent
 from icab.trace.storage import JsonlTraceStorage
 
+from .controls import CONTROL_FIELDS, HeterogeneousControlsError, control_variance
 from .hypotheses import HypothesisTestResult
 from .models import ExperimentRecord, RunValidity
+
+__all__ = [
+    "AGGREGATE_CSV_COLUMNS",
+    "ExperimentResultStore",
+    "HeterogeneousControlsError",  # re-exported: pre-M12 code imports this from here
+]
 
 #: Flat columns written by `write_aggregate_csv`, one row per run. Kept
 #: explicit (rather than "whatever keys happen to be present") so the CSV
@@ -67,56 +74,6 @@ AGGREGATE_CSV_COLUMNS = (
     "total_latency_ms",
     "total_tokens",
 )
-
-
-#: Fields that must be held equal across every run in a comparison for it
-#: to be a valid architecture comparison -- i.e. the "everything else held
-#: constant" side of "varying only architecture" (see docs/research/
-#: experiment-plan.md). `objective` isn't listed separately because it's
-#: determined by `scenario_id` (same scenario => same objective).
-_CONTROL_FIELDS: tuple[str, ...] = (
-    "scenario_id",
-    "simulation_seed",
-    "llm_model",
-    "llm_temperature",
-    "max_steps",
-)
-
-
-class HeterogeneousControlsError(ValueError):
-    """
-    Raised by `write_aggregate` when the runs being aggregated do not hold
-    `_CONTROL_FIELDS` constant and `allow_heterogeneous_controls` was not
-    passed -- i.e. this would not be a valid "vary only architecture"
-    comparison. Pass `allow_heterogeneous_controls=True` to aggregate such
-    runs anyway (e.g. a deliberately mixed sweep); the written JSON still
-    records `controls_consistent`/`control_variance` either way.
-    """
-
-
-def _control_value(record: ExperimentRecord, field: str) -> object:
-    if field == "scenario_id":
-        return record.config.scenario_id
-    if field == "simulation_seed":
-        return record.simulation_seed
-    if field == "llm_model":
-        return record.config.llm_model
-    if field == "llm_temperature":
-        return record.config.llm_temperature
-    if field == "max_steps":
-        return record.config.max_steps
-    raise ValueError(f"Unknown control field: {field}")  # pragma: no cover
-
-
-def _control_variance(records: list[ExperimentRecord]) -> dict[str, list]:
-    """Which `_CONTROL_FIELDS` differ across `records`, and their distinct values."""
-
-    variance: dict[str, list] = {}
-    for field in _CONTROL_FIELDS:
-        values = {_control_value(record, field) for record in records}
-        if len(values) > 1:
-            variance[field] = sorted(values, key=str)
-    return variance
 
 
 class ExperimentResultStore:
@@ -216,7 +173,7 @@ class ExperimentResultStore:
         ]
         excluded_count = len(records) - len(included)
 
-        variance = _control_variance(included) if included else {}
+        variance = control_variance(included, CONTROL_FIELDS) if included else {}
         if variance and not allow_heterogeneous_controls:
             raise HeterogeneousControlsError(
                 f"Runs being aggregated under {experiment_id!r} do not hold "

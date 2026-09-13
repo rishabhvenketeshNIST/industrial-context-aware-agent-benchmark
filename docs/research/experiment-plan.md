@@ -661,3 +661,202 @@ scenario per difficulty currently exists -- see
 `docs/benchmark/tasks.md`) or against additional scenarios once a larger
 scenario suite exists would be needed before treating any of these
 directions as more than a single data point.
+
+## M12: result aggregation and reporting
+
+`icab.reporting` turns the M9-M11 persisted artifacts
+(`results/{raw,traces,evaluations}/`) into grouped summaries, hypothesis
+reports, and figures. It reads via `ExperimentResultStore` and writes its
+own outputs under `results/reports/` (JSON + Markdown) and
+`results/figures/` (the latter already anticipated by the original M9
+spec's `results/{raw,traces,evaluations,aggregate,figures}` layout). It
+makes no simulator/gateway/LLM calls and is fully deterministic given the
+same persisted input records -- `scripts/generate_report.py` and
+`scripts/generate_hypothesis_report.py` are the CLI entry points, distinct
+from `scripts/run_experiment.py`/`run_hypothesis_experiment.py` (M9/M11),
+which actually execute runs.
+
+### Three kinds of claim -- kept explicitly distinct
+
+1. **Benchmark measurements** -- a single run's recorded scores/counts
+   (`EvaluationReport`, `InformationFlowReport`, latency/tokens). Not
+   touched by this milestone; M12 only reads them.
+2. **Descriptive observations** -- what M12 adds: means/medians/
+   stdev/min/max across a group of runs (`AggregationReport`), and
+   treatment-vs-control comparisons (`HypothesisReport`). A description
+   of what the recorded data says, nothing more.
+3. **Statistical inference** -- a significance test, a confidence
+   interval, a claim that an effect is real and not noise. **ICAB does
+   not currently produce (3) anywhere**, including in M12. Every
+   `HypothesisReport` carries an explicit, data-derived `limitations`
+   list and the M11 `HypothesisTestResult.caveat`; nothing in this
+   codebase is permitted to render a hypothesis as "proven," "validated,"
+   or "significant."
+
+### Aggregation methodology (`icab.reporting.aggregation.aggregate_records`)
+
+Groups a list of `ExperimentRecord`s by one or more named dimensions
+(`icab.reporting.aggregation.DIMENSION_RESOLVERS` --
+`scenario_id`, `difficulty`, `architecture`, `architecture_combination_key`,
+`agent_type`, `deterministic_agent`, `llm_model`, `llm_temperature`,
+`max_steps`, `simulation_seed`, `run_id`, `experiment_id`, `validity`,
+`status`) and computes `icab.reporting.stats.summarize`
+(n/mean/median/stdev/min/max) per `icab.reporting.metrics.ALL_METRICS`
+name within each group.
+
+**Aggregation rule -- do not aggregate incompatible experimental
+conditions.** Reuses the exact same safeguard `ExperimentResultStore
+.write_aggregate` (M9/M10) already enforces, factored out to
+`icab.experiments.controls` so both call sites share one implementation:
+`CONTROL_FIELDS` (`scenario_id`, `simulation_seed`, `llm_model`,
+`llm_temperature`, `max_steps`) must be held constant across every
+record being aggregated, except whichever of them is itself a `group_by`
+dimension (that's the deliberate independent variable) -- and
+`simulation_seed` specifically is dropped from the check when
+`scenario_id` is a `group_by` dimension, since a scenario's seed is
+intrinsic to it, not a second independent factor. A violation raises
+`HeterogeneousControlsError` unless `allow_heterogeneous_controls=True`
+is passed explicitly, in which case the report still records
+`controls_consistent`/`control_variance` so an intentionally mixed
+aggregation stays self-documenting.
+
+By default, non-`RunValidity.VALID` records (legacy deterministic
+baselines -- see the M9 section above) are excluded entirely
+(`excluded_invalid_runs`); `include_invalid=True` keeps them **visible**
+in each group's composition (`n_legacy_control_only`) without ever
+letting them into a metric's statistics -- `is_usable_record`
+(VALID + COMPLETED) gates metric computation unconditionally, regardless
+of `include_invalid`. Validated directly against the repo's real,
+already-mixed `results/`: `uv run python scripts/generate_report.py --all
+--group-by scenario_id --group-by architecture_combination_key
+--allow-heterogeneous-controls --include-invalid --name ...` reports one
+D1 group with `n_runs=6, n_valid=4, n_legacy_control_only=2` and
+`conclusion_correctness_score` computed over exactly the 4 valid runs --
+the 2 legacy runs are counted, never blended in.
+
+### Metric definitions -- effectiveness kept distinct from efficiency
+
+`icab.reporting.metrics` -- two explicit tuples, never collapsed into one
+score:
+
+| Effectiveness (quality of the investigation) | Efficiency (cost of reaching it) |
+|---|---|
+| Investigation correctness (`conclusion_correctness_score`) | Tool calls (`tool_call_count`) |
+| Evidence score (`required_evidence_score`) | Context acquired (`context_acquired_count`) |
+| Grounded evidence (`grounding_score`) | Context consumed (`context_consumed_count`) |
+| Context completeness (`completeness_score`) | Redundant acquisition (`information_flow.redundant_acquisition_count`) |
+| Relationship/causal reasoning (`relationship_score`) | Tool errors (`information_flow.tool_error_count`) |
+| Temporal reasoning (`temporal_reasoning_score` -- new synthetic metric, M12) | Latency ms (`total_latency_ms`) |
+| Unsupported claims (`unsupported_numeric_claims_count`, lower is better) | Token usage (`total_tokens`) |
+
+`temporal_reasoning_score` is a new M12 synthetic metric (alongside the
+pre-existing `unsupported_numeric_claims_count`/`context_acquired_count`/
+`context_consumed_count`, all resolved by `icab.experiments.hypotheses
+.metric_value`, the single metric-resolution function both M11 hypothesis
+testing and M12 aggregation share): `None` (not 0.0) when the scenario
+didn't require temporal evidence at all (vacuous, same handling as
+`relationship_score`'s "nothing expected" case), else `1.0`/`0.0` for
+whether it was acquired.
+
+### Treatment/control (hypothesis) reporting
+
+`icab.reporting.hypothesis_report.build_hypothesis_report` wraps the M11
+`HypothesisTestResult` (UNCHANGED -- still the authoritative descriptive
+core) with per-arm `SummaryStats` and explicit `limitations` derived from
+the data itself:
+
+- an empty arm ("no usable records"),
+- a small sample size (either arm's n below 5 -- "far too small for
+  statistical inference"),
+- an exact tie (`mean_difference == 0` -- "not evidence either for or
+  against").
+
+Every `HypothesisReport`/rendered Markdown explicitly states: treatment,
+control, the observed difference, its direction, the number of runs in
+each arm, whether controls were held constant across the records that
+fed the two arms specifically (checked separately from -- and can differ
+from -- the aggregation-level check above, since a hypothesis's arms are
+usually a subset of all persisted records), and the limitations list.
+Nothing is ever labeled "proven," "validated," or "significant" --
+grepping the entire `icab/reporting` and `icab/experiments/hypotheses.py`
+source confirms none of those words appear as a verdict this codebase
+asserts.
+
+### Outputs and reproducibility
+
+`results/reports/<name>.json` (machine-readable, the full
+`AggregationReport`/`HypothesisReport`) + `results/reports/<name>.md`
+(human-readable) + `results/figures/<name>[-<metric>].png` (plots,
+`icab.reporting.plotting`, matplotlib `Agg` backend, headless). Every
+`AggregationReport.source_run_ids` and every `HypothesisTestResult`'s
+`treatment_run_ids`/`control_run_ids` name the exact underlying run_ids,
+traceable back to `results/{raw,traces,evaluations}/<run_id>.*` --
+an aggregate number is never presented without a path back to the raw
+runs it came from.
+
+Given the same persisted `results/` tree, `aggregate_records`/
+`build_hypothesis_report` are pure functions of their input records --
+running `scripts/generate_report.py`/`generate_hypothesis_report.py`
+twice with the same arguments reproduces byte-identical JSON (modulo
+key ordering, which pydantic keeps stable). No simulator/gateway/LLM call
+is made by either script.
+
+### Validation: reproduced entirely from already-persisted M10/M11 runs
+
+No new LLM calls were spent on M12 -- every example below reuses the
+real `m10-d4-combo-validation-v2-*` and `m11-h2-uns_historian_kg-*`
+records already on disk from M10/M11:
+
+- `scripts/generate_report.py --experiment-id m10-d4-combo-validation-v2
+  --group-by architecture_combination_key --name m12-d4-v2-by-combination
+  --plot-metric conclusion_correctness_score --plot-metric tool_call_count
+  --plot-metric total_tokens` reproduces the exact M10 per-combination
+  numbers (e.g. `kg_historian` `conclusion_correctness_score` mean 0.167,
+  `tool_call_count` mean 18 -- matching the corrected M11 values exactly)
+  as a grouped `AggregationReport` with figures, not just a flat CSV row.
+- `scripts/generate_hypothesis_report.py --hypothesis H<n>
+  --experiment-id m10-d4-combo-validation-v2 --experiment-id
+  m11-h2-uns_historian_kg --name m12-H<n>-report --plot`, run for all five
+  hypotheses, reproduces the exact M11 descriptive results (H1-H4 point in
+  their predicted direction, n=1 per arm; H5 is a tie) with the added
+  per-arm median/stdev/min/max and explicit limitations.
+- `scripts/generate_report.py --all --group-by scenario_id --group-by
+  architecture_combination_key` against the repo's real, already-mixed
+  `results/` (spanning legacy-baseline runs, deterministic
+  scenario-aware runs, and several LLM configs across M9-M11) correctly
+  **raises `HeterogeneousControlsError`** listing exactly which controls
+  vary (`llm_model`, `llm_temperature`, `max_steps`) -- confirming the
+  safeguard works on real historical data, not just synthetic test
+  fixtures. `--allow-heterogeneous-controls` overrides it and the
+  resulting report honestly records `controls_consistent: false`.
+  `--include-invalid` alongside it further confirms the 2 real legacy
+  runs present in the repo are counted (`n_legacy_control_only=2`) but
+  excluded from every metric (`n=4`, not 6).
+
+### Reproducing these reports
+
+```
+uv run python scripts/generate_report.py \
+    --experiment-id m10-d4-combo-validation-v2 \
+    --group-by architecture_combination_key --name my-report \
+    --plot-metric conclusion_correctness_score
+
+uv run python scripts/generate_hypothesis_report.py \
+    --hypothesis H3 \
+    --experiment-id m10-d4-combo-validation-v2 \
+    --name my-h3-report --plot
+```
+
+### Remaining limitations (carried forward, not solved by M12)
+
+- Every real hypothesis comparison remains n=1 per arm (one D4 scenario
+  run per architecture combination) -- M12 reports this honestly
+  (`limitations`) rather than smoothing it over; it does not itself
+  generate more data.
+- Only one real scenario exists per difficulty level (D1-D4) -- grouping
+  by `difficulty` across genuinely different scenarios of the same
+  difficulty is not yet possible.
+- No inferential statistics (significance tests, confidence intervals,
+  effect sizes) exist anywhere in ICAB -- by design, given the current
+  sample sizes; adding them prematurely would manufacture false
+  precision.

@@ -1,0 +1,833 @@
+{
+  "group_by": [
+    "scenario_id",
+    "architecture_combination_key"
+  ],
+  "hold_constant": [
+    "llm_model",
+    "llm_temperature",
+    "max_steps"
+  ],
+  "controls_consistent": false,
+  "control_variance": {
+    "llm_model": [
+      null,
+      "gemma-4-31B-it"
+    ],
+    "llm_temperature": [
+      0.0,
+      null
+    ],
+    "max_steps": [
+      10,
+      20,
+      null
+    ]
+  },
+  "include_invalid": true,
+  "excluded_invalid_runs": 0,
+  "groups": [
+    {
+      "group_key": {
+        "scenario_id": "d1_reactor_pressure_reading",
+        "architecture_combination_key": null
+      },
+      "run_ids": [
+        "d1_reactor_pressure_reading-historian+knowledge_graph+uns-4c5da10e",
+        "d1_reactor_pressure_reading-historian+knowledge_graph+uns-64db605a",
+        "d1_reactor_pressure_reading-historian+knowledge_graph-53fab193",
+        "d1_reactor_pressure_reading-historian+knowledge_graph-d6722bdb",
+        "d1_reactor_pressure_reading-historian-b3117556",
+        "d1_reactor_pressure_reading-historian-dc2c0989"
+      ],
+      "n_runs": 6,
+      "n_completed": 6,
+      "n_failed": 0,
+      "n_valid": 4,
+      "n_legacy_control_only": 2,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 4,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "required_evidence_score": {
+          "n": 4,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "grounding_score": {
+          "n": 4,
+          "mean": 0.875,
+          "median": 1.0,
+          "stdev": 0.25,
+          "minimum": 0.5,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 4,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "relationship_score": {
+          "n": 4,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "temporal_reasoning_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 4,
+          "mean": 0.25,
+          "median": 0.0,
+          "stdev": 0.5,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "tool_call_count": {
+          "n": 4,
+          "mean": 7.25,
+          "median": 7.5,
+          "stdev": 6.652067347825035,
+          "minimum": 1.0,
+          "maximum": 13.0
+        },
+        "context_acquired_count": {
+          "n": 4,
+          "mean": 6.75,
+          "median": 7.0,
+          "stdev": 7.22841614740048,
+          "minimum": 0.0,
+          "maximum": 13.0
+        },
+        "context_consumed_count": {
+          "n": 4,
+          "mean": 0.5,
+          "median": 0.5,
+          "stdev": 0.5773502691896257,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "information_flow.tool_error_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "total_latency_ms": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "total_tokens": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        }
+      }
+    },
+    {
+      "group_key": {
+        "scenario_id": "d2_reactor_context_combination",
+        "architecture_combination_key": null
+      },
+      "run_ids": [
+        "compare-d2_reactor_context_combination-161b5d1e-historian",
+        "compare-d2_reactor_context_combination-161b5d1e-historian+knowledge_graph",
+        "validation-llm-comparison-3-historian",
+        "validation-llm-comparison-3-historian+knowledge_graph",
+        "validation-llm-comparison-historian",
+        "validation-llm-comparison-historian+knowledge_graph"
+      ],
+      "n_runs": 6,
+      "n_completed": 6,
+      "n_failed": 0,
+      "n_valid": 6,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 6,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "required_evidence_score": {
+          "n": 6,
+          "mean": 0.8333333333333334,
+          "median": 1.0,
+          "stdev": 0.408248290463863,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "grounding_score": {
+          "n": 6,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 6,
+          "mean": 0.5555555555555556,
+          "median": 0.5,
+          "stdev": 0.40368671387966554,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "relationship_score": {
+          "n": 6,
+          "mean": 0.3333333333333333,
+          "median": 0.0,
+          "stdev": 0.5163977794943223,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "temporal_reasoning_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 6,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "tool_call_count": {
+          "n": 6,
+          "mean": 7.5,
+          "median": 7.5,
+          "stdev": 4.929503017546495,
+          "minimum": 3.0,
+          "maximum": 12.0
+        },
+        "context_acquired_count": {
+          "n": 6,
+          "mean": 7.5,
+          "median": 7.5,
+          "stdev": 4.929503017546495,
+          "minimum": 3.0,
+          "maximum": 12.0
+        },
+        "context_consumed_count": {
+          "n": 6,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "information_flow.tool_error_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "total_latency_ms": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "total_tokens": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        }
+      }
+    },
+    {
+      "group_key": {
+        "scenario_id": "d4_plant_wide_investigation",
+        "architecture_combination_key": "full"
+      },
+      "run_ids": [
+        "m10-d4-combo-validation-full",
+        "m10-d4-combo-validation-v2-full"
+      ],
+      "n_runs": 2,
+      "n_completed": 2,
+      "n_failed": 0,
+      "n_valid": 2,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 2,
+          "mean": 0.1111111111111111,
+          "median": 0.1111111111111111,
+          "stdev": 0.15713484026367722,
+          "minimum": 0.0,
+          "maximum": 0.2222222222222222
+        },
+        "required_evidence_score": {
+          "n": 2,
+          "mean": 0.75,
+          "median": 0.75,
+          "stdev": 0.3535533905932738,
+          "minimum": 0.5,
+          "maximum": 1.0
+        },
+        "grounding_score": {
+          "n": 2,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 2,
+          "mean": 0.41666666666666663,
+          "median": 0.41666666666666663,
+          "stdev": 0.35355339059327373,
+          "minimum": 0.16666666666666666,
+          "maximum": 0.6666666666666666
+        },
+        "relationship_score": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "temporal_reasoning_score": {
+          "n": 2,
+          "mean": 0.5,
+          "median": 0.5,
+          "stdev": 0.7071067811865476,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "tool_call_count": {
+          "n": 2,
+          "mean": 19.0,
+          "median": 19.0,
+          "stdev": 7.0710678118654755,
+          "minimum": 14.0,
+          "maximum": 24.0
+        },
+        "context_acquired_count": {
+          "n": 2,
+          "mean": 16.5,
+          "median": 16.5,
+          "stdev": 3.5355339059327378,
+          "minimum": 14.0,
+          "maximum": 19.0
+        },
+        "context_consumed_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 2,
+          "mean": 2.5,
+          "median": 2.5,
+          "stdev": 3.5355339059327378,
+          "minimum": 0.0,
+          "maximum": 5.0
+        },
+        "information_flow.tool_error_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_latency_ms": {
+          "n": 2,
+          "mean": 8121.59090017667,
+          "median": 8121.59090017667,
+          "stdev": 2539.8883842168716,
+          "minimum": 6325.618600239977,
+          "maximum": 9917.563200113364
+        },
+        "total_tokens": {
+          "n": 2,
+          "mean": 58134.0,
+          "median": 58134.0,
+          "stdev": 36761.06734032623,
+          "minimum": 32140.0,
+          "maximum": 84128.0
+        }
+      }
+    },
+    {
+      "group_key": {
+        "scenario_id": "d4_plant_wide_investigation",
+        "architecture_combination_key": "historian_only"
+      },
+      "run_ids": [
+        "m10-d4-combo-validation-historian_only",
+        "m10-d4-combo-validation-v2-historian_only"
+      ],
+      "n_runs": 2,
+      "n_completed": 2,
+      "n_failed": 0,
+      "n_valid": 2,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "required_evidence_score": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "grounding_score": {
+          "n": 2,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "relationship_score": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "temporal_reasoning_score": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "tool_call_count": {
+          "n": 2,
+          "mean": 61.0,
+          "median": 61.0,
+          "stdev": 28.284271247461902,
+          "minimum": 41.0,
+          "maximum": 81.0
+        },
+        "context_acquired_count": {
+          "n": 2,
+          "mean": 61.0,
+          "median": 61.0,
+          "stdev": 28.284271247461902,
+          "minimum": 41.0,
+          "maximum": 81.0
+        },
+        "context_consumed_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.tool_error_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_latency_ms": {
+          "n": 2,
+          "mean": 27156.22959967004,
+          "median": 27156.22959967004,
+          "stdev": 12546.663863917867,
+          "minimum": 18284.398500225507,
+          "maximum": 36028.060699114576
+        },
+        "total_tokens": {
+          "n": 2,
+          "mean": 43197.0,
+          "median": 43197.0,
+          "stdev": 30346.194621401875,
+          "minimum": 21739.0,
+          "maximum": 64655.0
+        }
+      }
+    },
+    {
+      "group_key": {
+        "scenario_id": "d4_plant_wide_investigation",
+        "architecture_combination_key": "kg_historian"
+      },
+      "run_ids": [
+        "m10-d4-combo-validation-kg_historian",
+        "m10-d4-combo-validation-v2-kg_historian"
+      ],
+      "n_runs": 2,
+      "n_completed": 2,
+      "n_failed": 0,
+      "n_valid": 2,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 2,
+          "mean": 0.08333333333333333,
+          "median": 0.08333333333333333,
+          "stdev": 0.11785113019775792,
+          "minimum": 0.0,
+          "maximum": 0.16666666666666666
+        },
+        "required_evidence_score": {
+          "n": 2,
+          "mean": 0.25,
+          "median": 0.25,
+          "stdev": 0.3535533905932738,
+          "minimum": 0.0,
+          "maximum": 0.5
+        },
+        "grounding_score": {
+          "n": 2,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 0.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 2,
+          "mean": 0.41666666666666663,
+          "median": 0.41666666666666663,
+          "stdev": 0.35355339059327373,
+          "minimum": 0.16666666666666666,
+          "maximum": 0.6666666666666666
+        },
+        "relationship_score": {
+          "n": 2,
+          "mean": 0.5,
+          "median": 0.5,
+          "stdev": 0.0,
+          "minimum": 0.5,
+          "maximum": 0.5
+        },
+        "temporal_reasoning_score": {
+          "n": 2,
+          "mean": 0.5,
+          "median": 0.5,
+          "stdev": 0.7071067811865476,
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "tool_call_count": {
+          "n": 2,
+          "mean": 14.0,
+          "median": 14.0,
+          "stdev": 5.656854249492381,
+          "minimum": 10.0,
+          "maximum": 18.0
+        },
+        "context_acquired_count": {
+          "n": 2,
+          "mean": 13.0,
+          "median": 13.0,
+          "stdev": 4.242640687119285,
+          "minimum": 10.0,
+          "maximum": 16.0
+        },
+        "context_consumed_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 2,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": 1.4142135623730951,
+          "minimum": 0.0,
+          "maximum": 2.0
+        },
+        "information_flow.tool_error_count": {
+          "n": 2,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_latency_ms": {
+          "n": 2,
+          "mean": 5926.809849916026,
+          "median": 5926.809849916026,
+          "stdev": 2312.365958634311,
+          "minimum": 4291.720199980773,
+          "maximum": 7561.899499851279
+        },
+        "total_tokens": {
+          "n": 2,
+          "mean": 63512.0,
+          "median": 63512.0,
+          "stdev": 44600.053116560295,
+          "minimum": 31975.0,
+          "maximum": 95049.0
+        }
+      }
+    },
+    {
+      "group_key": {
+        "scenario_id": "d4_plant_wide_investigation",
+        "architecture_combination_key": "uns_historian_kg"
+      },
+      "run_ids": [
+        "m11-h2-uns_historian_kg-uns_historian_kg"
+      ],
+      "n_runs": 1,
+      "n_completed": 1,
+      "n_failed": 0,
+      "n_valid": 1,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 1,
+          "mean": 0.2222222222222222,
+          "median": 0.2222222222222222,
+          "stdev": null,
+          "minimum": 0.2222222222222222,
+          "maximum": 0.2222222222222222
+        },
+        "required_evidence_score": {
+          "n": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "stdev": null,
+          "minimum": 0.5,
+          "maximum": 0.5
+        },
+        "grounding_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 1,
+          "mean": 0.5,
+          "median": 0.5,
+          "stdev": null,
+          "minimum": 0.5,
+          "maximum": 0.5
+        },
+        "relationship_score": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "temporal_reasoning_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "tool_call_count": {
+          "n": 1,
+          "mean": 14.0,
+          "median": 14.0,
+          "stdev": null,
+          "minimum": 14.0,
+          "maximum": 14.0
+        },
+        "context_acquired_count": {
+          "n": 1,
+          "mean": 13.0,
+          "median": 13.0,
+          "stdev": null,
+          "minimum": 13.0,
+          "maximum": 13.0
+        },
+        "context_consumed_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "information_flow.tool_error_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_latency_ms": {
+          "n": 1,
+          "mean": 5847.008700016886,
+          "median": 5847.008700016886,
+          "stdev": null,
+          "minimum": 5847.008700016886,
+          "maximum": 5847.008700016886
+        },
+        "total_tokens": {
+          "n": 1,
+          "mean": 57121.0,
+          "median": 57121.0,
+          "stdev": null,
+          "minimum": 57121.0,
+          "maximum": 57121.0
+        }
+      }
+    }
+  ],
+  "source_run_ids": [
+    "compare-d2_reactor_context_combination-161b5d1e-historian",
+    "compare-d2_reactor_context_combination-161b5d1e-historian+knowledge_graph",
+    "d1_reactor_pressure_reading-historian+knowledge_graph+uns-4c5da10e",
+    "d1_reactor_pressure_reading-historian+knowledge_graph+uns-64db605a",
+    "d1_reactor_pressure_reading-historian+knowledge_graph-53fab193",
+    "d1_reactor_pressure_reading-historian+knowledge_graph-d6722bdb",
+    "d1_reactor_pressure_reading-historian-b3117556",
+    "d1_reactor_pressure_reading-historian-dc2c0989",
+    "m10-d4-combo-validation-full",
+    "m10-d4-combo-validation-historian_only",
+    "m10-d4-combo-validation-kg_historian",
+    "m10-d4-combo-validation-v2-full",
+    "m10-d4-combo-validation-v2-historian_only",
+    "m10-d4-combo-validation-v2-kg_historian",
+    "m11-h2-uns_historian_kg-uns_historian_kg",
+    "validation-llm-comparison-3-historian",
+    "validation-llm-comparison-3-historian+knowledge_graph",
+    "validation-llm-comparison-historian",
+    "validation-llm-comparison-historian+knowledge_graph"
+  ]
+}

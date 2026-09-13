@@ -13,6 +13,8 @@ from .hypotheses import (
     evaluate_all_hypotheses,
     evaluate_hypothesis,
     get_spec,
+    is_usable_record,
+    metric_value,
 )
 from .models import (
     LEGACY_DETERMINISTIC_AGENT_KINDS,
@@ -48,5 +50,7 @@ __all__ = [
     "evaluate_hypothesis",
     "get_combination",
     "get_spec",
+    "is_usable_record",
     "list_combination_keys",
+    "metric_value",
 ]

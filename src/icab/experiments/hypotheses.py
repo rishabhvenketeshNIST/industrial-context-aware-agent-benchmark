@@ -232,28 +232,52 @@ class HypothesisTestResult(BaseModel):
 
 #: Records must be VALID (not a legacy control-only baseline -- see
 #: RunValidity) and COMPLETED (a FAILED run has no evaluation/
-#: information_flow to score) to be usable as evidence for a hypothesis.
-def _is_usable(record: ExperimentRecord) -> bool:
+#: information_flow to score) to be usable as evidence for a hypothesis --
+#: also used by icab.reporting.aggregation (M12) for the same reason.
+def is_usable_record(record: ExperimentRecord) -> bool:
     return record.validity == RunValidity.VALID and record.status == ExperimentRunStatus.COMPLETED
 
 
-def _metric_value(record: ExperimentRecord, metric: str) -> float | None:
+#: Synthetic (not a direct EvaluationReport field) metrics derived from a
+#: record's evaluation -- resolved by `metric_value` alongside real field
+#: names. Kept alongside `metric_value` (not in icab.reporting) since it's
+#: the single place both M11 hypotheses and M12 aggregation resolve a
+#: metric name from an ExperimentRecord.
+_SYNTHETIC_EVALUATION_METRICS = frozenset(
+    {"unsupported_numeric_claims_count", "context_acquired_count", "context_consumed_count", "temporal_reasoning_score"}
+)
+
+
+def metric_value(record: ExperimentRecord, metric: str) -> float | None:
     """
-    Resolve a `HypothesisSpec.metric` string to a numeric value for one
-    record. Supports: the synthetic `unsupported_numeric_claims_count`
-    (derived from `EvaluationReport.unsupported_numeric_claims`), a
-    dotted `information_flow.<field>` path onto
-    `ExperimentRecord.information_flow`, any `EvaluationReport` field
-    name directly, or any `ExperimentRecord` field name directly. Returns
-    None (never raises) when the record has no evaluation/information_flow
-    to resolve the metric from -- callers drop those from the arm's value
-    list rather than treating a missing observation as a zero.
+    Resolve a metric name (a `HypothesisSpec.metric`, or any of
+    `icab.reporting.metrics`' core-metric names) to a numeric value for
+    one record. Supports: a handful of synthetic evaluation-derived
+    metrics (below), a dotted `information_flow.<field>` path onto
+    `ExperimentRecord.information_flow`, any `EvaluationReport` field name
+    directly, or any `ExperimentRecord` field name directly. Returns None
+    (never raises) when the record has no evaluation/information_flow to
+    resolve the metric from -- callers drop those from the value list
+    rather than treating a missing observation as a zero.
     """
 
-    if metric == "unsupported_numeric_claims_count":
+    if metric in _SYNTHETIC_EVALUATION_METRICS:
         if record.evaluation is None:
             return None
-        return float(len(record.evaluation.unsupported_numeric_claims))
+        evaluation = record.evaluation
+        if metric == "unsupported_numeric_claims_count":
+            return float(len(evaluation.unsupported_numeric_claims))
+        if metric == "context_acquired_count":
+            return float(len(evaluation.context_acquired))
+        if metric == "context_consumed_count":
+            return float(len(evaluation.context_consumed))
+        if metric == "temporal_reasoning_score":
+            # Vacuous (None, not 0.0) when this scenario didn't require
+            # temporal evidence at all -- mirrors relationship_score's
+            # own vacuous-when-nothing-expected handling.
+            if not evaluation.temporal_evidence_required:
+                return None
+            return 1.0 if evaluation.temporal_evidence_acquired else 0.0
 
     if metric.startswith("information_flow."):
         if record.information_flow is None:
@@ -274,7 +298,7 @@ def _metric_value(record: ExperimentRecord, metric: str) -> float | None:
         value = getattr(record, metric)
         return None if value is None else float(value)
 
-    raise ValueError(f"Unknown hypothesis metric: {metric!r}")
+    raise ValueError(f"Unknown metric: {metric!r}")
 
 
 def _arm_values(
@@ -286,12 +310,12 @@ def _arm_values(
     values: list[float] = []
 
     for record in records:
-        if not _is_usable(record):
+        if not is_usable_record(record):
             continue
         if record.config.architecture_combination_key not in combinations:
             continue
 
-        value = _metric_value(record, metric)
+        value = metric_value(record, metric)
         if value is None:
             continue
 

@@ -277,10 +277,16 @@ Implemented and under test:
   (deterministic or LLM) against a `BenchmarkScenario`, holding the
   process/seed/objective/model fixed while varying only which
   architectures' tools are exposed — persisted as raw/trace/evaluation/
-  aggregate JSON+CSV under `results/`; see
+  aggregate JSON+CSV under `results/`. Every run is tagged `RunValidity`
+  (the three pre-M5 deterministic baselines are `legacy_control_only` —
+  regression/control use only, excluded from the main benchmark
+  comparison by default — since they don't see real scenario data; a new,
+  separate `ScenarioAwareBaselineAgent` deterministic baseline does, and is
+  benchmark-eligible); a `generation_id` provenance tag on every
+  observation/relationship a scenario preparation writes lets the
+  evaluator scope relationship evidence to the current run rather than a
+  shared historian/knowledge graph's accumulated history. See
   [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
-  (including a flagged, unresolved issue with the pre-M5 deterministic
-  baselines and real scenario data)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):

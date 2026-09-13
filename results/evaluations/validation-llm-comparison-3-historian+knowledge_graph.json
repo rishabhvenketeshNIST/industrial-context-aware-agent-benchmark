@@ -1,0 +1,47 @@
+{
+  "scenario_id": "d2_reactor_context_combination",
+  "generation_id": "265395a41ba04006a6efa17b69062cc5",
+  "required_evidence_hits": {
+    "urn:icab:measurement:reactor_pressure": true,
+    "urn:icab:measurement:reactor_level": true
+  },
+  "required_evidence_score": 1.0,
+  "evidence_has_valid_provenance": true,
+  "canonical_id_validity": {
+    "urn:icab:equipment:reactor": true,
+    "urn:icab:measurement:reactor_pressure": true,
+    "urn:icab:measurement:reactor_level": true
+  },
+  "canonical_id_score": 1.0,
+  "temporal_evidence_required": false,
+  "temporal_evidence_acquired": false,
+  "expected_relationships": [
+    {
+      "subject": "urn:icab:equipment:reactor",
+      "predicate": "MONITORS",
+      "object": "urn:icab:measurement:reactor_pressure",
+      "confirmed": true
+    }
+  ],
+  "relationship_score": 1.0,
+  "root_cause_identified": null,
+  "affected_assets_mentioned": {
+    "urn:icab:equipment:reactor": true
+  },
+  "conclusion_correctness_score": 1.0,
+  "unsupported_numeric_claims": [],
+  "grounding_score": 1.0,
+  "context_acquired": [
+    "urn:icab:equipment:reactor",
+    "urn:icab:measurement:reactor_level",
+    "urn:icab:measurement:reactor_pressure"
+  ],
+  "context_consumed": [],
+  "tool_call_count": 3,
+  "unique_tools_used": [
+    "get_current_value",
+    "get_entity_relationships"
+  ],
+  "terminated_properly": true,
+  "completeness_score": 1.0
+}

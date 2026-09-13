@@ -30,6 +30,18 @@ class Observation(BaseModel):
 
     source_id: str | None = None
 
+    generation_id: str | None = Field(
+        default=None,
+        description=(
+            "Which scenario-preparation run wrote this observation (see "
+            "icab.scenarios.runner.ScenarioRunner) -- None for data written "
+            "outside that path (e.g. the legacy static prototype loader). "
+            "Used to distinguish this run's own data from historical/other-run "
+            "accumulation in a shared historian; not itself evidence of "
+            "anything the agent did."
+        ),
+    )
+
     @field_validator("timestamp")
     @classmethod
     def timestamp_must_be_timezone_aware(cls, value: datetime) -> datetime:

@@ -1,0 +1,193 @@
+{
+  "run_id": "d1_reactor_pressure_reading-historian+knowledge_graph-d6722bdb",
+  "experiment_id": "validation-legacy-control-2",
+  "config": {
+    "scenario_id": "d1_reactor_pressure_reading",
+    "architectures": [
+      "historian",
+      "knowledge_graph"
+    ],
+    "agent_type": "deterministic",
+    "deterministic_agent": "structured_retrieval",
+    "deterministic_equipment_key": null,
+    "llm_model": null,
+    "llm_temperature": null,
+    "max_steps": null,
+    "random_seed": null
+  },
+  "scenario_difficulty": "D1",
+  "simulation_seed": 101,
+  "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e",
+  "icab_version": "0.1.0",
+  "started_at": "2026-09-13T14:49:03.969221Z",
+  "completed_at": "2026-09-13T14:49:04.842371Z",
+  "status": "completed",
+  "error": null,
+  "validity": "legacy_control_only",
+  "validity_reason": "structured_retrieval is a legacy, pre-M5 deterministic baseline hard-coded to static-prototype canonical ids/paths -- it does not access this scenario's real data. Regression/control use only; excluded from the main architecture-comparison benchmark by default.",
+  "result": {
+    "objective": "What is the current reactor pressure, and is it within the normal safe operating range (below the 3000 kPa high-pressure trip threshold)?\n",
+    "conclusion": "Current reactor pressure is 2834.0 kPa.",
+    "findings": {
+      "reactor_pressure": {
+        "observation": {
+          "observation_id": "2026-09-09T12:00:00+00:00:TEP_PV_REACTOR_PRESSURE",
+          "measurement_id": "urn:icab:measurement:tep_pv_reactor_pressure",
+          "timestamp": "2026-09-09T12:00:00Z",
+          "value": 2834.0,
+          "unit": "kPa",
+          "quality": "GOOD",
+          "source": "tep",
+          "source_id": "TEP_PV_REACTOR_PRESSURE",
+          "generation_id": null
+        }
+      },
+      "reactor_relationships": {
+        "relationships": [
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+            "source": "tep",
+            "source_id": "REACTOR_COOLING_WATER_OUTLET_TEMPERATURE_MEAS",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_a_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_A_CONCENTRATION",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_b_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_B_CONCENTRATION",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_c_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_C_CONCENTRATION",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_d_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_D_CONCENTRATION",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_e_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_E_CONCENTRATION",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_f_concentration",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_F_CONCENTRATION",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_feed_flow",
+            "source": "tep",
+            "source_id": "REACTOR_FEED_FLOW",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_level",
+            "source": "tep",
+            "source_id": "REACTOR_LEVEL",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_pressure",
+            "source": "tep",
+            "source_id": "REACTOR_PRESSURE",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:reactor_temperature",
+            "source": "tep",
+            "source_id": "REACTOR_TEMPERATURE",
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:tep_pv_reactor_level",
+            "source": "tep",
+            "source_id": "TEP_PV_REACTOR_LEVEL",
+            "generation_id": null
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:tep_pv_reactor_pressure",
+            "source": "tep",
+            "source_id": "TEP_PV_REACTOR_PRESSURE",
+            "generation_id": null
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "MONITORS",
+            "object": "urn:icab:measurement:tep_pv_reactor_temperature",
+            "source": "tep",
+            "source_id": "TEP_PV_REACTOR_TEMPERATURE",
+            "generation_id": null
+          },
+          {
+            "subject": "urn:icab:equipment:reactor",
+            "predicate": "PART_OF",
+            "object": "urn:icab:processcell:reaction",
+            "source": "tep",
+            "source_id": null,
+            "generation_id": "4d5338ce474c489bbc03b40fbbc6d66e"
+          }
+        ]
+      },
+      "initial_state": {
+        "scenario_id": "d1_reactor_pressure_reading",
+        "difficulty": "D1"
+      }
+    },
+    "context": {
+      "assets": [],
+      "measurements": [],
+      "relationships": [],
+      "provenance": []
+    },
+    "evidence": [
+      {
+        "source": "historian",
+        "identifier": "urn:icab:measurement:tep_pv_reactor_pressure"
+      },
+      {
+        "source": "knowledge_graph",
+        "identifier": "urn:icab:equipment:reactor"
+      }
+    ],
+    "termination": "submitted"
+  },
+  "trace_event_count": 2
+}

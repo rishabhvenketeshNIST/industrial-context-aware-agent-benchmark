@@ -99,6 +99,10 @@ def _print_record(record) -> None:
         print(f"model:             {record.config.llm_model} (temperature={record.config.llm_temperature})")
     print(f"simulation_seed:   {record.simulation_seed}")
     print(f"status:            {record.status.value}")
+    print(
+        f"validity:          {record.validity.value}"
+        + (f"  ({record.validity_reason})" if record.validity_reason else "")
+    )
     if record.error:
         print(f"error:             {record.error}")
     if record.result is not None:
@@ -131,6 +135,11 @@ def main() -> int:
     )
     parser.add_argument("--agent-type", choices=[t.value for t in AgentType], default=AgentType.LLM.value)
     parser.add_argument("--deterministic-agent", choices=[k.value for k in DeterministicAgentKind], default=None)
+    parser.add_argument(
+        "--deterministic-equipment-key",
+        default=None,
+        help="Only for --deterministic-agent scenario_aware: which REAL_TEP_EQUIPMENT item to inspect (default: reactor).",
+    )
     parser.add_argument("--llm-model", default=None)
     parser.add_argument("--llm-temperature", type=float, default=None)
     parser.add_argument("--max-steps", type=int, default=None)
@@ -138,6 +147,14 @@ def main() -> int:
     parser.add_argument("--experiment-id", default=None)
     parser.add_argument("--compare", action="store_true", help="Run every --architectures group against one shared scenario preparation.")
     parser.add_argument("--results-root", default="results")
+    parser.add_argument(
+        "--include-invalid-in-aggregate",
+        action="store_true",
+        help=(
+            "Include legacy-baseline (RunValidity.LEGACY_CONTROL_ONLY) runs in the "
+            "aggregate comparison table. Off by default -- see docs/research/experiment-plan.md."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -170,7 +187,11 @@ def main() -> int:
                     records.append(record)
 
                 experiment_id = records[0].experiment_id
-                json_path, csv_path = store.write_aggregate(experiment_id, records)
+                json_path, csv_path = store.write_aggregate(
+                    experiment_id,
+                    records,
+                    include_invalid=args.include_invalid_in_aggregate,
+                )
                 print(f"Aggregate written to: {json_path}")
                 print(f"                      {csv_path}")
 
@@ -185,6 +206,7 @@ def main() -> int:
                     if args.deterministic_agent
                     else None
                 ),
+                deterministic_equipment_key=args.deterministic_equipment_key,
                 llm_model=args.llm_model,
                 llm_temperature=args.llm_temperature,
                 max_steps=args.max_steps,

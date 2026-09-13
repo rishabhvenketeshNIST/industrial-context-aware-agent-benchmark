@@ -270,3 +270,100 @@ def test_completeness_penalizes_step_budget_exceeded():
     assert submitted_report.terminated_properly is True
     assert exceeded_report.terminated_properly is False
     assert exceeded_report.completeness_score < submitted_report.completeness_score
+
+
+def test_relationship_mention_alone_does_not_count_as_required_evidence():
+    """
+    Regression test for a real, demonstrated false positive: an agent that
+    reads the WRONG measurement (a legacy id) but also happens to call
+    get_entity_relationships (which incidentally mentions the ground
+    truth's required real canonical id, as a related object -- not a
+    retrieved value) must NOT be credited with having found that evidence.
+    """
+
+    scenario = _d1_scenario()  # requires urn:icab:measurement:reactor_pressure
+    evaluator = GroundedInvestigationEvaluator()
+
+    result = InvestigationResult(
+        objective=scenario.objective,
+        conclusion="Current reactor pressure is 2834.0 kPa.",  # wrong data, wrong id
+    )
+
+    trace = [
+        # The agent queried the WRONG (legacy) measurement -- not the
+        # ground truth's required real id.
+        _event(
+            "get_current_value",
+            {
+                "observation": {
+                    "measurement_id": "urn:icab:measurement:tep_pv_reactor_pressure",
+                    "value": 2834.0,
+                }
+            },
+        ),
+        # An unrelated relationship listing that happens to mention the
+        # REQUIRED real id as a related object -- this is real, legitimate
+        # knowledge-graph content, not fabricated -- but the agent never
+        # retrieved ITS value.
+        _event(
+            "get_entity_relationships",
+            {
+                "relationships": [
+                    {
+                        "subject": "urn:icab:equipment:reactor",
+                        "predicate": "MONITORS",
+                        "object": "urn:icab:measurement:reactor_pressure",
+                    },
+                    {
+                        "subject": "urn:icab:equipment:reactor",
+                        "predicate": "MONITORS",
+                        "object": "urn:icab:measurement:tep_pv_reactor_pressure",
+                    },
+                ]
+            },
+        ),
+    ]
+
+    report = evaluator.evaluate(scenario, result, trace=trace)
+
+    assert report.required_evidence_hits == {"urn:icab:measurement:reactor_pressure": False}
+    assert report.required_evidence_score == 0.0
+
+
+def test_relationship_confirmation_is_scoped_to_the_current_generation():
+    scenario = _d3_scenario()
+    evaluator = GroundedInvestigationEvaluator()
+    result = InvestigationResult(objective=scenario.objective, conclusion="ok")
+
+    trace = [
+        _event(
+            "get_entity_relationships",
+            {
+                "relationships": [
+                    {
+                        "subject": "urn:icab:equipment:reactor",
+                        "predicate": "MONITORS",
+                        "object": "urn:icab:measurement:reactor_pressure",
+                        "generation_id": "some-other-run",
+                    }
+                ]
+            },
+        )
+    ]
+
+    # Ungated (no generation_id passed): matches, as before M9.
+    ungated = evaluator.evaluate(scenario, result, trace=trace)
+    assert ungated.relationship_score == 1.0
+
+    # Scoped to a DIFFERENT generation than the one that wrote it: the
+    # match is rejected, closing the cross-run false-positive path.
+    scoped_to_other_run = evaluator.evaluate(
+        scenario, result, trace=trace, generation_id="this-run"
+    )
+    assert scoped_to_other_run.relationship_score == 0.0
+
+    # Scoped to the SAME generation that wrote it: confirmed.
+    scoped_to_same_run = evaluator.evaluate(
+        scenario, result, trace=trace, generation_id="some-other-run"
+    )
+    assert scoped_to_same_run.relationship_score == 1.0

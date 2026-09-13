@@ -21,7 +21,7 @@ from pathlib import Path
 from icab.trace.models import TraceEvent
 from icab.trace.storage import JsonlTraceStorage
 
-from .models import ExperimentRecord
+from .models import ExperimentRecord, RunValidity
 
 #: Flat columns written by `write_aggregate_csv`, one row per run. Kept
 #: explicit (rather than "whatever keys happen to be present") so the CSV
@@ -40,6 +40,8 @@ AGGREGATE_CSV_COLUMNS = (
     "simulation_seed",
     "random_seed",
     "status",
+    "validity",
+    "validity_reason",
     "error",
     "started_at",
     "completed_at",
@@ -109,11 +111,25 @@ class ExperimentResultStore:
         self,
         experiment_id: str,
         records: list[ExperimentRecord],
+        *,
+        include_invalid: bool = False,
     ) -> tuple[Path, Path]:
         """
         Write a cross-run comparison table for ``records`` (typically all
         runs sharing ``experiment_id``) as both JSON and CSV under
         `results/aggregate/`. Returns ``(json_path, csv_path)``.
+
+        By default, runs with ``validity != RunValidity.VALID`` (e.g. a
+        legacy deterministic baseline against a real scenario -- see
+        ``icab.experiments.models.RunValidity`` and
+        docs/research/experiment-plan.md) are EXCLUDED from this table --
+        the main architecture-comparison benchmark must not silently
+        include a run that cannot access the scenario's actual data. Those
+        runs are still fully persisted (`save()` writes their raw/trace/
+        evaluation files regardless); they're just kept out of the
+        comparison table unless ``include_invalid=True`` is passed
+        explicitly, in which case their `validity`/`validity_reason`
+        columns make them clearly identifiable rather than blending in.
         """
 
         self.aggregate_dir.mkdir(parents=True, exist_ok=True)
@@ -121,9 +137,27 @@ class ExperimentResultStore:
         json_path = self.aggregate_dir / f"{experiment_id}.json"
         csv_path = self.aggregate_dir / f"{experiment_id}.csv"
 
-        rows = [self._flatten(record) for record in records]
+        included = [
+            record
+            for record in records
+            if include_invalid or record.validity == RunValidity.VALID
+        ]
+        excluded_count = len(records) - len(included)
 
-        json_path.write_text(json.dumps(rows, indent=2, default=str), encoding="utf-8")
+        rows = [self._flatten(record) for record in included]
+
+        json_path.write_text(
+            json.dumps(
+                {
+                    "experiment_id": experiment_id,
+                    "excluded_invalid_runs": excluded_count,
+                    "runs": rows,
+                },
+                indent=2,
+                default=str,
+            ),
+            encoding="utf-8",
+        )
 
         with csv_path.open("w", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=AGGREGATE_CSV_COLUMNS)
@@ -156,6 +190,8 @@ class ExperimentResultStore:
             "simulation_seed": record.simulation_seed,
             "random_seed": record.config.random_seed,
             "status": record.status.value,
+            "validity": record.validity.value,
+            "validity_reason": record.validity_reason or "",
             "error": record.error or "",
             "started_at": record.started_at.isoformat(),
             "completed_at": record.completed_at.isoformat(),

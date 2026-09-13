@@ -139,13 +139,15 @@ class Neo4jKnowledgeGraphRepository(KnowledgeGraphRepository):
                 )
                 SET
                     r.source = $source,
-                    r.source_id = $source_id
+                    r.source_id = $source_id,
+                    r.generation_id = $generation_id
                 """,
                 subject=relationship.subject,
                 predicate=relationship.predicate.value,
                 object=relationship.object,
                 source=relationship.source,
                 source_id=relationship.source_id,
+                generation_id=relationship.generation_id,
             )
 
     def get_entity(
@@ -217,7 +219,8 @@ class Neo4jKnowledgeGraphRepository(KnowledgeGraphRepository):
                 predicate: r.predicate,
                 object: object.canonical_id,
                 source: r.source,
-                source_id: r.source_id
+                source_id: r.source_id,
+                generation_id: r.generation_id
             } AS relationship
             ORDER BY relationship.subject,
                      relationship.predicate,

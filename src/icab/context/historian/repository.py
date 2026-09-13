@@ -32,6 +32,7 @@ class PostgresHistorianRepository(HistorianRepository):
                 observation.quality,
                 observation.source,
                 observation.source_id,
+                observation.generation_id,
             )
             for observation in observations
         ]
@@ -48,9 +49,10 @@ class PostgresHistorianRepository(HistorianRepository):
                         unit,
                         quality,
                         source,
-                        source_id
+                        source_id,
+                        generation_id
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (observation_id, timestamp)
                     DO NOTHING
                     """,
@@ -74,7 +76,8 @@ class PostgresHistorianRepository(HistorianRepository):
                         unit,
                         quality,
                         source,
-                        source_id
+                        source_id,
+                        generation_id
                     FROM observations
                     WHERE measurement_id = %s
                     ORDER BY timestamp DESC, observation_id DESC
@@ -110,7 +113,8 @@ class PostgresHistorianRepository(HistorianRepository):
                         unit,
                         quality,
                         source,
-                        source_id
+                        source_id,
+                        generation_id
                     FROM observations
                     WHERE measurement_id = %s
                       AND timestamp >= %s
@@ -139,6 +143,7 @@ class PostgresHistorianRepository(HistorianRepository):
             quality=row[5],
             source=row[6],
             source_id=row[7],
+            generation_id=row[8],
         )
 
 

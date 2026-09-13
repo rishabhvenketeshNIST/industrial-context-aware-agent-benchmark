@@ -230,19 +230,25 @@ class TEPAdapter:
             for key, (canonical_id, name) in REAL_TEP_EQUIPMENT.items()
         ]
 
-    def get_real_hierarchy_relationships(self) -> list[Relationship]:
+    def get_real_hierarchy_relationships(
+        self,
+        *,
+        generation_id: str | None = None,
+    ) -> list[Relationship]:
         return [
             Relationship(
                 subject=self.AREA_ID,
                 predicate=RelationshipType.PART_OF,
                 object=self.SITE_ID,
                 source="tep",
+                generation_id=generation_id,
             ),
             Relationship(
                 subject=self.PROCESS_CELL_ID,
                 predicate=RelationshipType.PART_OF,
                 object=self.AREA_ID,
                 source="tep",
+                generation_id=generation_id,
             ),
             *[
                 Relationship(
@@ -250,6 +256,7 @@ class TEPAdapter:
                     predicate=RelationshipType.PART_OF,
                     object=self.PROCESS_CELL_ID,
                     source="tep",
+                    generation_id=generation_id,
                 )
                 for canonical_id, _ in REAL_TEP_EQUIPMENT.values()
             ],
@@ -269,7 +276,11 @@ class TEPAdapter:
             for variable in build_real_tep_variables()
         ]
 
-    def get_real_measurement_relationships(self) -> list[Relationship]:
+    def get_real_measurement_relationships(
+        self,
+        *,
+        generation_id: str | None = None,
+    ) -> list[Relationship]:
         relationships = []
 
         for variable in build_real_tep_variables():
@@ -280,6 +291,7 @@ class TEPAdapter:
                     object=variable.canonical_id,
                     source="tep",
                     source_id=variable.variable_id,
+                    generation_id=generation_id,
                 )
             )
 
@@ -291,6 +303,8 @@ class TEPAdapter:
         value: float,
         timestamp: datetime,
         observation_id: str,
+        *,
+        generation_id: str | None = None,
     ) -> Observation:
         variable = next(
             variable
@@ -307,11 +321,14 @@ class TEPAdapter:
             quality="GOOD",
             source="tep",
             source_id=variable.variable_id,
+            generation_id=generation_id,
         )
 
     def create_real_observations(
         self,
         state: TEPProcessState,
+        *,
+        generation_id: str | None = None,
     ) -> list[Observation]:
         """Convert a real-simulator process-state snapshot into CIM observations."""
 
@@ -321,6 +338,7 @@ class TEPAdapter:
                 value=value,
                 timestamp=state.timestamp,
                 observation_id=f"{state.timestamp.isoformat()}:{variable_id}",
+                generation_id=generation_id,
             )
             for variable_id, value in state.values.items()
         ]
@@ -328,8 +346,21 @@ class TEPAdapter:
     def build_real_environment(
         self,
         state: TEPProcessState | None = None,
+        *,
+        generation_id: str | None = None,
     ) -> CIMEnvironment:
-        """Build a CIM environment from the real (41-measurement) TEP kernel."""
+        """
+        Build a CIM environment from the real (41-measurement) TEP kernel.
+
+        ``generation_id``, when given, tags every relationship and
+        observation this call produces (see
+        icab.scenarios.runner.ScenarioRunner, which mints one per scenario
+        preparation) -- the provenance mechanism that lets a benchmark run
+        tell its own generation's data apart from an unrelated earlier
+        run's leftovers in the same shared, persistent historian/knowledge
+        graph. None (the default) preserves prior behavior: untagged data,
+        as written before this mechanism existed.
+        """
 
         entities = [
             self.get_site(),
@@ -340,14 +371,14 @@ class TEPAdapter:
         ]
 
         relationships = [
-            *self.get_real_hierarchy_relationships(),
-            *self.get_real_measurement_relationships(),
+            *self.get_real_hierarchy_relationships(generation_id=generation_id),
+            *self.get_real_measurement_relationships(generation_id=generation_id),
         ]
 
         observations = []
 
         if state is not None:
-            observations = self.create_real_observations(state)
+            observations = self.create_real_observations(state, generation_id=generation_id)
 
         return CIMEnvironment(
             entities=entities,

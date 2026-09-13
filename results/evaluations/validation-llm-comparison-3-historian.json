@@ -1,0 +1,64 @@
+{
+  "scenario_id": "d2_reactor_context_combination",
+  "generation_id": "265395a41ba04006a6efa17b69062cc5",
+  "required_evidence_hits": {
+    "urn:icab:measurement:reactor_pressure": true,
+    "urn:icab:measurement:reactor_level": true
+  },
+  "required_evidence_score": 1.0,
+  "evidence_has_valid_provenance": true,
+  "canonical_id_validity": {
+    "urn:icab:measurement:reactor_pressure": true,
+    "urn:icab:measurement:reactor_level": true,
+    "urn:icab:measurement:reactor_pressure_sensor": true,
+    "urn:icab:measurement:reactor_pressure_transmitter": true,
+    "urn:icab:measurement:reactor_pressure_indicator": true,
+    "urn:icab:measurement:reactor_pressure_gauge": true,
+    "urn:icab:measurement:reactor_pressure_sensor_id": true,
+    "urn:icab:measurement:reactor_pressure_sensor_1": true,
+    "urn:icab:measurement:reactor_pressure_sensor_2": true,
+    "urn:icab:measurement:reactor_pressure_transmitter_1": true,
+    "urn:icab:measurement:reactor_pressure_transmitter_2": true,
+    "urn:icab:measurement:reactor_pressure_sensor_3": true
+  },
+  "canonical_id_score": 1.0,
+  "temporal_evidence_required": false,
+  "temporal_evidence_acquired": false,
+  "expected_relationships": [
+    {
+      "subject": "urn:icab:equipment:reactor",
+      "predicate": "MONITORS",
+      "object": "urn:icab:measurement:reactor_pressure",
+      "confirmed": false
+    }
+  ],
+  "relationship_score": 0.0,
+  "root_cause_identified": null,
+  "affected_assets_mentioned": {
+    "urn:icab:equipment:reactor": true
+  },
+  "conclusion_correctness_score": 1.0,
+  "unsupported_numeric_claims": [],
+  "grounding_score": 1.0,
+  "context_acquired": [
+    "urn:icab:measurement:reactor_level",
+    "urn:icab:measurement:reactor_pressure",
+    "urn:icab:measurement:reactor_pressure_gauge",
+    "urn:icab:measurement:reactor_pressure_indicator",
+    "urn:icab:measurement:reactor_pressure_sensor",
+    "urn:icab:measurement:reactor_pressure_sensor_1",
+    "urn:icab:measurement:reactor_pressure_sensor_2",
+    "urn:icab:measurement:reactor_pressure_sensor_3",
+    "urn:icab:measurement:reactor_pressure_sensor_id",
+    "urn:icab:measurement:reactor_pressure_transmitter",
+    "urn:icab:measurement:reactor_pressure_transmitter_1",
+    "urn:icab:measurement:reactor_pressure_transmitter_2"
+  ],
+  "context_consumed": [],
+  "tool_call_count": 12,
+  "unique_tools_used": [
+    "get_current_value"
+  ],
+  "terminated_properly": false,
+  "completeness_score": 0.3333333333333333
+}

@@ -41,3 +41,15 @@ class Relationship(BaseModel):
         default=None,
         description="Identifier of the relationship in the source system.",
     )
+
+    generation_id: str | None = Field(
+        default=None,
+        description=(
+            "Which scenario-preparation run wrote this relationship (see "
+            "icab.scenarios.runner.ScenarioRunner) -- None for data written "
+            "outside that path. A shared, persistent knowledge graph "
+            "accumulates relationships across every run that has ever "
+            "written to it; this field is what lets a benchmark run tell "
+            "its own generation's relationships apart from an earlier run's."
+        ),
+    )

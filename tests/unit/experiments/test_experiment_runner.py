@@ -9,13 +9,15 @@ from icab.experiments import (
     AgentType,
     DeterministicAgentKind,
     ExperimentConfig,
-    ExperimentRunStatus,
     ExperimentRunner,
+    ExperimentRunStatus,
+    RunValidity,
 )
 from icab.scenarios import BenchmarkScenarioRegistry
-from icab.scenarios.runner import ScenarioRunner
+from icab.scenarios.runner import ScenarioRunner, ScenarioRunResult
 
 SCENARIOS_DIR = "configs/benchmark/scenarios"
+TEST_GENERATION_ID = "test-generation"
 
 
 def _registry() -> BenchmarkScenarioRegistry:
@@ -23,7 +25,12 @@ def _registry() -> BenchmarkScenarioRegistry:
 
 
 def _mock_scenario_runner() -> Mock:
-    return Mock(spec=ScenarioRunner)
+    runner = Mock(spec=ScenarioRunner)
+    runner.prepare.return_value = Mock(
+        spec=ScenarioRunResult,
+        generation_id=TEST_GENERATION_ID,
+    )
+    return runner
 
 
 def _patch_gateway(monkeypatch, response_json: dict) -> None:
@@ -215,3 +222,123 @@ def test_run_id_defaults_are_stable_and_include_scenario_and_architectures():
     run_id = runner._default_run_id(config)
 
     assert run_id.startswith("d1_reactor_pressure_reading-historian-")
+
+
+def test_legacy_deterministic_agents_are_marked_control_only(monkeypatch):
+    _patch_gateway(
+        monkeypatch,
+        {
+            "observation": {"value": 2834.0, "unit": "kPa"},
+            "relationships": [],
+            "nodes": [],
+        },
+    )
+
+    runner = ExperimentRunner(
+        gateway_base_url="http://localhost:8000",
+        scenario_runner=_mock_scenario_runner(),
+        scenario_registry=_registry(),
+    )
+
+    for kind in (
+        DeterministicAgentKind.STRUCTURED_RETRIEVAL,
+        DeterministicAgentKind.CONTEXT_AWARE,
+    ):
+        config = ExperimentConfig(
+            scenario_id="d1_reactor_pressure_reading",
+            architectures=["historian"],
+            agent_type=AgentType.DETERMINISTIC,
+            deterministic_agent=kind,
+        )
+
+        record, _trace = runner.run(config)
+
+        assert record.validity == RunValidity.LEGACY_CONTROL_ONLY
+        assert record.validity_reason is not None
+        assert "legacy" in record.validity_reason.lower()
+        # Still runs and is still fully recorded -- just flagged invalid,
+        # not blocked (regression/control use is preserved).
+        assert record.status == ExperimentRunStatus.COMPLETED
+        assert record.result is not None
+
+
+def test_scenario_aware_and_llm_agents_are_valid_for_the_benchmark(monkeypatch):
+    _patch_gateway(
+        monkeypatch,
+        {
+            "observation": {
+                "measurement_id": "urn:icab:measurement:reactor_pressure",
+                "value": 2705.0,
+                "unit": "kPa gauge",
+            },
+            "nodes": [
+                {
+                    "path": "site/tep/reactor/reactor_pressure",
+                    "display_name": "Reactor pressure",
+                    "node_type": "measurement",
+                    "canonical_id": "urn:icab:measurement:reactor_pressure",
+                }
+            ],
+            "relationships": [],
+        },
+    )
+
+    runner = ExperimentRunner(
+        gateway_base_url="http://localhost:8000",
+        scenario_runner=_mock_scenario_runner(),
+        scenario_registry=_registry(),
+    )
+
+    scenario_aware_config = ExperimentConfig(
+        scenario_id="d1_reactor_pressure_reading",
+        architectures=["historian", "knowledge_graph", "uns"],
+        agent_type=AgentType.DETERMINISTIC,
+        deterministic_agent=DeterministicAgentKind.SCENARIO_AWARE,
+    )
+    record, _trace = runner.run(scenario_aware_config)
+    assert record.validity == RunValidity.VALID
+    assert record.validity_reason is None
+
+    llm_config = ExperimentConfig(
+        scenario_id="d1_reactor_pressure_reading",
+        architectures=["historian"],
+        agent_type=AgentType.LLM,
+    )
+    llm = MockLLMClient([LLMResponse(content="ok", tool_calls=())])
+    llm_runner = ExperimentRunner(
+        gateway_base_url="http://localhost:8000",
+        scenario_runner=_mock_scenario_runner(),
+        scenario_registry=_registry(),
+        llm_client_factory=lambda config: llm,
+    )
+    record, _trace = llm_runner.run(llm_config)
+    assert record.validity == RunValidity.VALID
+
+
+def test_generation_id_is_recorded_and_passed_to_the_evaluator(monkeypatch):
+    _patch_gateway(
+        monkeypatch,
+        {
+            "observation": {"value": 2834.0, "unit": "kPa"},
+            "relationships": [],
+            "nodes": [],
+        },
+    )
+
+    runner = ExperimentRunner(
+        gateway_base_url="http://localhost:8000",
+        scenario_runner=_mock_scenario_runner(),
+        scenario_registry=_registry(),
+    )
+
+    config = ExperimentConfig(
+        scenario_id="d1_reactor_pressure_reading",
+        architectures=["historian"],
+        agent_type=AgentType.DETERMINISTIC,
+        deterministic_agent=DeterministicAgentKind.STRUCTURED_RETRIEVAL,
+    )
+
+    record, _trace = runner.run(config)
+
+    assert record.generation_id == TEST_GENERATION_ID
+    assert record.evaluation.generation_id == TEST_GENERATION_ID

@@ -1,17 +1,24 @@
 import csv
+import json
 from datetime import UTC, datetime
 
 from icab.agent.interface import EvidenceReference, InvestigationResult, TerminationReason
 from icab.evaluation.grounded import GroundedInvestigationEvaluator
 from icab.experiments import AgentType, ExperimentConfig, ExperimentRecord, ExperimentResultStore
-from icab.experiments.models import ExperimentRunStatus
+from icab.experiments.models import ExperimentRunStatus, RunValidity
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.trace.models import TraceEvent
 
 SCENARIOS_DIR = "configs/benchmark/scenarios"
 
 
-def _record(run_id: str, experiment_id: str = "exp-1") -> tuple[ExperimentRecord, list[TraceEvent]]:
+def _record(
+    run_id: str,
+    experiment_id: str = "exp-1",
+    *,
+    validity: RunValidity = RunValidity.VALID,
+    validity_reason: str | None = None,
+) -> tuple[ExperimentRecord, list[TraceEvent]]:
     scenario = BenchmarkScenarioRegistry(SCENARIOS_DIR).get("d1_reactor_pressure_reading")
 
     result = InvestigationResult(
@@ -55,6 +62,8 @@ def _record(run_id: str, experiment_id: str = "exp-1") -> tuple[ExperimentRecord
         started_at=datetime(2026, 9, 13, 0, 0, tzinfo=UTC),
         completed_at=datetime(2026, 9, 13, 0, 1, tzinfo=UTC),
         status=ExperimentRunStatus.COMPLETED,
+        validity=validity,
+        validity_reason=validity_reason,
         result=result,
         evaluation=evaluation,
         trace_event_count=len(trace),
@@ -121,3 +130,62 @@ def test_write_aggregate_produces_json_and_csv(tmp_path):
     assert len(rows) == 2
     assert {row["run_id"] for row in rows} == {"run-a", "run-b"}
     assert rows[0]["required_evidence_score"] == "1.0"
+
+
+def test_write_aggregate_excludes_invalid_runs_by_default(tmp_path):
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    valid_record, valid_trace = _record("run-valid", experiment_id="compare-2")
+    invalid_record, invalid_trace = _record(
+        "run-invalid",
+        experiment_id="compare-2",
+        validity=RunValidity.LEGACY_CONTROL_ONLY,
+        validity_reason="legacy baseline against a real scenario",
+    )
+    store.save(valid_record, valid_trace)
+    store.save(invalid_record, invalid_trace)
+
+    # Both runs are still fully persisted regardless of validity.
+    assert store.load_record("run-valid").run_id == "run-valid"
+    assert store.load_record("run-invalid").run_id == "run-invalid"
+
+    json_path, csv_path = store.write_aggregate(
+        "compare-2", [valid_record, invalid_record]
+    )
+
+    with csv_path.open(newline="", encoding="utf-8") as file:
+        rows = list(csv.DictReader(file))
+
+    # The main comparison table must not silently include the invalid run.
+    assert len(rows) == 1
+    assert rows[0]["run_id"] == "run-valid"
+
+    aggregate_data = json.loads(json_path.read_text(encoding="utf-8"))
+    assert aggregate_data["excluded_invalid_runs"] == 1
+    assert len(aggregate_data["runs"]) == 1
+
+
+def test_write_aggregate_include_invalid_still_labels_them_clearly(tmp_path):
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    valid_record, valid_trace = _record("run-valid-2", experiment_id="compare-3")
+    invalid_record, invalid_trace = _record(
+        "run-invalid-2",
+        experiment_id="compare-3",
+        validity=RunValidity.LEGACY_CONTROL_ONLY,
+        validity_reason="legacy baseline against a real scenario",
+    )
+    store.save(valid_record, valid_trace)
+    store.save(invalid_record, invalid_trace)
+
+    _json_path, csv_path = store.write_aggregate(
+        "compare-3", [valid_record, invalid_record], include_invalid=True
+    )
+
+    with csv_path.open(newline="", encoding="utf-8") as file:
+        rows = {row["run_id"]: row for row in csv.DictReader(file)}
+
+    assert len(rows) == 2
+    assert rows["run-valid-2"]["validity"] == "valid"
+    assert rows["run-invalid-2"]["validity"] == "legacy_control_only"
+    assert rows["run-invalid-2"]["validity_reason"] != ""

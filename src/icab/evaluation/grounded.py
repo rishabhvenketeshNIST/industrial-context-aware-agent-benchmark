@@ -1,6 +1,6 @@
 """
 Deterministic, structured evaluation of an InvestigationResult against a
-BenchmarkScenario's ground truth and its recorded trace (M8).
+BenchmarkScenario's ground truth and its recorded trace (M8, hardened M9).
 
 This is additive: `icab.evaluation.investigation.InvestigationEvaluator`
 (keyword-substring scoring against the older, flat `InvestigationCase`) is
@@ -20,11 +20,37 @@ evaluator) or a full semantic parse of the conclusion text:
   * "structured conclusion correctness" and "causal reasoning" are both
     approximated here by `conclusion_correctness_score` -- whether the
     ground truth's root_cause_disturbance and affected assets are
-    *mentioned* in the conclusion/findings text. This checks that the
-    right concepts were surfaced, not that the agent's causal argument is
+    *mentioned* in the conclusion text. This checks that the right
+    concepts were surfaced, not that the agent's causal argument is
     sound; a correct-sounding conclusion that got there by luck scores the
     same as one that reasoned properly. This is a real limitation, stated
     plainly rather than dressed up as more than it is.
+
+Hardening (M9): running a legacy deterministic baseline against a real
+BenchmarkScenario surfaced a genuine false positive -- a run that read the
+WRONG (legacy, static-prototype) measurement id still scored
+required_evidence_score == 1.0, because the ground truth's required
+canonical id happened to appear inside an unrelated
+`get_entity_relationships` response (structural relationship data, not a
+retrieved value). The root cause was matching evidence by keyword
+substring over the *entire* findings blob, which cannot distinguish "the
+agent retrieved this measurement's value" from "this id was merely
+mentioned somewhere in some other tool's output". Fixed by requiring
+required-evidence hits to come from an actual value-bearing retrieval
+(get_current_value/get_historical_values/i3x_get_value/i3x_get_history),
+the agent's own asserted `evidence`, or its own conclusion text -- never
+from scanning raw findings/relationship dumps. See
+docs/research/experiment-plan.md for the full incident writeup.
+
+Separately, relationship-based ground truth (`expected_relationships`) is
+now generation-scoped: pass `evaluate(..., generation_id=...)` (as
+`icab.experiments.ExperimentRunner` does, using the id
+`icab.scenarios.runner.ScenarioRunner.prepare()` minted for that
+preparation) to require a confirming relationship to have been written by
+*this* scenario preparation -- not an unrelated earlier run's leftover
+edge in the same shared, persistent knowledge graph. Passing no
+generation_id preserves the original (ungated) M8 behavior, so existing
+callers/tests are unaffected.
 """
 
 from __future__ import annotations
@@ -45,6 +71,15 @@ from icab.trace.models import TraceEvent
 _CANONICAL_ID_PATTERN = re.compile(r"^urn:icab:[a-z0-9][a-z0-9:_-]*$")
 _CANONICAL_ID_SOURCES = frozenset(
     {"get_current_value", "get_historical_values", "get_entity_relationships", "browse_uns"}
+)
+
+#: Tool responses that carry an actually-retrieved value for a specific
+#: identifier -- as opposed to structural/discovery responses (browse_uns,
+#: get_entity_relationships, opcua_browse, i3x_get_objects/
+#: get_related_objects) that merely *mention* identifiers without the
+#: agent having retrieved their value.
+_VALUE_BEARING_TOOLS = frozenset(
+    {"get_current_value", "get_historical_values", "i3x_get_value", "i3x_get_history"}
 )
 
 _TEMPORAL_TOOLS = frozenset({"get_historical_values", "i3x_get_history"})
@@ -70,6 +105,11 @@ class EvaluationReport(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     scenario_id: str
+
+    #: The scenario-preparation generation this report was scoped to (see
+    #: module docstring); None if the caller didn't pass one, in which case
+    #: relationship confirmation is ungated (original M8 behavior).
+    generation_id: str | None = None
 
     # -- required evidence -------------------------------------------------
     required_evidence_hits: dict[str, bool]
@@ -116,12 +156,22 @@ class GroundedInvestigationEvaluator:
         scenario: BenchmarkScenario,
         result: InvestigationResult,
         trace: list[TraceEvent],
+        *,
+        generation_id: str | None = None,
     ) -> EvaluationReport:
         ground_truth = scenario.ground_truth
         text = self._collect_text(result).lower()
 
+        retrieved_ids = self._retrieved_value_ids(trace)
+        asserted_ids = {evidence.identifier for evidence in result.evidence}
+
         required_hits = {
-            item: item.lower() in text for item in ground_truth.expected_evidence
+            item: (
+                item in retrieved_ids
+                or item in asserted_ids
+                or item.lower() in text
+            )
+            for item in ground_truth.expected_evidence
         }
         required_score = self._ratio(required_hits)
 
@@ -151,7 +201,9 @@ class GroundedInvestigationEvaluator:
                 subject=subject,
                 predicate=predicate,
                 object=object_,
-                confirmed=self._relationship_confirmed(subject, predicate, object_, trace),
+                confirmed=self._relationship_confirmed(
+                    subject, predicate, object_, trace, generation_id
+                ),
             )
             for subject, predicate, object_ in ground_truth.expected_relationships
         ]
@@ -204,6 +256,7 @@ class GroundedInvestigationEvaluator:
 
         return EvaluationReport(
             scenario_id=scenario.scenario_id,
+            generation_id=generation_id,
             required_evidence_hits=required_hits,
             required_evidence_score=required_score,
             evidence_has_valid_provenance=provenance_ok,
@@ -238,7 +291,44 @@ class GroundedInvestigationEvaluator:
 
     @staticmethod
     def _collect_text(result: InvestigationResult) -> str:
-        return "\n".join([result.objective, result.conclusion, str(result.findings)])
+        # Deliberately objective + conclusion ONLY -- not `findings`. Raw
+        # findings/tool-response dumps are what the agent *saw*, not what
+        # it *claimed*; scanning them for required-evidence/causal-mention
+        # checks is what let an unrelated get_entity_relationships response
+        # satisfy a measurement's evidence requirement (see module
+        # docstring). Value-level evidence is checked separately via
+        # `_retrieved_value_ids`.
+        return f"{result.objective}\n{result.conclusion}"
+
+    @staticmethod
+    def _retrieved_value_ids(trace: list[TraceEvent]) -> set[str]:
+        """
+        Identifiers the agent actually retrieved A VALUE for -- as opposed
+        to identifiers merely mentioned in a structural/discovery response
+        (relationships, UNS/OPC UA/i3X browsing).
+        """
+
+        ids: set[str] = set()
+
+        for event in trace:
+            if event.tool not in _VALUE_BEARING_TOOLS:
+                continue
+
+            result = event.result or {}
+
+            observation = result.get("observation")
+            if isinstance(observation, dict) and observation.get("measurement_id"):
+                ids.add(observation["measurement_id"])
+
+            for observation in result.get("observations") or []:
+                if isinstance(observation, dict) and observation.get("measurement_id"):
+                    ids.add(observation["measurement_id"])
+
+            element_id = result.get("element_id")
+            if element_id:
+                ids.add(element_id)
+
+        return ids
 
     @staticmethod
     def _slug(canonical_id: str) -> str:
@@ -280,6 +370,7 @@ class GroundedInvestigationEvaluator:
         predicate: str,
         object_: str,
         trace: list[TraceEvent],
+        generation_id: str | None,
     ) -> bool:
         for event in trace:
             if event.tool not in _RELATIONSHIP_TOOLS:
@@ -288,11 +379,19 @@ class GroundedInvestigationEvaluator:
             relationships = (event.result or {}).get("relationships", [])
 
             for relationship in relationships:
-                if (
+                if not (
                     relationship.get("subject") == subject
                     and relationship.get("predicate") == predicate
                     and relationship.get("object") == object_
                 ):
+                    continue
+
+                # Ungated when no generation_id was supplied (original M8
+                # behavior); otherwise the confirming relationship must
+                # belong to THIS scenario preparation -- not an unrelated
+                # earlier run's edge sitting in the same shared,
+                # persistent knowledge graph.
+                if generation_id is None or relationship.get("generation_id") == generation_id:
                     return True
 
         return False

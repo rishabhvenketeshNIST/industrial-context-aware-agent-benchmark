@@ -44,15 +44,26 @@ class TEPContextSync:
         self.mqtt_publisher = mqtt_publisher
         self.adapter = adapter or TEPAdapter()
 
-    def sync(self, simulator: TEPSimulator) -> CIMEnvironment:
+    def sync(
+        self,
+        simulator: TEPSimulator,
+        *,
+        generation_id: str | None = None,
+    ) -> CIMEnvironment:
         """
         Build a CIM environment from the simulator's current state and load
         it into the historian and knowledge graph (and, if configured,
         publish it to MQTT). Returns the environment that was loaded.
+
+        ``generation_id``, when given, tags the written observations/
+        relationships with which scenario preparation produced them (see
+        icab.scenarios.runner.ScenarioRunner) -- provenance that lets a
+        benchmark run distinguish its own data from an unrelated run's
+        leftovers in the same shared, persistent historian/knowledge graph.
         """
 
         state = simulator.get_state()
-        environment = self.adapter.build_real_environment(state)
+        environment = self.adapter.build_real_environment(state, generation_id=generation_id)
 
         self.environment_loader.load(environment)
 

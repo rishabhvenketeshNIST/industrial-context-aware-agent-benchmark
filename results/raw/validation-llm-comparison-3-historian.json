@@ -1,0 +1,121 @@
+{
+  "run_id": "validation-llm-comparison-3-historian",
+  "experiment_id": "validation-llm-comparison-3",
+  "config": {
+    "scenario_id": "d2_reactor_context_combination",
+    "architectures": [
+      "historian"
+    ],
+    "agent_type": "llm",
+    "deterministic_agent": null,
+    "deterministic_equipment_key": null,
+    "llm_model": "gemma-4-31B-it",
+    "llm_temperature": 0.0,
+    "max_steps": 10,
+    "random_seed": null
+  },
+  "scenario_difficulty": "D2",
+  "simulation_seed": 102,
+  "generation_id": "265395a41ba04006a6efa17b69062cc5",
+  "icab_version": "0.1.0",
+  "started_at": "2026-09-13T14:49:26.580486Z",
+  "completed_at": "2026-09-13T14:49:40.921718Z",
+  "status": "completed",
+  "error": null,
+  "validity": "valid",
+  "validity_reason": null,
+  "result": {
+    "objective": "Report the reactor's current pressure and level, and identify which piece of equipment monitors the reactor pressure measurement according to the knowledge graph.\n",
+    "conclusion": "Investigation did not conclude within the step budget.",
+    "findings": {
+      "get_current_value#1": {
+        "observation": null
+      },
+      "get_current_value#2": {
+        "observation": null
+      },
+      "get_current_value#3": {
+        "observation": null
+      },
+      "get_current_value#4": {
+        "observation": null
+      },
+      "get_current_value#5": {
+        "observation": null
+      },
+      "get_current_value#6": {
+        "observation": null
+      },
+      "get_current_value#7": {
+        "observation": null
+      },
+      "get_current_value#8": {
+        "observation": null
+      },
+      "get_current_value#9": {
+        "observation": null
+      },
+      "get_current_value#10": {
+        "observation": null
+      }
+    },
+    "context": {
+      "assets": [],
+      "measurements": [],
+      "relationships": [],
+      "provenance": []
+    },
+    "evidence": [
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_level"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_sensor"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_transmitter"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_indicator"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_gauge"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_sensor_id"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_sensor_1"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_sensor_2"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_transmitter_1"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_transmitter_2"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_sensor_3"
+      }
+    ],
+    "termination": "step_budget_exceeded"
+  },
+  "trace_event_count": 12
+}

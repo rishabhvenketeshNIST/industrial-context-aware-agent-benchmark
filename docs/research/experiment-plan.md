@@ -23,16 +23,20 @@ is the newer, richer path built on the M5 `BenchmarkScenario`/
 | `scenario_id` | Which `BenchmarkScenario` (configs/benchmark/scenarios/) |
 | `architectures` | Explicit tool-availability list -- e.g. `["historian"]` or `["historian", "knowledge_graph"]`. Never inherited implicitly from the scenario. |
 | `agent_type` | `deterministic` or `llm` |
-| `deterministic_agent` | `structured_retrieval` / `context_aware` / `architecture_aware`, when `agent_type == deterministic` |
+| `deterministic_agent` | `structured_retrieval` / `context_aware` / `architecture_aware` (legacy, control-only -- see "Resolved" below) or `scenario_aware` (real-data-aware, benchmark-eligible), when `agent_type == deterministic` |
+| `deterministic_equipment_key` | Only for `scenario_aware`: which `REAL_TEP_EQUIPMENT` item to inspect (default `"reactor"`) |
 | `llm_model`, `llm_temperature` | LLM generation config, recorded even when a default was used |
 | `max_steps` | Tool/context budget (LLM only; see "Budgets" below) |
 | `random_seed` | Reserved for agent-side stochasticity, distinct from the scenario's own simulation seed (see "Seeds" below) |
 
 `ExperimentRecord` (what happened) adds: `run_id`, `experiment_id` (groups
 related runs, e.g. an architecture sweep), `scenario_difficulty`,
-`simulation_seed`, `icab_version`, `started_at`/`completed_at`, `status`
-(`completed`/`failed`), `error`, `result` (the full `InvestigationResult`),
-`evaluation` (the full `EvaluationReport`), and `trace_event_count`.
+`simulation_seed`, `generation_id` (the scenario-preparation provenance
+tag -- see "Resolved" below), `icab_version`, `started_at`/`completed_at`,
+`status` (`completed`/`failed`), `validity`/`validity_reason` (whether this
+run is eligible for the main benchmark -- see "Resolved" below), `error`,
+`result` (the full `InvestigationResult`), `evaluation` (the full
+`EvaluationReport`), and `trace_event_count`.
 
 ## Storage layout
 
@@ -71,12 +75,20 @@ uv run python scripts/run_experiment.py --compare \
     --scenario d2_reactor_context_combination \
     --architectures historian --architectures historian,knowledge_graph \
     --agent-type llm
+
+# scenario-aware deterministic baseline (real data, benchmark-eligible)
+uv run python scripts/run_experiment.py \
+    --scenario d1_reactor_pressure_reading --architectures historian,knowledge_graph,uns \
+    --agent-type deterministic --deterministic-agent scenario_aware
 ```
 
 `--compare` (or passing `--architectures` more than once) calls
 `ExperimentRunner.compare_architectures`, which prepares the scenario
 **once** and runs every architecture group against that one preparation,
-then writes `results/aggregate/<experiment_id>.{json,csv}`.
+then writes `results/aggregate/<experiment_id>.{json,csv}` -- excluding
+`LEGACY_CONTROL_ONLY` runs by default (pass
+`--include-invalid-in-aggregate` to include them, clearly labeled, if you
+specifically want to compare against a control baseline).
 
 ## Research design decisions (as requested, explicitly)
 
@@ -155,11 +167,12 @@ the same run; `results/aggregate/<experiment_id>.{json,csv}` rows carry
 `run_id` as their first column specifically so a row in an aggregate table
 can always be traced back to its full record and trace.
 
-## A discovered, unresolved research-design issue (needs your decision)
+## Resolved: legacy-baseline contamination (research-design decision)
 
 Running the deterministic-baseline experiment configuration against a
 real `BenchmarkScenario` surfaced two compounding problems, verified live
-against the running stack, not hypothesized:
+against the running stack, not hypothesized. Both are now resolved,
+following an explicit decision (recorded here) rather than a silent fix:
 
 1. **The pre-M5 deterministic baselines don't see real scenario data.**
    `StructuredRetrievalAgent`/`ContextAwareAgent`/`ArchitectureAwareAgent`
@@ -167,49 +180,134 @@ against the running stack, not hypothesized:
    static-prototype canonical ids (`urn:icab:measurement:tep_pv_*`), UNS
    path (`site/tep/reaction/reactor`), and a *different* OPC UA server
    (the static demo on port 4840, not the TEP-backed one on port 4841).
-   Running `scripts/run_experiment.py --agent-type deterministic
-   --deterministic-agent structured_retrieval` against `d1_reactor_pressure_reading`
+   Running the legacy baseline against `d1_reactor_pressure_reading`
    produced the conclusion *"Current reactor pressure is 2834.0 kPa"* --
    the old static fixture value, not the scenario's actual simulated
    pressure (~2705-2708 kPa). The deterministic baseline "ran successfully"
    but investigated the wrong data entirely.
 
-2. **`required_evidence` keyword-substring scoring can be fooled by
-   shared, cumulative knowledge-graph state.** That same run still scored
+2. **`required_evidence` scoring could be satisfied by shared, cumulative
+   knowledge-graph state.** That same run still scored
    `required_evidence_score == 1.0`. Why: `urn:icab:equipment:reactor` is
    intentionally shared between the legacy and real canonical-id
    namespaces (M2's design decision), and Neo4j is shared, persistent
    infrastructure across every run this benchmark has ever executed --
-   so `get_entity_relationships("urn:icab:equipment:reactor")` returns
+   so `get_entity_relationships("urn:icab:equipment:reactor")` returned
    *all 15* relationships ever written for that entity (confirmed via a
    direct query), including the real `MONITORS -> reactor_pressure` edge
    from unrelated prior scenario runs. The ground truth's required
-   canonical id string is present in the stringified findings blob purely
-   because of that unrelated side effect -- not because the agent
-   retrieved or grounded on that measurement's value. This is a real false
-   positive, not a hypothetical one.
+   canonical id string was present in the response purely because of that
+   unrelated side effect -- not because the agent retrieved or grounded on
+   that measurement's value.
 
-Both are pre-existing conditions (the legacy baselines; the shared,
-persistent Neo4j instance) that M9 surfaced by actually exercising them
-end-to-end, not something M9 introduced. Per "keep the deterministic
-baseline agents unchanged," neither was patched. Flagging this explicitly
-rather than presenting the deterministic-agent experiment path as fully
-validated: **the LLM-agent experiment path is fully validated (see the
-real runs below); the deterministic-baseline path is schema/runner-complete
-but currently produces misleading results against M5 scenarios**, and
-needs a decision on one or more of:
+### Decision (as directed)
 
-- Update the legacy baselines to use real canonical ids/paths (a real
-  change to agents previously asked to stay unchanged).
-- Tighten `required_evidence` scoring to require the match come from a
-  tool call that specifically targeted that identifier (e.g. the
-  `get_current_value`/`get_historical_values` request's own
-  `measurement_id` argument), not just presence anywhere in the run's
-  full findings text -- closing the false-positive path independent of
-  the baseline-agent issue.
-- Scope "deterministic baseline" experiments, for now, to the original
-  static prototype scenario rather than M5 `BenchmarkScenario`s, until one
-  of the above is addressed.
+The deterministic baseline agents were **not modified** -- their
+implementation and existing tests are untouched. Instead:
+
+**1. Legacy vs. scenario-aware baselines are now a first-class
+distinction.** `DeterministicAgentKind` splits into the three *legacy*
+kinds (`structured_retrieval`/`context_aware`/`architecture_aware`,
+`LEGACY_DETERMINISTIC_AGENT_KINDS`) and a new `scenario_aware` kind. Every
+`ExperimentRecord` carries `validity: RunValidity` (`VALID` or
+`LEGACY_CONTROL_ONLY`) computed purely from the agent kind requested --
+`ExperimentRunner._validity_for` marks a run `LEGACY_CONTROL_ONLY`
+whenever `deterministic_agent` is one of the three legacy kinds,
+regardless of whether it completes successfully. Legacy runs still
+execute in full (preserving their regression/control value) and are still
+fully persisted (`raw`/`traces`/`evaluations`); they are simply labeled.
+
+**2. The benchmark cannot accidentally include them.**
+`ExperimentResultStore.write_aggregate` excludes non-`VALID` runs from the
+comparison table **by default** (`excluded_invalid_runs` in the JSON
+output records how many); an explicit `include_invalid=True`
+(`--include-invalid-in-aggregate` on the CLI) is required to see them
+alongside real comparisons, and even then their `validity`/
+`validity_reason` columns keep them clearly labeled rather than blending
+in with valid results.
+
+**3. A new, separate, scenario-aware baseline was added.**
+`icab.agent.baseline.scenario_aware.ScenarioAwareBaselineAgent` (a new
+file, not a modification of any existing agent) is deterministic and
+fixed like the legacy baselines, but built entirely on real data: it
+resolves its target equipment's canonical id from
+`icab.tep.measurements.REAL_TEP_EQUIPMENT`, discovers that equipment's
+real measurements by actually browsing the live UNS tree
+(`browse_uns("site/tep/<equipment_key>")`), retrieves each one's current
+value from the gateway, and confirms relationships via
+`get_entity_relationships` -- no legacy id or value appears anywhere in
+it. `DeterministicAgentKind.SCENARIO_AWARE` is `RunValidity.VALID`, same
+as the LLM agent.
+
+**4. `required_evidence` scoring was independently tightened** (this is
+the fix that directly closes the false-positive, and the reason the fix
+holds even for a legacy baseline run, not only once agents are updated):
+`GroundedInvestigationEvaluator` no longer credits a canonical id as
+"found" merely because it appears somewhere in a raw
+`get_entity_relationships`/other structural tool response. A hit now
+requires one of: the id was the `measurement_id`/`element_id` of an
+*actual value retrieval* (`get_current_value`/`get_historical_values`/
+`i3x_get_value`/`i3x_get_history`), the agent's own structured
+`evidence[].identifier`, or literal mention in the agent's own
+`conclusion` text. Verified against the real, already-contaminated
+Neo4j instance: the SAME legacy-baseline run that previously scored
+`required_evidence_score == 1.0` now scores `0.0` --
+see "Validation" below.
+
+### Provenance mechanism (the general fix requested)
+
+Beyond the specific `required_evidence` bug, a run/experiment provenance
+tag was added so relationship-based ground truth checks (and any future
+use) can tell current-run data apart from other runs'/static reference
+data, **without clearing the shared historian/knowledge graph** (kept, per
+instruction, since historical accumulation may be useful for future ICAB
+experiments):
+
+- `icab.cim.Observation`/`Relationship` gained an additive
+  `generation_id: str | None` field (`None` = written outside this
+  mechanism, e.g. the legacy static-prototype loader -- i.e. "static/
+  reference data").
+- `icab.scenarios.runner.ScenarioRunner.prepare()` mints **one**
+  `generation_id` (a fresh UUID) per scenario preparation and threads it
+  through every `TEPContextSync.sync()` call in that preparation --
+  `ScenarioRunResult.generation_id` exposes it.
+- `TEPAdapter.build_real_environment(..., generation_id=...)` tags every
+  observation/relationship it builds; the Postgres `observations` table
+  and Neo4j `RELATIONSHIP` edges both persist and return it (the
+  historian via a non-destructive `ALTER TABLE ... ADD COLUMN
+  generation_id`, not a drop/recreate, to preserve existing data).
+- `ExperimentRunner` passes the current run's `generation_id` into
+  `GroundedInvestigationEvaluator.evaluate(..., generation_id=...)`, which
+  uses it to scope `expected_relationships` confirmation: a matching
+  relationship only counts if it was tagged with *this* generation.
+  Passing no `generation_id` (existing M8 callers) preserves the original,
+  ungated behavior.
+- **A bug in this mechanism was itself caught by live validation, not
+  just unit tests**: the Neo4j read query's `RETURN` clause initially
+  omitted `generation_id` (only the write path's `SET` clause included
+  it), so every read silently came back `null` despite correct writes.
+  Unit tests using `InMemoryKnowledgeGraphRepository`/mocks never
+  exercised the real Cypher query and did not catch this; a live
+  architecture-comparison run against the actual Neo4j instance did
+  (`relationship_score` stayed `0.0` when it should have been `1.0`).
+  Fixed, and now covered by a dedicated real-Neo4j regression test
+  (`tests/integration/test_knowledge_graph_neo4j.py::
+  test_neo4j_relationship_generation_id_round_trips`). Recorded here as a
+  reminder that this class of bug (a real backend integration silently
+  dropping a field) is exactly what unit tests with in-memory fakes
+  cannot catch -- the live validation step is not optional.
+
+Note on why relationships needed generation-scoping but a similar
+"historian value contamination" concern did not: historian rows are
+timestamp+measurement_id keyed and immutable, and scenario epochs are
+already seed-distinct (M5) so a `get_current_value` query is already
+correctly scoped by construction -- there was never a cross-run value
+leak, only mis-attribution of relationship-listing (structural) data as
+value evidence, which item 4 above closes directly. Relationship edges,
+by contrast, are `MERGE`d (one edge per subject/predicate/object,
+overwritten on every write) -- generation-scoping is what lets a query
+tell "this run's own knowledge graph state" apart from an edge some
+*other* run's preparation last touched.
 
 ## Validation: real runs against the live stack
 
@@ -237,3 +335,24 @@ objective, differing only in which architecture's tools the agent had.
 
 `results/aggregate/compare-d2_reactor_context_combination-*.csv` has the
 full row-per-run comparison.
+
+### Post-hardening re-validation (legacy contamination fix)
+
+Re-run against the actual, already-contaminated Neo4j instance (the same
+one with the 15-relationship "reactor" entity from the original incident)
+after the fix above:
+
+| Run | agent | validity | required_evidence | relationship | completeness | conclusion |
+|---|---|---|---|---|---|---|
+| legacy control (`structured_retrieval`, `d1`) | deterministic (legacy) | `legacy_control_only` | **0.00** (was 1.00) | 1.00 (vacuous -- D1 has no expected_relationships) | 0.67 | *"Current reactor pressure is 2834.0 kPa"* (still the wrong, legacy value -- unchanged, as expected, since the agent itself was not touched) |
+| scenario-aware (`scenario_aware`, `d1`) | deterministic (new) | `valid` | 1.00 | 1.00 | 1.00 | *"...urn:icab:measurement:reactor_pressure=2708.37... kPa gauge..."* (the real value) |
+| architecture comparison, `historian` only (`d2`) | llm | `valid` | 1.00 | 0.00 (tool not available) | 0.33 | ran out of step budget |
+| architecture comparison, `historian+knowledge_graph` (`d2`) | llm | `valid` | 1.00 | **1.00** (generation-scoped confirmation, once the Neo4j read-query bug above was also fixed) | 1.00 | correct, grounded |
+
+The legacy-baseline run's `required_evidence_score` dropping from the
+original `1.0` to `0.0` -- against the exact same real, contaminated
+knowledge graph, with the legacy agent completely unmodified -- is the
+direct, live confirmation that an old/contaminated relationship can no
+longer cause a benchmark score to pass accidentally. It is also correctly
+excluded from `write_aggregate`'s comparison table by default
+(`validity=legacy_control_only`).

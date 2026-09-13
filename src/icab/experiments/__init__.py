@@ -1,14 +1,17 @@
 from .models import (
+    LEGACY_DETERMINISTIC_AGENT_KINDS,
     AgentType,
     DeterministicAgentKind,
     ExperimentConfig,
     ExperimentRecord,
     ExperimentRunStatus,
+    RunValidity,
 )
 from .runner import ExperimentRunner
 from .storage import ExperimentResultStore
 
 __all__ = [
+    "LEGACY_DETERMINISTIC_AGENT_KINDS",
     "AgentType",
     "DeterministicAgentKind",
     "ExperimentConfig",
@@ -16,4 +19,5 @@ __all__ = [
     "ExperimentResultStore",
     "ExperimentRunStatus",
     "ExperimentRunner",
+    "RunValidity",
 ]

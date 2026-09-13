@@ -13,6 +13,7 @@ retrieved, rather than only a single final snapshot.
 
 from __future__ import annotations
 
+import uuid
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from typing import Any
@@ -34,6 +35,13 @@ class ScenarioRunResult:
     scenario: BenchmarkScenario
     simulator: TEPSimulator
     environment: CIMEnvironment
+    #: Provenance tag shared by every observation/relationship this
+    #: preparation wrote (see `ScenarioRunner.prepare` and
+    #: `icab.evaluation.grounded.GroundedInvestigationEvaluator`'s
+    #: `generation_id` parameter) -- lets a benchmark run distinguish its
+    #: own data from an unrelated run's leftovers in the same shared,
+    #: persistent historian/knowledge graph.
+    generation_id: str = ""
     events: list[dict[str, Any]] = field(default_factory=list)
     sync_count: int = 0
 
@@ -49,6 +57,14 @@ class ScenarioRunner:
         Reset, warm up, run (activating scheduled faults), and periodically
         sync a fresh simulator for ``scenario``. Returns the final state.
         """
+
+        # One generation_id per preparation, shared by every sync() call
+        # below (and, in turn, every observation/relationship they write) --
+        # the provenance tag that lets this run's data be told apart from
+        # an unrelated run's leftovers in the same shared, persistent
+        # historian/knowledge graph. See ExperimentRunner/
+        # GroundedInvestigationEvaluator's generation_id parameter.
+        generation_id = uuid.uuid4().hex
 
         simulator = TEPSimulator(epoch=self._epoch_for(scenario))
         simulator.reset(seed=scenario.seed)
@@ -67,7 +83,7 @@ class ScenarioRunner:
         fault_index = 0
         total_hours = scenario.warmup_hours + scenario.duration_hours
 
-        self.context_sync.sync(simulator)
+        self.context_sync.sync(simulator, generation_id=generation_id)
         sync_count += 1
 
         while elapsed < total_hours - 1e-9:
@@ -83,13 +99,14 @@ class ScenarioRunner:
             simulator.step(duration=step)
             elapsed += step
 
-            environment = self.context_sync.sync(simulator)
+            environment = self.context_sync.sync(simulator, generation_id=generation_id)
             sync_count += 1
 
         return ScenarioRunResult(
             scenario=scenario,
             simulator=simulator,
             environment=environment,
+            generation_id=generation_id,
             events=simulator.get_events(),
             sync_count=sync_count,
         )

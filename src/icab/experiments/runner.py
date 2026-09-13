@@ -15,6 +15,7 @@ from importlib.metadata import PackageNotFoundError, version as _pkg_version
 from typing import Any
 
 from icab.agent.architecture_aware import ArchitectureAwareAgent
+from icab.agent.baseline.scenario_aware import ScenarioAwareBaselineAgent
 from icab.agent.baseline.structured_retrieval import StructuredRetrievalAgent
 from icab.agent.client import AgentGatewayClient
 from icab.agent.context_aware import ContextAwareAgent
@@ -25,16 +26,19 @@ from icab.agent.llm.tools import tools_for_architectures
 from icab.common.config import get_settings
 from icab.evaluation.grounded import GroundedInvestigationEvaluator
 from icab.scenarios import BenchmarkScenarioRegistry
+from icab.scenarios.models import BenchmarkScenario
 from icab.scenarios.runner import ScenarioRunner
 from icab.trace.collector import TraceCollector
 from icab.trace.models import TraceEvent
 
 from .models import (
+    LEGACY_DETERMINISTIC_AGENT_KINDS,
     AgentType,
     DeterministicAgentKind,
     ExperimentConfig,
     ExperimentRecord,
     ExperimentRunStatus,
+    RunValidity,
 )
 
 LLMClientFactory = Callable[[ExperimentConfig], LLMClient]
@@ -86,7 +90,7 @@ class ExperimentRunner:
         """
 
         scenario = self.scenario_registry.get(config.scenario_id)
-        self.scenario_runner.prepare(scenario)
+        run_result = self.scenario_runner.prepare(scenario)
 
         resolved_run_id = run_id or self._default_run_id(config)
 
@@ -95,6 +99,7 @@ class ExperimentRunner:
             config,
             run_id=resolved_run_id,
             experiment_id=experiment_id or resolved_run_id,
+            generation_id=run_result.generation_id,
         )
 
     def compare_architectures(
@@ -122,10 +127,10 @@ class ExperimentRunner:
 
         # Prepare the scenario ONCE: every architecture variant below
         # investigates the exact same already-synced historian/knowledge
-        # graph/MQTT state, not a fresh (still deterministic, but
-        # redundant) re-run per architecture.
+        # graph/MQTT state (same generation_id), not a fresh (still
+        # deterministic, but redundant) re-run per architecture.
         scenario = self.scenario_registry.get(scenario_id)
-        self.scenario_runner.prepare(scenario)
+        run_result = self.scenario_runner.prepare(scenario)
 
         runs = []
 
@@ -148,6 +153,7 @@ class ExperimentRunner:
                 config,
                 run_id=run_id,
                 experiment_id=experiment_id,
+                generation_id=run_result.generation_id,
             )
             runs.append((record, trace))
 
@@ -155,13 +161,15 @@ class ExperimentRunner:
 
     def _run_prepared(
         self,
-        scenario: Any,
+        scenario: BenchmarkScenario,
         config: ExperimentConfig,
         *,
         run_id: str,
         experiment_id: str,
+        generation_id: str,
     ) -> tuple[ExperimentRecord, list[TraceEvent]]:
         resolved_config = self._resolve_config(config)
+        validity, validity_reason = self._validity_for(resolved_config)
 
         started_at = datetime.now(UTC)
         trace_collector = TraceCollector()
@@ -189,7 +197,9 @@ class ExperimentRunner:
 
         evaluation = None
         if result is not None:
-            evaluation = self.evaluator.evaluate(scenario, result, trace)
+            evaluation = self.evaluator.evaluate(
+                scenario, result, trace, generation_id=generation_id
+            )
 
         record = ExperimentRecord(
             run_id=run_id,
@@ -197,11 +207,14 @@ class ExperimentRunner:
             config=resolved_config,
             scenario_difficulty=scenario.difficulty.value,
             simulation_seed=scenario.seed,
+            generation_id=generation_id,
             icab_version=_icab_version(),
             started_at=started_at,
             completed_at=completed_at,
             status=status,
             error=error,
+            validity=validity,
+            validity_reason=validity_reason,
             result=result,
             evaluation=evaluation,
             trace_event_count=len(trace),
@@ -241,6 +254,12 @@ class ExperimentRunner:
                     f"got: {config.architectures}"
                 )
             return ArchitectureAwareAgent(gateway_client, architecture=config.architectures[0])
+
+        if kind == DeterministicAgentKind.SCENARIO_AWARE:
+            kwargs = {}
+            if config.deterministic_equipment_key:
+                kwargs["equipment_key"] = config.deterministic_equipment_key
+            return ScenarioAwareBaselineAgent(gateway_client, **kwargs)
 
         raise ValueError(f"Unknown deterministic agent kind: {kind}")
 
@@ -299,3 +318,31 @@ class ExperimentRunner:
     def _default_run_id(config: ExperimentConfig) -> str:
         architectures = "+".join(config.architectures)
         return f"{config.scenario_id}-{architectures}-{uuid.uuid4().hex[:8]}"
+
+    @staticmethod
+    def _validity_for(config: ExperimentConfig) -> tuple[RunValidity, str | None]:
+        """
+        Whether this config is eligible for the main architecture-comparison
+        benchmark. Legacy deterministic baselines never are, regardless of
+        whether they complete successfully -- see
+        docs/research/experiment-plan.md for the incident that motivated
+        this and ExperimentResultStore.write_aggregate for where it's
+        enforced.
+        """
+
+        if (
+            config.agent_type == AgentType.DETERMINISTIC
+            and config.deterministic_agent in LEGACY_DETERMINISTIC_AGENT_KINDS
+        ):
+            return (
+                RunValidity.LEGACY_CONTROL_ONLY,
+                (
+                    f"{config.deterministic_agent.value} is a legacy, pre-M5 "
+                    "deterministic baseline hard-coded to static-prototype "
+                    "canonical ids/paths -- it does not access this scenario's "
+                    "real data. Regression/control use only; excluded from "
+                    "the main architecture-comparison benchmark by default."
+                ),
+            )
+
+        return RunValidity.VALID, None

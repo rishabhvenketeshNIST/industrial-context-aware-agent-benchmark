@@ -34,23 +34,59 @@ class DeterministicAgentKind(StrEnum):
     Which deterministic baseline agent to run when
     ``ExperimentConfig.agent_type == AgentType.DETERMINISTIC``.
 
-    Unlike the LLM agent, none of these support an arbitrary
-    ``architectures`` list: ``STRUCTURED_RETRIEVAL``/``CONTEXT_AWARE`` are
-    fixed-strategy baselines with a hard-coded tool sequence (their
-    ``architectures`` config value is recorded for labeling only, not
-    enforced); ``ARCHITECTURE_AWARE`` takes exactly one architecture. This
-    is a real, documented limitation of the existing baselines, not an
-    oversight in the experiment schema.
+    ``STRUCTURED_RETRIEVAL``/``CONTEXT_AWARE``/``ARCHITECTURE_AWARE`` are
+    the pre-M5 *legacy* baselines: hard-coded to the static-prototype
+    canonical ids/paths (and, for ARCHITECTURE_AWARE's OPC UA path, a
+    different OPC UA server entirely), so they do not see a real
+    BenchmarkScenario's own data. Verified live during M9: a legacy-baseline
+    run against a real scenario concluded with the OLD static fixture value,
+    not the scenario's actual simulated state. Kept unchanged (regression/
+    control value only -- see RunValidity.LEGACY_CONTROL_ONLY) rather than
+    updated, per an explicit decision not to modify these agents.
+
+    ``SCENARIO_AWARE`` is the M9 real-data-aware baseline
+    (icab.agent.baseline.scenario_aware.ScenarioAwareBaselineAgent): fixed,
+    deterministic tool sequence like the legacy baselines, but built on
+    real canonical ids discovered from the live scenario/UNS tree, so it IS
+    eligible for the main benchmark comparison.
     """
 
     STRUCTURED_RETRIEVAL = "structured_retrieval"
     CONTEXT_AWARE = "context_aware"
     ARCHITECTURE_AWARE = "architecture_aware"
+    SCENARIO_AWARE = "scenario_aware"
+
+
+#: The legacy, pre-M5 deterministic baselines -- not benchmark-eligible
+#: against a real BenchmarkScenario (see DeterministicAgentKind, RunValidity).
+LEGACY_DETERMINISTIC_AGENT_KINDS = frozenset(
+    {
+        DeterministicAgentKind.STRUCTURED_RETRIEVAL,
+        DeterministicAgentKind.CONTEXT_AWARE,
+        DeterministicAgentKind.ARCHITECTURE_AWARE,
+    }
+)
 
 
 class ExperimentRunStatus(StrEnum):
     COMPLETED = "completed"
     FAILED = "failed"
+
+
+class RunValidity(StrEnum):
+    """
+    Whether a run is eligible for the main architecture-comparison
+    benchmark, independent of whether it completed successfully.
+
+    A run can be ``status=COMPLETED`` and still be
+    ``LEGACY_CONTROL_ONLY`` -- it ran fine, but its agent is known not to
+    access the scenario's actual data, so its scores must not be presented
+    alongside real benchmark comparisons. See
+    docs/research/experiment-plan.md for the incident that motivated this.
+    """
+
+    VALID = "valid"
+    LEGACY_CONTROL_ONLY = "legacy_control_only"
 
 
 class ExperimentConfig(BaseModel):
@@ -74,6 +110,12 @@ class ExperimentConfig(BaseModel):
 
     #: Required when agent_type == DETERMINISTIC.
     deterministic_agent: DeterministicAgentKind | None = None
+
+    #: Only meaningful for deterministic_agent == SCENARIO_AWARE -- which
+    #: real equipment item (icab.tep.measurements.REAL_TEP_EQUIPMENT key,
+    #: e.g. "reactor", "stripper") ScenarioAwareBaselineAgent inspects.
+    #: Defaults to that agent's own default ("reactor") when unset.
+    deterministic_equipment_key: str | None = None
 
     #: LLM generation config -- recorded regardless of whether it was
     #: explicitly set, so it's auditable even when a default was used.
@@ -124,6 +166,15 @@ class ExperimentRecord(BaseModel):
     simulation_seed: int = Field(
         description="The BenchmarkScenario's own seed -- drives the TEP simulator."
     )
+    generation_id: str | None = Field(
+        default=None,
+        description=(
+            "The scenario-preparation provenance tag this run's data was "
+            "written under (icab.scenarios.runner.ScenarioRunner); used to "
+            "scope this run's own evidence in the evaluator. See "
+            "icab.cim.Relationship/Observation.generation_id."
+        ),
+    )
 
     icab_version: str | None = None
 
@@ -132,6 +183,12 @@ class ExperimentRecord(BaseModel):
 
     status: ExperimentRunStatus
     error: str | None = None
+
+    validity: RunValidity = RunValidity.VALID
+    validity_reason: str | None = Field(
+        default=None,
+        description="Why this run is not VALID, when it isn't -- see RunValidity.",
+    )
 
     result: InvestigationResult | None = None
     evaluation: EvaluationReport | None = None

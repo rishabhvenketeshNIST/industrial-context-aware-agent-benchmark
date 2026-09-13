@@ -1,3 +1,4 @@
+import time
 from typing import Any
 
 import httpx
@@ -39,10 +40,14 @@ class AgentGatewayClient:
 
         url = f"{self.base_url}/tools/{tool_name}"
 
+        started = time.perf_counter()
+
         if method == "GET":
             response = httpx.get(url, params=arguments, timeout=self.timeout)
         else:
             response = httpx.post(url, json=arguments, timeout=self.timeout)
+
+        latency_ms = (time.perf_counter() - started) * 1000.0
 
         response.raise_for_status()
 
@@ -55,6 +60,7 @@ class AgentGatewayClient:
                 tool=tool_name,
                 arguments=arguments,
                 result=result,
+                latency_ms=latency_ms,
                 context_acquired=context_acquired,
                 context_consumed=context_consumed,
             )

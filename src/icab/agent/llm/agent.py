@@ -99,6 +99,16 @@ class LLMInvestigationAgent(Agent):
         for step in range(1, self.max_steps + 1):
             response = self.llm.generate(messages=messages, tools=self._tool_specs)
 
+            if self.client.trace_collector is not None and response.token_usage is not None:
+                # A separate action from "tool_call" -- this is the LLM
+                # provider call itself, not an ICAB Gateway tool, recorded
+                # only for token-usage accounting (ExperimentRecord.total_tokens).
+                self.client.trace_collector.record(
+                    step=step,
+                    action="llm_generate",
+                    token_usage=response.token_usage,
+                )
+
             if not response.tool_calls:
                 # The model answered directly instead of submitting -- its
                 # text carries no tool-backed evidence, but is still

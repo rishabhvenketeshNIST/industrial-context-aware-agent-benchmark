@@ -20,6 +20,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from icab.agent.interface import InvestigationResult
 from icab.evaluation.grounded import EvaluationReport
+from icab.evaluation.information_flow import InformationFlowReport
 
 
 class AgentType(StrEnum):
@@ -105,6 +106,12 @@ class ExperimentConfig(BaseModel):
     #: the LLM agent via `tools_for_architectures`; see
     #: `DeterministicAgentKind` for the deterministic baselines' caveat.
     architectures: list[str] = Field(min_length=1)
+
+    #: Which named preset (icab.experiments.architecture_combinations,
+    #: M10) `architectures` came from, if any -- a label for aggregate
+    #: reporting, not a second enforcement path; `architectures` above is
+    #: still what's actually enforced.
+    architecture_combination_key: str | None = None
 
     agent_type: AgentType
 
@@ -192,4 +199,22 @@ class ExperimentRecord(BaseModel):
 
     result: InvestigationResult | None = None
     evaluation: EvaluationReport | None = None
+    information_flow: InformationFlowReport | None = Field(
+        default=None,
+        description=(
+            "Discoverability/acquisition/redundancy analysis of this run's "
+            "trace (M10) -- which architecture supplied each piece of "
+            "information, and whether the same measurement was acquired "
+            "redundantly through more than one. See "
+            "icab.evaluation.information_flow."
+        ),
+    )
     trace_event_count: int = 0
+    total_latency_ms: float | None = Field(
+        default=None,
+        description="Sum of every recorded tool call's latency_ms, when available.",
+    )
+    total_tokens: int | None = Field(
+        default=None,
+        description="Sum of every recorded LLM generation call's total_tokens, when available.",
+    )

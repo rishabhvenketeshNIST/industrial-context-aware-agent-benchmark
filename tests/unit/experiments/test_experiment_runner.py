@@ -342,3 +342,97 @@ def test_generation_id_is_recorded_and_passed_to_the_evaluator(monkeypatch):
 
     assert record.generation_id == TEST_GENERATION_ID
     assert record.evaluation.generation_id == TEST_GENERATION_ID
+
+
+def test_information_flow_and_cost_totals_are_computed_on_the_record(monkeypatch):
+    _patch_gateway(
+        monkeypatch,
+        {
+            "observation": {
+                "measurement_id": "urn:icab:measurement:reactor_pressure",
+                "value": 2705.0,
+                "unit": "kPa gauge",
+            }
+        },
+    )
+
+    llm = MockLLMClient(
+        [
+            LLMResponse(
+                content=None,
+                tool_calls=(
+                    ToolCall(
+                        id="call-1",
+                        name="get_current_value",
+                        arguments={"measurement_id": "urn:icab:measurement:reactor_pressure"},
+                    ),
+                ),
+            ),
+            LLMResponse(
+                content=None,
+                tool_calls=(
+                    ToolCall(id="call-2", name="submit_investigation", arguments={"conclusion": "2705 kPa, normal."}),
+                ),
+            ),
+        ]
+    )
+
+    runner = ExperimentRunner(
+        gateway_base_url="http://localhost:8000",
+        scenario_runner=_mock_scenario_runner(),
+        scenario_registry=_registry(),
+        llm_client_factory=lambda config: llm,
+    )
+
+    config = ExperimentConfig(
+        scenario_id="d1_reactor_pressure_reading",
+        architectures=["historian"],
+        agent_type=AgentType.LLM,
+    )
+
+    record, trace = runner.run(config, run_id="test-run-flow")
+
+    assert record.information_flow is not None
+    assert len(record.information_flow.acquisitions) == 1
+    assert record.information_flow.acquisitions[0].architecture == "historian"
+    assert record.information_flow.acquisitions[0].canonical_id == (
+        "urn:icab:measurement:reactor_pressure"
+    )
+
+    # One real tool call was made -- its latency was recorded by
+    # AgentGatewayClient.call_tool and summed onto the record.
+    assert record.total_latency_ms is not None
+    assert record.total_latency_ms >= 0
+    # MockLLMClient never returns token_usage, so there's nothing to sum.
+    assert record.total_tokens is None
+
+
+def test_compare_combinations_populates_architecture_combination_key(monkeypatch):
+    _patch_gateway(monkeypatch, {})
+
+    def llm_factory(config):
+        return MockLLMClient([LLMResponse(content="done", tool_calls=())])
+
+    scenario_runner = _mock_scenario_runner()
+    runner = ExperimentRunner(
+        gateway_base_url="http://localhost:8000",
+        scenario_runner=scenario_runner,
+        scenario_registry=_registry(),
+        llm_client_factory=llm_factory,
+    )
+
+    runs = runner.compare_combinations(
+        "d1_reactor_pressure_reading",
+        ["historian_only", "uns_mqtt"],
+    )
+
+    assert len(runs) == 2
+    scenario_runner.prepare.assert_called_once()
+
+    by_key = {record.config.architecture_combination_key: record for record, _ in runs}
+    assert set(by_key) == {"historian_only", "uns_mqtt"}
+    assert by_key["historian_only"].config.architectures == ["historian"]
+    assert set(by_key["uns_mqtt"].config.architectures) == {"uns", "mqtt"}
+
+    experiment_ids = {record.experiment_id for record, _ in runs}
+    assert len(experiment_ids) == 1

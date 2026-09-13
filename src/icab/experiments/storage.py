@@ -32,6 +32,7 @@ AGGREGATE_CSV_COLUMNS = (
     "scenario_id",
     "scenario_difficulty",
     "architectures",
+    "architecture_combination_key",
     "agent_type",
     "deterministic_agent",
     "llm_model",
@@ -56,7 +57,64 @@ AGGREGATE_CSV_COLUMNS = (
     "temporal_evidence_acquired",
     "tool_call_count",
     "trace_event_count",
+    "discovered_canonical_id_count",
+    "acquisition_count",
+    "redundant_acquisition_count",
+    "unresolved_acquisition_count",
+    "tool_error_count",
+    "total_latency_ms",
+    "total_tokens",
 )
+
+
+#: Fields that must be held equal across every run in a comparison for it
+#: to be a valid architecture comparison -- i.e. the "everything else held
+#: constant" side of "varying only architecture" (see docs/research/
+#: experiment-plan.md). `objective` isn't listed separately because it's
+#: determined by `scenario_id` (same scenario => same objective).
+_CONTROL_FIELDS: tuple[str, ...] = (
+    "scenario_id",
+    "simulation_seed",
+    "llm_model",
+    "llm_temperature",
+    "max_steps",
+)
+
+
+class HeterogeneousControlsError(ValueError):
+    """
+    Raised by `write_aggregate` when the runs being aggregated do not hold
+    `_CONTROL_FIELDS` constant and `allow_heterogeneous_controls` was not
+    passed -- i.e. this would not be a valid "vary only architecture"
+    comparison. Pass `allow_heterogeneous_controls=True` to aggregate such
+    runs anyway (e.g. a deliberately mixed sweep); the written JSON still
+    records `controls_consistent`/`control_variance` either way.
+    """
+
+
+def _control_value(record: ExperimentRecord, field: str) -> object:
+    if field == "scenario_id":
+        return record.config.scenario_id
+    if field == "simulation_seed":
+        return record.simulation_seed
+    if field == "llm_model":
+        return record.config.llm_model
+    if field == "llm_temperature":
+        return record.config.llm_temperature
+    if field == "max_steps":
+        return record.config.max_steps
+    raise ValueError(f"Unknown control field: {field}")  # pragma: no cover
+
+
+def _control_variance(records: list[ExperimentRecord]) -> dict[str, list]:
+    """Which `_CONTROL_FIELDS` differ across `records`, and their distinct values."""
+
+    variance: dict[str, list] = {}
+    for field in _CONTROL_FIELDS:
+        values = {_control_value(record, field) for record in records}
+        if len(values) > 1:
+            variance[field] = sorted(values, key=str)
+    return variance
 
 
 class ExperimentResultStore:
@@ -113,6 +171,7 @@ class ExperimentResultStore:
         records: list[ExperimentRecord],
         *,
         include_invalid: bool = False,
+        allow_heterogeneous_controls: bool = False,
     ) -> tuple[Path, Path]:
         """
         Write a cross-run comparison table for ``records`` (typically all
@@ -130,6 +189,16 @@ class ExperimentResultStore:
         comparison table unless ``include_invalid=True`` is passed
         explicitly, in which case their `validity`/`validity_reason`
         columns make them clearly identifiable rather than blending in.
+
+        Also by default, this refuses (raises `HeterogeneousControlsError`)
+        to aggregate runs whose `_CONTROL_FIELDS` (scenario, simulation
+        seed, LLM model/temperature, step budget) are not identical across
+        the included runs -- an architecture comparison is only valid when
+        everything except `architectures` is held constant. Pass
+        ``allow_heterogeneous_controls=True`` to aggregate anyway (e.g. a
+        deliberately mixed sweep); the written JSON always records
+        ``controls_consistent``/``control_variance`` so this is auditable
+        either way.
         """
 
         self.aggregate_dir.mkdir(parents=True, exist_ok=True)
@@ -144,6 +213,16 @@ class ExperimentResultStore:
         ]
         excluded_count = len(records) - len(included)
 
+        variance = _control_variance(included) if included else {}
+        if variance and not allow_heterogeneous_controls:
+            raise HeterogeneousControlsError(
+                f"Runs being aggregated under {experiment_id!r} do not hold "
+                f"controls constant: {variance}. This is not a valid "
+                "'vary only architecture' comparison -- see "
+                "docs/research/experiment-plan.md. Pass "
+                "allow_heterogeneous_controls=True to aggregate anyway."
+            )
+
         rows = [self._flatten(record) for record in included]
 
         json_path.write_text(
@@ -151,6 +230,8 @@ class ExperimentResultStore:
                 {
                     "experiment_id": experiment_id,
                     "excluded_invalid_runs": excluded_count,
+                    "controls_consistent": not variance,
+                    "control_variance": variance,
                     "runs": rows,
                 },
                 indent=2,
@@ -171,6 +252,7 @@ class ExperimentResultStore:
     def _flatten(record: ExperimentRecord) -> dict:
         evaluation = record.evaluation
         result = record.result
+        information_flow = record.information_flow
 
         return {
             "run_id": record.run_id,
@@ -178,6 +260,7 @@ class ExperimentResultStore:
             "scenario_id": record.config.scenario_id,
             "scenario_difficulty": record.scenario_difficulty,
             "architectures": "+".join(record.config.architectures),
+            "architecture_combination_key": record.config.architecture_combination_key or "",
             "agent_type": record.config.agent_type.value,
             "deterministic_agent": (
                 record.config.deterministic_agent.value
@@ -212,4 +295,17 @@ class ExperimentResultStore:
             ),
             "tool_call_count": evaluation.tool_call_count if evaluation else "",
             "trace_event_count": record.trace_event_count,
+            "discovered_canonical_id_count": (
+                len(information_flow.discovered_canonical_ids) if information_flow else ""
+            ),
+            "acquisition_count": len(information_flow.acquisitions) if information_flow else "",
+            "redundant_acquisition_count": (
+                information_flow.redundant_acquisition_count if information_flow else ""
+            ),
+            "unresolved_acquisition_count": (
+                information_flow.unresolved_acquisition_count if information_flow else ""
+            ),
+            "tool_error_count": information_flow.tool_error_count if information_flow else "",
+            "total_latency_ms": record.total_latency_ms if record.total_latency_ms is not None else "",
+            "total_tokens": record.total_tokens if record.total_tokens is not None else "",
         }

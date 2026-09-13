@@ -29,8 +29,17 @@ pass --architectures more than once, each a comma-separated group::
         --architectures historian,knowledge_graph \\
         --agent-type llm
 
-Every run is persisted under results/{raw,traces,evaluations}/; --compare
-additionally writes results/aggregate/<experiment_id>.{json,csv}.
+Named architecture-combination comparison (M10) -- pass --combination more
+than once, each a icab.experiments.architecture_combinations key, instead
+of spelling out --architectures groups by hand::
+
+    uv run python scripts/run_experiment.py \\
+        --scenario d4_downstream_root_cause \\
+        --combination historian_only --combination full \\
+        --agent-type llm
+
+Every run is persisted under results/{raw,traces,evaluations}/; --compare/
+--combination additionally writes results/aggregate/<experiment_id>.{json,csv}.
 """
 
 from __future__ import annotations
@@ -46,6 +55,7 @@ from icab.context.knowledge_graph.repository import Neo4jKnowledgeGraphRepositor
 from icab.context.knowledge_graph.service import KnowledgeGraphService
 from icab.context.mqtt import MQTTClient, TEPMeasurementPublisher
 from icab.experiments import AgentType, DeterministicAgentKind, ExperimentConfig, ExperimentResultStore, ExperimentRunner
+from icab.experiments.architecture_combinations import list_combination_keys
 from icab.experiments.models import ExperimentRunStatus
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.scenarios.runner import ScenarioRunner
@@ -92,7 +102,10 @@ def _print_record(record) -> None:
     print(f"run_id:            {record.run_id}")
     print(f"experiment_id:     {record.experiment_id}")
     print(f"scenario:          {record.config.scenario_id} ({record.scenario_difficulty})")
-    print(f"architectures:     {'+'.join(record.config.architectures)}")
+    print(
+        f"architectures:     {'+'.join(record.config.architectures)}"
+        + (f"  [{record.config.architecture_combination_key}]" if record.config.architecture_combination_key else "")
+    )
     print(f"agent:             {record.config.agent_type.value}"
           + (f" / {record.config.deterministic_agent.value}" if record.config.deterministic_agent else ""))
     if record.config.agent_type == AgentType.LLM:
@@ -118,6 +131,20 @@ def _print_record(record) -> None:
             f"grounding={ev.grounding_score:.2f} "
             f"completeness={ev.completeness_score:.2f}"
         )
+    if record.information_flow is not None:
+        flow = record.information_flow
+        print(
+            "information flow: "
+            f"discovered={len(flow.discovered_canonical_ids)} "
+            f"acquired={len(flow.acquisitions)} "
+            f"redundant={flow.redundant_acquisition_count} "
+            f"unresolved={flow.unresolved_acquisition_count} "
+            f"tool_errors={flow.tool_error_count}"
+        )
+    latency_display = f"{record.total_latency_ms:.1f}" if record.total_latency_ms is not None else "n/a"
+    print(f"cost:              latency_ms={latency_display}")
+    if record.total_tokens is not None:
+        print(f"                   total_tokens={record.total_tokens}")
     print()
 
 
@@ -127,10 +154,22 @@ def main() -> int:
     parser.add_argument(
         "--architectures",
         action="append",
-        required=True,
+        default=None,
         help=(
             f"Comma-separated architecture names ({', '.join(ARCHITECTURE_TOOL_NAMES)}). "
-            "Pass more than once with --compare to run each group against the same scenario."
+            "Pass more than once with --compare to run each group against the same scenario. "
+            "Required unless --combination is used instead."
+        ),
+    )
+    parser.add_argument(
+        "--combination",
+        action="append",
+        default=None,
+        choices=list_combination_keys(),
+        help=(
+            "A named icab.experiments.architecture_combinations key (M10), in place of "
+            "spelling out --architectures groups by hand. Pass more than once to compare "
+            "several combinations against one shared scenario preparation."
         ),
     )
     parser.add_argument("--agent-type", choices=[t.value for t in AgentType], default=AgentType.LLM.value)
@@ -155,72 +194,87 @@ def main() -> int:
             "aggregate comparison table. Off by default -- see docs/research/experiment-plan.md."
         ),
     )
+    parser.add_argument(
+        "--allow-heterogeneous-controls",
+        action="store_true",
+        help=(
+            "Allow write_aggregate to include runs whose scenario/seed/model/budget "
+            "controls differ -- off by default, since that would not be a valid "
+            "'vary only architecture' comparison. See HeterogeneousControlsError."
+        ),
+    )
 
     args = parser.parse_args()
 
-    architecture_groups = [group.split(",") for group in args.architectures]
+    if not args.architectures and not args.combination:
+        parser.error("one of --architectures or --combination is required")
+    if args.architectures and args.combination:
+        parser.error("--architectures and --combination are mutually exclusive")
+
     runner, mqtt_client, kg_repository = _build_runner(args.gateway_url)
     store = ExperimentResultStore(root=args.results_root)
 
+    common_kwargs = dict(
+        agent_type=AgentType(args.agent_type),
+        deterministic_agent=(
+            DeterministicAgentKind(args.deterministic_agent) if args.deterministic_agent else None
+        ),
+        llm_model=args.llm_model,
+        llm_temperature=args.llm_temperature,
+        max_steps=args.max_steps,
+        experiment_id=args.experiment_id,
+    )
+
     try:
         with mqtt_client:
-            if args.compare or len(architecture_groups) > 1:
-                runs = runner.compare_architectures(
-                    args.scenario,
-                    architecture_groups,
+            if args.combination:
+                runs = runner.compare_combinations(args.scenario, args.combination, **common_kwargs)
+            elif args.compare or len(args.architectures) > 1:
+                architecture_groups = [group.split(",") for group in args.architectures]
+                runs = runner.compare_architectures(args.scenario, architecture_groups, **common_kwargs)
+            else:
+                config = ExperimentConfig(
+                    scenario_id=args.scenario,
+                    architectures=args.architectures[0].split(","),
                     agent_type=AgentType(args.agent_type),
                     deterministic_agent=(
                         DeterministicAgentKind(args.deterministic_agent)
                         if args.deterministic_agent
                         else None
                     ),
+                    deterministic_equipment_key=args.deterministic_equipment_key,
                     llm_model=args.llm_model,
                     llm_temperature=args.llm_temperature,
                     max_steps=args.max_steps,
-                    experiment_id=args.experiment_id,
                 )
 
-                records = []
-                for record, trace in runs:
-                    store.save(record, trace)
-                    _print_record(record)
-                    records.append(record)
-
-                experiment_id = records[0].experiment_id
-                json_path, csv_path = store.write_aggregate(
-                    experiment_id,
-                    records,
-                    include_invalid=args.include_invalid_in_aggregate,
+                record, trace = runner.run(config, experiment_id=args.experiment_id)
+                store.save(record, trace)
+                _print_record(record)
+                print(
+                    f"Saved: results/raw/{record.run_id}.json, results/traces/{record.run_id}.jsonl"
+                    + (f", results/evaluations/{record.run_id}.json" if record.evaluation else "")
                 )
-                print(f"Aggregate written to: {json_path}")
-                print(f"                      {csv_path}")
 
-                return 1 if any(r.status == ExperimentRunStatus.FAILED for r in records) else 0
+                return 1 if record.status == ExperimentRunStatus.FAILED else 0
 
-            config = ExperimentConfig(
-                scenario_id=args.scenario,
-                architectures=architecture_groups[0],
-                agent_type=AgentType(args.agent_type),
-                deterministic_agent=(
-                    DeterministicAgentKind(args.deterministic_agent)
-                    if args.deterministic_agent
-                    else None
-                ),
-                deterministic_equipment_key=args.deterministic_equipment_key,
-                llm_model=args.llm_model,
-                llm_temperature=args.llm_temperature,
-                max_steps=args.max_steps,
+            records = []
+            for record, trace in runs:
+                store.save(record, trace)
+                _print_record(record)
+                records.append(record)
+
+            experiment_id = records[0].experiment_id
+            json_path, csv_path = store.write_aggregate(
+                experiment_id,
+                records,
+                include_invalid=args.include_invalid_in_aggregate,
+                allow_heterogeneous_controls=args.allow_heterogeneous_controls,
             )
+            print(f"Aggregate written to: {json_path}")
+            print(f"                      {csv_path}")
 
-            record, trace = runner.run(config, experiment_id=args.experiment_id)
-            store.save(record, trace)
-            _print_record(record)
-            print(
-                f"Saved: results/raw/{record.run_id}.json, results/traces/{record.run_id}.jsonl"
-                + (f", results/evaluations/{record.run_id}.json" if record.evaluation else "")
-            )
-
-            return 1 if record.status == ExperimentRunStatus.FAILED else 0
+            return 1 if any(r.status == ExperimentRunStatus.FAILED for r in records) else 0
     finally:
         kg_repository.close()
 

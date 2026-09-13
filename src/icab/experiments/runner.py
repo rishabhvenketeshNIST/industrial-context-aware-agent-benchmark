@@ -25,12 +25,14 @@ from icab.agent.llm.client import LLMClient, OpenAICompatibleLLMClient
 from icab.agent.llm.tools import tools_for_architectures
 from icab.common.config import get_settings
 from icab.evaluation.grounded import GroundedInvestigationEvaluator
+from icab.evaluation.information_flow import InformationFlowAnalyzer
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.scenarios.models import BenchmarkScenario
 from icab.scenarios.runner import ScenarioRunner
 from icab.trace.collector import TraceCollector
 from icab.trace.models import TraceEvent
 
+from .architecture_combinations import get_combination
 from .models import (
     LEGACY_DETERMINISTIC_AGENT_KINDS,
     AgentType,
@@ -68,6 +70,7 @@ class ExperimentRunner:
         self.scenario_registry = scenario_registry
         self.evaluator = evaluator or GroundedInvestigationEvaluator()
         self._llm_client_factory = llm_client_factory or self._default_llm_client_factory
+        self._information_flow_analyzer = InformationFlowAnalyzer()
 
     def run(
         self,
@@ -159,6 +162,59 @@ class ExperimentRunner:
 
         return runs
 
+    def compare_combinations(
+        self,
+        scenario_id: str,
+        combination_keys: list[str],
+        *,
+        agent_type: AgentType = AgentType.LLM,
+        deterministic_agent: DeterministicAgentKind | None = None,
+        llm_model: str | None = None,
+        llm_temperature: float | None = None,
+        max_steps: int | None = None,
+        experiment_id: str | None = None,
+    ) -> list[tuple[ExperimentRecord, list[TraceEvent]]]:
+        """
+        Like `compare_architectures`, but takes named
+        `icab.experiments.architecture_combinations` keys instead of raw
+        architecture lists -- the M10 first-class-combinations entry point.
+        Each resulting `ExperimentConfig.architecture_combination_key` is
+        set so aggregates can group by combination, in addition to the raw
+        `architectures` list that's what's actually enforced on the agent.
+        """
+
+        experiment_id = experiment_id or f"compare-{scenario_id}-{uuid.uuid4().hex[:8]}"
+
+        scenario = self.scenario_registry.get(scenario_id)
+        run_result = self.scenario_runner.prepare(scenario)
+
+        runs = []
+
+        for key in combination_keys:
+            combination = get_combination(key)
+            config = ExperimentConfig(
+                scenario_id=scenario_id,
+                architectures=list(combination.architectures),
+                architecture_combination_key=combination.key,
+                agent_type=agent_type,
+                deterministic_agent=deterministic_agent,
+                llm_model=llm_model,
+                llm_temperature=llm_temperature,
+                max_steps=max_steps,
+            )
+            run_id = f"{experiment_id}-{combination.key}"
+
+            record, trace = self._run_prepared(
+                scenario,
+                config,
+                run_id=run_id,
+                experiment_id=experiment_id,
+                generation_id=run_result.generation_id,
+            )
+            runs.append((record, trace))
+
+        return runs
+
     def _run_prepared(
         self,
         scenario: BenchmarkScenario,
@@ -201,6 +257,10 @@ class ExperimentRunner:
                 scenario, result, trace, generation_id=generation_id
             )
 
+        information_flow = self._information_flow_analyzer.analyze(trace)
+        total_latency_ms = self._sum_latency_ms(trace)
+        total_tokens = self._sum_total_tokens(trace)
+
         record = ExperimentRecord(
             run_id=run_id,
             experiment_id=experiment_id,
@@ -217,10 +277,27 @@ class ExperimentRunner:
             validity_reason=validity_reason,
             result=result,
             evaluation=evaluation,
+            information_flow=information_flow,
             trace_event_count=len(trace),
+            total_latency_ms=total_latency_ms,
+            total_tokens=total_tokens,
         )
 
         return record, trace
+
+    @staticmethod
+    def _sum_latency_ms(trace: list[TraceEvent]) -> float | None:
+        latencies = [event.latency_ms for event in trace if event.latency_ms is not None]
+        return sum(latencies) if latencies else None
+
+    @staticmethod
+    def _sum_total_tokens(trace: list[TraceEvent]) -> int | None:
+        totals = [
+            event.token_usage["total_tokens"]
+            for event in trace
+            if event.token_usage is not None and "total_tokens" in event.token_usage
+        ]
+        return sum(totals) if totals else None
 
     # -- agent construction ---------------------------------------------------
 

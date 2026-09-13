@@ -2,10 +2,14 @@ import csv
 import json
 from datetime import UTC, datetime
 
+import pytest
+
 from icab.agent.interface import EvidenceReference, InvestigationResult, TerminationReason
 from icab.evaluation.grounded import GroundedInvestigationEvaluator
+from icab.evaluation.information_flow import InformationFlowAnalyzer
 from icab.experiments import AgentType, ExperimentConfig, ExperimentRecord, ExperimentResultStore
 from icab.experiments.models import ExperimentRunStatus, RunValidity
+from icab.experiments.storage import HeterogeneousControlsError
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.trace.models import TraceEvent
 
@@ -18,6 +22,11 @@ def _record(
     *,
     validity: RunValidity = RunValidity.VALID,
     validity_reason: str | None = None,
+    llm_model: str = "test-model",
+    llm_temperature: float = 0.0,
+    max_steps: int = 6,
+    architecture_combination_key: str | None = None,
+    architectures: list[str] | None = None,
 ) -> tuple[ExperimentRecord, list[TraceEvent]]:
     scenario = BenchmarkScenarioRegistry(SCENARIOS_DIR).get("d1_reactor_pressure_reading")
 
@@ -38,19 +47,28 @@ def _record(
             step=1,
             action="tool_call",
             tool="get_current_value",
-            result={"observation": {"value": 2705.0}},
-        )
+            result={"observation": {"measurement_id": "urn:icab:measurement:reactor_pressure", "value": 2705.0}},
+            latency_ms=12.5,
+        ),
+        TraceEvent(
+            timestamp=datetime(2026, 9, 13, tzinfo=UTC),
+            step=1,
+            action="llm_generate",
+            token_usage={"prompt_tokens": 100, "completion_tokens": 20, "total_tokens": 120},
+        ),
     ]
 
     evaluation = GroundedInvestigationEvaluator().evaluate(scenario, result, trace)
+    information_flow = InformationFlowAnalyzer().analyze(trace)
 
     config = ExperimentConfig(
         scenario_id=scenario.scenario_id,
-        architectures=["historian"],
+        architectures=architectures or ["historian"],
+        architecture_combination_key=architecture_combination_key,
         agent_type=AgentType.LLM,
-        llm_model="test-model",
-        llm_temperature=0.0,
-        max_steps=6,
+        llm_model=llm_model,
+        llm_temperature=llm_temperature,
+        max_steps=max_steps,
     )
 
     record = ExperimentRecord(
@@ -66,7 +84,10 @@ def _record(
         validity_reason=validity_reason,
         result=result,
         evaluation=evaluation,
+        information_flow=information_flow,
         trace_event_count=len(trace),
+        total_latency_ms=12.5,
+        total_tokens=120,
     )
 
     return record, trace
@@ -84,7 +105,7 @@ def test_save_and_load_round_trip(tmp_path):
     assert loaded.evaluation.required_evidence_score == 1.0
 
     loaded_trace = store.load_trace("run-1")
-    assert len(loaded_trace) == 1
+    assert len(loaded_trace) == 2
     assert loaded_trace[0].tool == "get_current_value"
 
 
@@ -189,3 +210,73 @@ def test_write_aggregate_include_invalid_still_labels_them_clearly(tmp_path):
     assert rows["run-valid-2"]["validity"] == "valid"
     assert rows["run-invalid-2"]["validity"] == "legacy_control_only"
     assert rows["run-invalid-2"]["validity_reason"] != ""
+
+
+def test_write_aggregate_includes_information_flow_and_cost_columns(tmp_path):
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    record, trace = _record(
+        "run-flow", experiment_id="compare-flow", architecture_combination_key="historian_only"
+    )
+    store.save(record, trace)
+
+    _json_path, csv_path = store.write_aggregate("compare-flow", [record])
+
+    with csv_path.open(newline="", encoding="utf-8") as file:
+        rows = list(csv.DictReader(file))
+
+    assert rows[0]["architecture_combination_key"] == "historian_only"
+    assert rows[0]["acquisition_count"] == "1"
+    assert rows[0]["redundant_acquisition_count"] == "0"
+    assert rows[0]["tool_error_count"] == "0"
+    assert rows[0]["total_latency_ms"] == "12.5"
+    assert rows[0]["total_tokens"] == "120"
+
+
+def test_write_aggregate_rejects_runs_with_different_controls_by_default(tmp_path):
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    record_a, trace_a = _record("run-c1", experiment_id="compare-controls", max_steps=6)
+    record_b, trace_b = _record("run-c2", experiment_id="compare-controls", max_steps=12)
+    store.save(record_a, trace_a)
+    store.save(record_b, trace_b)
+
+    with pytest.raises(HeterogeneousControlsError, match="max_steps"):
+        store.write_aggregate("compare-controls", [record_a, record_b])
+
+
+def test_write_aggregate_allows_heterogeneous_controls_when_declared(tmp_path):
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    record_a, trace_a = _record("run-c3", experiment_id="compare-controls-2", max_steps=6)
+    record_b, trace_b = _record("run-c4", experiment_id="compare-controls-2", max_steps=12)
+    store.save(record_a, trace_a)
+    store.save(record_b, trace_b)
+
+    json_path, csv_path = store.write_aggregate(
+        "compare-controls-2", [record_a, record_b], allow_heterogeneous_controls=True
+    )
+
+    aggregate_data = json.loads(json_path.read_text(encoding="utf-8"))
+    assert aggregate_data["controls_consistent"] is False
+    assert "max_steps" in aggregate_data["control_variance"]
+    assert len(aggregate_data["runs"]) == 2
+
+    with csv_path.open(newline="", encoding="utf-8") as file:
+        rows = list(csv.DictReader(file))
+    assert len(rows) == 2
+
+
+def test_write_aggregate_reports_controls_consistent_when_uniform(tmp_path):
+    store = ExperimentResultStore(root=tmp_path / "results")
+
+    record_a, trace_a = _record("run-c5", experiment_id="compare-controls-3")
+    record_b, trace_b = _record("run-c6", experiment_id="compare-controls-3")
+    store.save(record_a, trace_a)
+    store.save(record_b, trace_b)
+
+    json_path, _csv_path = store.write_aggregate("compare-controls-3", [record_a, record_b])
+
+    aggregate_data = json.loads(json_path.read_text(encoding="utf-8"))
+    assert aggregate_data["controls_consistent"] is True
+    assert aggregate_data["control_variance"] == {}

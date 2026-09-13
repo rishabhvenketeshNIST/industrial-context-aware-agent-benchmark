@@ -79,11 +79,13 @@ the real NIST RChat LLM, the resulting `InvestigationResult`, the
 `TraceCollector` trace, and the existing (unmodified)
 `InvestigationEvaluator` -- and passed on first run.
 
-## What is intentionally not yet built (M8/M9/M11 territory)
+## What is intentionally not yet built (M11 territory)
 
-- `evaluation_criteria`/scoring weights beyond reusing the existing
-  `InvestigationCase`/`InvestigationEvaluator` as-is (M8).
-- A reproducible multi-run experiment harness sweeping
-  scenario x architecture x agent x seed (M9/M10).
+- H1-H5 hypothesis-specific experimental support (statistical comparison
+  across seeds/runs, effect sizes) -- M8's `GroundedInvestigationEvaluator`,
+  M9's `ExperimentRunner`/`ExperimentResultStore`, and M10's named
+  architecture combinations/`InformationFlowAnalyzer` are all in place;
+  what M11 adds is hypothesis-level analysis on top of the
+  already-persisted per-run records.
 - Only one scenario per difficulty exists -- enough to prove the complete
   loop end-to-end, not a full scenario suite.

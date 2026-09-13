@@ -1,0 +1,495 @@
+{
+  "run_id": "m10-d4-combo-validation-v2-historian_only",
+  "experiment_id": "m10-d4-combo-validation-v2",
+  "config": {
+    "scenario_id": "d4_plant_wide_investigation",
+    "architectures": [
+      "historian"
+    ],
+    "architecture_combination_key": "historian_only",
+    "agent_type": "llm",
+    "deterministic_agent": null,
+    "deterministic_equipment_key": null,
+    "llm_model": "gemma-4-31B-it",
+    "llm_temperature": 0.0,
+    "max_steps": 20,
+    "random_seed": null
+  },
+  "scenario_difficulty": "D4",
+  "simulation_seed": 104,
+  "generation_id": "fe2ab7af227a4f2bb4521ab661c8a091",
+  "icab_version": "0.1.0",
+  "started_at": "2026-09-13T15:12:38.259073Z",
+  "completed_at": "2026-09-13T15:13:51.125295Z",
+  "status": "completed",
+  "error": null,
+  "validity": "valid",
+  "validity_reason": null,
+  "result": {
+    "objective": "Operators report the plant is behaving abnormally, but no specific cause or location has been identified. Investigate across the process -- discover what equipment and measurements exist, check for deviations, and determine which equipment is actually affected and why.\n",
+    "conclusion": "Investigation did not conclude within the step budget.",
+    "findings": {
+      "get_current_value#1": {
+        "observation": null
+      },
+      "get_current_value#2": {
+        "observation": null
+      },
+      "get_current_value#3": {
+        "observation": null
+      },
+      "get_current_value#4": {
+        "observation": null
+      },
+      "get_current_value#5": {
+        "observation": null
+      },
+      "get_current_value#6": {
+        "observation": null
+      },
+      "get_current_value#7": {
+        "observation": null
+      },
+      "get_current_value#8": {
+        "observation": null
+      },
+      "get_current_value#9": {
+        "observation": null
+      },
+      "get_current_value#10": {
+        "observation": null
+      },
+      "get_current_value#11": {
+        "observation": null
+      },
+      "get_current_value#12": {
+        "observation": null
+      },
+      "get_current_value#13": {
+        "observation": null
+      },
+      "get_current_value#14": {
+        "observation": null
+      },
+      "get_current_value#15": {
+        "observation": null
+      },
+      "get_current_value#16": {
+        "observation": null
+      },
+      "get_current_value#17": {
+        "observation": null
+      },
+      "get_current_value#18": {
+        "observation": null
+      },
+      "get_current_value#19": {
+        "observation": null
+      },
+      "get_current_value#20": {
+        "observation": null
+      }
+    },
+    "context": {
+      "assets": [],
+      "measurements": [],
+      "relationships": [],
+      "provenance": []
+    },
+    "evidence": [
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temperature"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temperature"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_pressure"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:product_purity"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_level"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_level"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:product_flow"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:feed_flow"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_coolant_flow"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_jacket_temperature"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_bottoms_flow"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_overhead_flow"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temperature_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temperature_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_pressure_sp"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_setpoint"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_setpoint"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_setpoint"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_setpoint"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temperature_controller_output"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_controller_output"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temperature_controller_output"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_pressure_controller_output"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_ctrl_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_ctrl_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_ctrl_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_ctrl_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temperature_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temperature_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_pressure_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_cv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_valv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_valv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_valv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_valv"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_out"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_setpoint_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_setpoint_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_setpoint_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_setpoint_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp_set_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp_set_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp_set_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp_set_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp_set_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp_set_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp_set_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp_set_val_set"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_temp_sp_set_val_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_press_sp_set_val_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_temp_sp_set_val_val"
+      },
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:separator_press_sp_set_val_val"
+      }
+    ],
+    "termination": "step_budget_exceeded"
+  },
+  "information_flow": {
+    "discovered_canonical_ids": [],
+    "acquisitions": [
+      {
+        "canonical_id": "urn:icab:measurement:reactor_temperature",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 1
+      },
+      {
+        "canonical_id": "urn:icab:measurement:reactor_pressure",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 1
+      },
+      {
+        "canonical_id": "urn:icab:measurement:separator_temperature",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 1
+      },
+      {
+        "canonical_id": "urn:icab:measurement:separator_pressure",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 1
+      },
+      {
+        "canonical_id": "urn:icab:measurement:reactor_level",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 2
+      },
+      {
+        "canonical_id": "urn:icab:measurement:separator_level",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 2
+      }
+    ],
+    "architectures_used_per_measurement": {
+      "urn:icab:measurement:reactor_level": [
+        "historian"
+      ],
+      "urn:icab:measurement:reactor_pressure": [
+        "historian"
+      ],
+      "urn:icab:measurement:reactor_temperature": [
+        "historian"
+      ],
+      "urn:icab:measurement:separator_level": [
+        "historian"
+      ],
+      "urn:icab:measurement:separator_pressure": [
+        "historian"
+      ],
+      "urn:icab:measurement:separator_temperature": [
+        "historian"
+      ]
+    },
+    "redundant_measurements": [],
+    "redundant_acquisition_count": 0,
+    "unresolved_acquisition_count": 75,
+    "tool_error_count": 0
+  },
+  "trace_event_count": 101,
+  "total_latency_ms": 36028.060699114576,
+  "total_tokens": 64655
+}

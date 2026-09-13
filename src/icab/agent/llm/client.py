@@ -36,6 +36,12 @@ class LLMResponse:
     content: str | None
     tool_calls: tuple[ToolCall, ...] = field(default_factory=tuple)
 
+    #: Token accounting for this one generation call, when the provider
+    #: reports it (OpenAI-compatible `usage`: prompt_tokens/
+    #: completion_tokens/total_tokens). None for MockLLMClient and any
+    #: provider that omits usage -- callers must not assume it's present.
+    token_usage: dict[str, int] | None = None
+
 
 class LLMClient(ABC):
     """Abstraction over a tool-calling LLM provider."""
@@ -104,7 +110,19 @@ class OpenAICompatibleLLMClient(LLMClient):
             for call in (message.tool_calls or [])
         )
 
-        return LLMResponse(content=message.content, tool_calls=tool_calls)
+        token_usage = None
+        if response.usage is not None:
+            token_usage = {
+                "prompt_tokens": response.usage.prompt_tokens,
+                "completion_tokens": response.usage.completion_tokens,
+                "total_tokens": response.usage.total_tokens,
+            }
+
+        return LLMResponse(
+            content=message.content,
+            tool_calls=tool_calls,
+            token_usage=token_usage,
+        )
 
 
 class MockLLMClient(LLMClient):

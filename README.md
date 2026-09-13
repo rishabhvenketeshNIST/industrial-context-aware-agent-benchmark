@@ -177,6 +177,12 @@ uv run python scripts/run_experiment.py \
 uv run python scripts/run_experiment.py --compare \
     --scenario d2_reactor_context_combination \
     --architectures historian --architectures historian,knowledge_graph --agent-type llm
+
+# named architecture-combination comparison (M10)
+uv run python scripts/run_experiment.py \
+    --scenario d4_plant_wide_investigation \
+    --combination historian_only --combination kg_historian --combination full \
+    --agent-type llm
 ```
 
 Runs any agent (deterministic or LLM) against a real `BenchmarkScenario`
@@ -287,6 +293,19 @@ Implemented and under test:
   evaluator scope relationship evidence to the current run rather than a
   shared historian/knowledge graph's accumulated history. See
   [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
+- Architecture combinations as a first-class experimental variable (M10):
+  eight named, documented tool-availability presets
+  (`icab.experiments.architecture_combinations`, `--combination` on
+  `scripts/run_experiment.py`) an agent is never told about beyond its own
+  tool list; a separate `InformationFlowAnalyzer`
+  (`icab.evaluation.information_flow`) that distinguishes discoverability
+  (learned a measurement exists) from acquisition (retrieved its value)
+  from cross-architecture redundancy (the same value fetched through more
+  than one architecture) per run; per-run latency/token-usage totals; and
+  a `HeterogeneousControlsError` check in `ExperimentResultStore.
+  write_aggregate` that refuses to treat a set of runs as a controlled
+  architecture comparison unless their scenario/seed/model/budget actually
+  match. See [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):

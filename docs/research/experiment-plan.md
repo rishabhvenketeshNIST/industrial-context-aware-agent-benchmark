@@ -356,3 +356,196 @@ direct, live confirmation that an old/contaminated relationship can no
 longer cause a benchmark score to pass accidentally. It is also correctly
 excluded from `write_aggregate`'s comparison table by default
 (`validity=legacy_control_only`).
+
+## M10: Architecture combinations as a first-class experimental variable
+
+M9 already let `ExperimentConfig.architectures` be any list of architecture
+names, and `compare_architectures` already ran the same scenario
+preparation once per architecture list. What M10 adds is: (1) a named,
+documented *registry* of combinations so a comparison doesn't require
+hand-typing tool lists, (2) a way to tell which architecture an agent
+*actually used* for a given piece of information (not just which
+architectures it *had*), and (3) a check that a set of runs being
+compared actually held everything but architecture constant.
+
+### The eight named combinations
+
+`icab.experiments.architecture_combinations.ARCHITECTURE_COMBINATIONS` --
+`historian_only`, `uns_mqtt`, `opcua_historian`, `i3x_historian`,
+`kg_historian`, `uns_historian_kg`, `mqtt_uns_historian`, `full`. These are
+explicitly **not** claimed to be the scientifically optimal set (per the
+research direction that requested them) -- they are documented starting
+points, each chosen to isolate a different question (a single-architecture
+floor; discovery+streaming with no query layer; each non-historian
+architecture paired with historian; a discovery+query+relational triple;
+a triple deliberately chosen to force redundant acquisition without a KG
+to explain it; and the full set, to test whether "more architectures" is
+strictly better once redundancy/overhead are counted). Full rationale for
+each is in the module docstring and per-entry `rationale` field, not
+duplicated here to avoid the two drifting apart.
+
+A combination is a *label*, not a second enforcement mechanism: what
+actually restricts the LLM agent's tools is still
+`icab.agent.llm.tools.tools_for_architectures(config.architectures)`
+(unchanged from M9/M6). `ExperimentConfig.architecture_combination_key`
+just records which named preset (if any) `architectures` came from, so
+aggregate tables can group by it. `ExperimentRunner.compare_combinations`
+is the entry point that resolves keys to combinations and runs them
+against one shared scenario preparation, exactly like
+`compare_architectures` does for raw architecture lists.
+
+The agent is never told which combination or architecture is "better," or
+even which architectures it has beyond what `tools_for_architectures`
+exposes to it as callable tools -- it discovers what it can do the same
+way for every combination (its tool list), and the scenario's objective
+never names a combination.
+
+### Discoverability, acquisition, and redundancy (`icab.evaluation.information_flow`)
+
+Having the historian tool *available* is not the same as the agent
+*using* it, and having both MQTT and historian available is not the same
+as the agent retrieving the same value from both. `InformationFlowAnalyzer`
+is a separate, additive analysis (not part of `GroundedInvestigationEvaluator`,
+which stays the deterministic scoring path) over one run's recorded trace
+that distinguishes:
+
+- **discoverability** -- the agent learned *what exists* (a measurement's
+  canonical id) via a browse/relationship-listing tool
+  (`browse_uns`, `get_entity_relationships`, `opcua_browse`,
+  `i3x_get_objects`/`i3x_get_related_objects`), without a value.
+- **acquisition** -- the agent retrieved an actual *value*, via
+  `get_current_value`/`get_historical_values` (historian), `read_mqtt`,
+  `opcua_read`, or `i3x_get_value`/`i3x_get_history`.
+- **redundancy** -- the same measurement's value acquired via more than
+  one *distinct architecture* within one investigation (an agent reading
+  the same historian value twice is two acquisitions but not
+  cross-architecture redundancy; reading it via both MQTT and the
+  historian is).
+
+This is what lets an aggregate row answer "which source did the agent
+actually use," not just "which sources were available" --
+`ExperimentRecord.information_flow` on every run, and
+`redundant_acquisition_count`/`unresolved_acquisition_count`/
+`tool_error_count`/`discovered_canonical_id_count`/`acquisition_count` as
+aggregate CSV columns.
+
+**Cross-architecture identity resolution caveat**: each architecture
+names a measurement its own way, so recognizing "this OPC UA read and
+that historian read are the same measurement" requires resolving each
+architecture's own identifier back to one canonical id.
+Historian/MQTT responses carry the canonical id directly. OPC UA's
+`opcua_read` only returns a `node_id`; it is resolved by matching a
+*prior* `opcua_browse` response *in the same trace* that reported that
+node_id's display name, then matching that name against the real TEP
+variable registry -- an `opcua_read` with no matching prior browse in the
+trace is counted as `unresolved_acquisition_count`, never guessed at. i3X
+element ids are parsed from the wrapper's own
+`<connection>!<equipment>.<measurement>` format. This mirrors the same
+independent-container limitation already documented above for OPC UA/i3X
+comparability (M9): resolution depends on what happened to be in *this*
+trace, not on a persistent cross-architecture id registry, so
+`unresolved_acquisition_count` is a real, expected outcome in some runs,
+not a bug to be silently patched over.
+
+### Cost accounting: latency and tokens
+
+`AgentGatewayClient.call_tool` now times every tool call
+(`TraceEvent.latency_ms`); `OpenAICompatibleLLMClient.generate` now
+returns `LLMResponse.token_usage` from the provider's own `usage` field,
+and `LLMInvestigationAgent` records it as a separate `action="llm_generate"`
+trace event (distinct from `"tool_call"` events -- it is not a Gateway
+tool call). `ExperimentRunner._run_prepared` sums both onto
+`ExperimentRecord.total_latency_ms`/`total_tokens`. `MockLLMClient` never
+sets `token_usage`, so unit tests correctly see `total_tokens=None` rather
+than a fabricated number -- this is intentionally not backfilled from
+some estimate.
+
+### Control-consistency validation
+
+An architecture comparison is only a valid "vary only architecture"
+comparison if the scenario, simulation seed, LLM model/temperature, and
+step budget are identical across the runs being compared --
+`ExperimentResultStore.write_aggregate` now checks exactly that
+(`_CONTROL_FIELDS = scenario_id, simulation_seed, llm_model,
+llm_temperature, max_steps`) and raises `HeterogeneousControlsError` if
+they differ, rather than silently producing a comparison table that looks
+controlled but isn't. `allow_heterogeneous_controls=True` overrides this
+for a deliberately mixed sweep; the written JSON always records
+`controls_consistent`/`control_variance` either way, so even an allowed
+heterogeneous aggregate is self-documenting rather than silently implying
+a controlled comparison it isn't.
+
+### Validation: real multi-combination run against the live stack
+
+`d4_plant_wide_investigation` (D4) was chosen deliberately for this
+validation run: its ground truth requires identifying that the Stripper,
+Compressor, Separator, and Condenser are affected, *not* the Reactor --
+an agent that only ever looks at the reactor cannot answer it correctly,
+regardless of which architecture it uses to look. Combinations compared,
+one shared scenario preparation per run (seed 104, real RChat
+`gemma-4-31B-it`, identical objective; `controls_consistent: true` in
+both aggregate JSONs -- scenario/seed/model/temperature/max_steps were
+verified identical across each run's three combinations).
+
+**First pass, `max_steps=10`** (`results/aggregate/m10-d4-combo-validation.{json,csv}`)
+-- too tight a budget for D4: all three combinations hit
+`step_budget_exceeded` before submitting:
+
+| combination | architectures | termination | required_evidence | relationship | completeness | discovered | acquired | redundant | unresolved |
+|---|---|---|---|---|---|---|---|---|---|
+| `historian_only` | historian | `step_budget_exceeded` | 0.00 | 0.00 | 0.00 | 0 | 6 | 0 | 35 |
+| `kg_historian` | knowledge_graph+historian | `step_budget_exceeded` | 0.00 | 0.50 | 0.17 | 28 | 5 | 0 | 0 |
+| `full` | mqtt+uns+opcua+i3x+historian+knowledge_graph | `step_budget_exceeded` | 0.50 | 0.00 | 0.17 | 17 | 9 | 0 | 0 |
+
+Already informative even unsubmitted: `historian_only` has no discovery
+tool at all, so the LLM resorted to *guessing* plausible canonical ids
+from domain knowledge (`get_current_value` calls to things like
+`urn:icab:measurement:product_purity`) -- 35 of 41 acquisition attempts
+came back with no matching measurement (`{"observation": null}`, not an
+`{"error": ...}`, so correctly counted as `unresolved_acquisition_count`
+rather than `tool_error_count`) and it never found any of the actually
+affected equipment.
+
+**Second pass, `max_steps=20`** (`results/aggregate/m10-d4-combo-validation-v2.{json,csv}`)
+-- same scenario/seed/model, only the step budget raised, run as a
+separate, equally-valid experiment (not a retry that discarded the
+first):
+
+| combination | termination | required_evidence | relationship | conclusion_correctness | completeness | discovered | acquired | redundant | conclusion (truncated) |
+|---|---|---|---|---|---|---|---|---|---|
+| `historian_only` | `step_budget_exceeded` | 0.00 | 0.00 | 0.00 | 0.00 | 0 | 6 | 0 | still never located the affected equipment (75 unresolved guesses this time) |
+| `kg_historian` | **submitted** | 0.50 | 0.50 | 0.17 | 0.67 | 28 | 12 | 2 | *"...significant drop in the stripper level...peak of 50.757%...decline to 9.940%..."* -- correctly identifies the Stripper |
+| `full` | **submitted** | 1.00 | 0.00 | 0.22 | 0.67 | 27 | 18 | 5 | *"...separator temperature decreased...stripper temperature decreased...affected equipment are the separator and the stripper"* -- correctly identifies Separator + Stripper (misses Compressor/Condenser) |
+
+This is direct, real evidence for the research property M10 exists to
+measure:
+
+- **Architecture availability changes whether the task is solvable at
+  all**, not just how well it's solved: `historian_only` could not
+  complete the investigation in either budget -- with no discovery tool,
+  an agent restricted to historian alone cannot learn *what equipment
+  exists* in a plant-wide, no-equipment-named objective, so it never gets
+  past guessing ids. `kg_historian` and `full` both completed once given
+  enough budget.
+- **"More architectures" is not simply "better," once redundancy is
+  counted**: `full` scored higher on `required_evidence` (it happened to
+  retrieve more of the specific expected canonical ids) but `redundant_acquisition_count`
+  rose from 2 (`kg_historian`) to 5 (`full`) -- with six architectures
+  available the agent fetched some of the same measurements' values more
+  than once, exactly the tool-call/redundancy cost `full` was included in
+  the registry to surface (see its rationale above). Neither combination
+  found the complete ground-truth equipment set (Stripper, Compressor,
+  Separator, Condenser) within budget -- `kg_historian` found only the
+  Stripper, `full` found Separator+Stripper but not Compressor/Condenser
+  -- so `conclusion_correctness` stayed low (0.17/0.22) for both despite
+  reasonable partial completeness (0.67 each).
+- **The evaluator's scores track real, distinguishable agent behavior,
+  not noise**: three different architecture configurations, same
+  scenario/seed/objective/model, produced three different termination
+  outcomes and three different score profiles -- not a flat, uninformative
+  comparison.
+
+See `results/aggregate/m10-d4-combo-validation{,-v2}.{json,csv}` for the
+full per-run rows (this table is a pointer to them, not a duplicate
+source of truth), and `results/raw/`, `results/traces/`,
+`results/evaluations/` for each run's full record/trace/evaluation.

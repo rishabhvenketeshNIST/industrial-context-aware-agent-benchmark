@@ -1,0 +1,43 @@
+services:
+  historian:
+    image: timescale/timescaledb:latest-pg16
+    container_name: icab-historian
+    environment:
+      POSTGRES_DB: icab
+      POSTGRES_USER: icab
+      POSTGRES_PASSWORD: icab
+    ports:
+      - "5432:5432"
+    volumes:
+      - historian_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U icab -d icab"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  
+  knowledge_graph:
+    image: neo4j:5
+    container_name: icab-knowledge-graph
+    environment:
+      NEO4J_AUTH: neo4j/icabpassword
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - knowledge_graph_data:/data
+      - knowledge_graph_logs:/logs
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  historian_data:
+  knowledge_graph_data:
+  knowledge_graph_logs:

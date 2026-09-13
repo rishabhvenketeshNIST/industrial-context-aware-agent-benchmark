@@ -1,0 +1,28 @@
+scenario_id: normal_001
+
+name: Normal TEP Operation
+
+description: >
+  Deterministic prototype scenario representing normal operation
+  of the Tennessee Eastman Process.
+
+operating_state: NORMAL
+
+timestamp: "2026-09-09T12:00:00Z"
+
+measurements:
+  TEP_PV_REACTOR_PRESSURE:
+    value: 2834.0
+    unit: kPa
+
+  TEP_PV_REACTOR_TEMPERATURE:
+    value: 120.0
+    unit: degC
+
+  TEP_PV_REACTOR_LEVEL:
+    value: 50.0
+    unit: percent
+
+  TEP_PV_CONDENSER_TEMPERATURE:
+    value: 80.0
+    unit: degC

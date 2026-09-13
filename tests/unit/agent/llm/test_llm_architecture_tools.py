@@ -22,10 +22,12 @@ def test_multiple_architectures_are_unioned_without_duplicates():
 
 
 def test_all_architectures_cover_every_agent_tool():
-    all_architectures = ["historian", "knowledge_graph", "uns", "opcua", "mqtt"]
+    all_architectures = ["historian", "knowledge_graph", "uns", "opcua", "mqtt", "i3x"]
     tools = tools_for_architectures(all_architectures)
 
-    assert set(tools) == set(AGENT_TOOLS)
+    # AgentTool isn't hashable (it can carry a raw parameters dict), so
+    # compare by name rather than putting instances in a set.
+    assert {tool.name for tool in tools} == {tool.name for tool in AGENT_TOOLS}
 
 
 def test_unknown_architecture_raises():

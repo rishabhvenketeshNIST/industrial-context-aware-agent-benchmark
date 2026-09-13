@@ -41,7 +41,16 @@ from icab.trace.collector import TraceCollector
 
 settings = get_settings()
 
-i3x = I3XClient("https://api.i3x.dev/v1")
+try:
+    # I3XClient connects eagerly (unlike historian/knowledge_graph, which
+    # connect lazily per call), so a private i3X server that isn't running
+    # yet must not take down the whole gateway process -- every i3x_get_*
+    # tool degrades to a clear RuntimeError via GatewayTools._require_i3x
+    # instead. See docs/architecture/i3x-private-server.md.
+    i3x: I3XClient | None = I3XClient(settings.i3x_base_url)
+except Exception as error:  # noqa: BLE001 -- deliberately broad: any connection failure
+    print(f"Warning: could not connect to i3X at {settings.i3x_base_url}: {error}")
+    i3x = None
 
 opcua = OPCUAClient("opc.tcp://127.0.0.1:4840/icab/")
 

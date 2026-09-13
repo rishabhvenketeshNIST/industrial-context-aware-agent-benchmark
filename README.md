@@ -124,9 +124,14 @@ uv sync
 cp .env.example .env
 # edit .env if you change ports/credentials
 
-# Start the historian, knowledge graph, and MQTT broker
+# Start the historian, knowledge graph, MQTT broker, and private i3X stack
 docker compose up -d
 ```
+
+`docker compose up -d` builds two images the first time (`opcua_tep`,
+`icab`'s own TEP-backed OPC UA server; `i3x_server`, CESMII's `i3xua`
+wrapper pinned to a fixed commit) — see
+[`docs/architecture/i3x-private-server.md`](docs/architecture/i3x-private-server.md).
 
 `.env` / `src/icab/common/config.py` expects:
 
@@ -138,6 +143,7 @@ docker compose up -d
 | `ICAB_NEO4J_PASSWORD` | Neo4j password |
 | `ICAB_MQTT_HOST` | MQTT broker host (optional, defaults to `localhost`) |
 | `ICAB_MQTT_PORT` | MQTT broker port (optional, defaults to `1883`) |
+| `ICAB_I3X_BASE_URL` | ICAB's private, TEP-backed i3X instance (optional, defaults to `http://localhost:8090`) — **not** the public `api.i3x.dev` conformance server |
 | `ICAB_LLM_PROVIDER` | Label for the configured LLM provider (optional, e.g. `nist-rchat`) |
 | `ICAB_LLM_BASE_URL` | Base URL of an OpenAI-compatible chat-completions endpoint (optional; required to run `LLMInvestigationAgent` with a real provider) |
 | `ICAB_LLM_API_KEY` | API key for that endpoint (optional; **never commit a real value** — `.env.example` only documents the variable name) |
@@ -174,6 +180,9 @@ The real-simulator context bridges (`icab.tep.context_sync.TEPContextSync`,
 `tests/integration/test_tep_context_sync.py` and
 `tests/integration/test_opcua_tep_server.py` — see
 [`docs/architecture/context-architecture.md`](docs/architecture/context-architecture.md).
+The private i3X stack (`opcua_tep` + `i3x_server` compose services) is
+exercised by `tests/integration/test_i3x_private_server.py` — see
+[`docs/architecture/i3x-private-server.md`](docs/architecture/i3x-private-server.md).
 
 ## Testing
 
@@ -182,8 +191,12 @@ uv run pytest
 ```
 
 - `tests/unit/` — pure unit tests, no external services required.
-- `tests/integration/` — require the historian/knowledge graph/MQTT broker
-  from `docker compose up -d` (Postgres/TimescaleDB, Neo4j, Mosquitto).
+- `tests/integration/` — require the full `docker compose up -d` stack
+  (Postgres/TimescaleDB, Neo4j, Mosquitto, and the private
+  `opcua_tep`/`i3x_server` pair). The gateway degrades gracefully if the
+  private i3X server specifically isn't running (a warning is printed, and
+  `i3x_get_*` tool calls raise a clear `RuntimeError`) rather than failing
+  to import — so most of `tests/unit/gateway/` still passes without it.
 - `tests/integration/test_llm_rchat.py` and
   `tests/integration/test_scenario_llm_end_to_end.py` are additionally
   gated behind `ICAB_RUN_LLM_INTEGRATION_TESTS=1` — they make real,
@@ -207,12 +220,14 @@ Implemented and under test:
   [`docs/architecture/mqtt.md`](docs/architecture/mqtt.md)
 - The real simulator wired into Historian + Knowledge Graph
   (`icab.tep.context_sync.TEPContextSync`), UNS
-  (`icab.context.uns.tep_builder`), and a real, self-hosted OPC UA server
-  mirroring the full measurement set (`icab.context.opcua.TEPOPCUAServer`)
-  — each architecture deliberately keeps its own access pattern rather than
-  exposing an identical view; see
+  (`icab.context.uns.tep_builder`), a real, self-hosted OPC UA server
+  mirroring the full measurement set (`icab.context.opcua.TEPOPCUAServer`),
+  and a **private, TEP-backed i3X instance** (CESMII's `i3xua` wrapper in
+  front of that same OPC UA server) — each architecture deliberately keeps
+  its own access pattern rather than exposing an identical view; see
   [`docs/architecture/context-architecture.md`](docs/architecture/context-architecture.md)
-  (also documents why i3X is *not* wired to the simulator)
+  and [`docs/architecture/i3x-private-server.md`](docs/architecture/i3x-private-server.md)
+  (the public `api.i3x.dev` conformance server stays read-only/unused, by design)
 - `StructuredRetrievalAgent`, `ContextAwareAgent`, `ArchitectureAwareAgent`
   (deterministic baselines) and `LLMInvestigationAgent` (real tool-calling
   LLM agent, provider-configurable, NIST RChat by default) — see

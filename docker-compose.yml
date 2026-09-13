@@ -55,6 +55,28 @@ services:
       timeout: 5s
       retries: 10
 
+  opcua_tep:
+    build:
+      context: .
+      dockerfile: services/opcua/Dockerfile
+    container_name: icab-opcua-tep
+    ports:
+      - "4841:4841"
+    restart: unless-stopped
+
+  i3x_server:
+    build:
+      context: services/i3x
+      dockerfile: Dockerfile
+    container_name: icab-i3x-server
+    depends_on:
+      - opcua_tep
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./services/i3x/config.yaml:/config/config.yaml:ro
+    restart: unless-stopped
+
 volumes:
   historian_data:
   knowledge_graph_data:

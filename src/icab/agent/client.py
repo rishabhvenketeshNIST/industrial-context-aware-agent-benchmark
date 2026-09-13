@@ -27,14 +27,22 @@ class AgentGatewayClient:
         step: int = 0,
         context_acquired: list[str] | None = None,
         context_consumed: list[str] | None = None,
+        method: str = "POST",
     ) -> dict[str, Any]:
-        """Invoke a Gateway tool and optionally record the interaction."""
+        """
+        Invoke a Gateway tool and optionally record the interaction.
 
-        response = httpx.post(
-            f"{self.base_url}/tools/{tool_name}",
-            json=arguments,
-            timeout=self.timeout,
-        )
+        Most tools are POST with a JSON body; the i3X tools are GET with
+        query parameters (matching their FastAPI routes) -- pass
+        ``method="GET"`` for those.
+        """
+
+        url = f"{self.base_url}/tools/{tool_name}"
+
+        if method == "GET":
+            response = httpx.get(url, params=arguments, timeout=self.timeout)
+        else:
+            response = httpx.post(url, json=arguments, timeout=self.timeout)
 
         response.raise_for_status()
 

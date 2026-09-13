@@ -41,10 +41,10 @@ class GatewayTools:
         historian: HistorianService,
         knowledge_graph: KnowledgeGraphService,
         uns: UNSService,
-        i3x: I3XClient,
         opcua: OPCUAClient,
         trace_collector: TraceCollector | None = None,
         mqtt: MQTTClient | None = None,
+        i3x: I3XClient | None = None,
     ) -> None:
         self.historian = historian
         self.knowledge_graph = knowledge_graph
@@ -136,8 +136,13 @@ class GatewayTools:
 
         return response
 
+    def _require_i3x(self) -> I3XClient:
+        if self.i3x is None:
+            raise RuntimeError("GatewayTools was not configured with an i3X client.")
+        return self.i3x
+
     def i3x_get_info(self) -> I3XGetInfoResponse:
-        info = self.i3x.get_info()
+        info = self._require_i3x().get_info()
 
         response = I3XGetInfoResponse(
             spec_version=info.spec_version,
@@ -158,7 +163,7 @@ class GatewayTools:
         return response
 
     def i3x_get_namespaces(self) -> I3XGetNamespacesResponse:
-        namespaces = self.i3x.get_namespaces()
+        namespaces = self._require_i3x().get_namespaces()
 
         response = I3XGetNamespacesResponse(
             namespaces=[
@@ -185,7 +190,7 @@ class GatewayTools:
         self,
         namespace_uri: str | None = None,
     ) -> I3XGetObjectTypesResponse:
-        object_types = self.i3x.get_object_types(namespace_uri=namespace_uri)
+        object_types = self._require_i3x().get_object_types(namespace_uri=namespace_uri)
 
         response = I3XGetObjectTypesResponse(
             object_types=[
@@ -217,7 +222,7 @@ class GatewayTools:
         self,
         type_element_id: str | None = None,
     ) -> I3XGetObjectsResponse:
-        objects = self.i3x.get_objects(
+        objects = self._require_i3x().get_objects(
             type_element_id=type_element_id,
         )
 
@@ -251,7 +256,7 @@ class GatewayTools:
         self,
         element_id: str,
     ) -> I3XGetObjectResponse:
-        obj = self.i3x.get_object(
+        obj = self._require_i3x().get_object(
             element_id=element_id,
         )
 
@@ -283,7 +288,7 @@ class GatewayTools:
         element_ids: list[str],
         relationship_type: str | None = None,
     ) -> I3XGetRelatedObjectsResponse:
-        related_objects = self.i3x.get_related_objects(
+        related_objects = self._require_i3x().get_related_objects(
             element_ids=element_ids,
             relationship_type=relationship_type,
         )
@@ -325,7 +330,7 @@ class GatewayTools:
         element_id: str,
         max_depth: int = 1,
     ) -> I3XGetValueResponse:
-        value = self.i3x.get_value(
+        value = self._require_i3x().get_value(
             element_id=element_id,
             max_depth=max_depth,
         )
@@ -360,7 +365,7 @@ class GatewayTools:
         end_time: str | None = None,
         max_depth: int = 1,
     ) -> I3XGetHistoryResponse:
-        history = self.i3x.get_history(
+        history = self._require_i3x().get_history(
             element_id=element_id,
             start_time=start_time,
             end_time=end_time,

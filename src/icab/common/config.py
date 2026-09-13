@@ -63,6 +63,19 @@ class ICABSettings(BaseSettings):
         validation_alias="ICAB_LLM_MODEL",
     )
 
+    i3x_base_url: str = Field(
+        default="http://localhost:8090",
+        validation_alias="ICAB_I3X_BASE_URL",
+        min_length=1,
+        description=(
+            "ICAB's own private, TEP-backed i3X instance (see "
+            "services/i3x/ and docs/architecture/i3x-private-server.md) "
+            "-- NOT the public https://api.i3x.dev/v1 conformance server, "
+            "which is read-only reference infrastructure ICAB does not "
+            "write to."
+        ),
+    )
+
 
 def get_settings() -> ICABSettings:
     """Return the current ICAB application settings."""

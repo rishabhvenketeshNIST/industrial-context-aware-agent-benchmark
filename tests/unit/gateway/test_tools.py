@@ -327,3 +327,55 @@ def test_browse_mqtt_without_configured_client_raises():
 
     with pytest.raises(RuntimeError):
         tools.browse_mqtt(BrowseMQTTRequest())
+
+
+def test_i3x_get_info():
+    tools = build_gateway_tools()
+
+    tools.i3x.get_info = Mock(
+        return_value=Mock(
+            spec_version="1.0",
+            server_version="0.1.0",
+            server_name="i3xua",
+            capabilities={"query": {"history": True}},
+        )
+    )
+
+    response = tools.i3x_get_info()
+
+    assert response.spec_version == "1.0"
+    assert response.server_name == "i3xua"
+
+
+def test_i3x_get_value():
+    tools = build_gateway_tools()
+
+    tools.i3x.get_value = Mock(
+        return_value=Mock(
+            element_id="icab_tep!Reactor.Reactor pressure",
+            is_composition=False,
+            value=2705.0,
+            quality="Good",
+            timestamp="2026-09-13T00:00:00Z",
+            components=None,
+        )
+    )
+
+    response = tools.i3x_get_value(element_id="icab_tep!Reactor.Reactor pressure")
+
+    assert response.value == 2705.0
+    tools.i3x.get_value.assert_called_once_with(
+        element_id="icab_tep!Reactor.Reactor pressure",
+        max_depth=1,
+    )
+
+
+def test_i3x_tools_without_configured_client_raise():
+    tools = build_gateway_tools()
+    tools.i3x = None
+
+    with pytest.raises(RuntimeError):
+        tools.i3x_get_info()
+
+    with pytest.raises(RuntimeError):
+        tools.i3x_get_value(element_id="whatever")

@@ -1,6 +1,10 @@
+import pytest
+
 from icab.agent.llm.tools import (
     AGENT_TOOLS,
+    ARCHITECTURE_TOOL_NAMES,
     SUBMIT_INVESTIGATION_TOOL_NAME,
+    AgentTool,
     build_tool_spec,
     build_tool_specs,
 )
@@ -42,3 +46,33 @@ def test_every_agent_tool_produces_a_valid_spec():
         assert spec["function"]["parameters"].get("type") == "object"
         # No leaked pydantic model titles in the LLM-facing schema.
         assert "title" not in spec["function"]["parameters"]
+
+
+def test_i3x_tools_use_get_and_hand_written_parameters():
+    i3x_tools = {tool.name: tool for tool in AGENT_TOOLS if tool.name.startswith("i3x_")}
+
+    assert set(i3x_tools) == set(ARCHITECTURE_TOOL_NAMES["i3x"])
+
+    for tool in i3x_tools.values():
+        assert tool.http_method == "GET"
+        assert tool.request_model is None
+        assert tool.parameters is not None
+
+    value_spec = build_tool_spec(i3x_tools["i3x_get_value"])
+    assert "element_id" in value_spec["function"]["parameters"]["properties"]
+    assert "element_id" in value_spec["function"]["parameters"]["required"]
+
+
+def test_agent_tool_requires_exactly_one_of_request_model_or_parameters():
+    with pytest.raises(ValueError):
+        AgentTool(name="x", description="x")
+
+    with pytest.raises(ValueError):
+        from icab.gateway.schemas import GetCurrentValueRequest
+
+        AgentTool(
+            name="x",
+            description="x",
+            request_model=GetCurrentValueRequest,
+            parameters={"type": "object"},
+        )

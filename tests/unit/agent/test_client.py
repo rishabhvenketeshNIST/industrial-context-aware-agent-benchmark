@@ -102,3 +102,31 @@ def test_agent_gateway_client_without_trace_still_works(monkeypatch):
     )
 
     assert result["value"] == 2834.0
+
+
+def test_agent_gateway_client_supports_get_for_i3x_style_tools(monkeypatch):
+    captured = {}
+
+    def fake_get(url, **kwargs):
+        captured["url"] = url
+        captured["params"] = kwargs["params"]
+
+        return httpx.Response(
+            200,
+            json={"object": {"element_id": "icab_tep!Reactor"}},
+            request=httpx.Request("GET", url),
+        )
+
+    monkeypatch.setattr(httpx, "get", fake_get)
+
+    client = AgentGatewayClient("http://localhost:8000")
+
+    result = client.call_tool(
+        "i3x_get_object",
+        {"element_id": "icab_tep!Reactor"},
+        method="GET",
+    )
+
+    assert result["object"]["element_id"] == "icab_tep!Reactor"
+    assert captured["url"] == "http://localhost:8000/tools/i3x_get_object"
+    assert captured["params"] == {"element_id": "icab_tep!Reactor"}

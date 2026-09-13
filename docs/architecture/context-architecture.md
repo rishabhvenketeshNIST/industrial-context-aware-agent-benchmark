@@ -13,8 +13,15 @@ TEP simulator (icab.tep.simulator.TEPSimulator)
  +--> Knowledge Graph icab.tep.context_sync.TEPContextSync -> EnvironmentLoader
  +--> UNS             icab.context.uns.tep_builder.build_real_uns_nodes (static tree)
  +--> OPC UA          icab.context.opcua.TEPOPCUAServer
- +--> i3X             not wired -- see "i3X" below
+ +--> i3X             icab.context.opcua.TEPOPCUAServer -> private i3xua wrapper
 ```
+
+**Update:** i3X is now wired to the real simulator via a private,
+TEP-backed instance -- see
+[`docs/architecture/i3x-private-server.md`](i3x-private-server.md). The
+"i3X -- deliberately not wired" section below is kept for its still-valid
+reasoning about the *public* conformance server (ICAB still never writes
+to it), but is otherwise superseded.
 
 ## The shared source of truth: `TEPAdapter.build_real_environment`
 
@@ -44,6 +51,7 @@ flattened into one shared dictionary:
 | **UNS** | A browsable site/equipment/measurement namespace tree for *discovery* (`browse_uns`) -- canonical IDs are attached to leaf nodes, but browsing doesn't hand back a value | No current/historical values, no relationships beyond the tree shape |
 | **MQTT** | The same observation, but reached by subscribing/discovering on a topic namespace (`icab/tep/<equipment>/<measurement>`) with retained last-value semantics -- a streaming/pub-sub access pattern, not a query API | No history, no relationship traversal |
 | **OPC UA** | A live, node-addressed address space grouped by equipment Object, discoverable via `browse`/`read` | No relationships, no history (this server does not persist a history buffer) |
+| **i3X** (private instance) | Standardized objects/types/relationships/values over HTTP+JSON (`i3x_get_objects`/`get_object`/`get_related_objects`/`get_value`) -- a spec-defined API distinct from OPC UA's binary node model | History exists in principle (`get_history`) but is empty until a live subscription has populated the wrapper's ring buffer -- see `docs/architecture/i3x-private-server.md` |
 
 An agent restricted to one architecture therefore genuinely has to work
 within that architecture's access pattern -- e.g. a UNS-only agent must
@@ -78,28 +86,20 @@ real OPC UA client, real socket) in
 `tests/integration/test_opcua_tep_server.py`, including that values
 actually change across simulator steps/fault injection.
 
-## i3X -- deliberately not wired (needs your attention)
+## i3X (public conformance server) -- still read-only, by design
 
-`I3XClient` talks to `https://api.i3x.dev/v1`, a public i3X spec
-conformance/reference server this project does not own or control.
-Inspecting it directly (read-only) during M4 showed it serves a **fixed,
-unrelated demo plant** (`pump-101`, `tank-201`, generic sensors) -- there is
-no TEP/reactor object on it. The `i3x` client package does support
-*writing* current values to existing objects (`update_value`/
-`update_values`), but not creating new objects/types, so there is no way to
-add TEP-shaped objects to it even if writing to shared public infrastructure
-were otherwise appropriate.
+`https://api.i3x.dev/v1` is a public i3X spec conformance/reference server
+this project does not own or control. Inspecting it directly (read-only)
+during M4 showed it serves a **fixed, unrelated demo plant** (`pump-101`,
+`tank-201`, generic sensors) -- there is no TEP/reactor object on it, and
+ICAB never writes to it (writing simulator data into someone else's shared
+demo objects would be semantically wrong and would mutate infrastructure
+ICAB doesn't own).
 
-**Decision made without asking:** do not write ICAB's simulator data into
-that shared external server's unrelated demo objects (semantically wrong,
-and mutates infrastructure ICAB doesn't own). i3X therefore stays read-only
-against its existing (non-TEP) demo content -- functionally equivalent to
-before M4.
-
-**What would change this:** if a self-hostable i3X reference server
-implementation becomes available (the `i3x-client` PyPI package is
-client-only), or if you can point `I3XClient` at a private/sandboxed i3X
-instance ICAB controls, wiring the real simulator into i3X the same way as
-OPC UA (one object per equipment item, values kept in sync) is
-straightforward future work. Flagging this rather than silently leaving it
-implicit.
+This is no longer the whole i3X story: a follow-up milestone added a
+**private, TEP-backed i3X instance** (a self-hosted wrapper in front of
+ICAB's own `TEPOPCUAServer`), which is what the gateway now talks to by
+default. See
+[`docs/architecture/i3x-private-server.md`](i3x-private-server.md) for how
+it works, what it exposes, and why the public server stays read-only
+regardless.

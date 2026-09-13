@@ -1,0 +1,43 @@
+# Config for ICAB's private i3X instance (i3xua wrapping our own TEP-backed
+# OPC UA server). See services/i3x/Dockerfile and
+# docs/architecture/i3x-private-server.md.
+#
+# This is a LOCAL/DEV configuration: no transport security, anonymous OPC
+# UA session, no i3X API auth. Appropriate for a reproducible local
+# benchmark stack, not for exposure beyond the developer's machine.
+
+server:
+  host: 0.0.0.0
+  port: 8080
+  versions: [v0, v1]
+  openapi_regen_on_admin_refresh: true
+  auth:
+    mode: none
+
+logging:
+  level: INFO
+  format: json
+
+registry:
+  history_ring_size: 2000
+  subscription_ring_size: 10000
+  rebrowse_interval_seconds: 60
+
+connections:
+  - name: icab_tep
+    # "icab-opcua-tep" is the docker-compose service name for
+    # icab.context.opcua.TEPOPCUAServer (see services/opcua/).
+    endpoint: opc.tcp://icab-opcua-tep:4841/icab/tep/
+    channel:
+      mode: "None"
+      policy: "None"
+    user:
+      type: anonymous
+    namespace_allowlist: []
+    browse_variable_properties: false
+    max_parents_per_batch: 1000
+    max_children_per_batch: 50000
+    default_publishing_interval_ms: 1000
+    default_sampling_interval_ms: 500
+    reconnect:
+      backoff_ms: [1000, 2000, 4000, 8000, 16000, 32000, 10000]

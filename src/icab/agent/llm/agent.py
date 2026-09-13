@@ -136,7 +136,9 @@ class LLMInvestigationAgent(Agent):
         )
 
     def _execute_tool(self, call: ToolCall, *, step: int) -> dict[str, Any]:
-        if call.name not in self._tools_by_name:
+        tool = self._tools_by_name.get(call.name)
+
+        if tool is None:
             return {"error": f"Unknown tool: {call.name}"}
 
         identifier = self._identifier_for(call)
@@ -147,6 +149,7 @@ class LLMInvestigationAgent(Agent):
                 call.arguments,
                 step=step,
                 context_acquired=[identifier] if identifier else None,
+                method=tool.http_method,
             )
         except Exception as error:  # surfaced to the LLM as an observation, not raised
             return {"error": str(error)}

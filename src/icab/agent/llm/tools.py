@@ -7,6 +7,13 @@ a second time, so the LLM-visible tool contract cannot silently drift from
 the actual gateway API. The agent never gets direct database/broker/OPC UA
 access -- only these gateway-fronted tools, plus the synthetic
 ``submit_investigation`` action that ends an investigation.
+
+The i3X tools are the exception: their gateway routes take individual
+FastAPI query parameters rather than a Pydantic request body (see
+``icab.gateway.app``'s ``i3x_get_*`` routes), so there is no request model
+to derive a schema from -- their ``AgentTool.parameters`` is hand-written
+JSON Schema instead, and they are called over GET (``AgentTool.http_method``)
+rather than POST.
 """
 
 from __future__ import annotations
@@ -34,13 +41,19 @@ class AgentTool:
 
     name: str
     description: str
-    request_model: type[BaseModel]
+    request_model: type[BaseModel] | None = None
+    parameters: dict[str, Any] | None = None
+    http_method: str = "POST"
+
+    def __post_init__(self) -> None:
+        if (self.request_model is None) == (self.parameters is None):
+            raise ValueError(
+                f"AgentTool {self.name!r} must set exactly one of "
+                "request_model or parameters."
+            )
 
 
-#: Tools available to the LLM agent. Limited to the gateway's POST-based
-#: tools that `icab.agent.client.AgentGatewayClient.call_tool` supports
-#: today; the GET-based i3X tools (`i3x_get_*`) are not yet included --
-#: see docs/architecture/llm-agent.md.
+#: Tools available to the LLM agent.
 AGENT_TOOLS: tuple[AgentTool, ...] = (
     AgentTool(
         name="get_current_value",
@@ -98,6 +111,88 @@ AGENT_TOOLS: tuple[AgentTool, ...] = (
         description="Read the retained value on a single, fully-qualified MQTT topic.",
         request_model=ReadMQTTRequest,
     ),
+    AgentTool(
+        name="i3x_get_objects",
+        description=(
+            "Discover i3X objects (e.g. equipment) on ICAB's private "
+            "TEP-backed i3X server, optionally filtered by object type."
+        ),
+        parameters={
+            "type": "object",
+            "properties": {
+                "type_element_id": {
+                    "type": "string",
+                    "description": "Optional i3X object-type element id to filter by.",
+                },
+            },
+        },
+        http_method="GET",
+    ),
+    AgentTool(
+        name="i3x_get_object",
+        description=(
+            "Get one i3X object by element id (e.g. an equipment or "
+            "measurement discovered via i3x_get_objects/i3x_get_related_objects)."
+        ),
+        parameters={
+            "type": "object",
+            "properties": {
+                "element_id": {"type": "string"},
+            },
+            "required": ["element_id"],
+        },
+        http_method="GET",
+    ),
+    AgentTool(
+        name="i3x_get_related_objects",
+        description=(
+            "Get i3X objects related to one or more element ids (e.g. the "
+            "measurements composed under an equipment object)."
+        ),
+        parameters={
+            "type": "object",
+            "properties": {
+                "element_ids": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+                "relationship_type": {
+                    "type": "string",
+                    "description": "Optional relationship type to filter by.",
+                },
+            },
+            "required": ["element_ids"],
+        },
+        http_method="GET",
+    ),
+    AgentTool(
+        name="i3x_get_value",
+        description="Get the current value of an i3X object (e.g. a measurement).",
+        parameters={
+            "type": "object",
+            "properties": {
+                "element_id": {"type": "string"},
+                "max_depth": {"type": "integer", "default": 1},
+            },
+            "required": ["element_id"],
+        },
+        http_method="GET",
+    ),
+    AgentTool(
+        name="i3x_get_history",
+        description="Get historical values of an i3X object between two ISO-8601 timestamps.",
+        parameters={
+            "type": "object",
+            "properties": {
+                "element_id": {"type": "string"},
+                "start_time": {"type": "string"},
+                "end_time": {"type": "string"},
+                "max_depth": {"type": "integer", "default": 1},
+            },
+            "required": ["element_id", "start_time", "end_time"],
+        },
+        http_method="GET",
+    ),
 )
 
 #: The synthetic action that ends an investigation. Not a gateway tool --
@@ -143,12 +238,18 @@ def _json_schema_for(model: type[BaseModel]) -> dict[str, Any]:
 def build_tool_spec(tool: AgentTool) -> dict[str, Any]:
     """Build one OpenAI-format ``tools=[...]`` entry for an :class:`AgentTool`."""
 
+    parameters = (
+        _json_schema_for(tool.request_model)
+        if tool.request_model is not None
+        else tool.parameters
+    )
+
     return {
         "type": "function",
         "function": {
             "name": tool.name,
             "description": tool.description,
-            "parameters": _json_schema_for(tool.request_model),
+            "parameters": parameters,
         },
     }
 
@@ -173,6 +274,13 @@ ARCHITECTURE_TOOL_NAMES: dict[str, tuple[str, ...]] = {
     "uns": ("browse_uns",),
     "opcua": ("opcua_browse", "opcua_read"),
     "mqtt": ("browse_mqtt", "read_mqtt"),
+    "i3x": (
+        "i3x_get_objects",
+        "i3x_get_object",
+        "i3x_get_related_objects",
+        "i3x_get_value",
+        "i3x_get_history",
+    ),
 }
 
 

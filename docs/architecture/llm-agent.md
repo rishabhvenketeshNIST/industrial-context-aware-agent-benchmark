@@ -64,13 +64,18 @@ simply up) -- it must never run silently as part of the default suite,
 since it is billed/metered and provider availability is out of ICAB's
 control.
 
-## Known scope limits (as of M6/M7)
+## Known scope limits
 
-- `AGENT_TOOLS` covers the gateway's POST-based tools (historian, knowledge
-  graph, UNS, OPC UA, MQTT). The GET-based i3X tools (`i3x_get_*`) are not
-  yet included -- `AgentGatewayClient.call_tool` is POST-only today: adding
-  i3X support means also giving it a request method, which was left out of
-  this slice to avoid touching an existing, tested code path without a
-  concrete need yet.
 - There is no persistent multi-turn memory across separate `run()` calls;
   each investigation starts a fresh message history.
+
+**Update (private i3X milestone):** `AGENT_TOOLS` originally covered only
+the gateway's POST-based tools; `AgentGatewayClient.call_tool` gained a
+`method` parameter (`GET` support, using query params instead of a JSON
+body) and `AGENT_TOOLS` now also includes `i3x_get_objects`/`i3x_get_object`/
+`i3x_get_related_objects`/`i3x_get_value`/`i3x_get_history` --
+`AgentTool` accordingly accepts either a Pydantic `request_model` (existing
+tools) or a hand-written `parameters` JSON Schema plus `http_method="GET"`
+(the i3X tools, whose gateway routes take individual query parameters
+rather than a request body). See
+`docs/architecture/i3x-private-server.md`.

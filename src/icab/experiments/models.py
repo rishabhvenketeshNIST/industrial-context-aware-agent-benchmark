@@ -13,6 +13,8 @@ the newer, richer path -- a full experiment record over a
 
 from __future__ import annotations
 
+import hashlib
+import json
 from datetime import datetime
 from enum import StrEnum
 
@@ -100,6 +102,27 @@ class ExperimentConfig(BaseModel):
 
     scenario_id: str = Field(min_length=1)
 
+    #: M13-D: which BenchmarkTask (icab.tasks) this run answers, when run
+    #: via the benchmark orchestrator rather than a bare scenario -- None
+    #: preserves the original M9-M12 scenario-only path unchanged.
+    task_id: str | None = None
+    #: The task's own task_type (icab.scenarios.models.TaskMode value),
+    #: recorded directly (not looked up from a registry at aggregation
+    #: time) so `icab.reporting.aggregation` can group by it without
+    #: needing task-registry access.
+    task_type: str | None = None
+    #: Which named benchmark suite (icab.benchmark) this run belongs to,
+    #: e.g. "tep-v1".
+    suite: str | None = None
+    #: Which split (development/validation/test) the run's task's
+    #: scenario is assigned to (icab.tasks.splits) -- recorded, not
+    #: re-derived, so a persisted record is self-describing even if
+    #: splits.yaml later changes.
+    split: str | None = None
+    #: Which repetition (1-based) of this exact (task, architecture,
+    #: seed) configuration this run is -- see icab.benchmark.runner.
+    repetition: int | None = None
+
     #: Which context architectures' tools the agent is given -- explicit,
     #: not inherited implicitly from the scenario (though it usually
     #: matches `BenchmarkScenario.available_architectures`). Enforced for
@@ -135,6 +158,16 @@ class ExperimentConfig(BaseModel):
     #: DeterministicAgentKind) and always record None here regardless of
     #: what was passed.
     max_steps: int | None = None
+
+    #: M13-D: three additional, optional budgets LLMInvestigationAgent
+    #: can enforce (see its own docstring) -- None (the default) means
+    #: unbounded, same as pre-M13-D behavior. Deterministic baselines
+    #: have no configurable budget of any kind and always record all
+    #: three as None regardless of what was passed (same convention as
+    #: max_steps above).
+    max_tool_calls: int | None = None
+    max_context_tokens: int | None = None
+    max_wall_time_seconds: float | None = None
 
     #: Experiment-level seed, independent of the scenario's own
     #: `simulation_seed` -- reserved for any agent-side stochasticity
@@ -185,6 +218,35 @@ class ExperimentRecord(BaseModel):
 
     icab_version: str | None = None
 
+    #: M13-D: the icab.benchmark package's own BENCHMARK_SUITE_VERSION,
+    #: distinct from icab_version (the installed icab package version) --
+    #: None when this run was produced outside the benchmark orchestrator
+    #: (e.g. a bare ExperimentRunner.run() call, pre-M13-D style).
+    benchmark_version: str | None = None
+    #: `git rev-parse HEAD` at the time the run was launched, when
+    #: available -- None if not run inside a git repository or the
+    #: command could not be resolved. Captured for audit, not enforced.
+    git_commit: str | None = None
+    #: The TEP disturbance actually scheduled on the scenario that was
+    #: run (BenchmarkScenario.faults[0].disturbance), or None for a
+    #: scenario with no fault schedule. Mirrors
+    #: GroundTruth.root_cause_disturbance but derived from the scenario's
+    #: own fault schedule rather than duplicated authoring.
+    fault_id: str | None = None
+    #: BenchmarkScenario.version (M13-D) of the scenario actually run --
+    #: recorded so a persisted record stays self-describing even if the
+    #: scenario's own YAML is later revised.
+    scenario_version: str | None = None
+    #: BenchmarkTask.version (M13-C) of the task actually run, when this
+    #: run answers a task -- None when config.task_id is None.
+    task_version: str | None = None
+    #: sha256 hex digest over a canonical JSON serialization of this
+    #: run's ExperimentConfig -- see
+    #: icab.experiments.models.compute_configuration_hash. Lets two
+    #: persisted records be checked for "same configuration" without
+    #: comparing every field by hand.
+    configuration_hash: str | None = None
+
     started_at: datetime
     completed_at: datetime
 
@@ -218,3 +280,23 @@ class ExperimentRecord(BaseModel):
         default=None,
         description="Sum of every recorded LLM generation call's total_tokens, when available.",
     )
+
+
+def compute_configuration_hash(config: ExperimentConfig) -> str:
+    """
+    M13-D: a stable sha256 hex digest of `config`'s own fields, for
+    `ExperimentRecord.configuration_hash`.
+
+    Uses Pydantic's own JSON serialization (`model_dump_json`) with sorted
+    keys so the hash is stable across field-declaration-order changes and
+    across process runs, not over Python's own (unstable) `hash()`/`repr()`.
+    This is an audit aid ("did two runs share a configuration?"), not a
+    security digest.
+    """
+
+    canonical = config.model_dump_json(exclude_none=False)
+    # model_dump_json doesn't sort keys itself; re-serialize through
+    # json.dumps(..., sort_keys=True) over the already-JSON-safe dict so
+    # the digest doesn't depend on Pydantic's field-declaration order.
+    canonical_sorted = json.dumps(json.loads(canonical), sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical_sorted.encode("utf-8")).hexdigest()

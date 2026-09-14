@@ -92,6 +92,21 @@ _VALUE_BEARING_TOOLS = frozenset(
 )
 
 _TEMPORAL_TOOLS = frozenset({"get_historical_values", "i3x_get_history"})
+
+#: M13-D: every termination reason that means the investigation was cut
+#: off by a budget rather than concluding on its own -- STEP_BUDGET_EXCEEDED
+#: (unchanged since M8) plus the three new, optional budgets
+#: LLMInvestigationAgent can enforce. All are treated identically by
+#: `terminated_properly` -- being stopped by ANY budget is not "properly
+#: terminated," regardless of which specific budget it was.
+_BUDGET_EXCEEDED_TERMINATIONS = frozenset(
+    {
+        TerminationReason.STEP_BUDGET_EXCEEDED,
+        TerminationReason.TOOL_CALL_BUDGET_EXCEEDED,
+        TerminationReason.TOKEN_BUDGET_EXCEEDED,
+        TerminationReason.WALL_TIME_BUDGET_EXCEEDED,
+    }
+)
 _RELATIONSHIP_TOOLS = frozenset({"get_entity_relationships"})
 
 _NUMBER_PATTERN = re.compile(r"-?\d+\.\d+|-?\d{3,}")
@@ -329,7 +344,7 @@ class GroundedInvestigationEvaluator:
         context_acquired = sorted({item for event in trace for item in event.context_acquired})
         context_consumed = sorted({item for event in trace for item in event.context_consumed})
 
-        terminated_properly = result.termination != TerminationReason.STEP_BUDGET_EXCEEDED
+        terminated_properly = result.termination not in _BUDGET_EXCEEDED_TERMINATIONS
         completeness_components = [required_score, relationship_score, float(terminated_properly)]
         completeness_score = sum(completeness_components) / len(completeness_components)
 

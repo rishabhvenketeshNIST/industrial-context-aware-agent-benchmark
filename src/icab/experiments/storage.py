@@ -38,6 +38,11 @@ __all__ = [
 AGGREGATE_CSV_COLUMNS = (
     "run_id",
     "experiment_id",
+    "task_id",
+    "task_type",
+    "suite",
+    "split",
+    "repetition",
     "scenario_id",
     "scenario_difficulty",
     "architectures",
@@ -217,6 +222,11 @@ class ExperimentResultStore:
         return {
             "run_id": record.run_id,
             "experiment_id": record.experiment_id,
+            "task_id": record.config.task_id or "",
+            "task_type": record.config.task_type or "",
+            "suite": record.config.suite or "",
+            "split": record.config.split or "",
+            "repetition": record.config.repetition if record.config.repetition is not None else "",
             "scenario_id": record.config.scenario_id,
             "scenario_difficulty": record.scenario_difficulty,
             "architectures": "+".join(record.config.architectures),

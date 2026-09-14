@@ -80,3 +80,16 @@ to this file (caught, if forgotten, by
 `validate_split_coverage`/`test_real_splits_file_covers_every_scenario_a_real_task_references`
 rather than silently defaulting a new scenario into any particular
 split).
+
+## Selecting a split at benchmark run time (M13-D)
+
+`scripts/run_benchmark.py --split <development|validation|test>` selects
+tasks via `icab.tasks.splits.tasks_in_split` against this SAME checked-in
+`splits.yaml` -- the benchmark runner never reshuffles or re-derives
+splits at runtime, and an explicit `--task` always names one task
+directly regardless of `--split`. Omitting `--split` runs across every
+split's tasks. Each persisted `ExperimentRecord.config.split` records
+which split the run's task's scenario was actually assigned to at the
+time it ran, so a result stays self-describing even if `splits.yaml` is
+later revised. See
+[`docs/benchmark/specification.md#10-one-command-orchestration-m13-d`](specification.md#10-one-command-orchestration-m13-d).

@@ -24,6 +24,7 @@ from .models import (
     ExperimentRecord,
     ExperimentRunStatus,
     RunValidity,
+    compute_configuration_hash,
 )
 from .runner import ExperimentRunner
 from .storage import ExperimentResultStore, HeterogeneousControlsError
@@ -46,6 +47,7 @@ __all__ = [
     "HypothesisTestResult",
     "RunValidity",
     "combinations_for_hypothesis",
+    "compute_configuration_hash",
     "evaluate_all_hypotheses",
     "evaluate_hypothesis",
     "get_combination",

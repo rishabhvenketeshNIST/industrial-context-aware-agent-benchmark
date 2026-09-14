@@ -1,0 +1,428 @@
+"""
+M13-D: one-command ICAB benchmark orchestration.
+
+This module ONLY orchestrates existing components -- it introduces no new
+scientific methodology, no new evaluation logic, and no new persistence
+format:
+
+    BenchmarkConfig (this package)
+        -> BenchmarkTaskRegistry / BenchmarkScenarioRegistry (M13-C/M5)
+        -> SplitAssignment (M13-C)
+        -> resolve_architecture_arms (this package, M13-D)
+        -> ExperimentConfig (M9, extended M13-D)
+        -> ExperimentRunner.run_task (M9, extended M13-D)
+            -> ScenarioRunner.prepare (M5) -- real TEP simulator + fault injection
+            -> Agent (deterministic baseline or LLMInvestigationAgent, M6/M9)
+            -> GroundedInvestigationEvaluator.evaluate_task (M8/M13-C)
+        -> ExperimentResultStore.save (M9) -- per-run persistence
+        -> ExperimentResultStore.write_aggregate (M9/M12)
+        -> icab.reporting.aggregate_records / render_aggregation_markdown / plotting (M12)
+
+Execution is strictly sequential -- no distributed workers, no task
+queue. A failure in one (task, architecture arm, seed, repetition) run is
+caught, persisted as a FAILED record, and does not stop the remaining
+runs (see `BenchmarkRunner._run_one`).
+"""
+
+from __future__ import annotations
+
+import uuid
+from datetime import UTC, datetime
+
+from pydantic import BaseModel, ConfigDict, Field
+
+from icab.experiments import (
+    AgentType,
+    DeterministicAgentKind,
+    ExperimentConfig,
+    ExperimentRecord,
+    ExperimentResultStore,
+    ExperimentRunner,
+    ExperimentRunStatus,
+    RunValidity,
+    compute_configuration_hash,
+)
+from icab.experiments.runner import _icab_version
+from icab.reporting import aggregate_records, render_aggregation_markdown
+from icab.reporting.plotting import plot_metric_by_group
+from icab.reporting.store import ReportStore
+from icab.scenarios import BenchmarkScenarioRegistry
+from icab.tasks.benchmark_task import BenchmarkTask
+from icab.tasks.registry import BenchmarkTaskRegistry
+from icab.tasks.splits import SplitAssignment, TaskSplit, load_split_assignment, tasks_in_split
+from icab.trace.models import TraceEvent
+
+from .config import BENCHMARK_SUITE_VERSION, BenchmarkConfig, get_git_commit, get_suite, resolve_architecture_arms
+
+#: Agent-selector strings that map to a benchmark-eligible (non-legacy)
+#: agent -- the only two ever run without an explicit legacy opt-in.
+_PRIMARY_AGENTS = {"baseline", "llm"}
+
+#: `--agent` values that name an M9 legacy deterministic baseline
+#: directly -- an explicit, separate opt-in (never `_PRIMARY_AGENTS`'
+#: default), always excluded from normal benchmark aggregates via
+#: `RunValidity.LEGACY_CONTROL_ONLY` (see `ExperimentRunner._validity_for`).
+_LEGACY_AGENT_VALUES = {kind.value for kind in DeterministicAgentKind} - {
+    DeterministicAgentKind.SCENARIO_AWARE.value
+}
+
+
+class BenchmarkRunResult(BaseModel):
+    """Summary counters and output locations from one `BenchmarkRunner.run()` invocation."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    benchmark_id: str
+    suite: str
+    split: str | None
+    task_ids: list[str]
+    scenario_ids: list[str]
+    architectures: list[str]
+    agent: str
+    seeds: list[int]
+    repetitions: int
+
+    total_runs: int
+    successful_runs: int
+    failed_runs: int
+    skipped_runs: int
+    skipped_reasons: list[str]
+
+    run_ids: list[str]
+
+    aggregate_json_path: str | None = None
+    aggregate_csv_path: str | None = None
+    report_json_path: str | None = None
+    report_markdown_path: str | None = None
+    figure_paths: list[str] = Field(default_factory=list)
+
+
+class BenchmarkRunner:
+    """
+    Orchestrates a full `--suite`/`--split`/`--task` benchmark invocation:
+    task selection x architecture-arm expansion x seeds x repetitions,
+    each run executed via `ExperimentRunner.run_task` and persisted via
+    `ExperimentResultStore`, followed by automatic aggregation/reporting.
+    """
+
+    def __init__(
+        self,
+        *,
+        experiment_runner: ExperimentRunner,
+        experiment_store: ExperimentResultStore,
+        report_store: ReportStore | None = None,
+    ) -> None:
+        self.experiment_runner = experiment_runner
+        self.experiment_store = experiment_store
+        self.report_store = report_store or ReportStore(root=experiment_store.root)
+
+    def run(self, config: BenchmarkConfig) -> BenchmarkRunResult:
+        if config.agent not in _PRIMARY_AGENTS and config.agent not in _LEGACY_AGENT_VALUES:
+            # A bad --agent value is a CONFIGURATION error, not a per-run
+            # failure -- fail the whole invocation immediately rather
+            # than recording every expanded run as FAILED (which would
+            # still burn a full scenario-preparation attempt per run).
+            raise ValueError(
+                f"Unknown --agent {config.agent!r}. Valid: "
+                f"{sorted(_PRIMARY_AGENTS | _LEGACY_AGENT_VALUES)}"
+            )
+
+        suite = get_suite(config.suite)
+        scenario_registry = BenchmarkScenarioRegistry(suite.scenarios_dir)
+        task_registry = BenchmarkTaskRegistry(suite.tasks_dir, scenario_registry=scenario_registry)
+        split_assignment = load_split_assignment(suite.splits_path)
+
+        tasks = self._select_tasks(task_registry, split_assignment, config)
+
+        benchmark_id = config.name or f"benchmark-{config.suite}-{uuid.uuid4().hex[:8]}"
+        git_commit = get_git_commit()
+        seed_values: list[int | None] = list(config.seeds) if config.seeds else [None]
+
+        records: list[ExperimentRecord] = []
+        run_ids: list[str] = []
+        architectures_used: set[str] = set()
+        successful = failed = skipped = 0
+        skipped_reasons: list[str] = []
+
+        for task in tasks:
+            arms = resolve_architecture_arms(config.architectures, task)
+
+            if not arms:
+                count = len(seed_values) * config.repetitions
+                skipped += count
+                skipped_reasons.append(
+                    f"{task.task_id}: architecture spec {config.architectures!r} is not "
+                    f"available for this task (task permits: {task.available_architectures})"
+                    f" -- {count} run(s) skipped"
+                )
+                continue
+
+            scenario_split = split_assignment.split_for_scenario(task.scenario_id)
+
+            for arm in arms:
+                architectures_used.update(arm.architectures)
+
+                for seed in seed_values:
+                    for repetition in range(1, config.repetitions + 1):
+                        run_id, record, trace = self._run_one(
+                            task=task,
+                            scenario_registry=scenario_registry,
+                            arm_architectures=arm.architectures,
+                            combination_key=arm.combination_key,
+                            seed=seed,
+                            repetition=repetition,
+                            split=scenario_split,
+                            config=config,
+                            benchmark_id=benchmark_id,
+                            benchmark_version=BENCHMARK_SUITE_VERSION,
+                            git_commit=git_commit,
+                        )
+
+                        self.experiment_store.save(record, trace)
+                        records.append(record)
+                        run_ids.append(run_id)
+
+                        if record.status == ExperimentRunStatus.COMPLETED:
+                            successful += 1
+                        else:
+                            failed += 1
+
+        aggregate_json_path = aggregate_csv_path = None
+        report_json_path = report_markdown_path = None
+        figure_paths: list[str] = []
+
+        if records:
+            aggregate_json_path, aggregate_csv_path = self.experiment_store.write_aggregate(
+                benchmark_id,
+                records,
+                # A full benchmark invocation necessarily spans many
+                # different scenarios/tasks (that is the whole point of
+                # running a suite, not a single controlled comparison) --
+                # so heterogeneous scenario_id/seed/etc. across records is
+                # EXPECTED here, not an error. The written JSON's own
+                # controls_consistent/control_variance fields still make
+                # this fully auditable.
+                allow_heterogeneous_controls=True,
+            )
+
+            aggregation_report = aggregate_records(
+                records,
+                group_by=("task_type", "difficulty", "architecture"),
+                allow_heterogeneous_controls=True,
+            )
+            report_json_path = str(
+                self.report_store.write_aggregation_report(aggregation_report, benchmark_id)
+            )
+            report_markdown_path = str(
+                self.report_store.write_markdown(
+                    render_aggregation_markdown(
+                        aggregation_report, title=f"ICAB benchmark: {benchmark_id}"
+                    ),
+                    benchmark_id,
+                )
+            )
+
+            for metric in ("conclusion_correctness_score", "tool_call_count"):
+                if any(metric in group.metrics for group in aggregation_report.groups):
+                    figure_path = plot_metric_by_group(
+                        aggregation_report,
+                        metric,
+                        self.report_store.figure_path(f"{benchmark_id}-{metric}.png"),
+                    )
+                    figure_paths.append(str(figure_path))
+
+        return BenchmarkRunResult(
+            benchmark_id=benchmark_id,
+            suite=config.suite,
+            split=config.split,
+            task_ids=sorted({task.task_id for task in tasks}),
+            scenario_ids=sorted({task.scenario_id for task in tasks}),
+            architectures=sorted(architectures_used),
+            agent=config.agent,
+            seeds=[seed for seed in seed_values if seed is not None],
+            repetitions=config.repetitions,
+            total_runs=successful + failed + skipped,
+            successful_runs=successful,
+            failed_runs=failed,
+            skipped_runs=skipped,
+            skipped_reasons=skipped_reasons,
+            run_ids=run_ids,
+            aggregate_json_path=str(aggregate_json_path) if aggregate_json_path else None,
+            aggregate_csv_path=str(aggregate_csv_path) if aggregate_csv_path else None,
+            report_json_path=report_json_path,
+            report_markdown_path=report_markdown_path,
+            figure_paths=figure_paths,
+        )
+
+    # -- task/split selection --------------------------------------------
+
+    @staticmethod
+    def _select_tasks(
+        task_registry: BenchmarkTaskRegistry,
+        split_assignment: SplitAssignment,
+        config: BenchmarkConfig,
+    ) -> list[BenchmarkTask]:
+        """
+        Loads the suite's ACTUAL registered task inventory (never a
+        hard-coded list) and narrows it by `--split`/`--scenario`/`--task`
+        -- in a fixed, deterministic order (`sorted` by task_id), never
+        reshuffled at runtime.
+        """
+
+        if config.task_id:
+            # An explicit --task always wins outright, regardless of
+            # --split -- the smoke-test path (`--split development
+            # --task <id>`) is expected to name a task that's already in
+            # that split, but this makes an explicit --task unambiguous
+            # either way rather than silently dropping it if it doesn't
+            # match --split.
+            return [task_registry.get(config.task_id)]
+
+        tasks = (
+            tasks_in_split(task_registry, TaskSplit(config.split), assignment=split_assignment)
+            if config.split
+            else list(task_registry)
+        )
+
+        if config.scenario_id:
+            tasks = [task for task in tasks if task.scenario_id == config.scenario_id]
+
+        return sorted(tasks, key=lambda task: task.task_id)
+
+    # -- agent/config construction ----------------------------------------
+
+    @staticmethod
+    def _build_experiment_config(
+        *,
+        task: BenchmarkTask,
+        arm_architectures: tuple[str, ...],
+        combination_key: str | None,
+        split: TaskSplit,
+        config: BenchmarkConfig,
+    ) -> ExperimentConfig:
+        if config.agent in _PRIMARY_AGENTS:
+            agent_type = AgentType.DETERMINISTIC if config.agent == "baseline" else AgentType.LLM
+            deterministic_agent = DeterministicAgentKind.SCENARIO_AWARE if config.agent == "baseline" else None
+        elif config.agent in _LEGACY_AGENT_VALUES:
+            # Explicit, separate opt-in for a labeled legacy control (see
+            # module docstring) -- never reached via config.agent's own
+            # default ("llm").
+            agent_type = AgentType.DETERMINISTIC
+            deterministic_agent = DeterministicAgentKind(config.agent)
+        else:
+            raise ValueError(
+                f"Unknown --agent {config.agent!r}. Valid: "
+                f"{sorted(_PRIMARY_AGENTS | _LEGACY_AGENT_VALUES)}"
+            )
+
+        return ExperimentConfig(
+            scenario_id=task.scenario_id,
+            task_id=task.task_id,
+            task_type=task.task_type.value,
+            suite=config.suite,
+            split=split.value,
+            architectures=list(arm_architectures),
+            architecture_combination_key=combination_key,
+            agent_type=agent_type,
+            deterministic_agent=deterministic_agent,
+            llm_model=config.llm_model,
+            llm_temperature=config.llm_temperature,
+            max_steps=config.max_steps,
+            max_tool_calls=config.max_tool_calls,
+            max_context_tokens=config.max_context_tokens,
+            max_wall_time_seconds=config.max_wall_time_seconds,
+        )
+
+    def _run_one(
+        self,
+        *,
+        task: BenchmarkTask,
+        scenario_registry: BenchmarkScenarioRegistry,
+        arm_architectures: tuple[str, ...],
+        combination_key: str | None,
+        seed: int | None,
+        repetition: int,
+        split: TaskSplit,
+        config: BenchmarkConfig,
+        benchmark_id: str,
+        benchmark_version: str,
+        git_commit: str | None,
+    ) -> tuple[str, ExperimentRecord, list[TraceEvent]]:
+        """
+        Runs exactly one (task, architecture arm, seed, repetition)
+        combination. Never raises: a failure anywhere in this method
+        (scenario preparation, agent execution, evaluation) is caught and
+        turned into a persisted FAILED `ExperimentRecord` so the rest of
+        the benchmark invocation can continue (see module docstring).
+        """
+
+        run_id = (
+            f"{benchmark_id}-{task.task_id}-{'+'.join(arm_architectures)}"
+            f"-seed{seed if seed is not None else 'default'}-rep{repetition}"
+        )
+
+        exp_config = self._build_experiment_config(
+            task=task,
+            arm_architectures=arm_architectures,
+            combination_key=combination_key,
+            split=split,
+            config=config,
+        )
+        exp_config = exp_config.model_copy(update={"repetition": repetition})
+
+        try:
+            scenario = scenario_registry.get(task.scenario_id)
+            if seed is not None:
+                scenario = scenario.model_copy(update={"seed": seed})
+
+            record, trace = self.experiment_runner.run_task(
+                task,
+                exp_config,
+                scenario=scenario,
+                run_id=run_id,
+                experiment_id=benchmark_id,
+                benchmark_version=benchmark_version,
+                git_commit=git_commit,
+            )
+            return run_id, record, trace
+        except Exception as error:  # noqa: BLE001 -- orchestration-level continue-on-error
+            now = datetime.now(UTC)
+            fault_id = None
+            scenario_version = None
+            try:
+                fault_id = scenario.faults[0].disturbance if scenario.faults else None
+                scenario_version = scenario.version
+                simulation_seed = scenario.seed
+                scenario_difficulty = scenario.difficulty.value
+            except NameError:
+                # scenario_registry.get() itself failed -- fall back to
+                # the task's own difficulty/id so the failure record is
+                # still fully identifiable even without a scenario object.
+                simulation_seed = seed if seed is not None else 0
+                scenario_difficulty = task.difficulty.value
+
+            record = ExperimentRecord(
+                run_id=run_id,
+                experiment_id=benchmark_id,
+                config=exp_config,
+                scenario_difficulty=scenario_difficulty,
+                simulation_seed=simulation_seed,
+                generation_id=None,
+                icab_version=_icab_version(),
+                benchmark_version=benchmark_version,
+                git_commit=git_commit,
+                fault_id=fault_id,
+                scenario_version=scenario_version,
+                task_version=task.version,
+                configuration_hash=compute_configuration_hash(exp_config),
+                started_at=now,
+                completed_at=now,
+                status=ExperimentRunStatus.FAILED,
+                error=f"{type(error).__name__}: {error}",
+                validity=RunValidity.VALID,
+                result=None,
+                evaluation=None,
+                information_flow=None,
+                trace_event_count=0,
+            )
+            return run_id, record, []

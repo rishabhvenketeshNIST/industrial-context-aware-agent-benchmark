@@ -112,6 +112,14 @@ class BenchmarkScenario(BaseModel):
     difficulty: ScenarioDifficulty
     task_mode: TaskMode = TaskMode.INVESTIGATION
 
+    #: M13-D: for persisted-run reproducibility/audit
+    #: (icab.experiments.models.ExperimentRecord.scenario_version) --
+    #: not authored in any existing YAML, so every current scenario
+    #: silently gets "1.0.0"; bump it explicitly in a scenario's own
+    #: YAML if its content changes in a way that would invalidate a
+    #: prior run's comparability.
+    version: str = Field(default="1.0.0")
+
     objective: str = Field(min_length=1)
 
     seed: int

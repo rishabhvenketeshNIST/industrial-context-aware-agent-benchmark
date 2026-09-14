@@ -211,6 +211,43 @@ under `results/{raw,traces,evaluations,aggregate}/`. See
 the full schema, reproducibility notes, and a flagged limitation with the
 deterministic baselines against real scenario data.
 
+### Run the full benchmark, one command (M13-D)
+
+```bash
+# full benchmark: every LLM-eligible architecture, five seeds
+uv run python scripts/run_benchmark.py \
+    --suite tep-v1 --agent llm --architectures all --seeds 1,2,3,4,5
+
+# fast smoke test: one real task, one architecture, one seed, the
+# deterministic baseline -- exercises the real orchestration path end to
+# end over a tiny subset (no mocked shortcut)
+uv run python scripts/run_benchmark.py \
+    --suite tep-v1 --split development --task d1-qa-current-pressure \
+    --agent baseline --architectures historian --seeds 1
+```
+
+Orchestrates the ENTIRE pipeline end to end -- task selection (from the
+suite's real, registered `icab.tasks.registry.BenchmarkTaskRegistry`
+inventory, M13-C) → scenario selection → deterministic TEP
+initialization/fault injection (M13-B) → context synchronization →
+agent execution through the real gateway → trace collection →
+`GroundedInvestigationEvaluator.evaluate_task` → persistence
+(`ExperimentResultStore`) → aggregation → an M12-style report — reusing
+every one of those components as-is; `icab.benchmark`/
+`scripts/run_benchmark.py` add no competing mechanism, only the
+orchestration gluing them into one command. `--architectures all`
+expands to one arm per architecture the SELECTED TASK itself declares
+available (never a superset — see
+[`docs/benchmark/specification.md §10.2`](docs/benchmark/specification.md#102-architecture-arm-resolution---architectures));
+an unsupported `(task, architecture)` pairing is skipped, not silently
+narrowed or run anyway. Every run — successful or failed — is persisted
+with a `configuration_hash`, `generation_id`, `git_commit`, and
+`benchmark_version` for reproducibility/audit; a failed run never
+fabricates an evaluation, and does not stop the rest of the invocation.
+Execution is sequential (no Kubernetes/Kafka/Celery). See
+[`docs/benchmark/specification.md §10`](docs/benchmark/specification.md#10-one-command-orchestration-m13-d)
+for the full CLI reference.
+
 Other scripts in [`scripts/`](scripts/):
 
 - `run_agent.py` — run an agent against the gateway
@@ -243,8 +280,9 @@ uv run pytest
   private i3X server specifically isn't running (a warning is printed, and
   `i3x_get_*` tool calls raise a clear `RuntimeError`) rather than failing
   to import — so most of `tests/unit/gateway/` still passes without it.
-- `tests/integration/test_llm_rchat.py` and
-  `tests/integration/test_scenario_llm_end_to_end.py` are additionally
+- `tests/integration/test_llm_rchat.py`,
+  `tests/integration/test_scenario_llm_end_to_end.py`, and
+  `tests/integration/test_benchmark_runner_llm_real.py` are additionally
   gated behind `ICAB_RUN_LLM_INTEGRATION_TESTS=1` — they make real,
   metered calls to the configured LLM provider, so they are skipped by
   default even when the rest of `tests/integration/` runs.
@@ -404,6 +442,25 @@ Implemented and under test:
   [`docs/benchmark/specification.md`](docs/benchmark/specification.md),
   [`docs/benchmark/tasks.md`](docs/benchmark/tasks.md), and
   [`docs/benchmark/splits.md`](docs/benchmark/splits.md)
+- One-command automated benchmark orchestration (M13-D): `icab.benchmark`/
+  `scripts/run_benchmark.py` execute the FULL pipeline -- task selection
+  (the suite's real registered inventory, never hard-coded) → scenario
+  selection → deterministic TEP initialization/fault injection → context
+  synchronization → agent execution (`ScenarioAwareBaselineAgent` or
+  `LLMInvestigationAgent`; legacy deterministic agents remain available
+  only as an explicit, separate, non-default opt-in) → trace collection →
+  `GroundedInvestigationEvaluator.evaluate_task` → persistence → automatic
+  aggregation → an M12-style report, from one command, reusing every
+  M5/M9/M12/M13-A/B/C component as-is. `--architectures all` expands to
+  exactly the architectures the SELECTED TASK declares available (an
+  unsupported combination is skipped, never silently narrowed or run);
+  `--seeds`/`--repetitions` expand a controlled sweep holding task,
+  objective, model, and budgets fixed across architecture arms (the sole
+  independent treatment). Every run -- including a failed one -- persists
+  a `configuration_hash`, `generation_id`, `git_commit`, and
+  `benchmark_version` for audit; execution is strictly sequential (no
+  Kubernetes/Kafka/Celery). See
+  [`docs/benchmark/specification.md §10`](docs/benchmark/specification.md#10-one-command-orchestration-m13-d)
 
 Not yet filled in (present as empty placeholders to reserve the intended
 structure):

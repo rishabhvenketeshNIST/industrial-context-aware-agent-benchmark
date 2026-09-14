@@ -28,6 +28,7 @@ tracks per-call context_acquired/context_consumed -- the same mechanism
 from __future__ import annotations
 
 import json
+import time
 from typing import Any
 
 from icab.agent.client import AgentGatewayClient
@@ -65,12 +66,24 @@ class LLMInvestigationAgent(Agent):
         llm: LLMClient,
         *,
         max_steps: int = DEFAULT_MAX_STEPS,
+        max_tool_calls: int | None = None,
+        max_context_tokens: int | None = None,
+        max_wall_time_seconds: float | None = None,
         system_prompt: str = DEFAULT_SYSTEM_PROMPT,
         tools: tuple[AgentTool, ...] = AGENT_TOOLS,
     ) -> None:
         self.client = client
         self.llm = llm
         self.max_steps = max_steps
+        #: M13-D: three additional, OPTIONAL budgets -- all default to
+        #: None (unbounded), so existing callers/tests see no behavior
+        #: change unless they opt in. `max_steps` alone (unchanged) still
+        #: counts LOOP ITERATIONS, not individual tool calls -- one LLM
+        #: turn can request several tool calls at once, which
+        #: `max_tool_calls` counts and bounds separately.
+        self.max_tool_calls = max_tool_calls
+        self.max_context_tokens = max_context_tokens
+        self.max_wall_time_seconds = max_wall_time_seconds
         self.system_prompt = system_prompt
         self.tools = tools
         self._tool_specs = build_tool_specs(tools)
@@ -95,8 +108,23 @@ class LLMInvestigationAgent(Agent):
 
         findings: dict[str, Any] = {}
         evidence: list[EvidenceReference] = []
+        started_at = time.perf_counter()
+        total_tool_calls = 0
+        total_tokens_used = 0
 
         for step in range(1, self.max_steps + 1):
+            if (
+                self.max_wall_time_seconds is not None
+                and time.perf_counter() - started_at >= self.max_wall_time_seconds
+            ):
+                return InvestigationResult(
+                    objective=objective,
+                    conclusion="Investigation stopped: wall-time budget exceeded.",
+                    findings=findings,
+                    evidence=evidence,
+                    termination=TerminationReason.WALL_TIME_BUDGET_EXCEEDED,
+                )
+
             response = self.llm.generate(messages=messages, tools=self._tool_specs)
 
             if self.client.trace_collector is not None and response.token_usage is not None:
@@ -108,6 +136,17 @@ class LLMInvestigationAgent(Agent):
                     action="llm_generate",
                     token_usage=response.token_usage,
                 )
+
+            if response.token_usage is not None:
+                total_tokens_used += response.token_usage.get("total_tokens", 0)
+                if self.max_context_tokens is not None and total_tokens_used > self.max_context_tokens:
+                    return InvestigationResult(
+                        objective=objective,
+                        conclusion="Investigation stopped: token budget exceeded.",
+                        findings=findings,
+                        evidence=evidence,
+                        termination=TerminationReason.TOKEN_BUDGET_EXCEEDED,
+                    )
 
             if not response.tool_calls:
                 # The model answered directly instead of submitting -- its
@@ -133,7 +172,17 @@ class LLMInvestigationAgent(Agent):
                         termination=TerminationReason.SUBMITTED,
                     )
 
+                if self.max_tool_calls is not None and total_tool_calls >= self.max_tool_calls:
+                    return InvestigationResult(
+                        objective=objective,
+                        conclusion="Investigation stopped: tool-call budget exceeded.",
+                        findings=findings,
+                        evidence=evidence,
+                        termination=TerminationReason.TOOL_CALL_BUDGET_EXCEEDED,
+                    )
+
                 result = self._execute_tool(call, step=step)
+                total_tool_calls += 1
                 findings[f"{call.name}#{step}"] = result
                 evidence.append(self._evidence_for(call))
 

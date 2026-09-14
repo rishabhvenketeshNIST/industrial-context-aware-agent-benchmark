@@ -1,0 +1,35 @@
+{
+  "scenario_id": "d1_reactor_pressure_reading",
+  "task_id": "d1-qa-current-pressure",
+  "generation_id": "5dbd7178e97a482ebedeadcc38a91f5b",
+  "required_evidence_hits": {
+    "urn:icab:measurement:reactor_pressure": true
+  },
+  "required_evidence_score": 1.0,
+  "evidence_has_valid_provenance": true,
+  "canonical_id_validity": {
+    "urn:icab:measurement:reactor_pressure": true
+  },
+  "canonical_id_score": 1.0,
+  "temporal_evidence_required": false,
+  "temporal_evidence_acquired": false,
+  "expected_relationships": [],
+  "relationship_score": 1.0,
+  "root_cause_identified": null,
+  "affected_assets_mentioned": {
+    "urn:icab:equipment:reactor": true
+  },
+  "conclusion_correctness_score": 1.0,
+  "unsupported_numeric_claims": [],
+  "grounding_score": 1.0,
+  "context_acquired": [
+    "urn:icab:measurement:reactor_pressure"
+  ],
+  "context_consumed": [],
+  "tool_call_count": 1,
+  "unique_tools_used": [
+    "get_current_value"
+  ],
+  "terminated_properly": true,
+  "completeness_score": 1.0
+}

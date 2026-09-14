@@ -11,6 +11,14 @@ class TerminationReason(StrEnum):
     SUBMITTED = "submitted"
     NO_TOOL_CALL = "no_tool_call"
     STEP_BUDGET_EXCEEDED = "step_budget_exceeded"
+    #: M13-D: three additional, optional budgets `LLMInvestigationAgent`
+    #: can enforce (all default to unbounded/off -- see its constructor),
+    #: for the benchmark runner's `--max-tool-calls`/`--max-context-tokens`/
+    #: `--max-wall-time`. Treated identically to STEP_BUDGET_EXCEEDED by
+    #: GroundedInvestigationEvaluator's `terminated_properly` check.
+    TOOL_CALL_BUDGET_EXCEEDED = "tool_call_budget_exceeded"
+    TOKEN_BUDGET_EXCEEDED = "token_budget_exceeded"
+    WALL_TIME_BUDGET_EXCEEDED = "wall_time_budget_exceeded"
 
 
 class EvidenceReference(BaseModel):

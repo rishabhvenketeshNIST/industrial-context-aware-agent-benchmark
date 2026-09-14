@@ -263,3 +263,22 @@ real NIST RChat LLM, and the original (unmodified) `InvestigationEvaluator`.
   (`BenchmarkTaskRegistry`) and via their underlying scenario's own
   empirical verification, but not individually re-run end-to-end through
   the evaluator against live infrastructure.
+
+## Running these tasks (M13-D)
+
+This entire task inventory is executed end to end -- task selection,
+scenario preparation, fault injection, agent execution, evaluation,
+persistence, aggregation, and reporting -- by the one-command benchmark
+orchestrator:
+
+```
+uv run python scripts/run_benchmark.py --suite tep-v1 --agent llm --architectures all --seeds 1,2,3,4,5
+```
+
+`--suite tep-v1` loads this exact, actually-registered task inventory
+(via `icab.tasks.registry.BenchmarkTaskRegistry` against
+`configs/benchmark/tasks/`) -- nothing about the task list above is
+hard-coded into the runner. See
+[`docs/benchmark/specification.md#10-one-command-orchestration-m13-d`](specification.md#10-one-command-orchestration-m13-d)
+for the full CLI reference, architecture-arm resolution rules, and
+persistence/aggregation/reporting details.

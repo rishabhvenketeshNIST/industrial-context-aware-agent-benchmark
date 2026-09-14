@@ -61,6 +61,17 @@ DIMENSION_RESOLVERS: dict[str, Callable[[ExperimentRecord], Any]] = {
     "experiment_id": lambda r: r.experiment_id,
     "validity": lambda r: r.validity.value,
     "status": lambda r: r.status.value,
+    #: M13-D: benchmark-orchestrator dimensions -- all read directly off
+    #: ExperimentConfig (no task-registry lookup needed at aggregation
+    #: time; see ExperimentConfig.task_type's own docstring for why it's
+    #: recorded as its own field rather than derived here). None for any
+    #: run not launched via icab.benchmark (e.g. a bare
+    #: ExperimentRunner.run() scenario-only call, pre-M13-D style).
+    "task_id": lambda r: r.config.task_id,
+    "task_type": lambda r: r.config.task_type,
+    "suite": lambda r: r.config.suite,
+    "split": lambda r: r.config.split,
+    "repetition": lambda r: r.config.repetition,
 }
 
 

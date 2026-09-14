@@ -1,0 +1,152 @@
+{
+  "group_by": [
+    "task_type",
+    "difficulty",
+    "architecture"
+  ],
+  "hold_constant": [
+    "scenario_id",
+    "simulation_seed",
+    "llm_model",
+    "llm_temperature",
+    "max_steps"
+  ],
+  "controls_consistent": true,
+  "control_variance": {},
+  "include_invalid": false,
+  "excluded_invalid_runs": 0,
+  "groups": [
+    {
+      "group_key": {
+        "task_type": "qa",
+        "difficulty": "D1",
+        "architecture": "historian"
+      },
+      "run_ids": [
+        "m13d-real-llm-run-d1-qa-current-pressure-historian-seed1-rep1"
+      ],
+      "n_runs": 1,
+      "n_completed": 1,
+      "n_failed": 0,
+      "n_valid": 1,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "required_evidence_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "grounding_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "completeness_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "relationship_score": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "temporal_reasoning_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "tool_call_count": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "context_acquired_count": {
+          "n": 1,
+          "mean": 1.0,
+          "median": 1.0,
+          "stdev": null,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "context_consumed_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "information_flow.tool_error_count": {
+          "n": 1,
+          "mean": 0.0,
+          "median": 0.0,
+          "stdev": null,
+          "minimum": 0.0,
+          "maximum": 0.0
+        },
+        "total_latency_ms": {
+          "n": 1,
+          "mean": 358.4783999976935,
+          "median": 358.4783999976935,
+          "stdev": null,
+          "minimum": 358.4783999976935,
+          "maximum": 358.4783999976935
+        },
+        "total_tokens": {
+          "n": 1,
+          "mean": 1142.0,
+          "median": 1142.0,
+          "stdev": null,
+          "minimum": 1142.0,
+          "maximum": 1142.0
+        }
+      }
+    }
+  ],
+  "source_run_ids": [
+    "m13d-real-llm-run-d1-qa-current-pressure-historian-seed1-rep1"
+  ]
+}

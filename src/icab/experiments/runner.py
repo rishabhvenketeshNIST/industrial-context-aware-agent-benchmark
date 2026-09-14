@@ -29,6 +29,7 @@ from icab.evaluation.information_flow import InformationFlowAnalyzer
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.scenarios.models import BenchmarkScenario
 from icab.scenarios.runner import ScenarioRunner
+from icab.tasks.benchmark_task import BenchmarkTask
 from icab.trace.collector import TraceCollector
 from icab.trace.models import TraceEvent
 
@@ -41,6 +42,7 @@ from .models import (
     ExperimentRecord,
     ExperimentRunStatus,
     RunValidity,
+    compute_configuration_hash,
 )
 
 LLMClientFactory = Callable[[ExperimentConfig], LLMClient]
@@ -103,6 +105,55 @@ class ExperimentRunner:
             run_id=resolved_run_id,
             experiment_id=experiment_id or resolved_run_id,
             generation_id=run_result.generation_id,
+        )
+
+    def run_task(
+        self,
+        task: BenchmarkTask,
+        config: ExperimentConfig,
+        *,
+        scenario: BenchmarkScenario | None = None,
+        run_id: str | None = None,
+        experiment_id: str | None = None,
+        benchmark_version: str | None = None,
+        git_commit: str | None = None,
+    ) -> tuple[ExperimentRecord, list[TraceEvent]]:
+        """
+        M13-D: the benchmark-orchestrator entry point -- like `run()`, but
+        against a `BenchmarkTask` (icab.tasks, M13-C) rather than a bare
+        scenario: the agent's objective is the TASK's objective (not the
+        underlying scenario's, which may be broader), and evaluation goes
+        through `GroundedInvestigationEvaluator.evaluate_task` (the task's
+        own, possibly narrower, ground truth) rather than `.evaluate`.
+
+        ``config.scenario_id`` is ignored in favor of ``task.scenario_id``
+        -- the caller is expected to have built `config` from the task
+        (see `icab.benchmark.runner.BenchmarkRunner`), but this keeps the
+        scenario that's actually prepared unambiguous either way.
+
+        ``scenario``, when given, is prepared and run AS GIVEN instead of
+        looking it up fresh from `self.scenario_registry` -- this is how
+        `icab.benchmark.runner.BenchmarkRunner` applies a `--seeds`
+        override (`scenario.model_copy(update={"seed": seed})`) without
+        introducing a second scenario-loading path: the caller still gets
+        the scenario from the SAME registry first, then only overrides
+        the one field `--seeds` is documented to vary.
+        """
+
+        resolved_scenario = scenario if scenario is not None else self.scenario_registry.get(task.scenario_id)
+        run_result = self.scenario_runner.prepare(resolved_scenario)
+
+        resolved_run_id = run_id or self._default_run_id(config)
+
+        return self._run_prepared(
+            resolved_scenario,
+            config,
+            run_id=resolved_run_id,
+            experiment_id=experiment_id or resolved_run_id,
+            generation_id=run_result.generation_id,
+            task=task,
+            benchmark_version=benchmark_version,
+            git_commit=git_commit,
         )
 
     def compare_architectures(
@@ -223,9 +274,27 @@ class ExperimentRunner:
         run_id: str,
         experiment_id: str,
         generation_id: str,
+        task: BenchmarkTask | None = None,
+        benchmark_version: str | None = None,
+        git_commit: str | None = None,
     ) -> tuple[ExperimentRecord, list[TraceEvent]]:
+        """
+        ``task=None`` (the default) is the original M9-M12 scenario-only
+        path, byte-for-byte unchanged: objective/evaluation/ground truth
+        all come from ``scenario``, and the M13-D-only record fields
+        (fault_id/scenario_version/task_version/benchmark_version/
+        git_commit/configuration_hash) are populated the same way they
+        always would be for a plain scenario run -- fault_id/
+        scenario_version are properties of the scenario itself either
+        way, task_version is simply None, and benchmark_version/
+        git_commit are None unless the caller (the M13-D orchestrator)
+        passes them in.
+        """
+
         resolved_config = self._resolve_config(config)
         validity, validity_reason = self._validity_for(resolved_config)
+
+        objective = task.objective if task is not None else scenario.objective
 
         started_at = datetime.now(UTC)
         trace_collector = TraceCollector()
@@ -238,7 +307,7 @@ class ExperimentRunner:
         try:
             agent = self._build_agent(resolved_config, gateway_client)
             result = agent.run(
-                objective=scenario.objective,
+                objective=objective,
                 initial_state={
                     "scenario_id": scenario.scenario_id,
                     "difficulty": scenario.difficulty.value,
@@ -253,13 +322,20 @@ class ExperimentRunner:
 
         evaluation = None
         if result is not None:
-            evaluation = self.evaluator.evaluate(
-                scenario, result, trace, generation_id=generation_id
-            )
+            if task is not None:
+                evaluation = self.evaluator.evaluate_task(
+                    task, result, trace, generation_id=generation_id
+                )
+            else:
+                evaluation = self.evaluator.evaluate(
+                    scenario, result, trace, generation_id=generation_id
+                )
 
         information_flow = self._information_flow_analyzer.analyze(trace)
         total_latency_ms = self._sum_latency_ms(trace)
         total_tokens = self._sum_total_tokens(trace)
+
+        fault_id = scenario.faults[0].disturbance if scenario.faults else None
 
         record = ExperimentRecord(
             run_id=run_id,
@@ -269,6 +345,12 @@ class ExperimentRunner:
             simulation_seed=scenario.seed,
             generation_id=generation_id,
             icab_version=_icab_version(),
+            benchmark_version=benchmark_version,
+            git_commit=git_commit,
+            fault_id=fault_id,
+            scenario_version=scenario.version,
+            task_version=task.version if task is not None else None,
+            configuration_hash=compute_configuration_hash(resolved_config),
             started_at=started_at,
             completed_at=completed_at,
             status=status,
@@ -353,6 +435,9 @@ class ExperimentRunner:
             llm,
             tools=tools,
             max_steps=config.max_steps or DEFAULT_MAX_STEPS,
+            max_tool_calls=config.max_tool_calls,
+            max_context_tokens=config.max_context_tokens,
+            max_wall_time_seconds=config.max_wall_time_seconds,
         )
 
     @staticmethod
@@ -378,7 +463,16 @@ class ExperimentRunner:
         """Fill in any provider/budget defaults so the persisted record captures what actually ran."""
 
         if config.agent_type != AgentType.LLM:
-            return config.model_copy(update={"llm_model": None, "llm_temperature": None, "max_steps": None})
+            return config.model_copy(
+                update={
+                    "llm_model": None,
+                    "llm_temperature": None,
+                    "max_steps": None,
+                    "max_tool_calls": None,
+                    "max_context_tokens": None,
+                    "max_wall_time_seconds": None,
+                }
+            )
 
         settings = get_settings()
         return config.model_copy(

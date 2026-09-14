@@ -302,11 +302,23 @@ question bank, and `results/<level>/` tree — running the Equipment
 benchmark never touches, mixes with, or contaminates Process Cell or
 Area results (enforced, not just conventional: a result whose own
 declared level disagrees with where it's about to be saved fails
-loudly). Enterprise/Site/Work Center are explicit,
-`executable=False` — genuinely no TEP data, never fabricated. See
+loudly). Every level now has **exactly 50 validated questions** (300
+total) — Equipment/Process Cell entirely from real TEP data; Enterprise/
+Site/Work Center/part of Area from a deterministic, versioned,
+clearly-labeled **controlled benchmark context layer**
+(`icab.benchmark_context`) reached through the exact same architecture
+mechanisms being evaluated, never a hidden database. See
 [`docs/benchmark/specification-v3.md`](docs/benchmark/specification-v3.md)
 for the full model (`Question` -> `QuestionInstance` -> `Repetition`,
-two repetition modes, macro/micro aggregation, per-level manifests).
+two repetition modes, macro/micro aggregation, per-level manifests, the
+`6 x 50 x 10 = 3,000` execution invariant, and exactly how much of that
+3,000 has actually been run so far).
+
+```powershell
+# The standard 50-question x 10-repetition benchmark for one level (or --all)
+uv run python scripts/run_level_benchmark.py --level equipment --repetitions 10
+uv run python scripts/run_level_benchmark.py --check-only   # completeness only, no execution
+```
 
 ```powershell
 # See which benchmarks exist and whether each is currently executable

@@ -41,22 +41,25 @@ EVIDENCE + OUTCOME                (GroundedInvestigationEvaluator, unchanged)
 ## Six separate benchmarks (`icab.benchmark.levels`)
 
 ```
-ICAB Benchmark Suite
+ICAB Benchmark Suite  (all six now executable -- 50 validated questions each, see below)
 |
-+-- Enterprise Benchmark    icab-enterprise-v1     framework-ready, data_supported=False, executable=False
-+-- Site Benchmark          icab-site-v1           framework-ready, data_supported=False, executable=False
-+-- Area Benchmark          icab-area-v1           data_supported=True,  executable=True
-+-- Work Center Benchmark   icab-work-center-v1    framework-ready, data_supported=False, executable=False
-+-- Process Cell Benchmark  icab-process-cell-v1   data_supported=True,  executable=True
-+-- Equipment Benchmark     icab-equipment-v1      data_supported=True,  executable=True
++-- Enterprise Benchmark    icab-enterprise-v1     data_provenance=controlled_synthetic
++-- Site Benchmark          icab-site-v1           data_provenance=mixed
++-- Area Benchmark          icab-area-v1           data_provenance=mixed
++-- Work Center Benchmark   icab-work-center-v1    data_provenance=controlled_synthetic
++-- Process Cell Benchmark  icab-process-cell-v1   data_provenance=real_tep
++-- Equipment Benchmark     icab-equipment-v1      data_provenance=real_tep
 ```
 
 Each is a `dataclass` in `LEVEL_BENCHMARKS`, carrying its own
 `benchmark_id`, `question_bank_dir` (`configs/questions/<level>/`),
-`results_root` (`results/<level>/`), and an honest `coverage_note`.
-`QuestionBenchmarkRunner` REFUSES TO EVEN CONSTRUCT against a
-non-`executable` definition (`ValueError`, not a run that silently
-produces zero/fabricated results):
+`results_root` (`results/<level>/`), `data_provenance` (see "The
+controlled benchmark context layer" below), and an honest
+`coverage_note`. `QuestionBenchmarkRunner` REFUSES TO EVEN CONSTRUCT
+against a non-`executable` definition (`ValueError`, not a run that
+silently produces zero/fabricated results) -- the guard itself is
+unchanged even though all six levels are executable as of this
+milestone.
 
 ```
 uv run python scripts/icab_v2_cli.py list-benchmarks
@@ -314,30 +317,202 @@ Benchmark -> Use Case -> Question -> Question Instance -> Repetition -> Experime
 these is computed FROM already-persisted `results/<level>/raw/*.json`
 files, never hand-maintained.
 
-## Question bank counts (actual, as of this milestone -- never inflated)
+## Question bank counts (actual, as of the 50-question milestone -- never inflated)
 
-| Level | Questions | Target | Note |
+Every ISA-95 level now has EXACTLY 50 validated questions (300 total):
+
+| Level | Questions | Data provenance | Note |
 |---|---|---|---|
-| Equipment | 31 | ~30 | Met via real reuse of the existing, already-validated tep-v2 Equipment task inventory -- zero fabrication needed |
-| Process Cell | 8 | ~30 | NOT met -- TEP's single real Process Cell and 9 real scenarios genuinely limit how many DISTINCT real questions can be authored without duplicating content; reported honestly rather than padded |
-| Area | 3 | ~15 | NOT met, for the same reason, more acutely (TEP has exactly one real Area entity) |
-| Enterprise / Site / Work Center | 0 | n/a | Genuinely unsupported -- see `icab.benchmark.levels`' own `coverage_note` per level |
+| Enterprise | 50 | `controlled_synthetic` | Entirely against `icab.benchmark_context` -- TEP has no real multi-enterprise data at all |
+| Site | 50 | `mixed` | The one REAL `urn:icab:site:tep` + 2 controlled synthetic sibling sites |
+| Area | 50 | `mixed` | 3 REAL hand-authored hierarchy-fact questions over the real Reaction Area + 47 controlled-synthetic |
+| Work Center | 50 | `controlled_synthetic` | Entirely against `icab.benchmark_context` -- TEP has zero WorkCenter entities |
+| Process Cell | 50 | `real_tep` | 8 original (7 tep-v1-derived + 1 new) + 42 new real MONITORS/PART_OF relationship questions over all 41 real measurements |
+| Equipment | 50 | `real_tep` | 31 original (tep-v1-derived) + 19 new real current-value QA questions over previously-unused real measurements |
 
-Every question is generated (`scripts/generate_question_banks.py`) FROM
-the real, already-validated tep-v2 `BenchmarkTask` inventory, plus a
-small number of genuinely new, hand-authored questions
-(`configs/benchmark/tasks_v2/process_cell_new.yaml`, and one new task
-appended to `configs/benchmark/tasks_v2/area.yaml`) using REAL,
-independently-verified CIM relationships
-(`icab.tep.adapter.TEPAdapter.get_real_hierarchy_relationships()`) --
-never invented entities, relationships, or ground truth.
+`data_provenance` is declared per level (`icab.benchmark.levels
+.ISA95BenchmarkDefinition.data_provenance`, one of `real_tep`/
+`controlled_synthetic`/`mixed`) and every generated question's own
+`provenance` field states exactly which mechanism produced it --
+`scripts/generate_question_banks.py` (real tep-v2-derived),
+`scripts/generate_synthetic_level_tasks.py` (controlled benchmark
+context), or `scripts/generate_extra_real_tasks.py` (additional real
+TEP measurements/relationships never previously used by any task).
 
-`difficulty`/`difficulty_factors`/`expected_answer_type`/`tags` for the
-GENERATED (tep-v2-derived) questions are assigned by a small,
-deterministic, DOCUMENTED heuristic over each task's own real fields
-(`scripts/generate_question_banks.py`) -- not independently hand-verified
-per question given the volume (40 source tasks). Stated here explicitly
-rather than presented as individual expert judgment.
+## The controlled benchmark context layer (`icab.benchmark_context`)
+
+TEP genuinely has no Enterprise/Site/Work-Center data, and only ONE real
+Site/Area entity each. Rather than leave three levels permanently
+unsupported or fabricate untraceable facts, this milestone added a
+DETERMINISTIC, VERSIONED, clearly-labeled synthetic hierarchy and KPI
+catalog (`src/icab/benchmark_context/data.py`):
+
+```
+urn:icab:enterprise:northwind-chemical                    (1, synthetic)
+  +-- urn:icab:site:tep                                    (REAL, reused as-is)
+  |     +-- urn:icab:area:reaction                          (REAL, reused as-is)
+  |           +-- urn:icab:workcenter:reaction-utilities     (1, synthetic, ADDITIVE sibling of the real Process Cell)
+  +-- urn:icab:site:riverside                               (1, synthetic)
+  |     +-- urn:icab:area:riverside-utilities                (1, synthetic)
+  |           +-- urn:icab:workcenter:riverside-packaging     (1, synthetic)
+  +-- urn:icab:site:port-arthur                             (1, synthetic)
+        +-- urn:icab:area:port-arthur-processing              (1, synthetic)
+              +-- urn:icab:workcenter:port-arthur-distillation (1, synthetic)
+```
+
+Plus 88 synthetic KPI measurements (10 enterprise + 30 site + 24 area +
+24 work-center), each a deterministic value seeded from
+`random.Random(f"{entity_id}:{kpi_key}:{BENCHMARK_CONTEXT_VERSION}")` --
+same inputs always produce the same value; changing
+`BENCHMARK_CONTEXT_VERSION` is how this layer would ever be
+deliberately revised.
+
+**Real vs. controlled, explicit and structural, never just a claim:**
+
+- Every synthetic entity/relationship/observation is tagged
+  `source="icab_benchmark_context"` (`BENCHMARK_CONTEXT_SOURCE`), sharply
+  distinct from `source="tep"` (real TEP data) -- verifiable directly in
+  the historian/knowledge_graph.
+- The real `urn:icab:site:tep`/`urn:icab:area:reaction` entities and
+  their OWN existing relationships are NEVER redefined or altered --
+  `icab.benchmark_context.builder` only ADDS new relationships (e.g.
+  `site:tep PART_OF enterprise`), verified directly against the live
+  knowledge graph before this milestone's first real campaign ran.
+- Reached through the SAME `icab.context.environment_loader
+  .EnvironmentLoader`/historian/knowledge_graph real TEP data already
+  uses (`scripts/seed_benchmark_context.py`) -- no hidden database only
+  the evaluator can see. The agent discovers/retrieves this data through
+  the exact same `get_current_value`/`get_entity_relationships` gateway
+  tools it already uses for real TEP data.
+- Ground truth conclusions never leak the synthetic numeric value itself
+  for value-lookup questions (the same generic-template convention every
+  other ICAB measurement-QA task already uses) -- only comparison
+  questions state a computed winner, and only in the researcher-only
+  ground truth, never the agent-visible objective.
+
+```
+uv run python scripts/seed_benchmark_context.py
+```
+
+## The 3,000-execution invariant (`icab.benchmark.completeness`)
+
+```
+6 levels x 50 unique questions x 10 repetitions = 3,000 executions
+```
+
+`check_level_completeness()` computes a `LevelCompletenessReport` PURELY
+from already-persisted `results/<level>/raw/*.json` records and the
+real question bank -- never a hand-maintained count -- and flags:
+fewer than 50 questions in the bank, duplicate question ids, records
+whose own `isa95_level` disagrees with the level being checked
+(contamination), missing experiment id/trace reference, duplicate
+(instance, repetition) executions, and any question with fewer than 10
+completed repetitions. `LevelCompletenessReport.is_complete` is False if
+ANY of these hold -- a partial campaign is NEVER reported as complete.
+`SuiteCompletenessReport.is_complete` additionally requires all SIX
+levels to be present and each individually complete.
+
+```
+uv run python scripts/run_level_benchmark.py --check-only
+```
+
+## Standard benchmark vs. research experiments
+
+Two distinct entry points, deliberately kept separate so ad-hoc research
+experiments never silently change the canonical benchmark score:
+
+- **Standard benchmark** (`scripts/run_level_benchmark.py`) -- the
+  canonical 50-question x 10-repetition baseline. Each question's own
+  DESIGNATED architecture arm (resolved from its
+  `hypothesized_required_context`, `icab.tasks.context_conditions
+  .resolve_condition_architectures`) is held FIXED across all 10
+  repetitions of that question (`RepetitionMode.EXACT`) -- refuses to
+  even start unless the level's bank has exactly 50 questions.
+- **Research experiments** (`icab.benchmark.context_experiment`,
+  `scripts/run_context_experiment.py`) -- freely vary context
+  combination/architecture/scenario for one question at a time
+  (ablation, pairwise, single-dimension, ...), reusing the SAME 300
+  questions rather than a separate question bank per experiment. Never
+  mutates or is conflated with the standard benchmark's own results.
+
+```
+uv run python scripts/run_level_benchmark.py --level equipment --repetitions 10
+uv run python scripts/run_level_benchmark.py --all --repetitions 10
+```
+
+## Validated (Step A) and real-executed (Step B) -- exact numbers
+
+Following the mandatory Step-A/B/C/D sequence (never jumping straight to
+a 3,000-run campaign):
+
+- **Step A**: `icab.questions.validate_question_bank` ran against all
+  six levels -- **300/300 questions validated**, 0 failures, every one
+  of the 9 checks (grounded evidence, correct ISA-95 level, documented
+  evidence/context-hypothesis, deterministically evaluable, real
+  compatible scenario, real evaluator scoring, no duplicates) passing.
+- **Step B**: a real, small sample was run against LIVE infrastructure
+  and NIST RChat (`--name v3-stepb`) -- 2 questions x 2 repetitions
+  EACH, across ALL SIX levels: **24/24 real executions completed**
+  (0 orchestration failures), proving the controlled benchmark context
+  layer works end to end (real gateway call, real historian/
+  knowledge_graph round trip, real evaluator scoring) for the first
+  time at Enterprise/Site/Work-Center, not merely that it loads.
+- **Step C**: verified programmatically -- 0/24 records mismatched their
+  own `results/<level>/` root; every manifest/completeness check ran
+  cleanly against the real data.
+- **Step D**: the FULL 3,000-execution campaign was **NOT** run this
+  milestone (infeasible within one session's real-LLM wall-clock budget
+  -- see "Known limitations" below). `scripts/run_level_benchmark.py
+  --all --repetitions 10` is fully built, tested, and resumable
+  level-by-level; running it to completion is explicitly named as
+  remaining work, not silently treated as done.
+
+**A genuine, honestly-reported finding from Step B**: at Enterprise/
+Site/Area/Work-Center/Process-Cell, 0 of 20 controlled-context or extra
+real-relationship questions reached `required_evidence_score=1.0`
+(the agent could not resolve a plain-language reference, e.g. "Port
+Arthur Site," to its real canonical id via `knowledge_graph`/`historian`
+alone, without a semantic discovery tool) -- while Equipment's
+historian-only measurement questions succeeded 4/4. This extends the
+SAME `knowledge_graph`-only discoverability weakness first observed for
+the real Area level (`docs/research/context-requirement-campaign-1.md`)
+to the new controlled-context levels, and raises a genuinely open
+question (why Equipment's historian-only value lookups succeed while
+these do not) that this milestone deliberately leaves open rather than
+speculating about -- see "Known limitations."
+
+## Known limitations
+
+- **The full 3,000-execution campaign has NOT been run.** Only 24 real
+  executions (Step B, across all six levels) have been completed as of
+  this milestone. `scripts/run_level_benchmark.py --all --repetitions 10`
+  is the documented, tested, resumable path to complete it -- doing so
+  is explicit remaining work, not claimed as done.
+- **The Enterprise/Site/Work-Center/Area-extra/Process-Cell-extra
+  discoverability finding above is OBSERVED, not yet explained.** Only
+  20 real runs support it; no root-cause investigation (e.g. comparing
+  exact tool-call sequences between a succeeding Equipment run and a
+  failing Enterprise run) was performed this milestone. Treat it as a
+  concrete lead for the next context-requirement campaign, not a
+  settled conclusion.
+- **Controlled benchmark context KPI values are synthetic**, generated
+  by a deterministic formula (`random.Random` seeded per entity/KPI/
+  version) within a plausible real-world range -- realistic in
+  magnitude, never claimed to be empirically measured. Any conclusion
+  drawn from Enterprise/Site/Work-Center/the-synthetic-half-of-Area
+  results is a conclusion about THIS controlled layer, not about real
+  industrial enterprises.
+- **Work Center's synthetic entities are NOT parented to the real
+  Process Cell.** To avoid altering the real, already-experimentally-
+  used `processcell:reaction PART_OF area:reaction` relationship, the
+  new work centers are additive SIBLINGS of the real Process Cell under
+  their Area, each with their own KPI content, rather than a literal
+  Area -> WorkCenter -> ProcessCell chain wrapping the real process
+  cell. Documented here rather than silently assumed away.
+- **Difficulty/tag/answer-type assignment for generated questions is
+  heuristic**, not independently hand-verified per question given the
+  volume (300 questions) -- see `scripts/generate_question_banks.py`'s
+  own documented, deterministic rule.
 
 ## What this milestone does not do (over-engineering guardrails honored)
 
@@ -346,11 +521,21 @@ rather than presented as individual expert judgment.
 - Did not introduce MCP.
 - Did not modify `tep-v1` (verified via `git diff` against its own
   directories before every commit).
-- Did not fabricate Enterprise/Site/Work-Center scenarios, entities,
-  relationships, or results.
-- Did not force Process Cell/Area question counts to their target
-  numbers by inventing content.
-- Did not make all 127 (or even all 13 realizable) context combinations
-  mandatory for any campaign.
-- Did not lower any evaluator threshold to raise pass rates.
-- Did not delete any historical result -- the reset mechanism archives.
+- Did not fabricate ENTITIES/relationships/ground truth for Enterprise/
+  Site/Work-Center -- every fact there comes from the explicit,
+  deterministic, versioned, clearly-labeled controlled benchmark context
+  layer (`icab.benchmark_context`), reached through the same real
+  architecture mechanisms being evaluated -- never a hidden database,
+  never presented as real plant data.
+- Did not disturb any of the real TEP entities' own existing
+  relationships -- every controlled-layer hierarchy edge is ADDITIVE.
+- Did not run all 127 (or even all 13 realizable) context combinations
+  for the standard campaign -- each question uses its own single
+  designated architecture arm, exactly as Section 14 specifies.
+- Did not lower any evaluator threshold to raise pass rates -- the real,
+  honestly-reported 0/20 controlled-context success rate from Step B was
+  left as-is, not adjusted.
+- Did not delete any historical result -- `scripts/reset_active_results.py`
+  archives (verified: the prior milestone's 38 real records are intact
+  under `results/_archive/`).
+- Did not claim the 3,000-execution benchmark is complete -- it is not.

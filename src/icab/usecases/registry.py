@@ -10,19 +10,27 @@ holding a `use_cases:` list, e.g. `configs/usecases/equipment.yaml`.
 ## ISA-95 level coverage -- stated honestly, not filled to look complete
 
 TEP is a single-site, single-process-cell, seven-equipment-item
-simulation. It genuinely supports rich, varied benchmark evidence at the
-**Equipment** and **Process Cell** levels (the existing 38-task tep-v1
-suite is entirely at these two levels). It has exactly ONE real Site
-entity and ONE real Area entity (`icab.tep.adapter.TEPAdapter`) -- real,
-but with no variation to study (nothing to compare against), so **Area**
-use cases here are deliberately few and thin (real hierarchy facts, not
-scenario-varying investigations). TEP has **zero** WorkCenter entities
-and **zero** multi-site/multi-enterprise data at all -- so, per the ICAB
-v2 direction's explicit "do not fabricate context merely to fill the
-matrix" rule, **Enterprise** and **Work Center** currently have ZERO
-registered use cases. This is a real, reported coverage gap, not an
-oversight: the framework (`ISA95Level` includes both) is ready for a
-future scenario domain that actually has that data.
+simulation. It genuinely supports rich, varied REAL benchmark evidence
+at the **Equipment** and **Process Cell** levels (the existing tep-v1
+task suite, and the ICAB v3 50-question banks at these two levels, are
+entirely real TEP data -- `data_provenance="real_tep"`, see
+`icab.benchmark.levels`). It has exactly ONE real Site entity and ONE
+real Area entity (`icab.tep.adapter.TEPAdapter`) -- real, but with no
+variation to study on their own.
+
+TEP has **zero** WorkCenter entities and **zero** multi-site/multi-
+enterprise data at all. Rather than leave Enterprise/Site/Work Center
+permanently unsupported, ICAB v3 added a CONTROLLED, deterministic,
+versioned synthetic benchmark context layer
+(`icab.benchmark_context`) -- clearly separate from real TEP data
+(tagged `source="icab_benchmark_context"`, never presented as real
+plant data), reached through the SAME architecture/context mechanisms
+being evaluated. Area and Site are `data_provenance="mixed"` (their one
+real TEP entity plus controlled synthetic siblings); Enterprise and
+Work Center are `data_provenance="controlled_synthetic"` (no real TEP
+analog exists at all). See `docs/benchmark/specification-v3.md` for the
+full design and `icab.benchmark.levels.LEVEL_BENCHMARKS` for the
+per-level provenance declaration every result can be traced back to.
 """
 
 from __future__ import annotations
@@ -42,32 +50,38 @@ from .models import IndustrialUseCase
 #: rather than a silent absence.
 ISA95_LEVEL_COVERAGE_NOTES: dict[ISA95Level, str] = {
     ISA95Level.ENTERPRISE: (
-        "No use cases: TEP models a single site with no multi-site/"
-        "multi-enterprise data. Framework-ready; requires a future "
-        "scenario domain with real multi-site data."
+        "50 use-case-backed questions, entirely against the CONTROLLED "
+        "benchmark context layer (icab.benchmark_context) -- TEP itself "
+        "models a single site with no real multi-site/multi-enterprise "
+        "data. See icab.benchmark.levels.LEVEL_BENCHMARKS "
+        "(data_provenance='controlled_synthetic')."
     ),
     ISA95Level.SITE: (
-        "No use cases: TEP has exactly one real Site entity, with no "
-        "variation to study (nothing to compare it against)."
+        "50 use-case-backed questions across the one REAL Site entity "
+        "plus 2 CONTROLLED synthetic sibling sites -- TEP itself has "
+        "exactly one real Site entity, with no variation to study on its "
+        "own. data_provenance='mixed'."
     ),
     ISA95Level.AREA: (
-        "Minimal: TEP has exactly one real Area entity (Reaction Area). "
-        "Use cases here are real, verified hierarchy facts (the Area's "
-        "own Site/ProcessCell relationships), not scenario-varying "
-        "investigations."
+        "50 use-case-backed questions: real, verified hierarchy facts "
+        "over the one real Area entity (Reaction Area) plus CONTROLLED "
+        "synthetic sibling areas/KPI content. data_provenance='mixed'."
     ),
     ISA95Level.WORK_CENTER: (
-        "No use cases: TEP's real CIM data has no WorkCenter entities at "
-        "all (icab.cim.EntityType.WORK_CENTER is modeled but never "
-        "populated by icab.tep.adapter.TEPAdapter)."
+        "50 use-case-backed questions, entirely against the CONTROLLED "
+        "benchmark context layer -- TEP's real CIM data has no "
+        "WorkCenter entities at all (icab.cim.EntityType.WORK_CENTER is "
+        "modeled but never populated by icab.tep.adapter.TEPAdapter). "
+        "data_provenance='controlled_synthetic'."
     ),
     ISA95Level.PROCESS_CELL: (
-        "Well supported: the existing tep-v1 investigation/diagnosis "
-        "task suite operates at this level."
+        "Well supported: 50 real questions over the one real Process "
+        "Cell, all REAL TEP data. data_provenance='real_tep'."
     ),
     ISA95Level.EQUIPMENT: (
-        "Best supported: most of the existing tep-v1 task suite operates "
-        "at this level, across all seven real TEP equipment items."
+        "Best supported: 50 real questions across all seven real TEP "
+        "equipment items and all 41 real measurements, all REAL TEP "
+        "data. data_provenance='real_tep'."
     ),
 }
 

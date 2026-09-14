@@ -8,6 +8,12 @@ from .models import (
 )
 from .registry import QuestionBankRegistry, load_questions
 from .taxonomy import QUESTION_CATEGORY_LABELS, QuestionCategory
+from .validation import (
+    QuestionBankValidationReport,
+    QuestionValidationResult,
+    validate_question,
+    validate_question_bank,
+)
 
 __all__ = [
     "QUESTION_CATEGORY_LABELS",
@@ -15,11 +21,15 @@ __all__ = [
     "ExpectedAnswerType",
     "Question",
     "QuestionBankRegistry",
+    "QuestionBankValidationReport",
     "QuestionCategory",
     "QuestionDifficulty",
     "QuestionInstance",
+    "QuestionValidationResult",
     "RepetitionMode",
     "ValidationStatus",
     "instance_id_for",
     "load_questions",
+    "validate_question",
+    "validate_question_bank",
 ]

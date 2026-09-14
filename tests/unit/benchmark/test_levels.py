@@ -17,18 +17,34 @@ class TestSixBenchmarkDefinitions:
         for definition in LEVEL_BENCHMARKS.values():
             assert definition.framework_supported is True
 
-    def test_enterprise_site_work_center_are_honestly_unsupported(self):
-        for level in (ISA95Level.ENTERPRISE, ISA95Level.SITE, ISA95Level.WORK_CENTER):
-            definition = get_level_benchmark(level)
-            assert definition.data_supported is False
-            assert definition.executable is False
-            assert definition.coverage_note  # non-empty, explains why
-
-    def test_area_process_cell_equipment_are_executable(self):
-        for level in (ISA95Level.AREA, ISA95Level.PROCESS_CELL, ISA95Level.EQUIPMENT):
-            definition = get_level_benchmark(level)
+    def test_every_level_is_executable_with_fifty_question_content(self):
+        # ICAB v3 50-question milestone: every level now has a real
+        # (Equipment/Process Cell) or controlled/mixed
+        # (Enterprise/Site/Area/Work Center) question bank -- see
+        # docs/benchmark/specification-v3.md. None are unsupported
+        # anymore, but the PROVENANCE of each level's data is explicit.
+        for definition in LEVEL_BENCHMARKS.values():
             assert definition.data_supported is True
             assert definition.executable is True
+            assert definition.coverage_note  # non-empty, explains provenance
+
+    def test_data_provenance_is_declared_honestly_per_level(self):
+        expected = {
+            ISA95Level.ENTERPRISE: "controlled_synthetic",
+            ISA95Level.SITE: "mixed",
+            ISA95Level.AREA: "mixed",
+            ISA95Level.WORK_CENTER: "controlled_synthetic",
+            ISA95Level.PROCESS_CELL: "real_tep",
+            ISA95Level.EQUIPMENT: "real_tep",
+        }
+        for level, provenance in expected.items():
+            assert get_level_benchmark(level).data_provenance == provenance
+
+    def test_no_level_claims_real_tep_provenance_without_actually_using_tep(self):
+        # A structural honesty check: only the two levels TEP genuinely
+        # models richly may claim "real_tep" alone.
+        real_only = {level for level, d in LEVEL_BENCHMARKS.items() if d.data_provenance == "real_tep"}
+        assert real_only == {ISA95Level.PROCESS_CELL, ISA95Level.EQUIPMENT}
 
     def test_each_level_has_its_own_distinct_results_root(self):
         roots = [str(definition.results_root) for definition in LEVEL_BENCHMARKS.values()]
@@ -46,5 +62,5 @@ class TestSixBenchmarkDefinitions:
 
 
 class TestExecutableLevels:
-    def test_returns_exactly_area_process_cell_equipment(self):
-        assert set(executable_levels()) == {ISA95Level.AREA, ISA95Level.PROCESS_CELL, ISA95Level.EQUIPMENT}
+    def test_returns_all_six_levels(self):
+        assert set(executable_levels()) == set(ISA95Level)

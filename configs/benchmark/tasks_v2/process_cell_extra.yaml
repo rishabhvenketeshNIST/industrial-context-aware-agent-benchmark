@@ -1,0 +1,2184 @@
+tasks:
+- task_id: pc-extra-qa-monitors-feed_a_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is feed flow component a (stream 1) monitored by equipment that is part
+    of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:feed-system
+  expected_entities:
+  - urn:icab:measurement:feed_a_flow
+  - urn:icab:equipment:feed-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:feed-system
+    - MONITORS
+    - urn:icab:measurement:feed_a_flow
+  - - urn:icab:equipment:feed-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Feed flow component A (stream 1) (urn:icab:measurement:feed_a_flow)
+      is monitored by urn:icab:equipment:feed-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:feed-system
+    expected_relationships:
+    - - urn:icab:equipment:feed-system
+      - MONITORS
+      - urn:icab:measurement:feed_a_flow
+    - - urn:icab:equipment:feed-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:feed-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-feed_d_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is feed flow component d (stream 2) monitored by equipment that is part
+    of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:feed-system
+  expected_entities:
+  - urn:icab:measurement:feed_d_flow
+  - urn:icab:equipment:feed-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:feed-system
+    - MONITORS
+    - urn:icab:measurement:feed_d_flow
+  - - urn:icab:equipment:feed-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Feed flow component D (stream 2) (urn:icab:measurement:feed_d_flow)
+      is monitored by urn:icab:equipment:feed-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:feed-system
+    expected_relationships:
+    - - urn:icab:equipment:feed-system
+      - MONITORS
+      - urn:icab:measurement:feed_d_flow
+    - - urn:icab:equipment:feed-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:feed-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-feed_e_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is feed flow component e (stream 3) monitored by equipment that is part
+    of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:feed-system
+  expected_entities:
+  - urn:icab:measurement:feed_e_flow
+  - urn:icab:equipment:feed-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:feed-system
+    - MONITORS
+    - urn:icab:measurement:feed_e_flow
+  - - urn:icab:equipment:feed-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Feed flow component E (stream 3) (urn:icab:measurement:feed_e_flow)
+      is monitored by urn:icab:equipment:feed-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:feed-system
+    expected_relationships:
+    - - urn:icab:equipment:feed-system
+      - MONITORS
+      - urn:icab:measurement:feed_e_flow
+    - - urn:icab:equipment:feed-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:feed-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-feed_ac_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is feed flow components a and c (stream 4) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:feed-system
+  expected_entities:
+  - urn:icab:measurement:feed_ac_flow
+  - urn:icab:equipment:feed-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:feed-system
+    - MONITORS
+    - urn:icab:measurement:feed_ac_flow
+  - - urn:icab:equipment:feed-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Feed flow components A and C (stream 4) (urn:icab:measurement:feed_ac_flow)
+      is monitored by urn:icab:equipment:feed-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:feed-system
+    expected_relationships:
+    - - urn:icab:equipment:feed-system
+      - MONITORS
+      - urn:icab:measurement:feed_ac_flow
+    - - urn:icab:equipment:feed-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:feed-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-recycle_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is recycle flow to reactor from separator (stream 8) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:feed-system
+  expected_entities:
+  - urn:icab:measurement:recycle_flow
+  - urn:icab:equipment:feed-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:feed-system
+    - MONITORS
+    - urn:icab:measurement:recycle_flow
+  - - urn:icab:equipment:feed-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Recycle flow to reactor from separator (stream 8) (urn:icab:measurement:recycle_flow)
+      is monitored by urn:icab:equipment:feed-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:feed-system
+    expected_relationships:
+    - - urn:icab:equipment:feed-system
+      - MONITORS
+      - urn:icab:measurement:recycle_flow
+    - - urn:icab:equipment:feed-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:feed-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is reactor feed (stream 6) monitored by equipment that is part of the
+    reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_flow
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_flow
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reactor feed (stream 6) (urn:icab:measurement:reactor_feed_flow)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_flow
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_pressure
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is reactor pressure monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_pressure
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_pressure
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reactor pressure (urn:icab:measurement:reactor_pressure) is
+      monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_pressure
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_level
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is reactor level monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_level
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_level
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reactor level (urn:icab:measurement:reactor_level) is monitored
+      by urn:icab:equipment:reactor, which is part of the reaction process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_level
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_temperature
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is reactor temperature monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_temperature
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_temperature
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reactor temperature (urn:icab:measurement:reactor_temperature)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_temperature
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is purge flow (stream 9) monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_flow
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_flow
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Purge flow (stream 9) (urn:icab:measurement:purge_flow) is
+      monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_flow
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-separator_temperature
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is separator temperature monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:separator
+  expected_entities:
+  - urn:icab:measurement:separator_temperature
+  - urn:icab:equipment:separator
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:separator
+    - MONITORS
+    - urn:icab:measurement:separator_temperature
+  - - urn:icab:equipment:separator
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Separator temperature (urn:icab:measurement:separator_temperature)
+      is monitored by urn:icab:equipment:separator, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:separator
+    expected_relationships:
+    - - urn:icab:equipment:separator
+      - MONITORS
+      - urn:icab:measurement:separator_temperature
+    - - urn:icab:equipment:separator
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:separator
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-separator_level
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is separator level monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:separator
+  expected_entities:
+  - urn:icab:measurement:separator_level
+  - urn:icab:equipment:separator
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:separator
+    - MONITORS
+    - urn:icab:measurement:separator_level
+  - - urn:icab:equipment:separator
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Separator level (urn:icab:measurement:separator_level) is monitored
+      by urn:icab:equipment:separator, which is part of the reaction process cell
+      (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:separator
+    expected_relationships:
+    - - urn:icab:equipment:separator
+      - MONITORS
+      - urn:icab:measurement:separator_level
+    - - urn:icab:equipment:separator
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:separator
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-separator_pressure
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is separator pressure monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:separator
+  expected_entities:
+  - urn:icab:measurement:separator_pressure
+  - urn:icab:equipment:separator
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:separator
+    - MONITORS
+    - urn:icab:measurement:separator_pressure
+  - - urn:icab:equipment:separator
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Separator pressure (urn:icab:measurement:separator_pressure)
+      is monitored by urn:icab:equipment:separator, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:separator
+    expected_relationships:
+    - - urn:icab:equipment:separator
+      - MONITORS
+      - urn:icab:measurement:separator_pressure
+    - - urn:icab:equipment:separator
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:separator
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-separator_underflow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is separator underflow liquid phase monitored by equipment that is part
+    of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:separator
+  expected_entities:
+  - urn:icab:measurement:separator_underflow
+  - urn:icab:equipment:separator
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:separator
+    - MONITORS
+    - urn:icab:measurement:separator_underflow
+  - - urn:icab:equipment:separator
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Separator underflow liquid phase (urn:icab:measurement:separator_underflow)
+      is monitored by urn:icab:equipment:separator, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:separator
+    expected_relationships:
+    - - urn:icab:equipment:separator
+      - MONITORS
+      - urn:icab:measurement:separator_underflow
+    - - urn:icab:equipment:separator
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:separator
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_level
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is stripper level monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_level
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_level
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Stripper level (urn:icab:measurement:stripper_level) is monitored
+      by urn:icab:equipment:stripper, which is part of the reaction process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_level
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_pressure
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is stripper pressure monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_pressure
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_pressure
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Stripper pressure (urn:icab:measurement:stripper_pressure)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_pressure
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_underflow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is stripper underflow (stream 11) monitored by equipment that is part
+    of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_underflow
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_underflow
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_temperature
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is stripper temperature monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_temperature
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_temperature
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Stripper temperature (urn:icab:measurement:stripper_temperature)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_temperature
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_steam_flow
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is stripper steam flow monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_steam_flow
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_steam_flow
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Stripper steam flow (urn:icab:measurement:stripper_steam_flow)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_steam_flow
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-compressor_work
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is compressor work monitored by equipment that is part of the reaction
+    process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:compressor
+  expected_entities:
+  - urn:icab:measurement:compressor_work
+  - urn:icab:equipment:compressor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:compressor
+    - MONITORS
+    - urn:icab:measurement:compressor_work
+  - - urn:icab:equipment:compressor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Compressor work (urn:icab:measurement:compressor_work) is monitored
+      by urn:icab:equipment:compressor, which is part of the reaction process cell
+      (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:compressor
+    expected_relationships:
+    - - urn:icab:equipment:compressor
+      - MONITORS
+      - urn:icab:measurement:compressor_work
+    - - urn:icab:equipment:compressor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:compressor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_cooling_water_outlet_temperature_meas
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is reactor cooling water outlet temperature monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reactor cooling water outlet temperature (urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-condenser_cooling_water_outlet_temperature
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is condenser cooling water outlet temperature monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:condenser
+  expected_entities:
+  - urn:icab:measurement:condenser_cooling_water_outlet_temperature
+  - urn:icab:equipment:condenser
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:condenser
+    - MONITORS
+    - urn:icab:measurement:condenser_cooling_water_outlet_temperature
+  - - urn:icab:equipment:condenser
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Condenser cooling water outlet temperature (urn:icab:measurement:condenser_cooling_water_outlet_temperature)
+      is monitored by urn:icab:equipment:condenser, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:condenser
+    expected_relationships:
+    - - urn:icab:equipment:condenser
+      - MONITORS
+      - urn:icab:measurement:condenser_cooling_water_outlet_temperature
+    - - urn:icab:equipment:condenser
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:condenser
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_a_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of a in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_a_concentration
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_a_concentration
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of A in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_a_concentration)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_a_concentration
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_b_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of b in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_b_concentration
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_b_concentration
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of B in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_b_concentration)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_b_concentration
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_c_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of c in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_c_concentration
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_c_concentration
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of C in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_c_concentration)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_c_concentration
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_d_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of d in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_d_concentration
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_d_concentration
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of D in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_d_concentration)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_d_concentration
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_e_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of e in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_e_concentration
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_e_concentration
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of E in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_e_concentration)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_e_concentration
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-reactor_feed_f_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of f in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:reactor
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_f_concentration
+  - urn:icab:equipment:reactor
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:reactor
+    - MONITORS
+    - urn:icab:measurement:reactor_feed_f_concentration
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of F in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_f_concentration)
+      is monitored by urn:icab:equipment:reactor, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:reactor
+    expected_relationships:
+    - - urn:icab:equipment:reactor
+      - MONITORS
+      - urn:icab:measurement:reactor_feed_f_concentration
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:reactor
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_a_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of a in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_a_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_a_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of A in purge (stream 9) (urn:icab:measurement:purge_a_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_a_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_b_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of b in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_b_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_b_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of B in purge (stream 9) (urn:icab:measurement:purge_b_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_b_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_c_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of c in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_c_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_c_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of C in purge (stream 9) (urn:icab:measurement:purge_c_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_c_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_d_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of d in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_d_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_d_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of D in purge (stream 9) (urn:icab:measurement:purge_d_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_d_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_e_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of e in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_e_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_e_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of E in purge (stream 9) (urn:icab:measurement:purge_e_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_e_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_f_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of f in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_f_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_f_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of F in purge (stream 9) (urn:icab:measurement:purge_f_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_f_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_g_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of g in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_g_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_g_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of G in purge (stream 9) (urn:icab:measurement:purge_g_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_g_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-purge_h_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of h in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:purge-system
+  expected_entities:
+  - urn:icab:measurement:purge_h_concentration
+  - urn:icab:equipment:purge-system
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:purge-system
+    - MONITORS
+    - urn:icab:measurement:purge_h_concentration
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of H in purge (stream 9) (urn:icab:measurement:purge_h_concentration)
+      is monitored by urn:icab:equipment:purge-system, which is part of the reaction
+      process cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:purge-system
+    expected_relationships:
+    - - urn:icab:equipment:purge-system
+      - MONITORS
+      - urn:icab:measurement:purge_h_concentration
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:purge-system
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_underflow_d_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of d in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow_d_concentration
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_underflow_d_concentration
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of D in stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow_d_concentration)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_underflow_d_concentration
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_underflow_e_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of e in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow_e_concentration
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_underflow_e_concentration
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of E in stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow_e_concentration)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_underflow_e_concentration
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_underflow_f_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of f in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow_f_concentration
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_underflow_f_concentration
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of F in stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow_f_concentration)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_underflow_f_concentration
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_underflow_g_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of g in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow_g_concentration
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_underflow_g_concentration
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of G in stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow_g_concentration)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_underflow_g_concentration
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-monitors-stripper_underflow_h_concentration
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D3
+  isa95_level: process_cell
+  use_case_id: pc-relational-structure-enumeration
+  objective: Is concentration of h in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C3
+  - C2
+  required_evidence:
+  - urn:icab:equipment:stripper
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow_h_concentration
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:stripper
+    - MONITORS
+    - urn:icab:measurement:stripper_underflow_h_concentration
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Concentration of H in stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow_h_concentration)
+      is monitored by urn:icab:equipment:stripper, which is part of the reaction process
+      cell (urn:icab:processcell:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:stripper
+      - MONITORS
+      - urn:icab:measurement:stripper_underflow_h_concentration
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:equipment:stripper
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real MONITORS + PART_OF facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: pc-extra-qa-equipment-count
+  scenario_id: d2_reactor_context_combination
+  task_type: investigation
+  difficulty: D2
+  isa95_level: process_cell
+  use_case_id: pc-equipment-composition-discovery
+  objective: How many distinct real equipment items does the reaction process cell
+    contain, according to the knowledge graph?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:processcell:reaction
+  expected_entities:
+  - urn:icab:equipment:compressor
+  - urn:icab:equipment:condenser
+  - urn:icab:equipment:feed-system
+  - urn:icab:equipment:purge-system
+  - urn:icab:equipment:reactor
+  - urn:icab:equipment:separator
+  - urn:icab:equipment:stripper
+  - urn:icab:processcell:reaction
+  expected_relationships:
+  - - urn:icab:equipment:compressor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  - - urn:icab:equipment:condenser
+    - PART_OF
+    - urn:icab:processcell:reaction
+  - - urn:icab:equipment:feed-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  - - urn:icab:equipment:purge-system
+    - PART_OF
+    - urn:icab:processcell:reaction
+  - - urn:icab:equipment:reactor
+    - PART_OF
+    - urn:icab:processcell:reaction
+  - - urn:icab:equipment:separator
+    - PART_OF
+    - urn:icab:processcell:reaction
+  - - urn:icab:equipment:stripper
+    - PART_OF
+    - urn:icab:processcell:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: 'The reaction process cell (urn:icab:processcell:reaction) contains
+      7 real equipment items: urn:icab:equipment:compressor, urn:icab:equipment:condenser,
+      urn:icab:equipment:feed-system, urn:icab:equipment:purge-system, urn:icab:equipment:reactor,
+      urn:icab:equipment:separator, urn:icab:equipment:stripper.'
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment:
+    - urn:icab:equipment:compressor
+    - urn:icab:equipment:condenser
+    - urn:icab:equipment:feed-system
+    - urn:icab:equipment:purge-system
+    - urn:icab:equipment:reactor
+    - urn:icab:equipment:separator
+    - urn:icab:equipment:stripper
+    expected_relationships:
+    - - urn:icab:equipment:compressor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    - - urn:icab:equipment:condenser
+      - PART_OF
+      - urn:icab:processcell:reaction
+    - - urn:icab:equipment:feed-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    - - urn:icab:equipment:purge-system
+      - PART_OF
+      - urn:icab:processcell:reaction
+    - - urn:icab:equipment:reactor
+      - PART_OF
+      - urn:icab:processcell:reaction
+    - - urn:icab:equipment:separator
+      - PART_OF
+      - urn:icab:processcell:reaction
+    - - urn:icab:equipment:stripper
+      - PART_OF
+      - urn:icab:processcell:reaction
+    expected_evidence:
+    - urn:icab:processcell:reaction
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    - completeness_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.adapter: real PART_OF hierarchy facts (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0

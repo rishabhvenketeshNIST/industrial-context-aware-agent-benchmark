@@ -1,4 +1,1478 @@
 questions:
+- question_id: Q-area-ctx-investigation-compare-area_energy_consumption-14
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area energy consumption?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_energy_consumption',
+    'urn:icab:measurement:area:riverside-utilities:area_energy_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_energy_consumption-14
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_energy_consumption-14'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_energy_consumption-6
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area energy consumption?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_energy_consumption',
+    'urn:icab:measurement:area:riverside-utilities:area_energy_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_energy_consumption-6
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_energy_consumption-6'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_equipment_count-12
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area equipment count?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area equipment count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_equipment_count',
+    'urn:icab:measurement:area:riverside-utilities:area_equipment_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_equipment_count-12
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_equipment_count-12'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_equipment_count-4
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area equipment count?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area equipment count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_equipment_count',
+    'urn:icab:measurement:area:riverside-utilities:area_equipment_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_equipment_count-4
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_equipment_count-4'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_headcount-15
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area headcount?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_headcount',
+    'urn:icab:measurement:area:riverside-utilities:area_headcount']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_headcount-15
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_headcount-15'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_headcount-7
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area headcount?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_headcount',
+    'urn:icab:measurement:area:riverside-utilities:area_headcount']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_headcount-7
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_headcount-7'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_last_inspection_days_ago-13
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher days since area's last inspection?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher days since area's last inspection?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_last_inspection_days_ago',
+    'urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_last_inspection_days_ago-13
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_last_inspection_days_ago-13'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_last_inspection_days_ago-5
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher days since area's last inspection?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher days since area's last inspection?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_last_inspection_days_ago',
+    'urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_last_inspection_days_ago-5
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_last_inspection_days_ago-5'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_open_workorders-10
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area open work orders?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area open work orders?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_open_workorders',
+    'urn:icab:measurement:area:riverside-utilities:area_open_workorders']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_open_workorders-10
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_open_workorders-10'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_open_workorders-2
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area open work orders?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area open work orders?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_open_workorders',
+    'urn:icab:measurement:area:riverside-utilities:area_open_workorders']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_open_workorders-2
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_open_workorders-2'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_production_rate-0
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area production rate?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area production rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_production_rate',
+    'urn:icab:measurement:area:riverside-utilities:area_production_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_production_rate-0
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_production_rate-0'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_production_rate-16
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area production rate?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area production rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_production_rate',
+    'urn:icab:measurement:area:riverside-utilities:area_production_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_production_rate-16
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_production_rate-16'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_production_rate-8
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area production rate?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area production rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_production_rate',
+    'urn:icab:measurement:area:riverside-utilities:area_production_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_production_rate-8
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_production_rate-8'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_safety_incidents_ytd-11
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area safety incidents (ytd)?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_safety_incidents_ytd',
+    'urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_safety_incidents_ytd-11
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_safety_incidents_ytd-11'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_safety_incidents_ytd-3
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area safety incidents (ytd)?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_safety_incidents_ytd',
+    'urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_safety_incidents_ytd-3
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_safety_incidents_ytd-3'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_utilization-1
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area utilization?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_utilization',
+    'urn:icab:measurement:area:riverside-utilities:area_utilization']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_utilization-1
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_utilization-1'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-investigation-compare-area_utilization-9
+  benchmark_id: icab-area-v1
+  use_case_id: area-cross-comparison
+  isa95_level: area
+  question_text: Between Reaction Area and Riverside Utilities Area, which one has
+    the higher area utilization?
+  task_type: investigation
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_utilization',
+    'urn:icab:measurement:area:riverside-utilities:area_utilization']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-investigation-compare-area_utilization-9
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-investigation-compare-area_utilization-9'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_energy_consumption
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area energy
+    consumption?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area energy
+    consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_energy_consumption']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_energy_consumption
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_energy_consumption'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_equipment_count
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area equipment
+    count?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area equipment
+    count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_equipment_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_equipment_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_equipment_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_headcount
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area headcount?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_headcount']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_headcount
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_headcount'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_last_inspection_days_ago
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's days since
+    area's last inspection?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's days since
+    area's last inspection?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_last_inspection_days_ago']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_last_inspection_days_ago
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_last_inspection_days_ago'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_open_workorders
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area open
+    work orders?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area open
+    work orders?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_open_workorders']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_open_workorders
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_open_workorders'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_production_rate
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area production
+    rate?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area production
+    rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_production_rate']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_production_rate
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_production_rate'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_safety_incidents_ytd
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area safety
+    incidents (ytd)?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area safety
+    incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_safety_incidents_ytd']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_safety_incidents_ytd
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_safety_incidents_ytd'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port-arthur-processing-area_utilization
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Port Arthur Processing Area's area utilization?
+  task_type: qa
+  objective: What is the current value of Port Arthur Processing Area's area utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:port-arthur-processing:area_utilization']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-port-arthur-processing-area_utilization
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port-arthur-processing-area_utilization'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port_arthur_distillation-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-work-center-composition
+  isa95_level: area
+  question_text: Is Port Arthur Distillation Work Center part of Port Arthur Processing
+    Area?
+  task_type: qa
+  objective: Is Port Arthur Distillation Work Center part of Port Arthur Processing
+    Area?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:area:port-arthur-processing']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-ctx-qa-port_arthur_distillation-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port_arthur_distillation-membership'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-port_arthur_processing-site-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-site-membership-identification
+  isa95_level: area
+  question_text: Is Port Arthur Processing Area part of Port Arthur Site?
+  task_type: qa
+  objective: Is Port Arthur Processing Area part of Port Arthur Site?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:site:port-arthur']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-ctx-qa-port_arthur_processing-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-port_arthur_processing-site-membership'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_energy_consumption
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area energy consumption?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_energy_consumption']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_energy_consumption
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_energy_consumption'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_equipment_count
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area equipment count?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area equipment count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_equipment_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_equipment_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_equipment_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_headcount
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area headcount?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_headcount']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_headcount
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_headcount' (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_last_inspection_days_ago
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's days since area's last
+    inspection?
+  task_type: qa
+  objective: What is the current value of Reaction Area's days since area's last inspection?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_last_inspection_days_ago']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_last_inspection_days_ago
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_last_inspection_days_ago'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_open_workorders
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area open work orders?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area open work orders?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_open_workorders']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_open_workorders
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_open_workorders'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_production_rate
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area production rate?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area production rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_production_rate']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_production_rate
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_production_rate'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_safety_incidents_ytd
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area safety incidents
+    (ytd)?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_safety_incidents_ytd']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_safety_incidents_ytd
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_safety_incidents_ytd'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-area_utilization
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Reaction Area's area utilization?
+  task_type: qa
+  objective: What is the current value of Reaction Area's area utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:reaction:area_utilization']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-reaction-area_utilization
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-area_utilization' (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction-site-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-site-membership-identification
+  isa95_level: area
+  question_text: Is Reaction Area part of Tennessee Eastman Process Site?
+  task_type: qa
+  objective: Is Reaction Area part of Tennessee Eastman Process Site?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:site:tep']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-ctx-qa-reaction-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction-site-membership' (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-reaction_utilities-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-work-center-composition
+  isa95_level: area
+  question_text: Is Reaction Area Utilities Work Center part of Reaction Area?
+  task_type: qa
+  objective: Is Reaction Area Utilities Work Center part of Reaction Area?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:area:reaction']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-ctx-qa-reaction_utilities-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-reaction_utilities-membership'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_energy_consumption
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area energy
+    consumption?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_energy_consumption']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_energy_consumption
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_energy_consumption'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_equipment_count
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area equipment
+    count?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area equipment
+    count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_equipment_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_equipment_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_equipment_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_headcount
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area headcount?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_headcount']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_headcount
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_headcount'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_last_inspection_days_ago
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's days since
+    area's last inspection?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's days since area's
+    last inspection?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_last_inspection_days_ago
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_last_inspection_days_ago'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_open_workorders
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area open
+    work orders?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area open work
+    orders?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_open_workorders']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_open_workorders
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_open_workorders'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_production_rate
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area production
+    rate?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area production
+    rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_production_rate']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_production_rate
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_production_rate'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_safety_incidents_ytd
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area safety
+    incidents (ytd)?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area safety incidents
+    (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_safety_incidents_ytd
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_safety_incidents_ytd'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside-utilities-area_utilization
+  benchmark_id: icab-area-v1
+  use_case_id: area-kpi-interpretation
+  isa95_level: area
+  question_text: What is the current value of Riverside Utilities Area's area utilization?
+  task_type: qa
+  objective: What is the current value of Riverside Utilities Area's area utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:area:riverside-utilities:area_utilization']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: area-ctx-qa-riverside-utilities-area_utilization
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside-utilities-area_utilization'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside_packaging-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-work-center-composition
+  isa95_level: area
+  question_text: Is Riverside Packaging Work Center part of Riverside Utilities Area?
+  task_type: qa
+  objective: Is Riverside Packaging Work Center part of Riverside Utilities Area?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:area:riverside-utilities']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-ctx-qa-riverside_packaging-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside_packaging-membership'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-ctx-qa-riverside_utilities-site-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-site-membership-identification
+  isa95_level: area
+  question_text: Is Riverside Utilities Area part of Riverside Site?
+  task_type: qa
+  objective: Is Riverside Utilities Area part of Riverside Site?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:site:riverside']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-ctx-qa-riverside_utilities-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-ctx-qa-riverside_utilities-site-membership'
+    (scripts/generate_question_banks.py)
 - question_id: Q-area-investigation-process-cell-composition
   benchmark_id: icab-area-v1
   use_case_id: area-process-cell-composition

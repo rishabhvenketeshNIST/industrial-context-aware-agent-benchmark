@@ -1143,3 +1143,577 @@ questions:
   version: 1.0.0
   validation_status: validated
   provenance: generated from tep-v2 task 'd4unknown-qa-separator-or-stripper' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-condenser_cooling_water_outlet_temperature
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of condenser cooling water outlet temperature?
+  task_type: qa
+  objective: What is the current value of condenser cooling water outlet temperature?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:condenser_cooling_water_outlet_temperature']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-condenser_cooling_water_outlet_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-condenser_cooling_water_outlet_temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-feed_a_flow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of feed flow component a (stream 1)?
+  task_type: qa
+  objective: What is the current value of feed flow component a (stream 1)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:feed_a_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-feed_a_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-feed_a_flow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-feed_ac_flow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of feed flow components a and c (stream
+    4)?
+  task_type: qa
+  objective: What is the current value of feed flow components a and c (stream 4)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:feed_ac_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-feed_ac_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-feed_ac_flow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-feed_e_flow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of feed flow component e (stream 3)?
+  task_type: qa
+  objective: What is the current value of feed flow component e (stream 3)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:feed_e_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-feed_e_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-feed_e_flow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-purge_a_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of a in purge (stream
+    9)?
+  task_type: qa
+  objective: What is the current value of concentration of a in purge (stream 9)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:purge_a_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-purge_a_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-purge_a_concentration' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_a_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of a in reactor feed (stream
+    6)?
+  task_type: qa
+  objective: What is the current value of concentration of a in reactor feed (stream
+    6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_a_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_a_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_a_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_b_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of b in reactor feed (stream
+    6)?
+  task_type: qa
+  objective: What is the current value of concentration of b in reactor feed (stream
+    6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_b_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_b_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_b_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_c_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of c in reactor feed (stream
+    6)?
+  task_type: qa
+  objective: What is the current value of concentration of c in reactor feed (stream
+    6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_c_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_c_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_c_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_d_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of d in reactor feed (stream
+    6)?
+  task_type: qa
+  objective: What is the current value of concentration of d in reactor feed (stream
+    6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_d_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_d_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_d_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_e_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of e in reactor feed (stream
+    6)?
+  task_type: qa
+  objective: What is the current value of concentration of e in reactor feed (stream
+    6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_e_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_e_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_e_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_f_concentration
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of concentration of f in reactor feed (stream
+    6)?
+  task_type: qa
+  objective: What is the current value of concentration of f in reactor feed (stream
+    6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_f_concentration']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_f_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_f_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-reactor_feed_flow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of reactor feed (stream 6)?
+  task_type: qa
+  objective: What is the current value of reactor feed (stream 6)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_feed_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-reactor_feed_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-reactor_feed_flow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-recycle_flow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of recycle flow to reactor from separator
+    (stream 8)?
+  task_type: qa
+  objective: What is the current value of recycle flow to reactor from separator (stream
+    8)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:recycle_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-recycle_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-recycle_flow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-separator_level
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of separator level?
+  task_type: qa
+  objective: What is the current value of separator level?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_level']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-separator_level
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-separator_level' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-separator_temperature
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of separator temperature?
+  task_type: qa
+  objective: What is the current value of separator temperature?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_temperature']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-separator_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-separator_temperature' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-separator_underflow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of separator underflow liquid phase?
+  task_type: qa
+  objective: What is the current value of separator underflow liquid phase?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_underflow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-separator_underflow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-separator_underflow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-stripper_steam_flow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of stripper steam flow?
+  task_type: qa
+  objective: What is the current value of stripper steam flow?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:stripper_steam_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-stripper_steam_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-stripper_steam_flow' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-stripper_temperature
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of stripper temperature?
+  task_type: qa
+  objective: What is the current value of stripper temperature?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:stripper_temperature']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-stripper_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-stripper_temperature' (scripts/generate_question_banks.py)
+- question_id: Q-eq-extra-qa-stripper_underflow
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current value of stripper underflow (stream 11)?
+  task_type: qa
+  objective: What is the current value of stripper underflow (stream 11)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:stripper_underflow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: eq-extra-qa-stripper_underflow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'eq-extra-qa-stripper_underflow' (scripts/generate_question_banks.py)

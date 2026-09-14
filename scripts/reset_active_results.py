@@ -1,12 +1,24 @@
 """
 Safe reset of ICAB's ACTIVE, generated results -- ARCHIVES (never
-deletes) the old flat `results/{raw,traces,evaluations,aggregate,
-reports,figures,hypotheses,prototype}/` content into a timestamped
-`results/_archive/<timestamp>/`, then creates the new, level-separated
+deletes) generated content into a timestamped `results/_archive/
+<timestamp>/`, then (re)creates the clean, level-separated
 `results/{enterprise,site,area,work_center,process_cell,equipment}/`
 skeleton (per `icab.benchmark.levels.LEVEL_BENCHMARKS`) so a fresh
 question-bank benchmark campaign starts clean and cannot be contaminated
-by pre-existing mixed v1/v2/campaign results.
+by pre-existing results (from any prior milestone, mixed v1/v2 results,
+or a prior 50-question campaign).
+
+Handles BOTH:
+  * the OLD flat `results/{raw,traces,evaluations,aggregate,reports,
+    figures,hypotheses,prototype}/` layout (pre-ICAB-v3), and
+  * the CURRENT level-scoped `results/<level>/{raw,traces,evaluations,
+    aggregate,hypotheses,reports,matrices,summaries}/` + `manifest.json`
+    layout -- so this script is genuinely reusable EVERY time a fresh
+    campaign is about to start, not a one-time flat-to-level migration.
+
+Archive destinations preserve their full path relative to the results/
+root (e.g. `results/_archive/<ts>/equipment/raw/...`), so two levels'
+same-named subdirectories (both have a `raw/`) never collide.
 
 NEVER touches (hard-coded refusal, not just "doesn't happen to"):
   * src/, tests/, docs/, configs/ (source code, tests, documentation,
@@ -37,6 +49,11 @@ RESULTS_ROOT = Path("results")
 #: `.gitignore` already excludes from version control (see
 #: docs/benchmark/specification-v2.md's "results/ policy").
 OLD_GENERATED_SUBDIRS = ("raw", "traces", "evaluations", "aggregate", "reports", "figures", "hypotheses", "prototype")
+
+#: The CURRENT level-scoped layout's generated subdirectories --
+#: everything `icab.benchmark.question_runner`/`icab.reporting.ReportStore`
+#: write to under `results/<level>/`.
+LEVEL_GENERATED_SUBDIRS = ("raw", "traces", "evaluations", "aggregate", "hypotheses", "reports", "matrices", "summaries")
 
 #: Never touched, no matter what -- explicit, not merely "outside the
 #: glob we happen to use."
@@ -70,24 +87,40 @@ def _archive_timestamp() -> str:
     return datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
 
 
+def _has_generated_content(directory: Path) -> bool:
+    """True if `directory` holds anything besides `.gitkeep` (or doesn't exist as a plain, empty dir)."""
+
+    if not directory.exists():
+        return False
+    return any(entry.name != ".gitkeep" for entry in directory.iterdir())
+
+
 def plan(results_root: Path = RESULTS_ROOT) -> dict:
     archive_dir = results_root / "_archive" / _archive_timestamp()
 
-    to_archive = [
+    to_archive: list[Path] = [
         results_root / subdir
         for subdir in OLD_GENERATED_SUBDIRS
         if (results_root / subdir).exists() and any((results_root / subdir).iterdir())
     ]
+
     #: Built from the PASSED-IN results_root, not each definition's own
     #: (production-default) `results_root` field directly -- so this
     #: plan is genuinely parameterizable (e.g. by tests, against a
     #: tmp_path) rather than always writing to the real results/ tree
     #: regardless of what was asked for.
-    to_create = [
-        d
-        for level in LEVEL_BENCHMARKS.values()
-        for d in _new_level_skeleton_dirs(results_root / level.isa95_level.value)
-    ]
+    level_roots = [results_root / level.isa95_level.value for level in LEVEL_BENCHMARKS.values()]
+
+    for level_root in level_roots:
+        for subdir in LEVEL_GENERATED_SUBDIRS:
+            path = level_root / subdir
+            if _has_generated_content(path):
+                to_archive.append(path)
+        manifest = level_root / "manifest.json"
+        if manifest.exists():
+            to_archive.append(manifest)
+
+    to_create = [d for level_root in level_roots for d in _new_level_skeleton_dirs(level_root)]
 
     return {"archive_dir": archive_dir, "to_archive": to_archive, "to_create": to_create}
 
@@ -111,8 +144,16 @@ def execute(results_root: Path = RESULTS_ROOT) -> dict:
     if reset_plan["to_archive"]:
         archive_dir.mkdir(parents=True, exist_ok=True)
         for source in reset_plan["to_archive"]:
-            destination = archive_dir / source.name
+            # Preserve the FULL relative path under the archive -- two
+            # different levels both have a "raw/" subdirectory, so
+            # archiving by bare name alone would silently collide/
+            # overwrite one level's archived data with another's.
+            destination = archive_dir / source.relative_to(results_root)
+            destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(str(source), str(destination))
+
+            if source.suffix:  # a file (e.g. manifest.json) -- archived, not recreated; a fresh level simply has none yet.
+                continue
             source.mkdir(parents=True, exist_ok=True)
             (source / ".gitkeep").touch()
 
@@ -138,7 +179,7 @@ def main() -> int:
         reset_plan = plan(results_root)
         print("DRY RUN (pass --force to actually perform this):")
         print(f"  archive destination: {reset_plan['archive_dir']}")
-        print("  directories to archive (non-empty, old flat layout):")
+        print("  paths to archive (non-empty, both old flat and current level-scoped layouts):")
         for path in reset_plan["to_archive"]:
             print(f"    - {path}")
         print("  new level-scoped skeleton directories to create:")

@@ -1,0 +1,1600 @@
+questions:
+- question_id: Q-wc-investigation-compare-wc_active_shift_count-15
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center active shift count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center active shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_active_shift_count-15
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_active_shift_count-15'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_active_shift_count-7
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center active shift count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center active shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_active_shift_count-7
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_active_shift_count-7'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_backlog_hours-12
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center backlog?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_backlog_hours-12
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_backlog_hours-12'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_backlog_hours-20
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center backlog?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_backlog_hours-20
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_backlog_hours-20'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_backlog_hours-4
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center backlog?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_backlog_hours-4
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_backlog_hours-4'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_changeover_minutes-14
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center changeover time?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center changeover time?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_changeover_minutes-14
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_changeover_minutes-14'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_changeover_minutes-22
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center changeover time?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center changeover time?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_changeover_minutes-22
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_changeover_minutes-22'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_changeover_minutes-6
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center changeover time?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center changeover time?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_changeover_minutes-6
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_changeover_minutes-6'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_operator_count-11
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center operator count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center operator count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_operator_count-11
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_operator_count-11'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_operator_count-19
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center operator count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center operator count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_operator_count-19
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_operator_count-19'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_operator_count-3
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center operator count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center operator count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_operator_count-3
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_operator_count-3'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_resource_count-0
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center resource count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center resource count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_resource_count-0
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_resource_count-0'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_resource_count-16
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center resource count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center resource count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_resource_count-16
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_resource_count-16'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_resource_count-8
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center resource count?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center resource count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_resource_count-8
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_resource_count-8'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_scheduled_jobs-1
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center scheduled jobs?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center scheduled jobs?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_scheduled_jobs-1
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_scheduled_jobs-1'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_scheduled_jobs-17
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center scheduled jobs?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center scheduled jobs?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_scheduled_jobs-17
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_scheduled_jobs-17'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_scheduled_jobs-9
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center scheduled jobs?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center scheduled jobs?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_scheduled_jobs-9
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_scheduled_jobs-9'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_target_throughput-13
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center target throughput?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center target throughput?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_target_throughput-13
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_target_throughput-13'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_target_throughput-21
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center target throughput?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center target throughput?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_target_throughput-21
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_target_throughput-21'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_target_throughput-5
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center target throughput?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center target throughput?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_target_throughput-5
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_target_throughput-5'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_utilization-10
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center utilization?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_utilization',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_utilization']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_utilization-10
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_utilization-10'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_utilization-18
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center utilization?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_utilization',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_utilization']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_utilization-18
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_utilization-18'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-investigation-compare-wc_utilization-2
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-cross-comparison
+  isa95_level: work_center
+  question_text: Between Reaction Area Utilities Work Center and Riverside Packaging
+    Work Center, which one has the higher work center utilization?
+  task_type: investigation
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_utilization',
+    'urn:icab:measurement:workcenter:riverside-packaging:wc_utilization']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-investigation-compare-wc_utilization-2
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-investigation-compare-wc_utilization-2'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_active_shift_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center active shift count?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center active shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_active_shift_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_active_shift_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_active_shift_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_backlog_hours
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center backlog?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_backlog_hours']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_backlog_hours
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_backlog_hours'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_changeover_minutes
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center changeover time?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center changeover time?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_changeover_minutes']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_changeover_minutes
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_changeover_minutes'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_operator_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center operator count?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center operator count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_operator_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_operator_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_operator_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_resource_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center resource count?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center resource count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_resource_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_resource_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_resource_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_scheduled_jobs
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center scheduled jobs?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center scheduled jobs?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_scheduled_jobs']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_scheduled_jobs
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_scheduled_jobs'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_target_throughput
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center target throughput?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center target throughput?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_target_throughput']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_target_throughput
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_target_throughput'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port-arthur-distillation-wc_utilization
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Port Arthur Distillation Work Center's
+    work center utilization?
+  task_type: qa
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:port-arthur-distillation:wc_utilization']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-port-arthur-distillation-wc_utilization
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port-arthur-distillation-wc_utilization'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-port_arthur_distillation-area-membership
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-area-membership
+  isa95_level: work_center
+  question_text: Is Port Arthur Distillation Work Center part of Port Arthur Processing
+    Area?
+  task_type: qa
+  objective: Is Port Arthur Distillation Work Center part of Port Arthur Processing
+    Area?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:area:port-arthur-processing']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: wc-qa-port_arthur_distillation-area-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-port_arthur_distillation-area-membership'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_active_shift_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center active shift count?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center active shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_active_shift_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_active_shift_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_backlog_hours
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center backlog?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_backlog_hours
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_backlog_hours'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_changeover_minutes
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center changeover time?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center changeover time?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_changeover_minutes
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_changeover_minutes'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_operator_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center operator count?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center operator count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_operator_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_operator_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_resource_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center resource count?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center resource count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_resource_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_resource_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_scheduled_jobs
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center scheduled jobs?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center scheduled jobs?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_scheduled_jobs
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_scheduled_jobs'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_target_throughput
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center target throughput?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center target throughput?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_target_throughput
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_target_throughput'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction-utilities-wc_utilization
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Reaction Area Utilities Work Center's
+    work center utilization?
+  task_type: qa
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:reaction-utilities:wc_utilization']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-reaction-utilities-wc_utilization
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction-utilities-wc_utilization'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-reaction_utilities-area-membership
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-area-membership
+  isa95_level: work_center
+  question_text: Is Reaction Area Utilities Work Center part of Reaction Area?
+  task_type: qa
+  objective: Is Reaction Area Utilities Work Center part of Reaction Area?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:area:reaction']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: wc-qa-reaction_utilities-area-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-reaction_utilities-area-membership'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_active_shift_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center active shift count?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    active shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_active_shift_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_active_shift_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_backlog_hours
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center backlog?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_backlog_hours
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_backlog_hours'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_changeover_minutes
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center changeover time?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    changeover time?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_changeover_minutes
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_changeover_minutes'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_operator_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center operator count?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    operator count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_operator_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_operator_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_resource_count
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center resource count?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    resource count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_resource_count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_resource_count'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_scheduled_jobs
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center scheduled jobs?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    scheduled jobs?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_scheduled_jobs
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_scheduled_jobs'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_target_throughput
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center target throughput?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    target throughput?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_target_throughput
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_target_throughput'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside-packaging-wc_utilization
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-kpi-interpretation
+  isa95_level: work_center
+  question_text: What is the current value of Riverside Packaging Work Center's work
+    center utilization?
+  task_type: qa
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    utilization?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:workcenter:riverside-packaging:wc_utilization']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: wc-qa-riverside-packaging-wc_utilization
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside-packaging-wc_utilization'
+    (scripts/generate_question_banks.py)
+- question_id: Q-wc-qa-riverside_packaging-area-membership
+  benchmark_id: icab-work-center-v1
+  use_case_id: work-center-area-membership
+  isa95_level: work_center
+  question_text: Is Riverside Packaging Work Center part of Riverside Utilities Area?
+  task_type: qa
+  objective: Is Riverside Packaging Work Center part of Riverside Utilities Area?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:area:riverside-utilities']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: wc-qa-riverside_packaging-area-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'wc-qa-riverside_packaging-area-membership'
+    (scripts/generate_question_banks.py)

@@ -111,14 +111,30 @@ class TestQuestionBankRegistry:
         with pytest.raises(KeyError):
             registry.get("not-a-real-question")
 
-    def test_unsupported_levels_have_empty_but_valid_banks(self, tmp_path):
+    def test_every_level_has_exactly_fifty_validated_questions(self):
+        # ICAB v3's core invariant: 6 levels x 50 unique, validated
+        # questions = 300 (see docs/benchmark/specification-v3.md).
+        # Enterprise/Site/Work Center reach this via the controlled
+        # benchmark context layer (icab.benchmark_context); Process
+        # Cell/Equipment/Area combine real TEP data with (for Area) a
+        # small controlled-synthetic top-up -- never fabricated facts.
         scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
         task_registry = BenchmarkTaskRegistry(TASKS_V2_DIR, scenario_registry=scenario_registry)
         use_case_registry = IndustrialUseCaseRegistry(USECASES_DIR, scenario_registry=scenario_registry)
 
-        for level in ("enterprise", "site", "work_center"):
+        for level in ("enterprise", "site", "area", "work_center", "process_cell", "equipment"):
             registry = QuestionBankRegistry(f"configs/questions/{level}", use_case_registry=use_case_registry, task_registry=task_registry)
-            assert len(registry) == 0  # legitimate, not an error
+            assert len(registry) == 50, f"{level} has {len(registry)} questions, expected exactly 50"
+
+    def test_an_empty_question_bank_directory_is_legitimate_not_an_error(self, tmp_path):
+        scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
+        task_registry = BenchmarkTaskRegistry(TASKS_V2_DIR, scenario_registry=scenario_registry)
+        use_case_registry = IndustrialUseCaseRegistry(USECASES_DIR, scenario_registry=scenario_registry)
+
+        empty_dir = tmp_path / "empty_level"
+        empty_dir.mkdir()
+        registry = QuestionBankRegistry(empty_dir, use_case_registry=use_case_registry, task_registry=task_registry)
+        assert len(registry) == 0  # legitimate, not an error
 
     def test_duplicate_question_id_across_files_is_rejected(self, tmp_path):
         import yaml

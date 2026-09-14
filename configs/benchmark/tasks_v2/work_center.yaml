@@ -1,0 +1,1854 @@
+tasks:
+- task_id: wc-qa-reaction-utilities-wc_resource_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center resource count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center resource count (urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_scheduled_jobs
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center scheduled jobs?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center scheduled jobs (urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_utilization
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center utilization (urn:icab:measurement:workcenter:reaction-utilities:wc_utilization)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_operator_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center operator count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center operator count (urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_backlog_hours
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center backlog (urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours)
+      is a controlled benchmark KPI, retrievable from the historian in hours.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_target_throughput
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center target throughput?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center target throughput
+      (urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput) is
+      a controlled benchmark KPI, retrievable from the historian in units_per_shift.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_changeover_minutes
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center changeover time?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center changeover time
+      (urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes) is
+      a controlled benchmark KPI, retrievable from the historian in minutes.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction-utilities-wc_active_shift_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Reaction Area Utilities Work Center's work
+    center active shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center's work center active shift count
+      (urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count) is
+      a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_resource_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    resource count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center resource count (urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_scheduled_jobs
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    scheduled jobs?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center scheduled jobs (urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_utilization
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center utilization (urn:icab:measurement:workcenter:riverside-packaging:wc_utilization)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_operator_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    operator count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center operator count (urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_backlog_hours
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center backlog (urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours)
+      is a controlled benchmark KPI, retrievable from the historian in hours.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_target_throughput
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    target throughput?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center target throughput (urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput)
+      is a controlled benchmark KPI, retrievable from the historian in units_per_shift.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_changeover_minutes
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    changeover time?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center changeover time (urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes)
+      is a controlled benchmark KPI, retrievable from the historian in minutes.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside-packaging-wc_active_shift_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Riverside Packaging Work Center's work center
+    active shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center's work center active shift count (urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_resource_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center resource count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_resource_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_resource_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center resource count
+      (urn:icab:measurement:workcenter:port-arthur-distillation:wc_resource_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_resource_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_scheduled_jobs
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center scheduled jobs?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_scheduled_jobs
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_scheduled_jobs
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center scheduled jobs
+      (urn:icab:measurement:workcenter:port-arthur-distillation:wc_scheduled_jobs)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_scheduled_jobs
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_utilization
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_utilization
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center utilization (urn:icab:measurement:workcenter:port-arthur-distillation:wc_utilization)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_operator_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center operator count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_operator_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_operator_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center operator count
+      (urn:icab:measurement:workcenter:port-arthur-distillation:wc_operator_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_operator_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_backlog_hours
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_backlog_hours
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_backlog_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center backlog (urn:icab:measurement:workcenter:port-arthur-distillation:wc_backlog_hours)
+      is a controlled benchmark KPI, retrievable from the historian in hours.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_backlog_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_target_throughput
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center target throughput?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_target_throughput
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_target_throughput
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center target throughput
+      (urn:icab:measurement:workcenter:port-arthur-distillation:wc_target_throughput)
+      is a controlled benchmark KPI, retrievable from the historian in units_per_shift.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_target_throughput
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_changeover_minutes
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center changeover time?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_changeover_minutes
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_changeover_minutes
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center changeover time
+      (urn:icab:measurement:workcenter:port-arthur-distillation:wc_changeover_minutes)
+      is a controlled benchmark KPI, retrievable from the historian in minutes.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_changeover_minutes
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port-arthur-distillation-wc_active_shift_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-kpi-interpretation
+  objective: What is the current value of Port Arthur Distillation Work Center's work
+    center active shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_active_shift_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:port-arthur-distillation:wc_active_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Distillation Work Center's work center active shift count
+      (urn:icab:measurement:workcenter:port-arthur-distillation:wc_active_shift_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:port-arthur-distillation:wc_active_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-reaction_utilities-area-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-area-membership
+  objective: Is Reaction Area Utilities Work Center part of Reaction Area?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:area:reaction
+  expected_entities:
+  - urn:icab:workcenter:reaction-utilities
+  - urn:icab:area:reaction
+  expected_relationships:
+  - - urn:icab:workcenter:reaction-utilities
+    - PART_OF
+    - urn:icab:area:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reaction Area Utilities Work Center (urn:icab:workcenter:reaction-utilities)
+      is part of Reaction Area (urn:icab:area:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:workcenter:reaction-utilities
+      - PART_OF
+      - urn:icab:area:reaction
+    expected_evidence:
+    - urn:icab:area:reaction
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-riverside_packaging-area-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-area-membership
+  objective: Is Riverside Packaging Work Center part of Riverside Utilities Area?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:area:riverside-utilities
+  expected_entities:
+  - urn:icab:workcenter:riverside-packaging
+  - urn:icab:area:riverside-utilities
+  expected_relationships:
+  - - urn:icab:workcenter:riverside-packaging
+    - PART_OF
+    - urn:icab:area:riverside-utilities
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Riverside Packaging Work Center (urn:icab:workcenter:riverside-packaging)
+      is part of Riverside Utilities Area (urn:icab:area:riverside-utilities).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:workcenter:riverside-packaging
+      - PART_OF
+      - urn:icab:area:riverside-utilities
+    expected_evidence:
+    - urn:icab:area:riverside-utilities
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-qa-port_arthur_distillation-area-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: work_center
+  use_case_id: work-center-area-membership
+  objective: Is Port Arthur Distillation Work Center part of Port Arthur Processing
+    Area?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:area:port-arthur-processing
+  expected_entities:
+  - urn:icab:workcenter:port-arthur-distillation
+  - urn:icab:area:port-arthur-processing
+  expected_relationships:
+  - - urn:icab:workcenter:port-arthur-distillation
+    - PART_OF
+    - urn:icab:area:port-arthur-processing
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Port Arthur Distillation Work Center (urn:icab:workcenter:port-arthur-distillation)
+      is part of Port Arthur Processing Area (urn:icab:area:port-arthur-processing).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:workcenter:port-arthur-distillation
+      - PART_OF
+      - urn:icab:area:port-arthur-processing
+    expected_evidence:
+    - urn:icab:area:port-arthur-processing
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_resource_count-0
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center resource count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center resource
+      count (12.0 count vs 4.0 count for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_scheduled_jobs-1
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center scheduled jobs?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center has the higher work center scheduled
+      jobs (57.0 count vs 42.0 count for Reaction Area Utilities Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_utilization-2
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center utilization
+      (78.4 percent vs 59.8 percent for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_operator_count-3
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center operator count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center has the higher work center operator
+      count (15.0 count vs 4.0 count for Reaction Area Utilities Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_backlog_hours-4
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center backlog
+      (283.0 hours vs 150.0 hours for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_target_throughput-5
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center target throughput?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center target
+      throughput (2726.0 units_per_shift vs 447.0 units_per_shift for Riverside Packaging
+      Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_changeover_minutes-6
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center changeover time?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center changeover
+      time (93.0 minutes vs 32.0 minutes for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_active_shift_count-7
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center active shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center active
+      shift count (2.0 count vs 2.0 count for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_resource_count-8
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center resource count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center resource
+      count (12.0 count vs 4.0 count for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_scheduled_jobs-9
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center scheduled jobs?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center has the higher work center scheduled
+      jobs (57.0 count vs 42.0 count for Reaction Area Utilities Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_utilization-10
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center utilization
+      (78.4 percent vs 59.8 percent for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_operator_count-11
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center operator count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center has the higher work center operator
+      count (15.0 count vs 4.0 count for Reaction Area Utilities Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_backlog_hours-12
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center backlog
+      (283.0 hours vs 150.0 hours for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_target_throughput-13
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center target throughput?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center target
+      throughput (2726.0 units_per_shift vs 447.0 units_per_shift for Riverside Packaging
+      Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_changeover_minutes-14
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center changeover time?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center changeover
+      time (93.0 minutes vs 32.0 minutes for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_active_shift_count-15
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center active shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center active
+      shift count (2.0 count vs 2.0 count for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_active_shift_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_active_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_resource_count-16
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center resource count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center resource
+      count (12.0 count vs 4.0 count for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_resource_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_resource_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_scheduled_jobs-17
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center scheduled jobs?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center has the higher work center scheduled
+      jobs (57.0 count vs 42.0 count for Reaction Area Utilities Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_scheduled_jobs
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_scheduled_jobs
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_utilization-18
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center utilization
+      (78.4 percent vs 59.8 percent for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_utilization
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_operator_count-19
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center operator count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Packaging Work Center has the higher work center operator
+      count (15.0 count vs 4.0 count for Reaction Area Utilities Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_operator_count
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_operator_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_backlog_hours-20
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center backlog
+      (283.0 hours vs 150.0 hours for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_backlog_hours
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_backlog_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_target_throughput-21
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center target throughput?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center target
+      throughput (2726.0 units_per_shift vs 447.0 units_per_shift for Riverside Packaging
+      Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_target_throughput
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_target_throughput
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: wc-investigation-compare-wc_changeover_minutes-22
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: work_center
+  use_case_id: work-center-cross-comparison
+  objective: Between Reaction Area Utilities Work Center and Riverside Packaging Work
+    Center, which one has the higher work center changeover time?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_entities:
+  - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+  - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area Utilities Work Center has the higher work center changeover
+      time (93.0 minutes vs 32.0 minutes for Riverside Packaging Work Center).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:workcenter:reaction-utilities:wc_changeover_minutes
+    - urn:icab:measurement:workcenter:riverside-packaging:wc_changeover_minutes
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0

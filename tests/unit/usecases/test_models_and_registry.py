@@ -155,23 +155,21 @@ class TestIndustrialUseCaseRegistry:
 
 class TestHonestCoverageReporting:
     """
-    The core ICAB v2 discipline this milestone repeatedly demands: do not
-    fabricate use cases to fill the ISA-95 matrix. These tests assert
-    the ACTUAL, current, honestly-reported coverage.
+    The core ICAB v2/v3 discipline this milestone repeatedly demands: do
+    not fabricate use cases to fill the ISA-95 matrix. Since the ICAB v3
+    50-question milestone, Enterprise/Site/Work Center are covered by a
+    CONTROLLED, clearly-labeled synthetic benchmark context layer
+    (icab.benchmark_context) rather than left at zero -- these tests
+    assert the ACTUAL, current, honestly-reported coverage and its
+    provenance, not that those levels stay empty forever.
     """
 
-    def test_enterprise_and_work_center_have_zero_use_cases(self):
+    def test_every_level_now_has_real_use_case_coverage(self):
         scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
         registry = IndustrialUseCaseRegistry(USECASES_DIR, scenario_registry=scenario_registry)
 
-        assert registry.for_level(ISA95Level.ENTERPRISE) == []
-        assert registry.for_level(ISA95Level.WORK_CENTER) == []
-
-    def test_site_has_zero_use_cases(self):
-        scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
-        registry = IndustrialUseCaseRegistry(USECASES_DIR, scenario_registry=scenario_registry)
-
-        assert registry.for_level(ISA95Level.SITE) == []
+        for level in ISA95Level:
+            assert len(registry.for_level(level)) > 0, f"{level} has zero use cases"
 
     def test_equipment_and_process_cell_have_real_coverage(self):
         scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)

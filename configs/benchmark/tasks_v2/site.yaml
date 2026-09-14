@@ -1,0 +1,1804 @@
+tasks:
+- task_id: site-qa-tep-site_production_output
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site production
+    output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site production output (urn:icab:measurement:site:tep:site_production_output)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site headcount (urn:icab:measurement:site:tep:site_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site safety
+    incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site safety incidents (ytd) (urn:icab:measurement:site:tep:site_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_energy_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site energy
+    consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site energy consumption (urn:icab:measurement:site:tep:site_energy_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in MWh_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_utilization_rate
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site utilization
+    rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site utilization rate (urn:icab:measurement:site:tep:site_utilization_rate)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_maintenance_backlog
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site maintenance
+    backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site maintenance backlog (urn:icab:measurement:site:tep:site_maintenance_backlog)
+      is a controlled benchmark KPI, retrievable from the historian in hours.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_inventory_level
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site inventory
+    level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site inventory level (urn:icab:measurement:site:tep:site_inventory_level)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_shift_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site shift
+    count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site shift count (urn:icab:measurement:site:tep:site_shift_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_downtime_hours
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site downtime (urn:icab:measurement:site:tep:site_downtime_hours)
+      is a controlled benchmark KPI, retrievable from the historian in hours_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-tep-site_water_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Tennessee Eastman Process Site's site water
+    consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site's site water consumption (urn:icab:measurement:site:tep:site_water_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in cubic_meters_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_production_output
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site production output (urn:icab:measurement:site:riverside:site_production_output)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site headcount (urn:icab:measurement:site:riverside:site_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site safety incidents (ytd) (urn:icab:measurement:site:riverside:site_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_energy_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site energy consumption (urn:icab:measurement:site:riverside:site_energy_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in MWh_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_utilization_rate
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site utilization rate (urn:icab:measurement:site:riverside:site_utilization_rate)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_maintenance_backlog
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site maintenance backlog (urn:icab:measurement:site:riverside:site_maintenance_backlog)
+      is a controlled benchmark KPI, retrievable from the historian in hours.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_inventory_level
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site inventory level (urn:icab:measurement:site:riverside:site_inventory_level)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_shift_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site shift count (urn:icab:measurement:site:riverside:site_shift_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_downtime_hours
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site downtime (urn:icab:measurement:site:riverside:site_downtime_hours)
+      is a controlled benchmark KPI, retrievable from the historian in hours_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside-site_water_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Riverside Site's site water consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site's site water consumption (urn:icab:measurement:site:riverside:site_water_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in cubic_meters_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:riverside:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_production_output
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site production output (urn:icab:measurement:site:port-arthur:site_production_output)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site headcount (urn:icab:measurement:site:port-arthur:site_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site safety incidents
+    (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site safety incidents (ytd) (urn:icab:measurement:site:port-arthur:site_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_energy_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site energy consumption (urn:icab:measurement:site:port-arthur:site_energy_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in MWh_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_utilization_rate
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site utilization rate (urn:icab:measurement:site:port-arthur:site_utilization_rate)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_maintenance_backlog
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site maintenance backlog (urn:icab:measurement:site:port-arthur:site_maintenance_backlog)
+      is a controlled benchmark KPI, retrievable from the historian in hours.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_inventory_level
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site inventory level (urn:icab:measurement:site:port-arthur:site_inventory_level)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_shift_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site shift count (urn:icab:measurement:site:port-arthur:site_shift_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_downtime_hours
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site downtime (urn:icab:measurement:site:port-arthur:site_downtime_hours)
+      is a controlled benchmark KPI, retrievable from the historian in hours_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port-arthur-site_water_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-kpi-interpretation
+  objective: What is the current value of Port Arthur Site's site water consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:port-arthur:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:port-arthur:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Site's site water consumption (urn:icab:measurement:site:port-arthur:site_water_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in cubic_meters_per_month.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:port-arthur:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-reaction-area-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-area-portfolio
+  objective: Is Reaction Area part of Tennessee Eastman Process Site?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:site:tep
+  expected_entities:
+  - urn:icab:area:reaction
+  - urn:icab:site:tep
+  expected_relationships:
+  - - urn:icab:area:reaction
+    - PART_OF
+    - urn:icab:site:tep
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reaction Area (urn:icab:area:reaction) is part of Tennessee
+      Eastman Process Site (urn:icab:site:tep).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:area:reaction
+      - PART_OF
+      - urn:icab:site:tep
+    expected_evidence:
+    - urn:icab:site:tep
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-riverside_utilities-area-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-area-portfolio
+  objective: Is Riverside Utilities Area part of Riverside Site?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:site:riverside
+  expected_entities:
+  - urn:icab:area:riverside-utilities
+  - urn:icab:site:riverside
+  expected_relationships:
+  - - urn:icab:area:riverside-utilities
+    - PART_OF
+    - urn:icab:site:riverside
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Riverside Utilities Area (urn:icab:area:riverside-utilities)
+      is part of Riverside Site (urn:icab:site:riverside).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:area:riverside-utilities
+      - PART_OF
+      - urn:icab:site:riverside
+    expected_evidence:
+    - urn:icab:site:riverside
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-qa-port_arthur_processing-area-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: site
+  use_case_id: site-area-portfolio
+  objective: Is Port Arthur Processing Area part of Port Arthur Site?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:site:port-arthur
+  expected_entities:
+  - urn:icab:area:port-arthur-processing
+  - urn:icab:site:port-arthur
+  expected_relationships:
+  - - urn:icab:area:port-arthur-processing
+    - PART_OF
+    - urn:icab:site:port-arthur
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Port Arthur Processing Area (urn:icab:area:port-arthur-processing)
+      is part of Port Arthur Site (urn:icab:site:port-arthur).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:area:port-arthur-processing
+      - PART_OF
+      - urn:icab:site:port-arthur
+    expected_evidence:
+    - urn:icab:site:port-arthur
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_production_output-0
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site production output
+      (24631.0 metric_tons_per_month vs 15130.0 metric_tons_per_month for Riverside
+      Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_headcount-1
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site headcount (1342.0 count vs 1175.0
+      count for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_safety_incidents_ytd-2
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site safety incidents
+      (ytd) (3.0 count vs 1.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_energy_consumption-3
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site energy consumption (16431.0 MWh_per_month
+      vs 11142.0 MWh_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_utilization_rate-4
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site utilization rate (94.2 percent
+      vs 67.3 percent for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_maintenance_backlog-5
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site maintenance backlog (462.0 hours
+      vs 266.0 hours for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_inventory_level-6
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site inventory level
+      (4001.0 metric_tons vs 2859.0 metric_tons for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_inventory_level
+    - urn:icab:measurement:site:riverside:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_shift_count-7
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site shift count (3.0
+      count vs 3.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_shift_count
+    - urn:icab:measurement:site:riverside:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_downtime_hours-8
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site downtime (171.7
+      hours_per_month vs 57.5 hours_per_month for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_downtime_hours
+    - urn:icab:measurement:site:riverside:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_water_consumption-9
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site water consumption (22681.0 cubic_meters_per_month
+      vs 20877.0 cubic_meters_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_water_consumption
+    - urn:icab:measurement:site:riverside:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_production_output-10
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site production output
+      (24631.0 metric_tons_per_month vs 15130.0 metric_tons_per_month for Riverside
+      Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_headcount-11
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site headcount (1342.0 count vs 1175.0
+      count for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_safety_incidents_ytd-12
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site safety incidents
+      (ytd) (3.0 count vs 1.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_energy_consumption-13
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site energy consumption (16431.0 MWh_per_month
+      vs 11142.0 MWh_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_utilization_rate-14
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site utilization rate (94.2 percent
+      vs 67.3 percent for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_maintenance_backlog-15
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site maintenance backlog (462.0 hours
+      vs 266.0 hours for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: site-investigation-compare-site_inventory_level-16
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: site
+  use_case_id: site-cross-comparison
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site inventory level
+      (4001.0 metric_tons vs 2859.0 metric_tons for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_inventory_level
+    - urn:icab:measurement:site:riverside:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0

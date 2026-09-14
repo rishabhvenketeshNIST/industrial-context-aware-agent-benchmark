@@ -1,0 +1,61 @@
+use_cases:
+- use_case_id: site-area-portfolio
+  name: Reason about a site's area composition
+  description: Determine which areas belong to a given site.
+  isa95_level: site
+  task_type: qa
+  required_context: &id001
+  - C2
+  - C3
+  candidate_context: *id001
+  success_criteria:
+    binding_scores:
+    - relationship_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d2_reactor_context_combination
+  difficulty: D1
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0
+- use_case_id: site-cross-comparison
+  name: Compare KPIs across sites
+  description: Compare a specific KPI across two sites to determine which one performs
+    better on it.
+  isa95_level: site
+  task_type: investigation
+  required_context: &id002
+  - C5
+  candidate_context: *id002
+  success_criteria:
+    binding_scores:
+    - grounding_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d1_reactor_pressure_reading
+  difficulty: D2
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0
+- use_case_id: site-kpi-interpretation
+  name: Interpret site-level KPIs
+  description: Retrieve and interpret a controlled-benchmark site-level KPI (production,
+    headcount, safety, energy, utilization, ...).
+  isa95_level: site
+  task_type: qa
+  required_context: &id003
+  - C5
+  candidate_context: *id003
+  success_criteria:
+    binding_scores:
+    - grounding_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d1_reactor_pressure_reading
+  difficulty: D1
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0

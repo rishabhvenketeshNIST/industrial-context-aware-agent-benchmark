@@ -177,12 +177,16 @@ class TestISA95CoverageMatrix:
 
         by_level = {row.level: row for row in matrix.rows}
         assert set(by_level) == {"enterprise", "site", "area", "work_center", "process_cell", "equipment"}
-        assert by_level["enterprise"].use_case_count == 0
+        # ICAB v3: every level now has real use-case-backed content (real
+        # TEP data at Process Cell/Equipment, a controlled/mixed
+        # synthetic benchmark context layer elsewhere -- see
+        # icab.benchmark_context / docs/benchmark/specification-v3.md).
+        assert by_level["enterprise"].use_case_count > 0
         assert by_level["equipment"].use_case_count > 0
         assert by_level["equipment"].experiment_coverage == 1
         assert by_level["enterprise"].experiment_coverage == 0
         assert all(row.framework_support for row in matrix.rows)
-        assert "No use cases" in by_level["enterprise"].coverage_note
+        assert by_level["enterprise"].coverage_note  # non-empty, explains controlled-synthetic provenance
 
 
 class TestCandidateMscTable:

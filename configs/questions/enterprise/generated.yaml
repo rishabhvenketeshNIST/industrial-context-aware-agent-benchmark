@@ -1,0 +1,1592 @@
+questions:
+- question_id: Q-ent-investigation-compare-site_downtime_hours-18
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site downtime?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_downtime_hours',
+    'urn:icab:measurement:site:riverside:site_downtime_hours']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_downtime_hours-18
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_downtime_hours-18'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_downtime_hours-28
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site downtime?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_downtime_hours',
+    'urn:icab:measurement:site:riverside:site_downtime_hours']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_downtime_hours-28
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_downtime_hours-28'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_downtime_hours-8
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site downtime?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_downtime_hours',
+    'urn:icab:measurement:site:riverside:site_downtime_hours']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_downtime_hours-8
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_downtime_hours-8'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_energy_consumption-13
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site energy consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_energy_consumption',
+    'urn:icab:measurement:site:riverside:site_energy_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_energy_consumption-13
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_energy_consumption-13'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_energy_consumption-23
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site energy consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_energy_consumption',
+    'urn:icab:measurement:site:riverside:site_energy_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_energy_consumption-23
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_energy_consumption-23'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_energy_consumption-3
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site energy consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_energy_consumption',
+    'urn:icab:measurement:site:riverside:site_energy_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_energy_consumption-3
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_energy_consumption-3'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_energy_consumption-33
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site energy consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_energy_consumption',
+    'urn:icab:measurement:site:riverside:site_energy_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_energy_consumption-33
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_energy_consumption-33'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_headcount-1
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site headcount?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_headcount',
+    'urn:icab:measurement:site:riverside:site_headcount']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_headcount-1
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_headcount-1'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_headcount-11
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site headcount?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_headcount',
+    'urn:icab:measurement:site:riverside:site_headcount']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_headcount-11
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_headcount-11'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_headcount-21
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site headcount?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_headcount',
+    'urn:icab:measurement:site:riverside:site_headcount']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_headcount-21
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_headcount-21'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_headcount-31
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site headcount?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_headcount',
+    'urn:icab:measurement:site:riverside:site_headcount']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_headcount-31
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_headcount-31'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_inventory_level-16
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site inventory level?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_inventory_level',
+    'urn:icab:measurement:site:riverside:site_inventory_level']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_inventory_level-16
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_inventory_level-16'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_inventory_level-26
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site inventory level?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_inventory_level',
+    'urn:icab:measurement:site:riverside:site_inventory_level']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_inventory_level-26
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_inventory_level-26'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_inventory_level-6
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site inventory level?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_inventory_level',
+    'urn:icab:measurement:site:riverside:site_inventory_level']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_inventory_level-6
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_inventory_level-6'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_maintenance_backlog-15
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site maintenance backlog?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_maintenance_backlog',
+    'urn:icab:measurement:site:riverside:site_maintenance_backlog']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_maintenance_backlog-15
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_maintenance_backlog-15'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_maintenance_backlog-25
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site maintenance backlog?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_maintenance_backlog',
+    'urn:icab:measurement:site:riverside:site_maintenance_backlog']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_maintenance_backlog-25
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_maintenance_backlog-25'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_maintenance_backlog-35
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site maintenance backlog?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_maintenance_backlog',
+    'urn:icab:measurement:site:riverside:site_maintenance_backlog']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_maintenance_backlog-35
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_maintenance_backlog-35'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_maintenance_backlog-5
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site maintenance backlog?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_maintenance_backlog',
+    'urn:icab:measurement:site:riverside:site_maintenance_backlog']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_maintenance_backlog-5
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_maintenance_backlog-5'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_production_output-0
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site production output?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_production_output',
+    'urn:icab:measurement:site:riverside:site_production_output']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_production_output-0
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_production_output-0'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_production_output-10
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site production output?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_production_output',
+    'urn:icab:measurement:site:riverside:site_production_output']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_production_output-10
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_production_output-10'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_production_output-20
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site production output?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_production_output',
+    'urn:icab:measurement:site:riverside:site_production_output']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_production_output-20
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_production_output-20'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_production_output-30
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site production output?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_production_output',
+    'urn:icab:measurement:site:riverside:site_production_output']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_production_output-30
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_production_output-30'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_safety_incidents_ytd-12
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site safety incidents (ytd)?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_safety_incidents_ytd',
+    'urn:icab:measurement:site:riverside:site_safety_incidents_ytd']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_safety_incidents_ytd-12
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_safety_incidents_ytd-12'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_safety_incidents_ytd-2
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site safety incidents (ytd)?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_safety_incidents_ytd',
+    'urn:icab:measurement:site:riverside:site_safety_incidents_ytd']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_safety_incidents_ytd-2
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_safety_incidents_ytd-2'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_safety_incidents_ytd-22
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site safety incidents (ytd)?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_safety_incidents_ytd',
+    'urn:icab:measurement:site:riverside:site_safety_incidents_ytd']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_safety_incidents_ytd-22
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_safety_incidents_ytd-22'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_safety_incidents_ytd-32
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site safety incidents (ytd)?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_safety_incidents_ytd',
+    'urn:icab:measurement:site:riverside:site_safety_incidents_ytd']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_safety_incidents_ytd-32
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_safety_incidents_ytd-32'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_shift_count-17
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site shift count?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_shift_count',
+    'urn:icab:measurement:site:riverside:site_shift_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_shift_count-17
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_shift_count-17'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_shift_count-27
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site shift count?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_shift_count',
+    'urn:icab:measurement:site:riverside:site_shift_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_shift_count-27
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_shift_count-27'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_shift_count-7
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site shift count?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_shift_count',
+    'urn:icab:measurement:site:riverside:site_shift_count']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_shift_count-7
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_shift_count-7'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_utilization_rate-14
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site utilization rate?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_utilization_rate',
+    'urn:icab:measurement:site:riverside:site_utilization_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_utilization_rate-14
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_utilization_rate-14'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_utilization_rate-24
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site utilization rate?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_utilization_rate',
+    'urn:icab:measurement:site:riverside:site_utilization_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_utilization_rate-24
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_utilization_rate-24'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_utilization_rate-34
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site utilization rate?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_utilization_rate',
+    'urn:icab:measurement:site:riverside:site_utilization_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_utilization_rate-34
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_utilization_rate-34'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_utilization_rate-4
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site utilization rate?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_utilization_rate',
+    'urn:icab:measurement:site:riverside:site_utilization_rate']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_utilization_rate-4
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_utilization_rate-4'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_water_consumption-19
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site water consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_water_consumption',
+    'urn:icab:measurement:site:riverside:site_water_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_water_consumption-19
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_water_consumption-19'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_water_consumption-29
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site water consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_water_consumption',
+    'urn:icab:measurement:site:riverside:site_water_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_water_consumption-29
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_water_consumption-29'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-compare-site_water_consumption-9
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Between Tennessee Eastman Process Site and Riverside Site, which
+    one has the higher site water consumption?
+  task_type: investigation
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:site:tep:site_water_consumption',
+    'urn:icab:measurement:site:riverside:site_water_consumption']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-investigation-compare-site_water_consumption-9
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-compare-site_water_consumption-9'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-investigation-site-count
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: How many sites belong to the Northwind Chemical enterprise, and which
+    ones?
+  task_type: investigation
+  objective: How many sites belong to the Northwind Chemical enterprise, and which
+    ones?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:enterprise:northwind-chemical']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: ent-investigation-site-count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-investigation-site-count' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-annual_production_target
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s annual production target?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s annual production target?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:annual_production_target']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-annual_production_target
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-annual_production_target' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_capital_budget
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise capital budget?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise capital budget?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_capital_budget']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_capital_budget
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_capital_budget' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_carbon_intensity_target
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise carbon intensity target?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise carbon intensity target?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_carbon_intensity_target']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_carbon_intensity_target
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_carbon_intensity_target'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_customer_otd_target
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise on-time-delivery target?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise on-time-delivery target?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_customer_otd_target']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_customer_otd_target
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_customer_otd_target' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_energy_consumption_target
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise energy consumption target?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise energy consumption target?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_energy_consumption_target']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_energy_consumption_target
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_energy_consumption_target'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_headcount
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise headcount?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise headcount?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_headcount']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_headcount
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_headcount' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_quality_target
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise quality target?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise quality target?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_quality_target']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_quality_target
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_quality_target' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_rd_budget
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise r&d budget?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise r&d budget?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_rd_budget']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_rd_budget
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_rd_budget' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_revenue_target
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise revenue target?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise revenue target?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_revenue_target']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_revenue_target
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_revenue_target' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-enterprise_safety_incidents_ytd
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-kpi-interpretation
+  isa95_level: enterprise
+  question_text: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise safety incidents (ytd)?
+  task_type: qa
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise safety incidents (ytd)?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:enterprise:northwind-chemical:enterprise_safety_incidents_ytd']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: ent-qa-enterprise_safety_incidents_ytd
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-enterprise_safety_incidents_ytd'
+    (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-port_arthur-site-membership
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Is Port Arthur Site part of Northwind Chemical (controlled benchmark
+    enterprise)?
+  task_type: qa
+  objective: Is Port Arthur Site part of Northwind Chemical (controlled benchmark
+    enterprise)?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:enterprise:northwind-chemical']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: ent-qa-port_arthur-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-port_arthur-site-membership' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-riverside-site-membership
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Is Riverside Site part of Northwind Chemical (controlled benchmark
+    enterprise)?
+  task_type: qa
+  objective: Is Riverside Site part of Northwind Chemical (controlled benchmark enterprise)?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:enterprise:northwind-chemical']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: ent-qa-riverside-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-riverside-site-membership' (scripts/generate_question_banks.py)
+- question_id: Q-ent-qa-tep-site-membership
+  benchmark_id: icab-enterprise-v1
+  use_case_id: enterprise-site-portfolio
+  isa95_level: enterprise
+  question_text: Is Tennessee Eastman Process Site part of Northwind Chemical (controlled
+    benchmark enterprise)?
+  task_type: qa
+  objective: Is Tennessee Eastman Process Site part of Northwind Chemical (controlled
+    benchmark enterprise)?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:enterprise:northwind-chemical']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: ent-qa-tep-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'ent-qa-tep-site-membership' (scripts/generate_question_banks.py)

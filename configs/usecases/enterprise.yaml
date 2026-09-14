@@ -1,0 +1,46 @@
+use_cases:
+- use_case_id: enterprise-kpi-interpretation
+  name: Interpret enterprise-level KPIs
+  description: Retrieve and interpret a controlled-benchmark enterprise-level KPI
+    (production/revenue/safety/energy/quality target) for Northwind Chemical.
+  isa95_level: enterprise
+  task_type: qa
+  required_context: &id001
+  - C5
+  candidate_context: *id001
+  success_criteria:
+    binding_scores:
+    - grounding_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d1_reactor_pressure_reading
+  difficulty: D1
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0
+- use_case_id: enterprise-site-portfolio
+  name: Reason about the enterprise's site portfolio
+  description: Determine which sites belong to the enterprise, and compare site-level
+    performance across the enterprise's real+controlled-benchmark site portfolio.
+  isa95_level: enterprise
+  task_type: investigation
+  required_context: &id002
+  - C2
+  - C3
+  - C5
+  candidate_context: *id002
+  success_criteria:
+    binding_scores:
+    - completeness_score
+    - grounding_score
+    - relationship_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d1_reactor_pressure_reading
+  - d2_reactor_context_combination
+  difficulty: D2
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0

@@ -1,0 +1,654 @@
+tasks:
+- task_id: eq-extra-qa-feed_a_flow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of feed flow component a (stream 1)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:feed_a_flow
+  expected_entities:
+  - urn:icab:measurement:feed_a_flow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Feed flow component A (stream 1) (urn:icab:measurement:feed_a_flow)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:feed_a_flow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-feed_e_flow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of feed flow component e (stream 3)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:feed_e_flow
+  expected_entities:
+  - urn:icab:measurement:feed_e_flow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Feed flow component E (stream 3) (urn:icab:measurement:feed_e_flow)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:feed_e_flow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-feed_ac_flow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of feed flow components a and c (stream 4)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:feed_ac_flow
+  expected_entities:
+  - urn:icab:measurement:feed_ac_flow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Feed flow components A and C (stream 4) (urn:icab:measurement:feed_ac_flow)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:feed_ac_flow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-recycle_flow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of recycle flow to reactor from separator (stream
+    8)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:recycle_flow
+  expected_entities:
+  - urn:icab:measurement:recycle_flow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Recycle flow to reactor from separator (stream 8) (urn:icab:measurement:recycle_flow)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:recycle_flow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_flow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of reactor feed (stream 6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_flow
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_flow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reactor feed (stream 6) (urn:icab:measurement:reactor_feed_flow) is
+      a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_flow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-separator_temperature
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of separator temperature?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:separator_temperature
+  expected_entities:
+  - urn:icab:measurement:separator_temperature
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Separator temperature (urn:icab:measurement:separator_temperature)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:separator_temperature
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-separator_level
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of separator level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:separator_level
+  expected_entities:
+  - urn:icab:measurement:separator_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Separator level (urn:icab:measurement:separator_level) is a real TEP
+      measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:separator_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-separator_underflow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of separator underflow liquid phase?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:separator_underflow
+  expected_entities:
+  - urn:icab:measurement:separator_underflow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Separator underflow liquid phase (urn:icab:measurement:separator_underflow)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:separator_underflow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-stripper_underflow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of stripper underflow (stream 11)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:stripper_underflow
+  expected_entities:
+  - urn:icab:measurement:stripper_underflow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Stripper underflow (stream 11) (urn:icab:measurement:stripper_underflow)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:stripper_underflow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-stripper_temperature
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of stripper temperature?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:stripper_temperature
+  expected_entities:
+  - urn:icab:measurement:stripper_temperature
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Stripper temperature (urn:icab:measurement:stripper_temperature) is
+      a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:stripper_temperature
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-stripper_steam_flow
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of stripper steam flow?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:stripper_steam_flow
+  expected_entities:
+  - urn:icab:measurement:stripper_steam_flow
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Stripper steam flow (urn:icab:measurement:stripper_steam_flow) is
+      a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:stripper_steam_flow
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-condenser_cooling_water_outlet_temperature
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of condenser cooling water outlet temperature?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:condenser_cooling_water_outlet_temperature
+  expected_entities:
+  - urn:icab:measurement:condenser_cooling_water_outlet_temperature
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Condenser cooling water outlet temperature (urn:icab:measurement:condenser_cooling_water_outlet_temperature)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:condenser_cooling_water_outlet_temperature
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_a_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of a in reactor feed (stream
+    6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_a_concentration
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_a_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of A in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_a_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_a_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_b_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of b in reactor feed (stream
+    6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_b_concentration
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_b_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of B in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_b_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_b_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_c_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of c in reactor feed (stream
+    6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_c_concentration
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_c_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of C in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_c_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_c_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_d_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of d in reactor feed (stream
+    6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_d_concentration
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_d_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of D in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_d_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_d_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_e_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of e in reactor feed (stream
+    6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_e_concentration
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_e_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of E in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_e_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_e_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-reactor_feed_f_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of f in reactor feed (stream
+    6)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:reactor_feed_f_concentration
+  expected_entities:
+  - urn:icab:measurement:reactor_feed_f_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of F in reactor feed (stream 6) (urn:icab:measurement:reactor_feed_f_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:reactor_feed_f_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0
+- task_id: eq-extra-qa-purge_a_concentration
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D2
+  isa95_level: equipment
+  use_case_id: eq-current-value-interpretation
+  objective: What is the current value of concentration of a in purge (stream 9)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:purge_a_concentration
+  expected_entities:
+  - urn:icab:measurement:purge_a_concentration
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Concentration of A in purge (stream 9) (urn:icab:measurement:purge_a_concentration)
+      is a real TEP measurement, retrievable from the historian.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:purge_a_concentration
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.tep.measurements: real TEP measurement not covered by any tep-v1
+    task (scripts/generate_extra_real_tasks.py)'
+  version: 1.0.0

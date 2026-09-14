@@ -140,7 +140,7 @@ def main() -> None:
     scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
     task_registry = BenchmarkTaskRegistry(TASKS_V2_DIR, scenario_registry=scenario_registry)
 
-    for level in ("equipment", "process_cell", "area"):
+    for level in ("equipment", "process_cell", "area", "enterprise", "site", "work_center"):
         questions = build_questions_for_level(task_registry, level)
         out_path = OUT_DIR / level / "generated.yaml"
         out_path.parent.mkdir(parents=True, exist_ok=True)

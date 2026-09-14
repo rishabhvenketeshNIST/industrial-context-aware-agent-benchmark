@@ -104,6 +104,69 @@ class TestExecute:
         assert (first["archive_dir"] / "raw" / "some-record.json").exists()  # first archive still intact
 
 
+def _make_level_scoped_content(root: Path, level: str) -> None:
+    level_root = root / level
+    for subdir in ("raw", "traces", "evaluations", "aggregate", "hypotheses", "reports", "matrices", "summaries"):
+        (level_root / subdir).mkdir(parents=True, exist_ok=True)
+        (level_root / subdir / ".gitkeep").touch()
+    (level_root / "raw" / "some-run.json").write_text("{}", encoding="utf-8")
+    (level_root / "manifest.json").write_text("{}", encoding="utf-8")
+
+
+class TestLevelScopedArchiving:
+    """ICAB v3: reset_active_results.py must be reusable EVERY time a fresh campaign starts, not just for the one-time flat-to-level migration."""
+
+    def test_plan_detects_generated_content_under_a_level_but_not_bare_gitkeeps(self, tmp_path, reset_module):
+        _make_level_scoped_content(tmp_path, "equipment")
+        # A second level with ONLY .gitkeep files -- must NOT be flagged.
+        for subdir in ("raw", "traces"):
+            (tmp_path / "process_cell" / subdir).mkdir(parents=True, exist_ok=True)
+            (tmp_path / "process_cell" / subdir / ".gitkeep").touch()
+
+        result = reset_module.plan(tmp_path)
+
+        archived_str = {str(p) for p in result["to_archive"]}
+        assert any("equipment" in p and "raw" in p for p in archived_str)
+        assert not any("process_cell" in p for p in archived_str)
+
+    def test_execute_archives_level_content_preserving_full_relative_path(self, tmp_path, reset_module):
+        _make_level_scoped_content(tmp_path, "equipment")
+        _make_level_scoped_content(tmp_path, "area")
+
+        result = reset_module.execute(tmp_path)
+        archive_dir = result["archive_dir"]
+
+        # Both levels' "raw/" archived WITHOUT colliding (each keeps its own level prefix).
+        assert (archive_dir / "equipment" / "raw" / "some-run.json").exists()
+        assert (archive_dir / "area" / "raw" / "some-run.json").exists()
+        assert (archive_dir / "equipment" / "manifest.json").exists()
+        assert (archive_dir / "area" / "manifest.json").exists()
+
+    def test_execute_leaves_a_fresh_empty_skeleton_behind(self, tmp_path, reset_module):
+        _make_level_scoped_content(tmp_path, "equipment")
+
+        reset_module.execute(tmp_path)
+
+        assert (tmp_path / "equipment" / "raw").exists()
+        assert (tmp_path / "equipment" / "raw" / "some-run.json").exists() is False
+        assert (tmp_path / "equipment" / "raw" / ".gitkeep").exists()
+        assert (tmp_path / "equipment" / "manifest.json").exists() is False  # archived, not recreated -- a fresh level has none yet
+
+    def test_running_reset_repeatedly_across_campaigns_never_loses_data(self, tmp_path, reset_module):
+        # Simulates two consecutive real milestones: seed content, reset,
+        # seed MORE content, reset again -- every campaign's data must
+        # still be recoverable from its own archive.
+        _make_level_scoped_content(tmp_path, "equipment")
+        first = reset_module.execute(tmp_path)
+
+        (tmp_path / "equipment" / "raw" / "second-campaign-run.json").write_text("{}", encoding="utf-8")
+        second = reset_module.execute(tmp_path)
+
+        assert (first["archive_dir"] / "equipment" / "raw" / "some-run.json").exists()
+        assert (second["archive_dir"] / "equipment" / "raw" / "second-campaign-run.json").exists()
+        assert first["archive_dir"] != second["archive_dir"]
+
+
 class TestProtectedPaths:
     def test_refuses_to_touch_src_tests_docs_configs(self, tmp_path, reset_module):
         # Simulate a hypothetical future bug: a "to_archive" or "to_create"

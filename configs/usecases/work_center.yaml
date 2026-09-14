@@ -1,0 +1,61 @@
+use_cases:
+- use_case_id: work-center-area-membership
+  name: Confirm work-center-to-area membership
+  description: Confirm which area a given work center belongs to.
+  isa95_level: work_center
+  task_type: qa
+  required_context: &id001
+  - C2
+  - C3
+  candidate_context: *id001
+  success_criteria:
+    binding_scores:
+    - relationship_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d2_reactor_context_combination
+  difficulty: D1
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0
+- use_case_id: work-center-cross-comparison
+  name: Compare KPIs across work centers
+  description: Compare a specific KPI across two work centers to determine which one
+    performs better on it.
+  isa95_level: work_center
+  task_type: investigation
+  required_context: &id002
+  - C5
+  candidate_context: *id002
+  success_criteria:
+    binding_scores:
+    - grounding_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d1_reactor_pressure_reading
+  difficulty: D2
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0
+- use_case_id: work-center-kpi-interpretation
+  name: Interpret work-center-level KPIs
+  description: Retrieve and interpret a controlled-benchmark work-center-level KPI
+    (resources, scheduling, utilization, throughput, ...).
+  isa95_level: work_center
+  task_type: qa
+  required_context: &id003
+  - C5
+  candidate_context: *id003
+  success_criteria:
+    binding_scores:
+    - grounding_score
+    - required_evidence_score
+    pass_threshold: 1.0
+  applicable_scenarios:
+  - d1_reactor_pressure_reading
+  difficulty: D1
+  provenance: 'icab.benchmark_context: controlled benchmark KPI/hierarchy use case
+    (scripts/generate_synthetic_level_usecases.py)'
+  version: 1.0.0

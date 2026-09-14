@@ -501,6 +501,106 @@
   verified untouched throughout (checked via `git diff` against its own
   directories before every commit in this milestone).
 
+- ICAB v3 50-question milestone: `6 levels x 50 unique questions x 10
+  repetitions = 3,000 executions` (see docs/benchmark/specification-v3.md).
+  The core, hardest part of this milestone: TEP genuinely has no
+  Enterprise/Site/Work-Center data and only one real Site/Area entity
+  each -- reaching 50 REAL, grounded questions per level required
+  building an entirely new CONTROLLED (never fabricated-and-hidden)
+  benchmark context layer. New `icab.benchmark_context` package: a
+  deterministic, versioned (`BENCHMARK_CONTEXT_VERSION`), clearly
+  source-tagged (`source="icab_benchmark_context"`, sharply distinct
+  from real TEP's `source="tep"`) synthetic Enterprise (1) -> Site (the
+  real `urn:icab:site:tep` + 2 synthetic) -> Area (the real
+  `urn:icab:area:reaction` + 2 synthetic) -> Work Center (3 synthetic,
+  ADDITIVE siblings of the real Process Cell, deliberately never
+  re-parenting it) hierarchy, plus 88 deterministic KPI measurements
+  (`random.Random` seeded per entity/kpi/version -- same inputs always
+  produce the same value). Seeded into the REAL historian/knowledge_graph
+  via the SAME `EnvironmentLoader` real TEP data already uses
+  (`scripts/seed_benchmark_context.py`) -- verified directly against the
+  live databases that the real Site/Area's own existing relationships
+  were untouched (only additive new edges appeared).
+  300 questions generated across three scripts, all cross-validated
+  (`BenchmarkTaskRegistry`/`IndustrialUseCaseRegistry`/
+  `QuestionBankRegistry`, zero duplicates, zero level mismatches):
+  `scripts/generate_synthetic_level_tasks.py` (Enterprise/Site/
+  Work-Center + Area top-up, KPI-value/membership/comparison questions
+  against the new controlled layer), `scripts/generate_extra_real_tasks.py`
+  (19 new real Equipment questions over previously-unused real TEP
+  measurements + 42 new real Process-Cell MONITORS/PART_OF relationship
+  questions -- zero new facts, only more questions about already-real
+  data), `scripts/generate_synthetic_level_usecases.py` (11 new
+  `IndustrialUseCase`s derived directly from the generated tasks, so
+  required_context always agrees with what the tasks actually declare).
+  New `icab.questions.validation` (Section 25's formal per-question
+  checklist -- grounded evidence, correct level, deterministically
+  evaluable, real compatible scenario, documented context hypothesis, no
+  duplicates) and `icab.benchmark.completeness` (the 3,000-execution
+  invariant checker -- flags fewer than 50 questions, duplicate ids,
+  isa95_level contamination, missing trace/experiment id, duplicate
+  repetitions, and any question short of 10 completed repetitions; NEVER
+  reports complete unless every check on every one of the six levels
+  genuinely passes). New `scripts/run_level_benchmark.py` (`--level`/
+  `--all`/`--repetitions`/`--check-only`, refuses to start a level's
+  standard campaign unless its bank has exactly 50 questions).
+  Extended `icab.benchmark.levels.ISA95BenchmarkDefinition` with a new
+  `data_provenance` field (`real_tep`/`controlled_synthetic`/`mixed`,
+  explicit per level) and flipped Enterprise/Site/Work-Center to
+  `executable=True` -- updated `icab.usecases.registry
+  .ISA95_LEVEL_COVERAGE_NOTES` and 4 pre-existing tests that had
+  asserted "0 use cases forever" at those levels (now genuinely false
+  and correctly updated, not weakened).
+  **Two real bugs found while extending `scripts/reset_active_results.py`
+  to be reusable across MULTIPLE campaign milestones (not just the
+  original flat-to-level migration), caught by ITS OWN test suite before
+  ever touching real data**: (1) it only detected the OLD flat
+  `results/{raw,...}` layout, never the CURRENT level-scoped
+  `results/<level>/{raw,...}` content -- so re-running it before this
+  milestone's campaign would have left the PRIOR milestone's 38 real
+  records sitting in the "clean" tree, contaminating the new one; fixed
+  by also scanning each level's own subdirectories/manifest.json for
+  non-`.gitkeep` content. (2) the archive destination used only each
+  archived path's bare name (`archive_dir / source.name`) -- since
+  multiple levels all have a `raw/`/`traces/`/etc. subdirectory with the
+  IDENTICAL name, archiving more than one level in the same run would
+  have silently overwritten one level's archived data with another's;
+  fixed by preserving the full path relative to `results_root`.
+  **Real validation, following the mandatory Step A/B/C/D sequence**:
+  Step A -- `validate_question_bank` ran against all 300 questions,
+  300/300 passed. Step B -- a real, live sample (NIST RChat, live
+  Docker infra) of 2 questions x 2 repetitions was run against EVERY ONE
+  of the six levels (24 executions total, `--name v3-stepb`): 24/24
+  completed, 0 orchestration failures -- the controlled benchmark
+  context layer works end to end, not merely "loads." Step C -- verified
+  programmatically: 0/24 records mismatched their own `results/<level>/`
+  root. Step D (the full 3,000-execution campaign) was explicitly NOT
+  attempted this milestone (infeasible within one session's real-LLM
+  wall-clock budget) -- `scripts/run_level_benchmark.py --all
+  --repetitions 10` is fully built and tested, and running it to
+  completion is named as remaining work, never claimed done.
+  **A genuine, honestly-reported Step-B finding**: 0 of the 20 real runs
+  against controlled-context or extra-real-relationship questions
+  (Enterprise/Site/Area/Work-Center/Process-Cell) reached
+  `required_evidence_score=1.0` -- the agent could not resolve a
+  plain-language entity reference (e.g. "Port Arthur Site") to its real
+  canonical id via `knowledge_graph`/`historian` alone, extending the
+  SAME discoverability weakness already documented for the real
+  Area+`knowledge_graph` case in the prior context-requirement-campaign
+  milestone -- while Equipment's historian-only real measurement
+  questions succeeded 4/4 in the same Step-B sample. Left as an open,
+  documented lead (not root-caused this milestone) rather than adjusted
+  or hidden.
+  Before beginning the new campaign, `scripts/reset_active_results.py
+  --force` archived the prior milestone's 38 real records
+  (results/_archive/20260914T193527.124570Z/) -- verified intact,
+  nothing lost -- and the new campaign started from a genuinely clean,
+  contamination-free `results/<level>/` tree (verified: 0/3000
+  executions before Step B, 24/3000 after).
+  823 passed + 3 skipped (up from 793/3, full suite including real
+  integration tests against live infrastructure); `tep-v1` verified
+  untouched via `git diff` before committing.
+
 ## Not yet filled in
 
 Present as empty placeholders/known gaps, not yet addressed:

@@ -177,17 +177,25 @@ class TestIsaLevelMismatchGuard:
 
 
 class TestNotExecutableLevelsRefuseConstruction:
-    def test_enterprise_refuses_to_even_construct_a_runner(self, tmp_path):
+    def test_a_non_executable_definition_refuses_to_even_construct_a_runner(self, tmp_path):
+        # ICAB v3's 50-question milestone made all SIX real levels
+        # executable (see docs/benchmark/specification-v3.md) -- so this
+        # exercises the guard mechanism itself via a synthetic,
+        # non-executable definition rather than relying on any one real
+        # level staying unsupported forever.
+        import dataclasses
+
         experiment_runner = Mock(spec=ExperimentRunner)
         scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
         task_registry = BenchmarkTaskRegistry(TASKS_V2_DIR, scenario_registry=scenario_registry)
         use_case_registry = IndustrialUseCaseRegistry(USECASES_DIR, scenario_registry=scenario_registry)
-        definition = get_level_benchmark(ISA95Level.ENTERPRISE)
-        question_registry = QuestionBankRegistry(definition.question_bank_dir, use_case_registry=use_case_registry, task_registry=task_registry)
+        real_definition = get_level_benchmark(ISA95Level.ENTERPRISE)
+        not_executable = dataclasses.replace(real_definition, executable=False, data_supported=False)
+        question_registry = QuestionBankRegistry(real_definition.question_bank_dir, use_case_registry=use_case_registry, task_registry=task_registry)
 
         with pytest.raises(ValueError, match="not executable"):
             QuestionBenchmarkRunner(
-                definition=definition,
+                definition=not_executable,
                 experiment_runner=experiment_runner,
                 question_registry=question_registry,
                 use_case_registry=use_case_registry,

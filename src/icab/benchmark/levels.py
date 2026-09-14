@@ -44,13 +44,28 @@ class ISA95BenchmarkDefinition:
 
     #: ISA95Level is modeled by the framework for every level -- always True.
     framework_supported: bool
-    #: Whether ICAB's current data source (TEP) genuinely provides real
-    #: information at this level.
+    #: Whether this level has ENOUGH grounded, real-or-controlled data to
+    #: support a real question bank -- distinct from whether that data
+    #: came from the real TEP simulator (see `data_provenance`).
     data_supported: bool
     #: Whether this benchmark can actually be run right now -- False
     #: whenever data_supported is False (a runner must refuse, not
     #: attempt a run against an empty/fabricated question bank).
     executable: bool
+    #: "real_tep" -- every fact comes from the real TEP simulator/CIM
+    #:   data (icab.tep.adapter), unchanged.
+    #: "controlled_synthetic" -- every fact comes from the deterministic,
+    #:   versioned, clearly-labeled synthetic benchmark context layer
+    #:   (icab.benchmark_context) -- realistic in shape, NOT empirically
+    #:   measured, NEVER presented as real plant data.
+    #: "mixed" -- both: at least one real TEP-derived fact plus
+    #:   controlled synthetic ones (e.g. Area's real Reaction Area
+    #:   alongside 2 synthetic sibling areas).
+    #: This is the "real TEP process data" vs. "controlled benchmark
+    #: context data" distinction the ICAB v3 50-question milestone
+    #: requires every result to be traceable to -- see
+    #: docs/benchmark/specification-v3.md.
+    data_provenance: str
     #: Stated honestly either way -- surfaced by
     #: scripts/icab_v2_cli.py list-benchmarks.
     coverage_note: str
@@ -70,15 +85,21 @@ LEVEL_BENCHMARKS: dict[ISA95Level, ISA95BenchmarkDefinition] = {
         isa95_level=ISA95Level.ENTERPRISE,
         name="ICAB Enterprise Benchmark",
         framework_supported=True,
-        data_supported=False,
-        executable=False,
+        data_supported=True,
+        executable=True,
+        data_provenance="controlled_synthetic",
         coverage_note=(
-            "No question bank: TEP models a single site with no multi-site/"
-            "multi-enterprise data. Framework-ready; requires a future "
-            "scenario domain with real multi-site/multi-enterprise data."
+            "50 questions, all against the CONTROLLED benchmark context layer "
+            "(icab.benchmark_context) -- TEP itself models a single site with "
+            "no real multi-site/multi-enterprise data. The synthetic "
+            "'Northwind Chemical' enterprise (icab.benchmark_context.data) "
+            "provides deterministic, versioned KPIs and a real, additive "
+            "PART_OF link from the REAL TEP site (urn:icab:site:tep) up to "
+            "it -- never presented as real plant data. See "
+            "docs/benchmark/specification-v3.md."
         ),
         question_bank_dir=Path("configs/questions/enterprise"),
-        question_bank_version="0.0.0",
+        question_bank_version="1.0.0",
         results_root=Path("results/enterprise"),
     ),
     ISA95Level.SITE: ISA95BenchmarkDefinition(
@@ -86,14 +107,19 @@ LEVEL_BENCHMARKS: dict[ISA95Level, ISA95BenchmarkDefinition] = {
         isa95_level=ISA95Level.SITE,
         name="ICAB Site Benchmark",
         framework_supported=True,
-        data_supported=False,
-        executable=False,
+        data_supported=True,
+        executable=True,
+        data_provenance="mixed",
         coverage_note=(
-            "No question bank: TEP has exactly one real Site entity, with "
-            "no variation to study (nothing to compare it against)."
+            "50 questions across 3 sites: the REAL urn:icab:site:tep plus 2 "
+            "CONTROLLED synthetic sites (Riverside, Port Arthur) from "
+            "icab.benchmark_context -- deterministic, versioned KPIs, never "
+            "presented as real plant data. TEP itself has exactly one real "
+            "Site entity with no variation to study; the synthetic siblings "
+            "exist to give this level genuine cross-site comparison content."
         ),
         question_bank_dir=Path("configs/questions/site"),
-        question_bank_version="0.0.0",
+        question_bank_version="1.0.0",
         results_root=Path("results/site"),
     ),
     ISA95Level.AREA: ISA95BenchmarkDefinition(
@@ -103,15 +129,17 @@ LEVEL_BENCHMARKS: dict[ISA95Level, ISA95BenchmarkDefinition] = {
         framework_supported=True,
         data_supported=True,
         executable=True,
+        data_provenance="mixed",
         coverage_note=(
-            "Minimal but real: TEP has exactly one real Area entity "
-            "(Reaction Area). Questions here are real, verified hierarchy "
-            "facts, not scenario-varying investigations -- includes the "
-            "known knowledge_graph-only discoverability challenge "
-            "(docs/research/context-requirement-campaign-1.md)."
+            "50 questions: 3 REAL, hand-authored hierarchy-fact questions "
+            "over the real Reaction Area (including the known "
+            "knowledge_graph-only discoverability challenge -- see "
+            "docs/research/context-requirement-campaign-1.md), plus 47 "
+            "CONTROLLED synthetic questions (2 additional synthetic sibling "
+            "areas + KPI/hierarchy content, icab.benchmark_context)."
         ),
         question_bank_dir=Path("configs/questions/area"),
-        question_bank_version="1.0.0",
+        question_bank_version="2.0.0",
         results_root=Path("results/area"),
     ),
     ISA95Level.WORK_CENTER: ISA95BenchmarkDefinition(
@@ -119,15 +147,21 @@ LEVEL_BENCHMARKS: dict[ISA95Level, ISA95BenchmarkDefinition] = {
         isa95_level=ISA95Level.WORK_CENTER,
         name="ICAB Work Center Benchmark",
         framework_supported=True,
-        data_supported=False,
-        executable=False,
+        data_supported=True,
+        executable=True,
+        data_provenance="controlled_synthetic",
         coverage_note=(
-            "No question bank: TEP's real CIM data has no WorkCenter "
-            "entities at all (icab.cim.EntityType.WORK_CENTER is modeled "
-            "but never populated by icab.tep.adapter.TEPAdapter)."
+            "50 questions, entirely against the CONTROLLED benchmark "
+            "context layer (icab.benchmark_context) -- TEP's real CIM data "
+            "has no WorkCenter entities at all "
+            "(icab.cim.EntityType.WORK_CENTER is modeled but never "
+            "populated by icab.tep.adapter.TEPAdapter). Three synthetic "
+            "work centers, each a real, additive PART_OF child of a real or "
+            "synthetic Area, with deterministic, versioned KPIs -- never "
+            "presented as real plant data."
         ),
         question_bank_dir=Path("configs/questions/work_center"),
-        question_bank_version="0.0.0",
+        question_bank_version="1.0.0",
         results_root=Path("results/work_center"),
     ),
     ISA95Level.PROCESS_CELL: ISA95BenchmarkDefinition(
@@ -137,9 +171,10 @@ LEVEL_BENCHMARKS: dict[ISA95Level, ISA95BenchmarkDefinition] = {
         framework_supported=True,
         data_supported=True,
         executable=True,
-        coverage_note="Well supported: real, plant-wide TEP investigation/diagnosis questions over the one real Process Cell.",
+        data_provenance="real_tep",
+        coverage_note="50 questions, all against REAL TEP data (plant-wide investigation/diagnosis questions plus real MONITORS/PART_OF relationship-confirmation questions over all 41 real measurements) -- no controlled/synthetic content at this level.",
         question_bank_dir=Path("configs/questions/process_cell"),
-        question_bank_version="1.0.0",
+        question_bank_version="2.0.0",
         results_root=Path("results/process_cell"),
     ),
     ISA95Level.EQUIPMENT: ISA95BenchmarkDefinition(
@@ -149,9 +184,10 @@ LEVEL_BENCHMARKS: dict[ISA95Level, ISA95BenchmarkDefinition] = {
         framework_supported=True,
         data_supported=True,
         executable=True,
-        coverage_note="Best supported: real TEP questions across all seven real equipment items.",
+        data_provenance="real_tep",
+        coverage_note="50 questions, all against REAL TEP data, across all seven real equipment items and all 41 real measurements -- no controlled/synthetic content at this level.",
         question_bank_dir=Path("configs/questions/equipment"),
-        question_bank_version="1.0.0",
+        question_bank_version="2.0.0",
         results_root=Path("results/equipment"),
     ),
 }

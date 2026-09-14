@@ -1,0 +1,1920 @@
+tasks:
+- task_id: ent-qa-annual_production_target
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s annual production target?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:annual_production_target
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:annual_production_target
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s annual production
+      target (urn:icab:measurement:enterprise:northwind-chemical:annual_production_target)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:annual_production_target
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_revenue_target
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise revenue target?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_revenue_target
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_revenue_target
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      revenue target (urn:icab:measurement:enterprise:northwind-chemical:enterprise_revenue_target)
+      is a controlled benchmark KPI, retrievable from the historian in USD_million.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_revenue_target
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      safety incidents (ytd) (urn:icab:measurement:enterprise:northwind-chemical:enterprise_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_headcount
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      headcount (urn:icab:measurement:enterprise:northwind-chemical:enterprise_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_energy_consumption_target
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise energy consumption target?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_energy_consumption_target
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_energy_consumption_target
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      energy consumption target (urn:icab:measurement:enterprise:northwind-chemical:enterprise_energy_consumption_target)
+      is a controlled benchmark KPI, retrievable from the historian in MWh.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_energy_consumption_target
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_capital_budget
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise capital budget?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_capital_budget
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_capital_budget
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      capital budget (urn:icab:measurement:enterprise:northwind-chemical:enterprise_capital_budget)
+      is a controlled benchmark KPI, retrievable from the historian in USD_million.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_capital_budget
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_quality_target
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise quality target?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_quality_target
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_quality_target
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      quality target (urn:icab:measurement:enterprise:northwind-chemical:enterprise_quality_target)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_quality_target
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_carbon_intensity_target
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise carbon intensity target?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_carbon_intensity_target
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_carbon_intensity_target
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      carbon intensity target (urn:icab:measurement:enterprise:northwind-chemical:enterprise_carbon_intensity_target)
+      is a controlled benchmark KPI, retrievable from the historian in kg_CO2_per_ton.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_carbon_intensity_target
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_customer_otd_target
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise on-time-delivery target?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_customer_otd_target
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_customer_otd_target
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      on-time-delivery target (urn:icab:measurement:enterprise:northwind-chemical:enterprise_customer_otd_target)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_customer_otd_target
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-enterprise_rd_budget
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-kpi-interpretation
+  objective: What is the current value of Northwind Chemical (controlled benchmark
+    enterprise)'s enterprise r&d budget?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_rd_budget
+  expected_entities:
+  - urn:icab:measurement:enterprise:northwind-chemical:enterprise_rd_budget
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Northwind Chemical (controlled benchmark enterprise)'s enterprise
+      r&d budget (urn:icab:measurement:enterprise:northwind-chemical:enterprise_rd_budget)
+      is a controlled benchmark KPI, retrievable from the historian in USD_million.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:enterprise:northwind-chemical:enterprise_rd_budget
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-tep-site-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Is Tennessee Eastman Process Site part of Northwind Chemical (controlled
+    benchmark enterprise)?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:enterprise:northwind-chemical
+  expected_entities:
+  - urn:icab:site:tep
+  - urn:icab:enterprise:northwind-chemical
+  expected_relationships:
+  - - urn:icab:site:tep
+    - PART_OF
+    - urn:icab:enterprise:northwind-chemical
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Tennessee Eastman Process Site (urn:icab:site:tep) is part
+      of Northwind Chemical (controlled benchmark enterprise) (urn:icab:enterprise:northwind-chemical).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:site:tep
+      - PART_OF
+      - urn:icab:enterprise:northwind-chemical
+    expected_evidence:
+    - urn:icab:enterprise:northwind-chemical
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-riverside-site-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Is Riverside Site part of Northwind Chemical (controlled benchmark enterprise)?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:enterprise:northwind-chemical
+  expected_entities:
+  - urn:icab:site:riverside
+  - urn:icab:enterprise:northwind-chemical
+  expected_relationships:
+  - - urn:icab:site:riverside
+    - PART_OF
+    - urn:icab:enterprise:northwind-chemical
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Riverside Site (urn:icab:site:riverside) is part of Northwind
+      Chemical (controlled benchmark enterprise) (urn:icab:enterprise:northwind-chemical).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:site:riverside
+      - PART_OF
+      - urn:icab:enterprise:northwind-chemical
+    expected_evidence:
+    - urn:icab:enterprise:northwind-chemical
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-qa-port_arthur-site-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Is Port Arthur Site part of Northwind Chemical (controlled benchmark
+    enterprise)?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:enterprise:northwind-chemical
+  expected_entities:
+  - urn:icab:site:port-arthur
+  - urn:icab:enterprise:northwind-chemical
+  expected_relationships:
+  - - urn:icab:site:port-arthur
+    - PART_OF
+    - urn:icab:enterprise:northwind-chemical
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Port Arthur Site (urn:icab:site:port-arthur) is part of Northwind
+      Chemical (controlled benchmark enterprise) (urn:icab:enterprise:northwind-chemical).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:site:port-arthur
+      - PART_OF
+      - urn:icab:enterprise:northwind-chemical
+    expected_evidence:
+    - urn:icab:enterprise:northwind-chemical
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-site-count
+  scenario_id: d2_reactor_context_combination
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: How many sites belong to the Northwind Chemical enterprise, and which
+    ones?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:enterprise:northwind-chemical
+  expected_entities:
+  - urn:icab:site:tep
+  - urn:icab:site:riverside
+  - urn:icab:site:port-arthur
+  - urn:icab:enterprise:northwind-chemical
+  expected_relationships:
+  - - urn:icab:site:tep
+    - PART_OF
+    - urn:icab:enterprise:northwind-chemical
+  - - urn:icab:site:riverside
+    - PART_OF
+    - urn:icab:enterprise:northwind-chemical
+  - - urn:icab:site:port-arthur
+    - PART_OF
+    - urn:icab:enterprise:northwind-chemical
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: 'Northwind Chemical (controlled benchmark enterprise) (urn:icab:enterprise:northwind-chemical)
+      has 3 such member(s): Tennessee Eastman Process Site, Riverside Site, Port Arthur
+      Site.'
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:site:tep
+      - PART_OF
+      - urn:icab:enterprise:northwind-chemical
+    - - urn:icab:site:riverside
+      - PART_OF
+      - urn:icab:enterprise:northwind-chemical
+    - - urn:icab:site:port-arthur
+      - PART_OF
+      - urn:icab:enterprise:northwind-chemical
+    expected_evidence:
+    - urn:icab:enterprise:northwind-chemical
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    - completeness_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy enumeration
+    (src/icab/benchmark_context/data.py, version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_production_output-0
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site production output
+      (24631.0 metric_tons_per_month vs 15130.0 metric_tons_per_month for Riverside
+      Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_headcount-1
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site headcount (1342.0 count vs 1175.0
+      count for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_safety_incidents_ytd-2
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site safety incidents
+      (ytd) (3.0 count vs 1.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_energy_consumption-3
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site energy consumption (16431.0 MWh_per_month
+      vs 11142.0 MWh_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_utilization_rate-4
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site utilization rate (94.2 percent
+      vs 67.3 percent for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_maintenance_backlog-5
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site maintenance backlog (462.0 hours
+      vs 266.0 hours for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_inventory_level-6
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site inventory level
+      (4001.0 metric_tons vs 2859.0 metric_tons for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_inventory_level
+    - urn:icab:measurement:site:riverside:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_shift_count-7
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site shift count (3.0
+      count vs 3.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_shift_count
+    - urn:icab:measurement:site:riverside:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_downtime_hours-8
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site downtime (171.7
+      hours_per_month vs 57.5 hours_per_month for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_downtime_hours
+    - urn:icab:measurement:site:riverside:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_water_consumption-9
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site water consumption (22681.0 cubic_meters_per_month
+      vs 20877.0 cubic_meters_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_water_consumption
+    - urn:icab:measurement:site:riverside:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_production_output-10
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site production output
+      (24631.0 metric_tons_per_month vs 15130.0 metric_tons_per_month for Riverside
+      Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_headcount-11
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site headcount (1342.0 count vs 1175.0
+      count for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_safety_incidents_ytd-12
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site safety incidents
+      (ytd) (3.0 count vs 1.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_energy_consumption-13
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site energy consumption (16431.0 MWh_per_month
+      vs 11142.0 MWh_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_utilization_rate-14
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site utilization rate (94.2 percent
+      vs 67.3 percent for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_maintenance_backlog-15
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site maintenance backlog (462.0 hours
+      vs 266.0 hours for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_inventory_level-16
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site inventory level
+      (4001.0 metric_tons vs 2859.0 metric_tons for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_inventory_level
+    - urn:icab:measurement:site:riverside:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_shift_count-17
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site shift count (3.0
+      count vs 3.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_shift_count
+    - urn:icab:measurement:site:riverside:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_downtime_hours-18
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site downtime (171.7
+      hours_per_month vs 57.5 hours_per_month for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_downtime_hours
+    - urn:icab:measurement:site:riverside:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_water_consumption-19
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site water consumption (22681.0 cubic_meters_per_month
+      vs 20877.0 cubic_meters_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_water_consumption
+    - urn:icab:measurement:site:riverside:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_production_output-20
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site production output
+      (24631.0 metric_tons_per_month vs 15130.0 metric_tons_per_month for Riverside
+      Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_headcount-21
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site headcount (1342.0 count vs 1175.0
+      count for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_safety_incidents_ytd-22
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site safety incidents
+      (ytd) (3.0 count vs 1.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_energy_consumption-23
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site energy consumption (16431.0 MWh_per_month
+      vs 11142.0 MWh_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_utilization_rate-24
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site utilization rate (94.2 percent
+      vs 67.3 percent for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_maintenance_backlog-25
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site maintenance backlog (462.0 hours
+      vs 266.0 hours for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_inventory_level-26
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site inventory level?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_inventory_level
+  - urn:icab:measurement:site:riverside:site_inventory_level
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site inventory level
+      (4001.0 metric_tons vs 2859.0 metric_tons for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_inventory_level
+    - urn:icab:measurement:site:riverside:site_inventory_level
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_shift_count-27
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site shift count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_shift_count
+  - urn:icab:measurement:site:riverside:site_shift_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site shift count (3.0
+      count vs 3.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_shift_count
+    - urn:icab:measurement:site:riverside:site_shift_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_downtime_hours-28
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site downtime?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_downtime_hours
+  - urn:icab:measurement:site:riverside:site_downtime_hours
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site downtime (171.7
+      hours_per_month vs 57.5 hours_per_month for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_downtime_hours
+    - urn:icab:measurement:site:riverside:site_downtime_hours
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_water_consumption-29
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site water consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_water_consumption
+  - urn:icab:measurement:site:riverside:site_water_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site water consumption (22681.0 cubic_meters_per_month
+      vs 20877.0 cubic_meters_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_water_consumption
+    - urn:icab:measurement:site:riverside:site_water_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_production_output-30
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site production output?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_production_output
+  - urn:icab:measurement:site:riverside:site_production_output
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site production output
+      (24631.0 metric_tons_per_month vs 15130.0 metric_tons_per_month for Riverside
+      Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_production_output
+    - urn:icab:measurement:site:riverside:site_production_output
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_headcount-31
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_headcount
+  - urn:icab:measurement:site:riverside:site_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site headcount (1342.0 count vs 1175.0
+      count for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_headcount
+    - urn:icab:measurement:site:riverside:site_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_safety_incidents_ytd-32
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+  - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Tennessee Eastman Process Site has the higher site safety incidents
+      (ytd) (3.0 count vs 1.0 count for Riverside Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_safety_incidents_ytd
+    - urn:icab:measurement:site:riverside:site_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_energy_consumption-33
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_energy_consumption
+  - urn:icab:measurement:site:riverside:site_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site energy consumption (16431.0 MWh_per_month
+      vs 11142.0 MWh_per_month for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_energy_consumption
+    - urn:icab:measurement:site:riverside:site_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_utilization_rate-34
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site utilization rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_utilization_rate
+  - urn:icab:measurement:site:riverside:site_utilization_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site utilization rate (94.2 percent
+      vs 67.3 percent for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_utilization_rate
+    - urn:icab:measurement:site:riverside:site_utilization_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: ent-investigation-compare-site_maintenance_backlog-35
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: enterprise
+  use_case_id: enterprise-site-portfolio
+  objective: Between Tennessee Eastman Process Site and Riverside Site, which one
+    has the higher site maintenance backlog?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_entities:
+  - urn:icab:measurement:site:tep:site_maintenance_backlog
+  - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Site has the higher site maintenance backlog (462.0 hours
+      vs 266.0 hours for Tennessee Eastman Process Site).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:site:tep:site_maintenance_backlog
+    - urn:icab:measurement:site:riverside:site_maintenance_backlog
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0

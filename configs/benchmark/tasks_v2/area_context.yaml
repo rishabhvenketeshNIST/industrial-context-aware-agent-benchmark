@@ -1,0 +1,1727 @@
+tasks:
+- task_id: area-ctx-qa-reaction-area_production_rate
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area production rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area production rate (urn:icab:measurement:area:reaction:area_production_rate)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons_per_day.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_production_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_utilization
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_utilization
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area utilization (urn:icab:measurement:area:reaction:area_utilization)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_open_workorders
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area open work orders?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_open_workorders
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_open_workorders
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area open work orders (urn:icab:measurement:area:reaction:area_open_workorders)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_open_workorders
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area safety incidents (ytd) (urn:icab:measurement:area:reaction:area_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_equipment_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area equipment count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_equipment_count
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_equipment_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area equipment count (urn:icab:measurement:area:reaction:area_equipment_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_equipment_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_last_inspection_days_ago
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's days since area's last inspection?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's days since area's last inspection (urn:icab:measurement:area:reaction:area_last_inspection_days_ago)
+      is a controlled benchmark KPI, retrievable from the historian in days.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_energy_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area energy consumption (urn:icab:measurement:area:reaction:area_energy_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in MWh_per_day.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-area_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Reaction Area's area headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_headcount
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area's area headcount (urn:icab:measurement:area:reaction:area_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_production_rate
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area production
+    rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area production rate (urn:icab:measurement:area:riverside-utilities:area_production_rate)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons_per_day.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_utilization
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_utilization
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area utilization (urn:icab:measurement:area:riverside-utilities:area_utilization)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_open_workorders
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area open work
+    orders?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area open work orders (urn:icab:measurement:area:riverside-utilities:area_open_workorders)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area safety incidents
+    (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area safety incidents (ytd) (urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_equipment_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area equipment
+    count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area equipment count (urn:icab:measurement:area:riverside-utilities:area_equipment_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_last_inspection_days_ago
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's days since area's
+    last inspection?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's days since area's last inspection (urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago)
+      is a controlled benchmark KPI, retrievable from the historian in days.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_energy_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area energy consumption (urn:icab:measurement:area:riverside-utilities:area_energy_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in MWh_per_day.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside-utilities-area_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Riverside Utilities Area's area headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:riverside-utilities:area_headcount
+  expected_entities:
+  - urn:icab:measurement:area:riverside-utilities:area_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area's area headcount (urn:icab:measurement:area:riverside-utilities:area_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:riverside-utilities:area_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_production_rate
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area production
+    rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_production_rate
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_production_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area production rate (urn:icab:measurement:area:port-arthur-processing:area_production_rate)
+      is a controlled benchmark KPI, retrievable from the historian in metric_tons_per_day.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_production_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_utilization
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_utilization
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area utilization (urn:icab:measurement:area:port-arthur-processing:area_utilization)
+      is a controlled benchmark KPI, retrievable from the historian in percent.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_open_workorders
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area open
+    work orders?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_open_workorders
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_open_workorders
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area open work orders (urn:icab:measurement:area:port-arthur-processing:area_open_workorders)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_open_workorders
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_safety_incidents_ytd
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area safety
+    incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area safety incidents (ytd) (urn:icab:measurement:area:port-arthur-processing:area_safety_incidents_ytd)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_equipment_count
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area equipment
+    count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_equipment_count
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_equipment_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area equipment count (urn:icab:measurement:area:port-arthur-processing:area_equipment_count)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_equipment_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_last_inspection_days_ago
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's days since
+    area's last inspection?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_last_inspection_days_ago
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_last_inspection_days_ago
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's days since area's last inspection (urn:icab:measurement:area:port-arthur-processing:area_last_inspection_days_ago)
+      is a controlled benchmark KPI, retrievable from the historian in days.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_last_inspection_days_ago
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_energy_consumption
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area energy
+    consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area energy consumption (urn:icab:measurement:area:port-arthur-processing:area_energy_consumption)
+      is a controlled benchmark KPI, retrievable from the historian in MWh_per_day.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port-arthur-processing-area_headcount
+  scenario_id: d1_reactor_pressure_reading
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-kpi-interpretation
+  objective: What is the current value of Port Arthur Processing Area's area headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:port-arthur-processing:area_headcount
+  expected_entities:
+  - urn:icab:measurement:area:port-arthur-processing:area_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Port Arthur Processing Area's area headcount (urn:icab:measurement:area:port-arthur-processing:area_headcount)
+      is a controlled benchmark KPI, retrievable from the historian in count.
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:port-arthur-processing:area_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction-site-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-site-membership-identification
+  objective: Is Reaction Area part of Tennessee Eastman Process Site?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:site:tep
+  expected_entities:
+  - urn:icab:area:reaction
+  - urn:icab:site:tep
+  expected_relationships:
+  - - urn:icab:area:reaction
+    - PART_OF
+    - urn:icab:site:tep
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reaction Area (urn:icab:area:reaction) is part of Tennessee
+      Eastman Process Site (urn:icab:site:tep).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:area:reaction
+      - PART_OF
+      - urn:icab:site:tep
+    expected_evidence:
+    - urn:icab:site:tep
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside_utilities-site-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-site-membership-identification
+  objective: Is Riverside Utilities Area part of Riverside Site?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:site:riverside
+  expected_entities:
+  - urn:icab:area:riverside-utilities
+  - urn:icab:site:riverside
+  expected_relationships:
+  - - urn:icab:area:riverside-utilities
+    - PART_OF
+    - urn:icab:site:riverside
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Riverside Utilities Area (urn:icab:area:riverside-utilities)
+      is part of Riverside Site (urn:icab:site:riverside).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:area:riverside-utilities
+      - PART_OF
+      - urn:icab:site:riverside
+    expected_evidence:
+    - urn:icab:site:riverside
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port_arthur_processing-site-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-site-membership-identification
+  objective: Is Port Arthur Processing Area part of Port Arthur Site?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:site:port-arthur
+  expected_entities:
+  - urn:icab:area:port-arthur-processing
+  - urn:icab:site:port-arthur
+  expected_relationships:
+  - - urn:icab:area:port-arthur-processing
+    - PART_OF
+    - urn:icab:site:port-arthur
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Port Arthur Processing Area (urn:icab:area:port-arthur-processing)
+      is part of Port Arthur Site (urn:icab:site:port-arthur).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:area:port-arthur-processing
+      - PART_OF
+      - urn:icab:site:port-arthur
+    expected_evidence:
+    - urn:icab:site:port-arthur
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-reaction_utilities-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-work-center-composition
+  objective: Is Reaction Area Utilities Work Center part of Reaction Area?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:area:reaction
+  expected_entities:
+  - urn:icab:workcenter:reaction-utilities
+  - urn:icab:area:reaction
+  expected_relationships:
+  - - urn:icab:workcenter:reaction-utilities
+    - PART_OF
+    - urn:icab:area:reaction
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Reaction Area Utilities Work Center (urn:icab:workcenter:reaction-utilities)
+      is part of Reaction Area (urn:icab:area:reaction).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:workcenter:reaction-utilities
+      - PART_OF
+      - urn:icab:area:reaction
+    expected_evidence:
+    - urn:icab:area:reaction
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-riverside_packaging-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-work-center-composition
+  objective: Is Riverside Packaging Work Center part of Riverside Utilities Area?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:area:riverside-utilities
+  expected_entities:
+  - urn:icab:workcenter:riverside-packaging
+  - urn:icab:area:riverside-utilities
+  expected_relationships:
+  - - urn:icab:workcenter:riverside-packaging
+    - PART_OF
+    - urn:icab:area:riverside-utilities
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Riverside Packaging Work Center (urn:icab:workcenter:riverside-packaging)
+      is part of Riverside Utilities Area (urn:icab:area:riverside-utilities).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:workcenter:riverside-packaging
+      - PART_OF
+      - urn:icab:area:riverside-utilities
+    expected_evidence:
+    - urn:icab:area:riverside-utilities
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-qa-port_arthur_distillation-membership
+  scenario_id: d2_reactor_context_combination
+  task_type: qa
+  difficulty: D1
+  isa95_level: area
+  use_case_id: area-work-center-composition
+  objective: Is Port Arthur Distillation Work Center part of Port Arthur Processing
+    Area?
+  available_architectures:
+  - knowledge_graph
+  required_context_dimensions:
+  - C2
+  - C3
+  required_evidence:
+  - urn:icab:area:port-arthur-processing
+  expected_entities:
+  - urn:icab:workcenter:port-arthur-distillation
+  - urn:icab:area:port-arthur-processing
+  expected_relationships:
+  - - urn:icab:workcenter:port-arthur-distillation
+    - PART_OF
+    - urn:icab:area:port-arthur-processing
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Yes -- Port Arthur Distillation Work Center (urn:icab:workcenter:port-arthur-distillation)
+      is part of Port Arthur Processing Area (urn:icab:area:port-arthur-processing).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships:
+    - - urn:icab:workcenter:port-arthur-distillation
+      - PART_OF
+      - urn:icab:area:port-arthur-processing
+    expected_evidence:
+    - urn:icab:area:port-arthur-processing
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - relationship_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic hierarchy (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_production_rate-0
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area production rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area production rate (521.6
+      metric_tons_per_day vs 403.4 metric_tons_per_day for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_production_rate
+    - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_utilization-1
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_utilization
+  - urn:icab:measurement:area:riverside-utilities:area_utilization
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_utilization
+  - urn:icab:measurement:area:riverside-utilities:area_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area utilization (59.3 percent vs 57.2
+      percent for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_utilization
+    - urn:icab:measurement:area:riverside-utilities:area_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_open_workorders-2
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area open work orders?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_open_workorders
+  - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_open_workorders
+  - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area open work orders (34.0
+      count vs 22.0 count for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_open_workorders
+    - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_safety_incidents_ytd-3
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area safety incidents (ytd)
+      (4.0 count vs 2.0 count for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+    - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_equipment_count-4
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area equipment count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_equipment_count
+  - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_equipment_count
+  - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area equipment count (17.0 count vs 13.0
+      count for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_equipment_count
+    - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_last_inspection_days_ago-5
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher days since area's last inspection?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher days since area's last inspection
+      (132.0 days vs 62.0 days for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+    - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_energy_consumption-6
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_energy_consumption
+  - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_energy_consumption
+  - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area energy consumption (787.7 MWh_per_day
+      vs 486.2 MWh_per_day for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_energy_consumption
+    - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_headcount-7
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_headcount
+  - urn:icab:measurement:area:riverside-utilities:area_headcount
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_headcount
+  - urn:icab:measurement:area:riverside-utilities:area_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area headcount (204.0 count vs 189.0
+      count for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_headcount
+    - urn:icab:measurement:area:riverside-utilities:area_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_production_rate-8
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area production rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area production rate (521.6
+      metric_tons_per_day vs 403.4 metric_tons_per_day for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_production_rate
+    - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_utilization-9
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area utilization?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_utilization
+  - urn:icab:measurement:area:riverside-utilities:area_utilization
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_utilization
+  - urn:icab:measurement:area:riverside-utilities:area_utilization
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area utilization (59.3 percent vs 57.2
+      percent for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_utilization
+    - urn:icab:measurement:area:riverside-utilities:area_utilization
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_open_workorders-10
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area open work orders?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_open_workorders
+  - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_open_workorders
+  - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area open work orders (34.0
+      count vs 22.0 count for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_open_workorders
+    - urn:icab:measurement:area:riverside-utilities:area_open_workorders
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_safety_incidents_ytd-11
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area safety incidents (ytd)?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+  - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area safety incidents (ytd)
+      (4.0 count vs 2.0 count for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_safety_incidents_ytd
+    - urn:icab:measurement:area:riverside-utilities:area_safety_incidents_ytd
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_equipment_count-12
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area equipment count?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_equipment_count
+  - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_equipment_count
+  - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area equipment count (17.0 count vs 13.0
+      count for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_equipment_count
+    - urn:icab:measurement:area:riverside-utilities:area_equipment_count
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_last_inspection_days_ago-13
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher days since area's last inspection?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+  - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher days since area's last inspection
+      (132.0 days vs 62.0 days for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_last_inspection_days_ago
+    - urn:icab:measurement:area:riverside-utilities:area_last_inspection_days_ago
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_energy_consumption-14
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area energy consumption?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_energy_consumption
+  - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_energy_consumption
+  - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area energy consumption (787.7 MWh_per_day
+      vs 486.2 MWh_per_day for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_energy_consumption
+    - urn:icab:measurement:area:riverside-utilities:area_energy_consumption
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_headcount-15
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area headcount?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_headcount
+  - urn:icab:measurement:area:riverside-utilities:area_headcount
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_headcount
+  - urn:icab:measurement:area:riverside-utilities:area_headcount
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Reaction Area has the higher area headcount (204.0 count vs 189.0
+      count for Riverside Utilities Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_headcount
+    - urn:icab:measurement:area:riverside-utilities:area_headcount
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0
+- task_id: area-ctx-investigation-compare-area_production_rate-16
+  scenario_id: d1_reactor_pressure_reading
+  task_type: investigation
+  difficulty: D2
+  isa95_level: area
+  use_case_id: area-cross-comparison
+  objective: Between Reaction Area and Riverside Utilities Area, which one has the
+    higher area production rate?
+  available_architectures:
+  - historian
+  required_context_dimensions:
+  - C5
+  required_evidence:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_entities:
+  - urn:icab:measurement:area:reaction:area_production_rate
+  - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  expected_relationships: []
+  expected_temporal_evidence: false
+  ground_truth:
+    conclusion: Riverside Utilities Area has the higher area production rate (521.6
+      metric_tons_per_day vs 403.4 metric_tons_per_day for Reaction Area).
+    root_cause_disturbance: null
+    affected_measurements: []
+    affected_equipment: []
+    expected_relationships: []
+    expected_evidence:
+    - urn:icab:measurement:area:reaction:area_production_rate
+    - urn:icab:measurement:area:riverside-utilities:area_production_rate
+  evaluation_criteria:
+    binding_scores:
+    - required_evidence_score
+    - grounding_score
+    pass_threshold: 1.0
+  provenance: 'icab.benchmark_context: controlled synthetic KPI comparison (src/icab/benchmark_context/data.py,
+    version 1.0.0)'
+  version: 1.0.0

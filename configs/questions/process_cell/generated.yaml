@@ -290,6 +290,1379 @@ questions:
   validation_status: validated
   provenance: generated from tep-v2 task 'd4unknown-investigation-relationship-enumeration'
     (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-equipment-count
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-equipment-composition-discovery
+  isa95_level: process_cell
+  question_text: How many distinct real equipment items does the reaction process
+    cell contain, according to the knowledge graph?
+  task_type: investigation
+  objective: How many distinct real equipment items does the reaction process cell
+    contain, according to the knowledge graph?
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:processcell:reaction']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-equipment-count
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-equipment-count' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-compressor_work
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is compressor work monitored by equipment that is part of the reaction
+    process cell?
+  task_type: qa
+  objective: Is compressor work monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:compressor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-compressor_work
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-compressor_work' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-condenser_cooling_water_outlet_temperature
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is condenser cooling water outlet temperature monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is condenser cooling water outlet temperature monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:condenser']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-condenser_cooling_water_outlet_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-condenser_cooling_water_outlet_temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-feed_a_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is feed flow component a (stream 1) monitored by equipment that is
+    part of the reaction process cell?
+  task_type: qa
+  objective: Is feed flow component a (stream 1) monitored by equipment that is part
+    of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:feed-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-feed_a_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-feed_a_flow' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-feed_ac_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is feed flow components a and c (stream 4) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is feed flow components a and c (stream 4) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:feed-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-feed_ac_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-feed_ac_flow' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-feed_d_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is feed flow component d (stream 2) monitored by equipment that is
+    part of the reaction process cell?
+  task_type: qa
+  objective: Is feed flow component d (stream 2) monitored by equipment that is part
+    of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:feed-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-feed_d_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-feed_d_flow' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-feed_e_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is feed flow component e (stream 3) monitored by equipment that is
+    part of the reaction process cell?
+  task_type: qa
+  objective: Is feed flow component e (stream 3) monitored by equipment that is part
+    of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:feed-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-feed_e_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-feed_e_flow' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_a_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of a in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of a in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_a_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_a_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_b_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of b in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of b in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_b_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_b_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_c_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of c in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of c in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_c_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_c_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_d_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of d in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of d in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_d_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_d_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_e_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of e in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of e in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_e_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_e_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_f_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of f in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of f in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_f_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_f_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is purge flow (stream 9) monitored by equipment that is part of the
+    reaction process cell?
+  task_type: qa
+  objective: Is purge flow (stream 9) monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_flow' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_g_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of g in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of g in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_g_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_g_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-purge_h_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of h in purge (stream 9) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of h in purge (stream 9) monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:purge-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-purge_h_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-purge_h_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_cooling_water_outlet_temperature_meas
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is reactor cooling water outlet temperature monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is reactor cooling water outlet temperature monitored by equipment that
+    is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_cooling_water_outlet_temperature_meas
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_cooling_water_outlet_temperature_meas'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_a_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of a in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of a in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_a_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_a_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_b_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of b in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of b in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_b_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_b_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_c_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of c in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of c in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_c_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_c_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_d_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of d in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of d in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_d_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_d_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_e_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of e in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of e in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_e_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_e_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_f_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of f in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of f in reactor feed (stream 6) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_f_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_f_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_feed_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is reactor feed (stream 6) monitored by equipment that is part of
+    the reaction process cell?
+  task_type: qa
+  objective: Is reactor feed (stream 6) monitored by equipment that is part of the
+    reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_feed_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_feed_flow'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_level
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is reactor level monitored by equipment that is part of the reaction
+    process cell?
+  task_type: qa
+  objective: Is reactor level monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_level
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_level' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_pressure
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is reactor pressure monitored by equipment that is part of the reaction
+    process cell?
+  task_type: qa
+  objective: Is reactor pressure monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_pressure
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_pressure' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-reactor_temperature
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is reactor temperature monitored by equipment that is part of the
+    reaction process cell?
+  task_type: qa
+  objective: Is reactor temperature monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-reactor_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-reactor_temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-recycle_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is recycle flow to reactor from separator (stream 8) monitored by
+    equipment that is part of the reaction process cell?
+  task_type: qa
+  objective: Is recycle flow to reactor from separator (stream 8) monitored by equipment
+    that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:feed-system']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-recycle_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-recycle_flow' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-separator_level
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is separator level monitored by equipment that is part of the reaction
+    process cell?
+  task_type: qa
+  objective: Is separator level monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:separator']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-separator_level
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-separator_level' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-separator_pressure
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is separator pressure monitored by equipment that is part of the
+    reaction process cell?
+  task_type: qa
+  objective: Is separator pressure monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:separator']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-separator_pressure
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-separator_pressure'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-separator_temperature
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is separator temperature monitored by equipment that is part of the
+    reaction process cell?
+  task_type: qa
+  objective: Is separator temperature monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:separator']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-separator_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-separator_temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-separator_underflow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is separator underflow liquid phase monitored by equipment that is
+    part of the reaction process cell?
+  task_type: qa
+  objective: Is separator underflow liquid phase monitored by equipment that is part
+    of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:separator']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-separator_underflow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-separator_underflow'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_level
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is stripper level monitored by equipment that is part of the reaction
+    process cell?
+  task_type: qa
+  objective: Is stripper level monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_level
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_level' (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_pressure
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is stripper pressure monitored by equipment that is part of the reaction
+    process cell?
+  task_type: qa
+  objective: Is stripper pressure monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_pressure
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_pressure'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_steam_flow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is stripper steam flow monitored by equipment that is part of the
+    reaction process cell?
+  task_type: qa
+  objective: Is stripper steam flow monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_steam_flow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_steam_flow'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_temperature
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is stripper temperature monitored by equipment that is part of the
+    reaction process cell?
+  task_type: qa
+  objective: Is stripper temperature monitored by equipment that is part of the reaction
+    process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_underflow
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is stripper underflow (stream 11) monitored by equipment that is
+    part of the reaction process cell?
+  task_type: qa
+  objective: Is stripper underflow (stream 11) monitored by equipment that is part
+    of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_underflow
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_underflow'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_underflow_d_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of d in stripper underflow (stream 11) monitored
+    by equipment that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of d in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_underflow_d_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_underflow_d_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_underflow_e_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of e in stripper underflow (stream 11) monitored
+    by equipment that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of e in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_underflow_e_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_underflow_e_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_underflow_f_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of f in stripper underflow (stream 11) monitored
+    by equipment that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of f in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_underflow_f_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_underflow_f_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_underflow_g_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of g in stripper underflow (stream 11) monitored
+    by equipment that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of g in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_underflow_g_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_underflow_g_concentration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-extra-qa-monitors-stripper_underflow_h_concentration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: Is concentration of h in stripper underflow (stream 11) monitored
+    by equipment that is part of the reaction process cell?
+  task_type: qa
+  objective: Is concentration of h in stripper underflow (stream 11) monitored by
+    equipment that is part of the reaction process cell?
+  hypothesized_required_context:
+  - C3
+  - C2
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:stripper']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-extra-qa-monitors-stripper_underflow_h_concentration
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-extra-qa-monitors-stripper_underflow_h_concentration'
+    (scripts/generate_question_banks.py)
 - question_id: Q-pc-new-equipment-membership-via-kg
   benchmark_id: icab-process-cell-v1
   use_case_id: pc-equipment-composition-discovery

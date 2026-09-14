@@ -51,3 +51,45 @@ results/prototype/*
 !results/figures/.gitkeep
 !results/hypotheses/.gitkeep
 !results/prototype/.gitkeep
+
+# ICAB v3: six ISA-95-level benchmarks (icab.benchmark.levels), each
+# with its own results/<level>/ tree -- same "skeleton tracked, content
+# generated/gitignored" policy as above, plus the new matrices/
+# summaries/manifest.json this milestone adds. results/_archive/ (old,
+# pre-v3 results archived by scripts/reset_active_results.py) is
+# entirely local, never committed -- see docs/benchmark/specification-v3.md.
+#
+# NOTE: `!dir/**/.gitkeep` alone does NOT work here -- once git treats a
+# subdirectory itself as ignored (matched by the `dir/**` rule above
+# it), it never descends into that subdirectory to apply a deeper
+# negation, so a nested .gitkeep stays hidden. The fix is the classic
+# three-step idiom below: ignore direct children, un-ignore the
+# subdirectories themselves so git still traverses into them, THEN
+# ignore/un-ignore one level deeper -- verified with
+# `git check-ignore -v` against every level's raw/.gitkeep before
+# committing.
+results/enterprise/*
+results/site/*
+results/area/*
+results/work_center/*
+results/process_cell/*
+results/equipment/*
+!results/enterprise/*/
+!results/site/*/
+!results/area/*/
+!results/work_center/*/
+!results/process_cell/*/
+!results/equipment/*/
+results/enterprise/*/*
+results/site/*/*
+results/area/*/*
+results/work_center/*/*
+results/process_cell/*/*
+results/equipment/*/*
+!results/enterprise/*/.gitkeep
+!results/site/*/.gitkeep
+!results/area/*/.gitkeep
+!results/work_center/*/.gitkeep
+!results/process_cell/*/.gitkeep
+!results/equipment/*/.gitkeep
+results/_archive/

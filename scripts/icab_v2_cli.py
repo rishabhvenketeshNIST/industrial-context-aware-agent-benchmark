@@ -34,11 +34,18 @@ Examples::
     uv run python scripts/icab_v2_cli.py matrix-failure-mode
     uv run python scripts/icab_v2_cli.py matrix-isa95-coverage
     uv run python scripts/icab_v2_cli.py matrix-candidate-msc
+    uv run python scripts/icab_v2_cli.py list-benchmarks
+    uv run python scripts/icab_v2_cli.py list-questions --level equipment
+    uv run python scripts/icab_v2_cli.py analyze-question-stats --level equipment --question Q-d1-qa-current-pressure
+    uv run python scripts/icab_v2_cli.py analyze-use-case-question-stats --level equipment --use-case eq-current-value-interpretation
+    uv run python scripts/icab_v2_cli.py analyze-benchmark-level-stats --level equipment
 
 For actually RUNNING a context-condition design strategy against real
 infrastructure (single/pairwise/progressive/targeted/ablation/replay),
-see scripts/run_context_experiment.py -- this script is read-only/
-analysis-only (it makes no simulator/gateway/LLM call).
+see scripts/run_context_experiment.py; for running a slice of an
+ISA-95-level QUESTION BANK, see scripts/run_question_benchmark.py --
+this script is read-only/analysis-only (it makes no simulator/gateway/
+LLM call).
 """
 
 from __future__ import annotations
@@ -46,6 +53,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+
+from icab.tasks.isa95 import ISA95Level
 
 USECASES_DIR = "configs/usecases"
 SCENARIOS_DIR = "configs/benchmark/scenarios"
@@ -56,6 +65,34 @@ def _use_case_registry():
     from icab.usecases import IndustrialUseCaseRegistry
 
     return IndustrialUseCaseRegistry(USECASES_DIR, scenario_registry=BenchmarkScenarioRegistry(SCENARIOS_DIR))
+
+
+def _question_registry(level: str):
+    from icab.benchmark.levels import get_level_benchmark
+    from icab.questions import QuestionBankRegistry
+    from icab.scenarios import BenchmarkScenarioRegistry
+    from icab.tasks.isa95 import ISA95Level
+    from icab.tasks.registry import BenchmarkTaskRegistry
+
+    scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
+    task_registry = BenchmarkTaskRegistry("configs/benchmark/tasks_v2", scenario_registry=scenario_registry)
+    definition = get_level_benchmark(ISA95Level(level))
+    return QuestionBankRegistry(definition.question_bank_dir, use_case_registry=_use_case_registry(), task_registry=task_registry)
+
+
+def _load_level_records(level: str, results_root: str | None = None):
+    from icab.benchmark.levels import get_level_benchmark
+    from icab.experiments import ExperimentResultStore
+    from icab.tasks.isa95 import ISA95Level
+
+    definition = get_level_benchmark(ISA95Level(level))
+    store = ExperimentResultStore(root=results_root or str(definition.results_root))
+    records = []
+    for run_id in store.list_run_ids():
+        record = store.load_record(run_id)
+        if record.config.isa95_level == level:
+            records.append(record)
+    return records
 
 
 def _load_v2_records(results_root: str, suite: str) -> list:
@@ -317,6 +354,66 @@ def cmd_matrix_candidate_msc(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_list_benchmarks(args: argparse.Namespace) -> int:
+    from icab.benchmark.levels import LEVEL_BENCHMARKS
+
+    for definition in LEVEL_BENCHMARKS.values():
+        print(f"{definition.benchmark_id:<22} level={definition.isa95_level.value:<12} data_supported={definition.data_supported!s:<5} executable={definition.executable!s:<5}")
+        print(f"    {definition.coverage_note}")
+        print(f"    question_bank_dir={definition.question_bank_dir}   results_root={definition.results_root}")
+    return 0
+
+
+def cmd_list_questions(args: argparse.Namespace) -> int:
+    registry = _question_registry(args.level)
+    questions = list(registry)
+    if args.use_case:
+        questions = [q for q in questions if q.use_case_id == args.use_case]
+    if args.tag:
+        questions = [q for q in questions if args.tag in [t.value for t in q.tags]]
+
+    for question in sorted(questions, key=lambda q: q.question_id):
+        dims = "+".join(d.value for d in question.hypothesized_required_context)
+        print(f"{question.question_id:<45} [{question.difficulty.value:<12}] required(hyp)=[{dims}]  scenarios={list(question.realizations)}  {question.question_text.strip()[:70]}")
+    print(f"\n{len(questions)} question(s) shown.")
+    return 0
+
+
+def cmd_analyze_question_stats(args: argparse.Namespace) -> int:
+    from icab.analysis import question_stats
+
+    records = _load_level_records(args.level, args.results_root)
+    question = _question_registry(args.level).get(args.question)
+    report = question_stats(records, question_id=args.question, use_case_id=question.use_case_id, metric=args.metric)
+    print(report.model_dump_json(indent=2))
+    return 0
+
+
+def cmd_analyze_use_case_question_stats(args: argparse.Namespace) -> int:
+    from icab.analysis import use_case_question_stats
+
+    records = _load_level_records(args.level, args.results_root)
+    registry = _question_registry(args.level)
+    question_ids = [q.question_id for q in registry.for_use_case(args.use_case)]
+    report = use_case_question_stats(records, use_case_id=args.use_case, question_ids=question_ids, metric=args.metric)
+    print(report.model_dump_json(indent=2))
+    return 0
+
+
+def cmd_analyze_benchmark_level_stats(args: argparse.Namespace) -> int:
+    from icab.analysis import benchmark_level_stats
+
+    records = _load_level_records(args.level, args.results_root)
+    registry = _question_registry(args.level)
+    use_case_ids = sorted({q.use_case_id for q in registry})
+    question_ids_by_use_case = {uc_id: [q.question_id for q in registry.for_use_case(uc_id)] for uc_id in use_case_ids}
+    report = benchmark_level_stats(
+        records, isa95_level=args.level, use_case_ids=use_case_ids, question_ids_by_use_case=question_ids_by_use_case, metric=args.metric
+    )
+    print(report.model_dump_json(indent=2))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -361,6 +458,34 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("--suite", default="tep-v2")
         p.add_argument("--results-root", default="results")
         p.set_defaults(func=func)
+
+    subparsers.add_parser("list-benchmarks", help="List all six ISA-95-level benchmark definitions and their data/executable status.").set_defaults(func=cmd_list_benchmarks)
+
+    p = subparsers.add_parser("list-questions", help="List questions in one ISA-95 level's question bank.")
+    p.add_argument("--level", required=True, choices=[l.value for l in ISA95Level])
+    p.add_argument("--use-case", default=None)
+    p.add_argument("--tag", default=None)
+    p.set_defaults(func=cmd_list_questions)
+
+    p = subparsers.add_parser("analyze-question-stats", help="Run the analyze question stats analysis for one ISA-95 level.")
+    p.add_argument("--level", required=True, choices=[l.value for l in ISA95Level])
+    p.add_argument("--metric", default="required_evidence_score")
+    p.add_argument("--results-root", default=None, help="Default: results/<level>/")
+    p.add_argument("--question", required=True)
+    p.set_defaults(func=cmd_analyze_question_stats)
+
+    p = subparsers.add_parser("analyze-use-case-question-stats", help="Run the analyze use case question stats analysis for one ISA-95 level.")
+    p.add_argument("--level", required=True, choices=[l.value for l in ISA95Level])
+    p.add_argument("--metric", default="required_evidence_score")
+    p.add_argument("--results-root", default=None, help="Default: results/<level>/")
+    p.add_argument("--use-case", required=True)
+    p.set_defaults(func=cmd_analyze_use_case_question_stats)
+
+    p = subparsers.add_parser("analyze-benchmark-level-stats", help="Question -> use case -> ISA-95 benchmark macro/micro rollup for one level.")
+    p.add_argument("--level", required=True, choices=[l.value for l in ISA95Level])
+    p.add_argument("--metric", default="required_evidence_score")
+    p.add_argument("--results-root", default=None)
+    p.set_defaults(func=cmd_analyze_benchmark_level_stats)
 
     p = subparsers.add_parser("generate-profiles", help="Generate Context Design Profiles for every use case with available evidence.")
     p.add_argument("--suite", default="tep-v2")

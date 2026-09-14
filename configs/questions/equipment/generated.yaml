@@ -1,0 +1,1145 @@
+questions:
+- question_id: Q-d1-investigation-pressure-and-temperature
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: 'Retrieve the reactor''s current pressure and temperature, and state
+    whether both appear to be within normal operating ranges.
+
+    '
+  task_type: investigation
+  objective: 'Retrieve the reactor''s current pressure and temperature, and state
+    whether both appear to be within normal operating ranges.
+
+    '
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure',
+    'urn:icab:measurement:reactor_temperature']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: d1-investigation-pressure-and-temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd1-investigation-pressure-and-temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d1-investigation-pressure-trend
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-temporal-trend-interpretation
+  isa95_level: equipment
+  question_text: 'Retrieve the reactor''s current pressure and describe whether it
+    is trending in any particular direction based on its recent recorded history.
+
+    '
+  task_type: investigation
+  objective: 'Retrieve the reactor''s current pressure and describe whether it is
+    trending in any particular direction based on its recent recorded history.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: d1-investigation-pressure-trend
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - evidence_verification
+  - measurement_interpretation
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd1-investigation-pressure-trend' (scripts/generate_question_banks.py)
+- question_id: Q-d1-qa-current-level
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current reactor level?
+  task_type: qa
+  objective: What is the current reactor level?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_level']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: d1-qa-current-level
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd1-qa-current-level' (scripts/generate_question_banks.py)
+- question_id: Q-d1-qa-current-pressure
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: 'What is the current reactor pressure, and is it within the normal
+    safe operating range (below the 3000 kPa high-pressure trip threshold)?
+
+    '
+  task_type: qa
+  objective: 'What is the current reactor pressure, and is it within the normal safe
+    operating range (below the 3000 kPa high-pressure trip threshold)?
+
+    '
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: d1-qa-current-pressure
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd1-qa-current-pressure' (scripts/generate_question_banks.py)
+- question_id: Q-d1-qa-current-temperature
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current reactor temperature?
+  task_type: qa
+  objective: What is the current reactor temperature?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_temperature']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: d1-qa-current-temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd1-qa-current-temperature' (scripts/generate_question_banks.py)
+- question_id: Q-d1-qa-pressure-stability
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-temporal-trend-interpretation
+  isa95_level: equipment
+  question_text: 'Has reactor pressure remained stable over the scenario''s recorded
+    history, or has it moved noticeably?
+
+    '
+  task_type: qa
+  objective: 'Has reactor pressure remained stable over the scenario''s recorded history,
+    or has it moved noticeably?
+
+    '
+  hypothesized_required_context:
+  - C4
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d1_reactor_pressure_reading
+  realizations:
+    d1_reactor_pressure_reading: d1-qa-pressure-stability
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd1-qa-pressure-stability' (scripts/generate_question_banks.py)
+- question_id: Q-d2cooling-diagnosis-heat-transfer-category
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Reactor cooling water outlet temperature has deviated from normal.
+    Based on the affected measurement and equipment, what general category of process
+    issue does this suggest, and which equipment is implicated according to the knowledge
+    graph?
+
+    '
+  task_type: diagnosis
+  objective: 'Reactor cooling water outlet temperature has deviated from normal. Based
+    on the affected measurement and equipment, what general category of process issue
+    does this suggest, and which equipment is implicated according to the knowledge
+    graph?
+
+    '
+  hypothesized_required_context:
+  - C5
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d2_reactor_cooling_deviation
+  realizations:
+    d2_reactor_cooling_deviation: d2cooling-diagnosis-heat-transfer-category
+  difficulty: intermediate
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2cooling-diagnosis-heat-transfer-category'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d2cooling-investigation-isolated-or-broader
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-value-and-relationship-combination
+  isa95_level: equipment
+  question_text: 'Determine whether the reactor cooling water outlet temperature deviation
+    is an isolated reading, or whether reactor pressure and level are affected as
+    well.
+
+    '
+  task_type: investigation
+  objective: 'Determine whether the reactor cooling water outlet temperature deviation
+    is an isolated reading, or whether reactor pressure and level are affected as
+    well.
+
+    '
+  hypothesized_required_context:
+  - C5
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas',
+    'urn:icab:measurement:reactor_pressure', 'urn:icab:measurement:reactor_level']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_cooling_deviation
+  realizations:
+    d2_reactor_cooling_deviation: d2cooling-investigation-isolated-or-broader
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 3
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2cooling-investigation-isolated-or-broader'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d2cooling-investigation-value-and-equipment
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-value-and-relationship-combination
+  isa95_level: equipment
+  question_text: 'Reactor cooling water outlet temperature appears to have shifted
+    from its normal reading over the past several hours. Retrieve its current value
+    and use the knowledge graph to confirm which equipment this measurement belongs
+    to.
+
+    '
+  task_type: investigation
+  objective: 'Reactor cooling water outlet temperature appears to have shifted from
+    its normal reading over the past several hours. Retrieve its current value and
+    use the knowledge graph to confirm which equipment this measurement belongs to.
+
+    '
+  hypothesized_required_context:
+  - C5
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_cooling_deviation
+  realizations:
+    d2_reactor_cooling_deviation: d2cooling-investigation-value-and-equipment
+  difficulty: intermediate
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2cooling-investigation-value-and-equipment'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d2cooling-qa-current-value
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: What is the current reading of reactor cooling water outlet temperature?
+  task_type: qa
+  objective: What is the current reading of reactor cooling water outlet temperature?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d2_reactor_cooling_deviation
+  realizations:
+    d2_reactor_cooling_deviation: d2cooling-qa-current-value
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2cooling-qa-current-value' (scripts/generate_question_banks.py)
+- question_id: Q-d2ctx-investigation-combine-value-and-relationship
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-value-and-relationship-combination
+  isa95_level: equipment
+  question_text: 'Combine the reactor''s current pressure reading with its knowledge
+    graph relationship to confirm the Reactor is both operating normally and correctly
+    identified as the entity that monitors this measurement.
+
+    '
+  task_type: investigation
+  objective: 'Combine the reactor''s current pressure reading with its knowledge graph
+    relationship to confirm the Reactor is both operating normally and correctly identified
+    as the entity that monitors this measurement.
+
+    '
+  hypothesized_required_context:
+  - C5
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: d2ctx-investigation-combine-value-and-relationship
+  difficulty: intermediate
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2ctx-investigation-combine-value-and-relationship'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d2ctx-investigation-pressure-level-and-relationship
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-value-and-relationship-combination
+  isa95_level: equipment
+  question_text: 'Report the reactor''s current pressure and level, and identify which
+    piece of equipment monitors the reactor pressure measurement according to the
+    knowledge graph.
+
+    '
+  task_type: investigation
+  objective: 'Report the reactor''s current pressure and level, and identify which
+    piece of equipment monitors the reactor pressure measurement according to the
+    knowledge graph.
+
+    '
+  hypothesized_required_context:
+  - C5
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure',
+    'urn:icab:measurement:reactor_level']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: d2ctx-investigation-pressure-level-and-relationship
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2ctx-investigation-pressure-level-and-relationship'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d2ctx-qa-cooling-valve-controls-temperature
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-control-relationship-identification
+  isa95_level: equipment
+  question_text: 'Which actuator controls the reactor temperature measurement, according
+    to the knowledge graph?
+
+    '
+  task_type: qa
+  objective: 'Which actuator controls the reactor temperature measurement, according
+    to the knowledge graph?
+
+    '
+  hypothesized_required_context:
+  - C6
+  expected_evidence_description: Evidence sufficient to support the ground-truth conclusion.
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: d2ctx-qa-cooling-valve-controls-temperature
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - procedural_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2ctx-qa-cooling-valve-controls-temperature'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d2ctx-qa-level-equipment
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-value-and-relationship-combination
+  isa95_level: equipment
+  question_text: 'Which equipment does the reactor level measurement belong to, according
+    to the knowledge graph?
+
+    '
+  task_type: qa
+  objective: 'Which equipment does the reactor level measurement belong to, according
+    to the knowledge graph?
+
+    '
+  hypothesized_required_context:
+  - C3
+  expected_evidence_description: Evidence sufficient to support the ground-truth conclusion.
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: d2ctx-qa-level-equipment
+  difficulty: intermediate
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - cross_source_reasoning
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2ctx-qa-level-equipment' (scripts/generate_question_banks.py)
+- question_id: Q-d2ctx-qa-monitors-relationship-confirmed
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-value-and-relationship-combination
+  isa95_level: equipment
+  question_text: 'Does the knowledge graph confirm a MONITORS relationship between
+    the Reactor equipment and the reactor pressure measurement?
+
+    '
+  task_type: qa
+  objective: 'Does the knowledge graph confirm a MONITORS relationship between the
+    Reactor equipment and the reactor pressure measurement?
+
+    '
+  hypothesized_required_context:
+  - C3
+  expected_evidence_description: Evidence sufficient to support the ground-truth conclusion.
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: d2ctx-qa-monitors-relationship-confirmed
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd2ctx-qa-monitors-relationship-confirmed'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3pressure-diagnosis-disturbance-category
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Based on the historical trend and the affected equipment, what general
+    category of process disturbance is occurring -- a feed composition/ratio change,
+    or an instrument fault?
+
+    '
+  task_type: diagnosis
+  objective: 'Based on the historical trend and the affected equipment, what general
+    category of process disturbance is occurring -- a feed composition/ratio change,
+    or an instrument fault?
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d3_reactor_pressure_deviation
+  realizations:
+    d3_reactor_pressure_deviation: d3pressure-diagnosis-disturbance-category
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3pressure-diagnosis-disturbance-category'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3pressure-diagnosis-trend-and-equipment
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Reactor pressure appears to have drifted from its normal operating
+    point over the last several hours. Investigate the historical trend and determine
+    what changed, and use the knowledge graph to confirm which equipment the affected
+    measurement belongs to.
+
+    '
+  task_type: diagnosis
+  objective: 'Reactor pressure appears to have drifted from its normal operating point
+    over the last several hours. Investigate the historical trend and determine what
+    changed, and use the knowledge graph to confirm which equipment the affected measurement
+    belongs to.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d3_reactor_pressure_deviation
+  realizations:
+    d3_reactor_pressure_deviation: d3pressure-diagnosis-trend-and-equipment
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3pressure-diagnosis-trend-and-equipment'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3pressure-investigation-related-measurements
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-related-measurement-discovery
+  isa95_level: equipment
+  question_text: 'Identify all measurements that show a related deviation alongside
+    reactor pressure, and confirm via the knowledge graph which equipment each belongs
+    to.
+
+    '
+  task_type: investigation
+  objective: 'Identify all measurements that show a related deviation alongside reactor
+    pressure, and confirm via the knowledge graph which equipment each belongs to.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure',
+    'urn:icab:measurement:separator_pressure', 'urn:icab:measurement:stripper_level',
+    'urn:icab:measurement:compressor_work']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d3_reactor_pressure_deviation
+  realizations:
+    d3_reactor_pressure_deviation: d3pressure-investigation-related-measurements
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 4
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3pressure-investigation-related-measurements'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3pressure-qa-trend-direction
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-temporal-trend-interpretation
+  isa95_level: equipment
+  question_text: Has reactor pressure been declining or rising over the past several
+    hours?
+  task_type: qa
+  objective: Has reactor pressure been declining or rising over the past several hours?
+  hypothesized_required_context:
+  - C4
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d3_reactor_pressure_deviation
+  realizations:
+    d3_reactor_pressure_deviation: d3pressure-qa-trend-direction
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3pressure-qa-trend-direction' (scripts/generate_question_banks.py)
+- question_id: Q-d3stochastic-diagnosis-gradual-trend
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Reactor pressure and several related measurements appear to be gradually
+    drifting over the past several hours, without an obvious single sharp change.
+    Investigate the historical trend (not just the current value) to characterize
+    the deviation, and use the knowledge graph to confirm the affected equipment.
+
+    '
+  task_type: diagnosis
+  objective: 'Reactor pressure and several related measurements appear to be gradually
+    drifting over the past several hours, without an obvious single sharp change.
+    Investigate the historical trend (not just the current value) to characterize
+    the deviation, and use the knowledge graph to confirm the affected equipment.
+
+    '
+  hypothesized_required_context:
+  - C7
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d3_stochastic_composition_drift
+  realizations:
+    d3_stochastic_composition_drift: d3stochastic-diagnosis-gradual-trend
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - historical_reasoning
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stochastic-diagnosis-gradual-trend' (scripts/generate_question_banks.py)
+- question_id: Q-d3stochastic-diagnosis-step-vs-drift
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Distinguish whether this is a sudden step-change fault or a gradual
+    drift, and identify the affected equipment.
+
+    '
+  task_type: diagnosis
+  objective: 'Distinguish whether this is a sudden step-change fault or a gradual
+    drift, and identify the affected equipment.
+
+    '
+  hypothesized_required_context:
+  - C7
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d3_stochastic_composition_drift
+  realizations:
+    d3_stochastic_composition_drift: d3stochastic-diagnosis-step-vs-drift
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - historical_reasoning
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stochastic-diagnosis-step-vs-drift' (scripts/generate_question_banks.py)
+- question_id: Q-d3stochastic-investigation-full-window-characterization
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-historical-pattern-characterization
+  isa95_level: equipment
+  question_text: 'Retrieve the historical trend for reactor pressure over the full
+    observation window and characterize how the deviation developed.
+
+    '
+  task_type: investigation
+  objective: 'Retrieve the historical trend for reactor pressure over the full observation
+    window and characterize how the deviation developed.
+
+    '
+  hypothesized_required_context:
+  - C7
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d3_stochastic_composition_drift
+  realizations:
+    d3_stochastic_composition_drift: d3stochastic-investigation-full-window-characterization
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - historical_reasoning
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stochastic-investigation-full-window-characterization'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3stochastic-qa-gradual-or-instantaneous
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-historical-pattern-characterization
+  isa95_level: equipment
+  question_text: 'Is the deviation in reactor pressure gradual/developing over time,
+    or did it happen instantaneously?
+
+    '
+  task_type: qa
+  objective: 'Is the deviation in reactor pressure gradual/developing over time, or
+    did it happen instantaneously?
+
+    '
+  hypothesized_required_context:
+  - C7
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d3_stochastic_composition_drift
+  realizations:
+    d3_stochastic_composition_drift: d3stochastic-qa-gradual-or-instantaneous
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - historical_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stochastic-qa-gradual-or-instantaneous'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3stream4-diagnosis-drift-and-equipment
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Several measurements around the compressor, purge system, and reactor
+    feed appear to be drifting together over the past several hours. Investigate the
+    historical trend across these measurements and use the knowledge graph to confirm
+    which equipment is implicated.
+
+    '
+  task_type: diagnosis
+  objective: 'Several measurements around the compressor, purge system, and reactor
+    feed appear to be drifting together over the past several hours. Investigate the
+    historical trend across these measurements and use the knowledge graph to confirm
+    which equipment is implicated.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:compressor_work',
+    'urn:icab:measurement:purge_flow']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d3_stream4_composition_shift
+  realizations:
+    d3_stream4_composition_shift: d3stream4-diagnosis-drift-and-equipment
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stream4-diagnosis-drift-and-equipment'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3stream4-investigation-implicated-equipment
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-related-measurement-discovery
+  isa95_level: equipment
+  question_text: 'Identify which equipment items show a related deviation alongside
+    the compressor, and confirm each via the knowledge graph.
+
+    '
+  task_type: investigation
+  objective: 'Identify which equipment items show a related deviation alongside the
+    compressor, and confirm each via the knowledge graph.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:compressor_work',
+    'urn:icab:measurement:purge_flow']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d3_stream4_composition_shift
+  realizations:
+    d3_stream4_composition_shift: d3stream4-investigation-implicated-equipment
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stream4-investigation-implicated-equipment'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d3stream4-qa-compressor-trend
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-temporal-trend-interpretation
+  isa95_level: equipment
+  question_text: What is the trend in compressor work over the past several hours?
+  task_type: qa
+  objective: What is the trend in compressor work over the past several hours?
+  hypothesized_required_context:
+  - C4
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:compressor_work']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d3_stream4_composition_shift
+  realizations:
+    d3_stream4_composition_shift: d3stream4-qa-compressor-trend
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd3stream4-qa-compressor-trend' (scripts/generate_question_banks.py)
+- question_id: Q-d4feed-diagnosis-explain-naming-mismatch
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'Explain why a feed-system-named disturbance produces no measurable
+    feed-system effect, based on what you actually observe.
+
+    '
+  task_type: diagnosis
+  objective: 'Explain why a feed-system-named disturbance produces no measurable feed-system
+    effect, based on what you actually observe.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure',
+    'urn:icab:measurement:feed_d_flow']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d4_feed_pressure_reactor_effect
+  realizations:
+    d4_feed_pressure_reactor_effect: d4feed-diagnosis-explain-naming-mismatch
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4feed-diagnosis-explain-naming-mismatch'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d4feed-diagnosis-investigate-suspected-feed-system
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-abnormal-behavior-diagnosis
+  isa95_level: equipment
+  question_text: 'A feed-system disturbance is suspected as a possible cause of abnormal
+    plant behavior. Investigate whether the feed system itself, or some other equipment,
+    actually shows the measurable deviation, and identify what is really affected.
+
+    '
+  task_type: diagnosis
+  objective: 'A feed-system disturbance is suspected as a possible cause of abnormal
+    plant behavior. Investigate whether the feed system itself, or some other equipment,
+    actually shows the measurable deviation, and identify what is really affected.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d4_feed_pressure_reactor_effect
+  realizations:
+    d4_feed_pressure_reactor_effect: d4feed-diagnosis-investigate-suspected-feed-system
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 5
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4feed-diagnosis-investigate-suspected-feed-system'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d4feed-investigation-actual-affected-equipment
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-related-measurement-discovery
+  isa95_level: equipment
+  question_text: 'Determine which equipment (not the feed system) actually shows the
+    deviation, and confirm via the knowledge graph.
+
+    '
+  task_type: investigation
+  objective: 'Determine which equipment (not the feed system) actually shows the deviation,
+    and confirm via the knowledge graph.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure',
+    'urn:icab:measurement:separator_pressure']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d4_feed_pressure_reactor_effect
+  realizations:
+    d4_feed_pressure_reactor_effect: d4feed-investigation-actual-affected-equipment
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4feed-investigation-actual-affected-equipment'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d4feed-qa-feed-system-check
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: Does the feed system itself show any measurable deviation?
+  task_type: qa
+  objective: Does the feed system itself show any measurable deviation?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:feed_d_flow']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d4_feed_pressure_reactor_effect
+  realizations:
+    d4_feed_pressure_reactor_effect: d4feed-qa-feed-system-check
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4feed-qa-feed-system-check' (scripts/generate_question_banks.py)
+- question_id: Q-d4unknown-qa-separator-or-stripper
+  benchmark_id: icab-equipment-v1
+  use_case_id: eq-current-value-interpretation
+  isa95_level: equipment
+  question_text: Does the separator or the stripper show a measurable pressure deviation?
+  task_type: qa
+  objective: Does the separator or the stripper show a measurable pressure deviation?
+  hypothesized_required_context:
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_pressure',
+    'urn:icab:measurement:stripper_pressure']
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d4_unknown_plant_disturbance
+  realizations:
+    d4_unknown_plant_disturbance: d4unknown-qa-separator-or-stripper
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 2
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - measurement_interpretation
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4unknown-qa-separator-or-stripper' (scripts/generate_question_banks.py)

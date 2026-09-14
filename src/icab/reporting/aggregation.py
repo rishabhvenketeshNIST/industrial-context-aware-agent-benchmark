@@ -76,6 +76,10 @@ DIMENSION_RESOLVERS: dict[str, Callable[[ExperimentRecord], Any]] = {
     "isa95_level": lambda r: r.config.isa95_level,
     "use_case_id": lambda r: r.config.use_case_id,
     "context_combination_id": lambda r: r.config.context_combination_id,
+    #: ICAB question banks -- see icab.questions.
+    "question_id": lambda r: r.config.question_id,
+    "question_instance_id": lambda r: r.config.question_instance_id,
+    "repetition_mode": lambda r: r.config.repetition_mode,
 }
 
 

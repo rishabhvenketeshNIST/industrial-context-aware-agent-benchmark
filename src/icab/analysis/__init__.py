@@ -30,6 +30,14 @@ from .failure_taxonomy import FailureCategory, FailureClassification, classify_f
 from .matrix import UseCaseExperimentMatrix, build_use_case_experiment_matrix
 from .necessity import DimensionNecessityFinding, NecessityReport, analyze_context_necessity
 from .profile import ContextDesignProfile, build_context_design_profile
+from .question_stats import (
+    BenchmarkLevelStats,
+    QuestionStats,
+    UseCaseQuestionStats,
+    benchmark_level_stats,
+    question_stats,
+    use_case_question_stats,
+)
 from .representation import RepresentationFinding, RepresentationReport, analyze_representation
 from .reports import (
     ArchitectureContextMatrix,
@@ -49,6 +57,7 @@ from .sufficiency import SufficiencyReport, find_minimum_sufficient_context
 __all__ = [
     "ArchitectureContextMatrix",
     "ArchitectureContextRow",
+    "BenchmarkLevelStats",
     "CompositionFinding",
     "CompositionReport",
     "ContextDesignProfile",
@@ -63,15 +72,18 @@ __all__ = [
     "ISA95CoverageMatrix",
     "ISA95CoverageRow",
     "NecessityReport",
+    "QuestionStats",
     "RepresentationFinding",
     "RepresentationReport",
     "SufficiencyReport",
     "UseCaseExperimentMatrix",
+    "UseCaseQuestionStats",
     "analyze_context_composition",
     "analyze_context_efficiency",
     "analyze_context_necessity",
     "analyze_representation",
     "architecture_context_matrix",
+    "benchmark_level_stats",
     "build_context_design_profile",
     "build_use_case_experiment_matrix",
     "candidate_msc_table",
@@ -82,4 +94,6 @@ __all__ = [
     "failure_mode_matrix",
     "find_minimum_sufficient_context",
     "isa95_coverage_matrix",
+    "question_stats",
+    "use_case_question_stats",
 ]

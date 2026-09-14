@@ -1,0 +1,108 @@
+questions:
+- question_id: Q-area-investigation-process-cell-composition
+  benchmark_id: icab-area-v1
+  use_case_id: area-process-cell-composition
+  isa95_level: area
+  question_text: 'Which process cell operates within the Reaction Area, and what equipment
+    does it contain?
+
+    '
+  task_type: investigation
+  objective: 'Which process cell operates within the Reaction Area, and what equipment
+    does it contain?
+
+    '
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:processcell:reaction']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-investigation-process-cell-composition
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-investigation-process-cell-composition'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-new-reactor-processcell-area-chain-confirmation
+  benchmark_id: icab-area-v1
+  use_case_id: area-process-cell-composition
+  isa95_level: area
+  question_text: 'Confirm: is the Reactor part of the Reaction Process Cell, and is
+    the Reaction Process Cell in turn part of the Reaction Area?
+
+    '
+  task_type: qa
+  objective: 'Confirm: is the Reactor part of the Reaction Process Cell, and is the
+    Reaction Process Cell in turn part of the Reaction Area?
+
+    '
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:processcell:reaction']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-new-reactor-processcell-area-chain-confirmation
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-new-reactor-processcell-area-chain-confirmation'
+    (scripts/generate_question_banks.py)
+- question_id: Q-area-qa-site-membership
+  benchmark_id: icab-area-v1
+  use_case_id: area-site-membership-identification
+  isa95_level: area
+  question_text: 'Which site does the Reaction Area process area belong to?
+
+    '
+  task_type: qa
+  objective: 'Which site does the Reaction Area process area belong to?
+
+    '
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:site:tep']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: area-qa-site-membership
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'area-qa-site-membership' (scripts/generate_question_banks.py)

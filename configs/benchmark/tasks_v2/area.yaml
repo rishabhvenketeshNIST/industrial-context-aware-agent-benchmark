@@ -78,3 +78,50 @@ tasks:
       pass_threshold: 1.0
     provenance: "icab.usecases: area-process-cell-composition (new, ICAB v2)"
     version: "1.0.0"
+
+  # ICAB question-bank milestone: a genuinely NEW Area task -- a
+  # two-hop relationship CONFIRMATION question (verify a specific,
+  # already-known chain), distinct in style from the two OPEN
+  # investigation tasks above. Same real, verified PART_OF chain
+  # (icab.tep.adapter.TEPAdapter.get_real_hierarchy_relationships()).
+  - task_id: area-new-reactor-processcell-area-chain-confirmation
+    scenario_id: d2_reactor_context_combination
+    task_type: qa
+    difficulty: D2
+    isa95_level: area
+    use_case_id: area-process-cell-composition
+    objective: >
+      Confirm: is the Reactor part of the Reaction Process Cell, and is
+      the Reaction Process Cell in turn part of the Reaction Area?
+    available_architectures: [knowledge_graph]
+    required_context_dimensions: [C2, C3]
+    required_evidence:
+      - "urn:icab:processcell:reaction"
+    expected_entities:
+      - "urn:icab:equipment:reactor"
+      - "urn:icab:processcell:reaction"
+      - "urn:icab:area:reaction"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "PART_OF", "urn:icab:processcell:reaction"]
+      - ["urn:icab:processcell:reaction", "PART_OF", "urn:icab:area:reaction"]
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: >
+        Confirmed on both hops: the Reactor (urn:icab:equipment:reactor)
+        is part of the Reaction Process Cell
+        (urn:icab:processcell:reaction), which is itself part of the
+        Reaction Area (urn:icab:area:reaction).
+      root_cause_disturbance: null
+      affected_measurements: []
+      affected_equipment:
+        - "urn:icab:equipment:reactor"
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "PART_OF", "urn:icab:processcell:reaction"]
+        - ["urn:icab:processcell:reaction", "PART_OF", "urn:icab:area:reaction"]
+      expected_evidence:
+        - "urn:icab:processcell:reaction"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score]
+      pass_threshold: 1.0
+    provenance: "icab.questions milestone: new two-hop relationship-confirmation realization for area-process-cell-composition"
+    version: "1.0.0"

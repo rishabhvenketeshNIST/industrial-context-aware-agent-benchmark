@@ -137,8 +137,28 @@ class ExperimentConfig(BaseModel):
     #: splits.yaml later changes.
     split: str | None = None
     #: Which repetition (1-based) of this exact (task, architecture,
-    #: seed) configuration this run is -- see icab.benchmark.runner.
+    #: seed) configuration this run is -- see icab.benchmark.runner. Also
+    #: serves as the ICAB question-bank REPETITION id (icab.questions):
+    #: a run's own `repetition` field is what distinguishes it from
+    #: sibling executions of the SAME QuestionInstance -- no separate
+    #: repetition_id field was introduced.
     repetition: int | None = None
+
+    #: ICAB question banks (icab.questions, benchmark-per-ISA-95-level):
+    #: which Question and QuestionInstance this run answers, when run
+    #: via `icab.benchmark.question_runner.QuestionBenchmarkRunner` --
+    #: None for a run made outside that path (e.g. a bare tep-v1/tep-v2
+    #: suite run). `question_id` is the semantic task; `task_id` above
+    #: (already existing) is still the concrete, scenario-specific
+    #: BenchmarkTask that was actually evaluated -- see
+    #: icab.questions.models.Question's own docstring for why these stay
+    #: distinct fields, never merged into one.
+    question_id: str | None = None
+    question_instance_id: str | None = None
+    #: Why this run was generated within its campaign -- see
+    #: icab.questions.instance.RepetitionMode. None outside the
+    #: question-bank path.
+    repetition_mode: str | None = None
 
     #: Which context architectures' tools the agent is given -- explicit,
     #: not inherited implicitly from the scenario (though it usually

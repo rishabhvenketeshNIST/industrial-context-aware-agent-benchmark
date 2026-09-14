@@ -42,6 +42,10 @@ class SufficiencyReport(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     use_case_id: str
+    #: None when scoped to the whole use case; set when scoped to one
+    #: Question (icab.questions) -- see `find_minimum_sufficient_context`'s
+    #: own `question_id` parameter.
+    question_id: str | None = None
     binding_scores: list[str]
     pass_threshold: float
 
@@ -81,8 +85,18 @@ class SufficiencyReport(BaseModel):
 def find_minimum_sufficient_context(
     records: list[ExperimentRecord],
     use_case: IndustrialUseCase,
+    *,
+    question_id: str | None = None,
 ) -> SufficiencyReport:
-    scoped = records_for_use_case(records, use_case.use_case_id)
+    """
+    `question_id=None` (default): scoped to the whole use case, unchanged
+    M13-C-era/ICAB-v2 behavior. Pass `question_id` to scope this SAME
+    sufficiency/candidate-MSC determination to one Question
+    (icab.questions) -- the ICAB question-bank direction's "MSC at the
+    question level."
+    """
+
+    scoped = records_for_use_case(records, use_case.use_case_id, question_id=question_id)
     tested = tested_combination_ids(scoped)
     binding_scores = list(use_case.success_criteria.binding_scores)
     threshold = use_case.success_criteria.pass_threshold
@@ -125,6 +139,7 @@ def find_minimum_sufficient_context(
 
     return SufficiencyReport(
         use_case_id=use_case.use_case_id,
+        question_id=question_id,
         binding_scores=binding_scores,
         pass_threshold=threshold,
         tested_conditions=conditions,

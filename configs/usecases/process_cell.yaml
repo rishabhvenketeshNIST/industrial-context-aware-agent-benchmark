@@ -19,6 +19,7 @@ use_cases:
       pass_threshold: 1.0
     applicable_scenarios:
       - d4_plant_wide_investigation
+      - d2_reactor_context_combination
     difficulty: D4
 
   - use_case_id: pc-open-ended-abnormal-investigation

@@ -6,10 +6,26 @@ from icab.experiments.models import ExperimentRecord, ExperimentRunStatus, RunVa
 from icab.tasks.context_combinations import combination_for_id
 
 
-def records_for_use_case(records: list[ExperimentRecord], use_case_id: str) -> list[ExperimentRecord]:
-    """Every record whose `config.use_case_id` matches -- across whatever architectures/seeds/combinations were actually run."""
+def records_for_use_case(
+    records: list[ExperimentRecord],
+    use_case_id: str,
+    *,
+    question_id: str | None = None,
+) -> list[ExperimentRecord]:
+    """
+    Every record whose `config.use_case_id` matches -- across whatever
+    architectures/seeds/combinations were actually run. When
+    `question_id` is given, further narrows to that one Question
+    (icab.questions) -- the same scoping function serves necessity/
+    sufficiency at BOTH the use-case level (question_id=None, the
+    original M13-C-era behavior, unchanged) and the question level
+    (icab.benchmark.levels' 3-tier ISA-95-benchmark direction).
+    """
 
-    return [record for record in records if record.config.use_case_id == use_case_id]
+    scoped = [record for record in records if record.config.use_case_id == use_case_id]
+    if question_id is not None:
+        scoped = [record for record in scoped if record.config.question_id == question_id]
+    return scoped
 
 
 def usable(records: list[ExperimentRecord]) -> list[ExperimentRecord]:

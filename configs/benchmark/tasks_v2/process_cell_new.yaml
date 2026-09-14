@@ -1,0 +1,54 @@
+# ICAB question-bank milestone: a genuinely NEW Process-Cell task (not
+# derived from a tep-v1 task) realizing pc-equipment-composition-discovery
+# via knowledge_graph instead of uns/opcua -- a second, real,
+# architecturally distinct realization of the SAME semantic question,
+# using icab.tep.adapter.TEPAdapter.get_real_hierarchy_relationships()'s
+# real PART_OF triples (verified directly: all 7 REAL_TEP_EQUIPMENT
+# items ARE part of urn:icab:processcell:reaction via knowledge_graph,
+# unlike the Area level's PART_OF coverage gap -- see
+# docs/research/context-requirement-campaign-1.md).
+
+tasks:
+  - task_id: pc-new-equipment-membership-via-kg
+    scenario_id: d2_reactor_context_combination
+    task_type: qa
+    difficulty: D1
+    isa95_level: process_cell
+    use_case_id: pc-equipment-composition-discovery
+    objective: >
+      According to the knowledge graph's structural relationships,
+      which equipment items are part of the reaction process cell?
+    available_architectures: [knowledge_graph]
+    required_context_dimensions: [C2, C3]
+    required_evidence:
+      - "urn:icab:equipment:reactor"
+    expected_entities:
+      - "urn:icab:equipment:reactor"
+      - "urn:icab:equipment:condenser"
+      - "urn:icab:equipment:separator"
+      - "urn:icab:equipment:stripper"
+      - "urn:icab:equipment:compressor"
+      - "urn:icab:equipment:purge-system"
+      - "urn:icab:equipment:feed-system"
+    expected_relationships:
+      - ["urn:icab:equipment:reactor", "PART_OF", "urn:icab:processcell:reaction"]
+    expected_temporal_evidence: false
+    ground_truth:
+      conclusion: >
+        The reaction process cell (urn:icab:processcell:reaction)
+        contains all seven real TEP equipment items: Reactor, Condenser,
+        Separator, Stripper, Compressor, Purge System, and Feed System --
+        each confirmed via its own PART_OF relationship in the knowledge
+        graph.
+      root_cause_disturbance: null
+      affected_measurements: []
+      affected_equipment: []
+      expected_relationships:
+        - ["urn:icab:equipment:reactor", "PART_OF", "urn:icab:processcell:reaction"]
+      expected_evidence:
+        - "urn:icab:equipment:reactor"
+    evaluation_criteria:
+      binding_scores: [required_evidence_score, relationship_score]
+      pass_threshold: 1.0
+    provenance: "icab.questions milestone: new realization of pc-equipment-composition-discovery via knowledge_graph, real PART_OF data"
+    version: "1.0.0"

@@ -1,0 +1,328 @@
+questions:
+- question_id: Q-d4plant-diagnosis-reactor-vs-downstream
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-cross-unit-diagnosis
+  isa95_level: process_cell
+  question_text: 'Confirm whether the reactor itself is the primary location of the
+    abnormality, or whether the effect is stronger elsewhere in the plant.
+
+    '
+  task_type: diagnosis
+  objective: 'Confirm whether the reactor itself is the primary location of the abnormality,
+    or whether the effect is stronger elsewhere in the plant.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:reactor_pressure',
+    'urn:icab:measurement:stripper_level']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d4_plant_wide_investigation
+  realizations:
+    d4_plant_wide_investigation: d4plant-diagnosis-reactor-vs-downstream
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4plant-diagnosis-reactor-vs-downstream'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d4plant-investigation-open-ended
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-open-ended-abnormal-investigation
+  isa95_level: process_cell
+  question_text: 'Operators report the plant is behaving abnormally, but no specific
+    cause or location has been identified. Investigate across the process -- discover
+    what equipment and measurements exist, check for deviations, and determine which
+    equipment is actually affected and why.
+
+    '
+  task_type: investigation
+  objective: 'Operators report the plant is behaving abnormally, but no specific cause
+    or location has been identified. Investigate across the process -- discover what
+    equipment and measurements exist, check for deviations, and determine which equipment
+    is actually affected and why.
+
+    '
+  hypothesized_required_context:
+  - C1
+  - C2
+  - C3
+  - C4
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:stripper_level',
+    'urn:icab:measurement:compressor_work']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d4_plant_wide_investigation
+  realizations:
+    d4_plant_wide_investigation: d4plant-investigation-open-ended
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 5
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - identification
+  - measurement_interpretation
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4plant-investigation-open-ended' (scripts/generate_question_banks.py)
+- question_id: Q-d4plant-investigation-selective-retrieval
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-selective-evidence-retrieval
+  isa95_level: process_cell
+  question_text: 'Selectively retrieve only the measurements needed to confirm which
+    equipment is abnormal, rather than reading every available value.
+
+    '
+  task_type: investigation
+  objective: 'Selectively retrieve only the measurements needed to confirm which equipment
+    is abnormal, rather than reading every available value.
+
+    '
+  hypothesized_required_context:
+  - C3
+  - C4
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:stripper_level',
+    'urn:icab:measurement:compressor_work']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d4_plant_wide_investigation
+  realizations:
+    d4_plant_wide_investigation: d4plant-investigation-selective-retrieval
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 5
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - measurement_interpretation
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4plant-investigation-selective-retrieval'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d4plant-qa-discover-equipment
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-equipment-composition-discovery
+  isa95_level: process_cell
+  question_text: 'Before checking for any deviation, discover what equipment exists
+    in this plant (via UNS or OPC UA browsing).
+
+    '
+  task_type: qa
+  objective: 'Before checking for any deviation, discover what equipment exists in
+    this plant (via UNS or OPC UA browsing).
+
+    '
+  hypothesized_required_context:
+  - C1
+  - C2
+  expected_evidence_description: Evidence sufficient to support the ground-truth conclusion.
+  expected_answer_type: numeric_value
+  compatible_scenarios:
+  - d4_plant_wide_investigation
+  realizations:
+    d4_plant_wide_investigation: d4plant-qa-discover-equipment
+  difficulty: intermediate
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 0
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - cross_source_reasoning
+  - identification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4plant-qa-discover-equipment' (scripts/generate_question_banks.py)
+- question_id: Q-d4unknown-diagnosis-implicated-equipment
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-cross-unit-diagnosis
+  isa95_level: process_cell
+  question_text: 'Identify which specific equipment shows a measurable deviation,
+    even though the underlying disturbance itself is undocumented in the reference
+    model.
+
+    '
+  task_type: diagnosis
+  objective: 'Identify which specific equipment shows a measurable deviation, even
+    though the underlying disturbance itself is undocumented in the reference model.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_pressure',
+    'urn:icab:measurement:stripper_pressure']
+  expected_answer_type: root_cause_category
+  compatible_scenarios:
+  - d4_unknown_plant_disturbance
+  realizations:
+    d4_unknown_plant_disturbance: d4unknown-diagnosis-implicated-equipment
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - diagnosis
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4unknown-diagnosis-implicated-equipment'
+    (scripts/generate_question_banks.py)
+- question_id: Q-d4unknown-investigation-open-ended
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-open-ended-abnormal-investigation
+  isa95_level: process_cell
+  question_text: 'Operators report subtle abnormal behavior across the plant, but
+    no specific cause or location has been identified. Investigate broadly across
+    equipment and measurements -- do not assume the reactor alone is where the problem
+    lies -- and determine which equipment is actually affected.
+
+    '
+  task_type: investigation
+  objective: 'Operators report subtle abnormal behavior across the plant, but no specific
+    cause or location has been identified. Investigate broadly across equipment and
+    measurements -- do not assume the reactor alone is where the problem lies -- and
+    determine which equipment is actually affected.
+
+    '
+  hypothesized_required_context:
+  - C1
+  - C2
+  - C3
+  - C4
+  - C5
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_pressure',
+    'urn:icab:measurement:stripper_pressure']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d4_unknown_plant_disturbance
+  realizations:
+    d4_unknown_plant_disturbance: d4unknown-investigation-open-ended
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 5
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 2
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - identification
+  - measurement_interpretation
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4unknown-investigation-open-ended' (scripts/generate_question_banks.py)
+- question_id: Q-d4unknown-investigation-relationship-enumeration
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-relational-structure-enumeration
+  isa95_level: process_cell
+  question_text: 'Use the knowledge graph to enumerate which equipment items have
+    a MONITORS relationship to the affected measurements you find.
+
+    '
+  task_type: investigation
+  objective: 'Use the knowledge graph to enumerate which equipment items have a MONITORS
+    relationship to the affected measurements you find.
+
+    '
+  hypothesized_required_context:
+  - C4
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:measurement:separator_pressure']
+  expected_answer_type: free_text_explanation
+  compatible_scenarios:
+  - d4_unknown_plant_disturbance
+  realizations:
+    d4_unknown_plant_disturbance: d4unknown-investigation-relationship-enumeration
+  difficulty: advanced
+  difficulty_factors:
+    n_sources: 2
+    relationship_depth: 1
+    requires_temporal_reasoning: true
+    requires_cross_source_reasoning: true
+    evidence_requirement_count: 1
+  tags:
+  - cross_source_reasoning
+  - evidence_verification
+  - relationship_reasoning
+  - temporal_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'd4unknown-investigation-relationship-enumeration'
+    (scripts/generate_question_banks.py)
+- question_id: Q-pc-new-equipment-membership-via-kg
+  benchmark_id: icab-process-cell-v1
+  use_case_id: pc-equipment-composition-discovery
+  isa95_level: process_cell
+  question_text: 'According to the knowledge graph''s structural relationships, which
+    equipment items are part of the reaction process cell?
+
+    '
+  task_type: qa
+  objective: 'According to the knowledge graph''s structural relationships, which
+    equipment items are part of the reaction process cell?
+
+    '
+  hypothesized_required_context:
+  - C2
+  - C3
+  expected_evidence_description: Evidence matching required_evidence ['urn:icab:equipment:reactor']
+  expected_answer_type: relationship_confirmation
+  compatible_scenarios:
+  - d2_reactor_context_combination
+  realizations:
+    d2_reactor_context_combination: pc-new-equipment-membership-via-kg
+  difficulty: basic
+  difficulty_factors:
+    n_sources: 1
+    relationship_depth: 1
+    requires_temporal_reasoning: false
+    requires_cross_source_reasoning: false
+    evidence_requirement_count: 1
+  tags:
+  - contextualized_qa
+  - evidence_verification
+  - relationship_reasoning
+  version: 1.0.0
+  validation_status: validated
+  provenance: generated from tep-v2 task 'pc-new-equipment-membership-via-kg' (scripts/generate_question_banks.py)

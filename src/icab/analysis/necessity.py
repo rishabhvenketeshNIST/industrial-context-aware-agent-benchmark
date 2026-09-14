@@ -60,6 +60,11 @@ class NecessityReport(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     use_case_id: str
+    #: None when this report is scoped to the WHOLE use case (every
+    #: Question within it); set when scoped to one Question
+    #: (icab.questions) -- see `analyze_context_necessity`'s own
+    #: `question_id` parameter.
+    question_id: str | None = None
     metric: str
     tested_combinations: list[str]
     total_runs_considered: int
@@ -71,8 +76,17 @@ def analyze_context_necessity(
     use_case: IndustrialUseCase,
     *,
     metric: str = "required_evidence_score",
+    question_id: str | None = None,
 ) -> NecessityReport:
-    scoped = records_for_use_case(records, use_case.use_case_id)
+    """
+    `question_id=None` (default): scoped to every record for this use
+    case, regardless of which Question (icab.questions) they answer --
+    the original, unchanged M13-C-era behavior. Pass a `question_id` to
+    scope this SAME analysis to one question within the use case (ICAB
+    question-bank direction's "necessity at the question level").
+    """
+
+    scoped = records_for_use_case(records, use_case.use_case_id, question_id=question_id)
     tested = tested_combination_ids(scoped)
 
     findings: list[DimensionNecessityFinding] = []
@@ -128,6 +142,7 @@ def analyze_context_necessity(
 
     return NecessityReport(
         use_case_id=use_case.use_case_id,
+        question_id=question_id,
         metric=metric,
         tested_combinations=tested,
         total_runs_considered=len(scoped),

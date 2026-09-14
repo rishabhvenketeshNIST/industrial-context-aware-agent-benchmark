@@ -293,6 +293,38 @@ unsupported claim audit — is written up in
 following the fixed protocol in
 [`docs/research/context-requirement-protocol.md`](docs/research/context-requirement-protocol.md).
 
+## ICAB v3: six independent ISA-95-level benchmarks
+
+A further restructuring on top of the above (unchanged): SIX separate
+benchmarks (Enterprise/Site/Area/Work Center/Process Cell/Equipment,
+`icab.benchmark.levels.LEVEL_BENCHMARKS`), each with its own id,
+question bank, and `results/<level>/` tree — running the Equipment
+benchmark never touches, mixes with, or contaminates Process Cell or
+Area results (enforced, not just conventional: a result whose own
+declared level disagrees with where it's about to be saved fails
+loudly). Enterprise/Site/Work Center are explicit,
+`executable=False` — genuinely no TEP data, never fabricated. See
+[`docs/benchmark/specification-v3.md`](docs/benchmark/specification-v3.md)
+for the full model (`Question` -> `QuestionInstance` -> `Repetition`,
+two repetition modes, macro/micro aggregation, per-level manifests).
+
+```powershell
+# See which benchmarks exist and whether each is currently executable
+uv run python scripts/icab_v2_cli.py list-benchmarks
+uv run python scripts/icab_v2_cli.py list-questions --level equipment
+
+# Start a level's results/ tree clean (dry run by default; --force to actually archive+reset)
+uv run python scripts/reset_active_results.py
+uv run python scripts/reset_active_results.py --force
+
+# Run a filtered slice of one level's question bank against real infrastructure
+uv run python scripts/run_question_benchmark.py --level equipment --question-ids Q-d1-qa-current-pressure --context-combinations C5 --agent llm --repetitions 5
+
+# Question -> use case -> benchmark-level statistics (macro AND micro average, every question's own result preserved)
+uv run python scripts/icab_v2_cli.py analyze-question-stats --level equipment --question Q-d1-qa-current-pressure
+uv run python scripts/icab_v2_cli.py analyze-benchmark-level-stats --level equipment
+```
+
 ## Repository Structure
 
 ```text

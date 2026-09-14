@@ -210,6 +210,61 @@ class TestPartialOrderMultipleCandidates:
         assert report.candidate_minimum_sufficient_contexts == []
 
 
+class TestQuestionLevelScoping:
+    """MSC/necessity at the QUESTION level (icab.questions), not just the whole use case -- same functions, an optional question_id parameter."""
+
+    def test_necessity_scoped_to_one_question_ignores_other_questions_records(self):
+        use_case = _use_case()
+        for_q1 = make_v2_record(
+            "r1", context_combination_id="C2+C3+C6", architectures=["knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0),
+        )
+        for_q1 = for_q1.model_copy(update={"config": for_q1.config.model_copy(update={"question_id": "Q-1"})})
+        for_q2 = make_v2_record(
+            "r2", context_combination_id="C4+C5+C7", architectures=["historian"],
+            evaluation=make_evaluation(required_evidence_score=0.0),
+        )
+        for_q2 = for_q2.model_copy(update={"config": for_q2.config.model_copy(update={"question_id": "Q-2"})})
+
+        report = analyze_context_necessity([for_q1, for_q2], use_case, question_id="Q-1")
+
+        assert report.question_id == "Q-1"
+        assert report.total_runs_considered == 1  # Q-2's record never entered the scope
+
+    def test_sufficiency_scoped_to_one_question(self):
+        use_case = _use_case()
+        for_q1 = make_v2_record(
+            "r1", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        for_q1 = for_q1.model_copy(update={"config": for_q1.config.model_copy(update={"question_id": "Q-1"})})
+        for_q2_insufficient = make_v2_record(
+            "r2", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=0.0, relationship_score=0.0),
+        )
+        for_q2_insufficient = for_q2_insufficient.model_copy(update={"config": for_q2_insufficient.config.model_copy(update={"question_id": "Q-2"})})
+
+        report_q1 = find_minimum_sufficient_context([for_q1, for_q2_insufficient], use_case, question_id="Q-1")
+        report_q2 = find_minimum_sufficient_context([for_q1, for_q2_insufficient], use_case, question_id="Q-2")
+
+        assert report_q1.question_id == "Q-1"
+        assert report_q1.minimum_sufficient_context_among_tested == "C3+C5"
+        assert report_q2.minimum_sufficient_context_among_tested is None  # Q-2's own single run was insufficient
+
+    def test_no_question_id_still_pools_every_question_unchanged(self):
+        use_case = _use_case()
+        for_q1 = make_v2_record(
+            "r1", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        for_q1 = for_q1.model_copy(update={"config": for_q1.config.model_copy(update={"question_id": "Q-1"})})
+
+        report = find_minimum_sufficient_context([for_q1], use_case)  # no question_id -- whole use case
+
+        assert report.question_id is None
+        assert report.minimum_sufficient_context_among_tested == "C3+C5"
+
+
 class TestTraceabilityFromConditionToExperimentId:
     """Every tested condition (and so every context-requirement-matrix cell derived from it) must be traceable back to the exact run_id(s) it rests on."""
 

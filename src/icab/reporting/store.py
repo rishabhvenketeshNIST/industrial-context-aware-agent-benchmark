@@ -24,6 +24,14 @@ class ReportStore:
         self.root = Path(root)
         self.reports_dir = self.root / "reports"
         self.figures_dir = self.root / "figures"
+        #: ICAB question-bank level benchmarks (icab.benchmark.levels):
+        #: context-requirement matrix/candidate-MSC/architecture-context/
+        #: failure-mode JSON outputs (icab.analysis.reports), and
+        #: question/use-case/benchmark-level statistics summaries
+        #: (icab.analysis.question_stats) respectively -- additive
+        #: sibling directories, same convention as reports_dir/figures_dir.
+        self.matrices_dir = self.root / "matrices"
+        self.summaries_dir = self.root / "summaries"
 
     def write_aggregation_report(self, report: AggregationReport, name: str) -> Path:
         self.reports_dir.mkdir(parents=True, exist_ok=True)
@@ -79,3 +87,19 @@ class ReportStore:
 
         self.figures_dir.mkdir(parents=True, exist_ok=True)
         return self.figures_dir / name
+
+    def write_matrix(self, payload: str, name: str) -> Path:
+        """Persists one already-serialized (model_dump_json) analysis matrix/table at `<root>/matrices/<name>.json`."""
+
+        self.matrices_dir.mkdir(parents=True, exist_ok=True)
+        path = self.matrices_dir / f"{name}.json"
+        path.write_text(payload, encoding="utf-8")
+        return path
+
+    def write_summary(self, payload: str, name: str) -> Path:
+        """Persists one already-serialized question/use-case/benchmark-level statistics summary at `<root>/summaries/<name>.json`."""
+
+        self.summaries_dir.mkdir(parents=True, exist_ok=True)
+        path = self.summaries_dir / f"{name}.json"
+        path.write_text(payload, encoding="utf-8")
+        return path

@@ -387,6 +387,120 @@
   contradicting a naive "more context costs more" assumption.
   740 passed + 3 skipped (up from 732/3).
 
+- ICAB v3: six ISA-95-level benchmarks, question banks, Question ->
+  Instance -> Repetition (a major methodological restructuring, on top
+  of the unchanged ICAB v2/campaign-1 machinery -- see
+  `docs/benchmark/specification-v3.md`). New `icab.benchmark.levels`:
+  `ISA95BenchmarkDefinition` x6 (`icab-{enterprise,site,area,work-center,
+  process-cell,equipment}-v1`), each with its own `benchmark_id`,
+  `question_bank_dir`, `results_root`, and an honest
+  `data_supported`/`executable` flag -- Enterprise/Site/Work Center are
+  `executable=False` (framework-ready, genuinely no TEP data), Area/
+  Process Cell/Equipment are `executable=True`.
+  New `icab.questions` package: `Question` (the semantic task, kept
+  explicitly separate from the concrete, scenario-specific
+  `BenchmarkTask` that realizes it -- `Question.realizations:
+  dict[scenario_id, task_id]`, never a second evaluation path),
+  `QuestionCategory` (12-value reusable cross-level taxonomy),
+  `QuestionDifficulty` (basic/intermediate/advanced, ORTHOGONAL to
+  `ScenarioDifficulty` D1-D4), `DifficultyFactors` (n_sources/
+  relationship_depth/temporal/cross_source/evidence_count -- WHY a
+  difficulty was assigned, not a hidden formula), `QuestionInstance`
+  (question + scenario + canonical sorted architecture arm + agent
+  config, with a deterministic `instance_id`), `RepetitionMode`
+  (`exact` vs `controlled_variation`), `QuestionBankRegistry`
+  (cross-validates against both `IndustrialUseCaseRegistry` and
+  `BenchmarkTaskRegistry`, mirroring the existing registry discipline).
+  `hypothesized_required_context` (design-time) is explicitly never
+  conflated with empirically-demonstrated necessity (a derived
+  `icab.analysis.necessity` output, not a model field).
+  Question banks generated (`scripts/generate_question_banks.py`) FROM
+  the real, already-validated tep-v2 task inventory (a small,
+  documented, deterministic heuristic assigns difficulty/answer-type/
+  tags over each task's own real fields) plus 2 new, hand-authored
+  tasks (`configs/benchmark/tasks_v2/process_cell_new.yaml`, one new
+  task appended to `area.yaml`) using real, independently-verified
+  `TEPAdapter.get_real_hierarchy_relationships()` PART_OF data (caught,
+  mid-authoring, that the LEGACY `get_hierarchy_relationships()` only
+  covers 2/7 equipment items -- the REAL method covers all 7; used the
+  real one). Final counts, reported honestly rather than padded to the
+  requested ~30/~30/~15 targets: Equipment 31 (target met via reuse),
+  Process Cell 8, Area 3 (targets NOT met -- TEP's real scenario/entity
+  diversity at these levels genuinely limits how many distinct real
+  questions can be authored without duplicating content).
+  `ExperimentConfig` gained `question_id`/`question_instance_id`/
+  `repetition_mode` (additive; `repetition` itself, from M13-D, IS the
+  repetition id -- no new field needed). New
+  `icab.benchmark.question_runner.QuestionBenchmarkRunner` +
+  `scripts/run_question_benchmark.py`: selects/resolves/executes a
+  filtered slice of one level's question bank (question ids/use cases/
+  tags/context combinations/scenarios), reusing the SAME
+  `icab.benchmark._execution` path every other ICAB v2 runner uses.
+  **A hard isolation guard** (`IsaLevelMismatchError`, checked twice --
+  right after building the config, and again on the record execution
+  actually returns) refuses to persist a result whose own
+  `config.isa95_level` disagrees with the benchmark it's about to be
+  saved under. New `icab.benchmark.manifest.BenchmarkManifest` (one
+  `manifest.json` per level, every field computed FROM already-
+  persisted records, never hand-maintained).
+  New `scripts/reset_active_results.py`: archives (never deletes) the
+  old flat `results/{raw,traces,...}/` content to
+  `results/_archive/<timestamp>/`, then creates the new
+  `results/{enterprise,site,area,work_center,process_cell,equipment}/`
+  skeleton; defaults to a dry run, requires `--force` to execute, and
+  hard-refuses (`SystemExit`) to ever touch `src/`/`tests/`/`docs/`/
+  `configs/`/`results/architecture_health.json`.
+  New `icab.analysis.question_stats`: Question -> Use Case -> ISA-95
+  Benchmark aggregation with BOTH macro-average (mean of each
+  question's own mean -- a hard question can't be drowned out by an
+  easy, heavily-repeated one) and micro-average (pooled,
+  repetition-weighted) reported side by side; every question's own
+  stats preserved even after rolling up. `icab.analysis.necessity`/
+  `.sufficiency` gained an optional `question_id` parameter (question-
+  level MSC/necessity, same unchanged logic, same conservative "among
+  tested conditions" framing at every scope).
+  **Two real bugs found and fixed via this milestone's OWN tests, before
+  ever touching the real `results/` tree for real work:** (1)
+  `QuestionBenchmarkRunner` called `write_manifest(definition, records)`
+  without an explicit `root=`, so it silently defaulted to
+  `definition.results_root` (the REAL production path) regardless of
+  which `ExperimentResultStore` a runner was actually constructed
+  against -- caught when a UNIT TEST using `tmp_path` left a real
+  `manifest.json` in the actual `results/equipment/` directory; fixed by
+  always passing `root=self.experiment_store.root` explicitly, with a
+  regression test. (2) `scripts/reset_active_results.py`'s `execute()`
+  built its new level skeleton from each `ISA95BenchmarkDefinition`'s
+  own (hard-coded, production-default) `results_root` field instead of
+  the `results_root` argument actually passed in -- meaning a
+  parameterized call (e.g. from a test, or a future alternate location)
+  would silently still write to the real `results/` tree; caught by the
+  script's OWN test suite (`tests/unit/test_reset_active_results.py`)
+  failing against a `tmp_path`; fixed to build every skeleton path from
+  the passed-in root. A microsecond-resolution archive-timestamp bug
+  (second-resolution collided across rapid successive calls) was also
+  found and fixed via the same test file.
+  **Real validation campaign** (38 new real LLM runs via NIST RChat,
+  after archiving all prior mixed results via `--force`): Equipment (10
+  questions + 1 extra context-condition comparison, 22 runs), Process
+  Cell (5 questions, 10 runs), Area (all 3 available questions, 6 runs)
+  -- every run at 2 EXACT repetitions (same instance, same seed, only
+  LLM stochasticity varying). Zero orchestration-level failures (38/38
+  completed); zero level-contamination (verified programmatically: 0/38
+  records mismatched their own `results/<level>/` root). Real,
+  cross-level finding: `pc-equipment-composition-discovery`'s two
+  realizations -- the SAME semantic question -- succeed 2/2 via `uns`
+  browsing but fail 0/2 via `knowledge_graph` (both at the
+  `discovered_identifier` discoverability stage), the SAME pattern as
+  the Area level's now-6/6-reproduced `knowledge_graph`-only
+  discoverability failure -- suggesting this is a `knowledge_graph`-
+  specific discovery weakness, not an Area-specific one. One Equipment
+  diagnosis question showed genuine exact-repetition stochasticity (2/4
+  successful across pooled conditions, stdev=0.58) -- real evidence
+  repetition is doing its intended job, not a design assumption.
+  792 passed + 3 skipped (up from 740/3) before the campaign; `tep-v1`
+  verified untouched throughout (checked via `git diff` against its own
+  directories before every commit in this milestone).
+
 ## Not yet filled in
 
 Present as empty placeholders/known gaps, not yet addressed:

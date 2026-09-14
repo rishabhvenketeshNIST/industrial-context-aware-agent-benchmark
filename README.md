@@ -213,7 +213,15 @@ deterministic baselines against real scenario data.
 
 ### Run the full benchmark, one command (M13-D)
 
+Requires the [Agent Gateway](#run-the-agent-gateway) running separately
+first -- `scripts/run_benchmark.py` checks for it (`GET /health`) before
+doing anything else and exits immediately with an actionable message if
+it isn't reachable, rather than wasting a full scenario preparation per
+run only to fail with a raw connection error:
+
 ```bash
+uv run uvicorn icab.gateway.app:app --reload   # in a separate terminal
+
 # full benchmark: every LLM-eligible architecture, five seeds
 uv run python scripts/run_benchmark.py \
     --suite tep-v1 --agent llm --architectures all --seeds 1,2,3,4,5
@@ -244,7 +252,18 @@ narrowed or run anyway. Every run — successful or failed — is persisted
 with a `configuration_hash`, `generation_id`, `git_commit`, and
 `benchmark_version` for reproducibility/audit; a failed run never
 fabricates an evaluation, and does not stop the rest of the invocation.
-Execution is sequential (no Kubernetes/Kafka/Celery). See
+Execution is sequential (no Kubernetes/Kafka/Celery). Alongside the
+M12-style aggregate report, every invocation also writes a
+researcher-facing **question/answer report**
+(`results/reports/<benchmark_id>-qa.{json,md}`) -- one section per run
+showing the exact question asked, the agent's verbatim answer, the
+ground truth rendered as readable prose (never a raw object dump),
+required vs. provided evidence, and that run's own metrics, plus an
+overall summary at the bottom. It is a researcher-only artifact built
+purely from already-persisted records (no agent/gateway/LLM call), so it
+cannot leak ground truth back to an agent -- verified in
+`tests/unit/reporting/test_qa_report.py` and
+`tests/integration/test_benchmark_runner_against_real_stack.py`. See
 [`docs/benchmark/specification.md §10`](docs/benchmark/specification.md#10-one-command-orchestration-m13-d)
 for the full CLI reference.
 
@@ -459,7 +478,13 @@ Implemented and under test:
   independent treatment). Every run -- including a failed one -- persists
   a `configuration_hash`, `generation_id`, `git_commit`, and
   `benchmark_version` for audit; execution is strictly sequential (no
-  Kubernetes/Kafka/Celery). See
+  Kubernetes/Kafka/Celery). A CLI-level preflight check
+  (`GET /health` against `--gateway-url`) fails fast with an actionable
+  message if the Agent Gateway isn't running, rather than letting every
+  run independently waste a full scenario preparation on the same
+  connection error. Also produces a researcher-facing question/answer
+  report (`results/reports/<benchmark_id>-qa.{json,md}`) -- see the
+  workflow section above and
   [`docs/benchmark/specification.md §10`](docs/benchmark/specification.md#10-one-command-orchestration-m13-d)
 
 Not yet filled in (present as empty placeholders to reserve the intended

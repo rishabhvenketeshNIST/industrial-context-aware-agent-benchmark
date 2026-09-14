@@ -32,6 +32,7 @@ from icab.context.knowledge_graph.service import KnowledgeGraphService
 from icab.experiments import ExperimentResultStore, ExperimentRunner, ExperimentRunStatus, RunValidity
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.scenarios.runner import ScenarioRunner
+from icab.tasks.registry import BenchmarkTaskRegistry
 from icab.tep import TEPContextSync
 
 DATABASE_URL = "postgresql://icab:icab@localhost:5432/icab"
@@ -40,6 +41,7 @@ NEO4J_USERNAME = "neo4j"
 NEO4J_PASSWORD = "icabpassword"
 
 SCENARIOS_DIR = "configs/benchmark/scenarios"
+TASKS_DIR = "configs/benchmark/tasks"
 
 
 def _real_benchmark_runner(tmp_path, monkeypatch) -> tuple[BenchmarkRunner, Neo4jKnowledgeGraphRepository]:
@@ -136,6 +138,25 @@ def test_no_fault_task_runs_end_to_end_and_persists_everything(tmp_path, monkeyp
         assert Path(result.aggregate_csv_path).exists()
         assert Path(result.report_json_path).exists()
         assert Path(result.report_markdown_path).exists()
+
+        # The researcher-facing QA report was produced automatically too,
+        # and its rendered ground truth never appeared in the real trace
+        # this real run actually produced (the agent's own tool-call
+        # arguments/observations) -- the report legitimately knows more
+        # than the agent ever saw.
+        assert result.qa_report_json_path is not None
+        assert Path(result.qa_report_json_path).exists()
+        assert Path(result.qa_report_markdown_path).exists()
+
+        task_registry = BenchmarkTaskRegistry(TASKS_DIR, scenario_registry=BenchmarkScenarioRegistry(SCENARIOS_DIR))
+        reference_conclusion = task_registry.get("d1-qa-current-pressure").ground_truth.conclusion
+
+        qa_report_text = Path(result.qa_report_markdown_path).read_text(encoding="utf-8")
+        assert reference_conclusion in qa_report_text  # the ground truth's own readable content
+        assert record.result.conclusion in qa_report_text  # the agent's real answer, verbatim
+
+        trace_text = Path(store.traces_dir / f"{result.run_ids[0]}.jsonl").read_text(encoding="utf-8")
+        assert reference_conclusion not in trace_text  # the ground truth text itself never reached the agent
     finally:
         kg_repository.close()
 
@@ -162,5 +183,14 @@ def test_faulted_scenario_task_propagates_fault_id_onto_the_record(tmp_path, mon
         assert record.fault_id == "idv_17"  # d2_reactor_cooling_deviation's real scheduled fault
         assert record.config.split == "validation"
         assert record.simulation_seed == 2
+
+        # The QA report surfaces the fault id for a researcher, but the
+        # real fault-injection isolation guarantee (M13-B, unchanged
+        # here) means it was never in the objective/trace the agent saw.
+        qa_report_text = Path(result.qa_report_markdown_path).read_text(encoding="utf-8")
+        assert "idv_17" in qa_report_text
+
+        trace_text = Path(store.traces_dir / f"{result.run_ids[0]}.jsonl").read_text(encoding="utf-8")
+        assert "idv_17" not in trace_text
     finally:
         kg_repository.close()

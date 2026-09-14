@@ -14,6 +14,7 @@ from pathlib import Path
 
 from .aggregation import AggregationReport
 from .hypothesis_report import HypothesisReport
+from .qa_report import QAReport
 
 
 class ReportStore:
@@ -43,6 +44,25 @@ class ReportStore:
     def load_hypothesis_report(self, name: str) -> HypothesisReport:
         path = self.reports_dir / f"{name}.json"
         return HypothesisReport.model_validate_json(path.read_text(encoding="utf-8"))
+
+    def write_qa_report(self, report: QAReport, name: str) -> Path:
+        """
+        Persists the M13-D researcher-facing question/answer report's
+        machine-readable form at `results/reports/<name>-qa.json` --
+        suffixed so it never collides with that same name's
+        `AggregationReport` JSON (`write_aggregation_report`). The
+        human-readable Markdown rendering is written via the existing
+        `write_markdown` (also suffixed `-qa` by the caller).
+        """
+
+        self.reports_dir.mkdir(parents=True, exist_ok=True)
+        path = self.reports_dir / f"{name}-qa.json"
+        path.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+        return path
+
+    def load_qa_report(self, name: str) -> QAReport:
+        path = self.reports_dir / f"{name}-qa.json"
+        return QAReport.model_validate_json(path.read_text(encoding="utf-8"))
 
     def write_markdown(self, text: str, name: str) -> Path:
         self.reports_dir.mkdir(parents=True, exist_ok=True)

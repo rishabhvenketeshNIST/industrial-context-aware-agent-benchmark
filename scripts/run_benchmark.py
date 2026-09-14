@@ -7,6 +7,11 @@ scripts)::
 
     uv run uvicorn icab.gateway.app:app --reload
 
+If it isn't reachable, this script fails immediately with an actionable
+message (`_check_gateway_reachable`) rather than letting every run
+independently fail with a bare connection error after an already-
+completed, expensive scenario preparation.
+
 Full benchmark, every LLM-eligible architecture, five seeds::
 
     uv run python scripts/run_benchmark.py \\
@@ -53,6 +58,40 @@ from icab.scenarios.runner import ScenarioRunner
 from icab.tep import TEPContextSync
 
 DEFAULT_GATEWAY_URL = "http://localhost:8000"
+
+
+def _check_gateway_reachable(gateway_url: str) -> None:
+    """
+    Fail fast, with an actionable message, if the Agent Gateway isn't
+    reachable at `gateway_url` -- otherwise every single (task,
+    architecture, seed, repetition) run independently discovers this
+    only AFTER a full, potentially expensive scenario preparation (a
+    real TEP simulator run plus historian/knowledge-graph/MQTT sync),
+    each ending up as its own persisted FAILED record carrying nothing
+    more diagnosable than a raw `ConnectError`. One cheap, upfront
+    `GET /health` check turns a systemic precondition failure into one
+    clear message instead of N confusing, identical per-run ones.
+
+    Deliberately does NOT touch `BenchmarkRunner`/`ExperimentRunner`
+    themselves -- a per-run gateway call that fails for a genuine,
+    run-specific reason (e.g. the gateway crashes partway through a long
+    invocation) still produces its own persisted FAILED record exactly
+    as before; this is only a one-time preflight check in the CLI.
+    """
+
+    import httpx
+
+    try:
+        response = httpx.get(f"{gateway_url}/health", timeout=5.0)
+        response.raise_for_status()
+    except Exception as error:
+        raise SystemExit(
+            f"error: Agent Gateway is not reachable at {gateway_url} "
+            f"({type(error).__name__}: {error}).\n"
+            "Start it first, in a separate terminal:\n"
+            "    uv run uvicorn icab.gateway.app:app --reload\n"
+            "then re-run this command (or pass --gateway-url if it is running elsewhere)."
+        ) from None
 
 
 def _build_benchmark_runner(gateway_url: str, results_root: str) -> tuple[BenchmarkRunner, MQTTClient, Neo4jKnowledgeGraphRepository]:
@@ -187,6 +226,8 @@ def main() -> int:
     args = build_parser().parse_args()
     config = build_benchmark_config(args)
 
+    _check_gateway_reachable(args.gateway_url)
+
     benchmark_runner, mqtt_client, kg_repository = _build_benchmark_runner(args.gateway_url, args.results_root)
 
     try:
@@ -213,6 +254,8 @@ def main() -> int:
     print(f"                   {result.report_markdown_path}")
     for figure_path in result.figure_paths:
         print(f"figure:            {figure_path}")
+    print(f"qa report:         {result.qa_report_json_path}")
+    print(f"                   {result.qa_report_markdown_path}")
 
     return 1 if result.failed_runs > 0 else 0
 

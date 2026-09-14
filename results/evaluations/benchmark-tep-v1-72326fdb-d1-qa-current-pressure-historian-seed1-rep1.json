@@ -1,0 +1,63 @@
+{
+  "scenario_id": "d1_reactor_pressure_reading",
+  "task_id": "d1-qa-current-pressure",
+  "generation_id": "86205d463dbd4d1281212298a967e757",
+  "required_evidence_hits": {
+    "urn:icab:measurement:reactor_pressure": true
+  },
+  "required_evidence_score": 1.0,
+  "evidence_has_valid_provenance": true,
+  "canonical_id_validity": {
+    "site/tep/reactor": false,
+    "urn:icab:equipment:reactor": true,
+    "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas": true,
+    "urn:icab:measurement:reactor_feed_a_concentration": true,
+    "urn:icab:measurement:reactor_feed_b_concentration": true,
+    "urn:icab:measurement:reactor_feed_c_concentration": true,
+    "urn:icab:measurement:reactor_feed_d_concentration": true,
+    "urn:icab:measurement:reactor_feed_e_concentration": true,
+    "urn:icab:measurement:reactor_feed_f_concentration": true,
+    "urn:icab:measurement:reactor_feed_flow": true,
+    "urn:icab:measurement:reactor_level": true,
+    "urn:icab:measurement:reactor_pressure": true,
+    "urn:icab:measurement:reactor_temperature": true
+  },
+  "canonical_id_score": 0.9230769230769231,
+  "temporal_evidence_required": false,
+  "temporal_evidence_acquired": false,
+  "expected_relationships": [],
+  "relationship_score": 1.0,
+  "root_cause_identified": null,
+  "affected_assets_mentioned": {
+    "urn:icab:equipment:reactor": true
+  },
+  "conclusion_correctness_score": 1.0,
+  "unsupported_numeric_claims": [],
+  "grounding_score": 1.0,
+  "context_acquired": [
+    "site/tep/reactor",
+    "urn:icab:equipment:reactor",
+    "urn:icab:measurement:reactor_cooling_water_outlet_temperature_meas",
+    "urn:icab:measurement:reactor_feed_a_concentration",
+    "urn:icab:measurement:reactor_feed_b_concentration",
+    "urn:icab:measurement:reactor_feed_c_concentration",
+    "urn:icab:measurement:reactor_feed_d_concentration",
+    "urn:icab:measurement:reactor_feed_e_concentration",
+    "urn:icab:measurement:reactor_feed_f_concentration",
+    "urn:icab:measurement:reactor_feed_flow",
+    "urn:icab:measurement:reactor_level",
+    "urn:icab:measurement:reactor_pressure",
+    "urn:icab:measurement:reactor_temperature"
+  ],
+  "context_consumed": [
+    "site/tep/reactor"
+  ],
+  "tool_call_count": 13,
+  "unique_tools_used": [
+    "browse_uns",
+    "get_current_value",
+    "get_entity_relationships"
+  ],
+  "terminated_properly": true,
+  "completeness_score": 1.0
+}

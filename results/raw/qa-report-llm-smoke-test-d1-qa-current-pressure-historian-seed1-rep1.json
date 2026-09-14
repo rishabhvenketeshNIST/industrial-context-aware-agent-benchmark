@@ -1,0 +1,97 @@
+{
+  "run_id": "qa-report-llm-smoke-test-d1-qa-current-pressure-historian-seed1-rep1",
+  "experiment_id": "qa-report-llm-smoke-test",
+  "config": {
+    "scenario_id": "d1_reactor_pressure_reading",
+    "task_id": "d1-qa-current-pressure",
+    "task_type": "qa",
+    "suite": "tep-v1",
+    "split": "development",
+    "repetition": 1,
+    "architectures": [
+      "historian"
+    ],
+    "architecture_combination_key": null,
+    "agent_type": "llm",
+    "deterministic_agent": null,
+    "deterministic_equipment_key": null,
+    "llm_model": "gemma-4-31B-it",
+    "llm_temperature": 0.0,
+    "max_steps": 6,
+    "max_tool_calls": null,
+    "max_context_tokens": null,
+    "max_wall_time_seconds": null,
+    "random_seed": null
+  },
+  "scenario_difficulty": "D1",
+  "simulation_seed": 1,
+  "generation_id": "be1bef6ebadb45a99083a5097f47e320",
+  "icab_version": "0.1.0",
+  "benchmark_version": "1.0.0",
+  "git_commit": "5fb854a1bf714eeef20ae782946f7219bd88b20a",
+  "fault_id": null,
+  "scenario_version": "1.0.0",
+  "task_version": "1.0.0",
+  "configuration_hash": "a10ff385672594c44d7812ed0fc7057ee740a209188b3f8d0a06fa87d69a2ff5",
+  "started_at": "2026-09-14T02:53:18.833796Z",
+  "completed_at": "2026-09-14T02:53:22.488019Z",
+  "status": "completed",
+  "error": null,
+  "validity": "valid",
+  "validity_reason": null,
+  "result": {
+    "objective": "What is the current reactor pressure, and is it within the normal safe operating range (below the 3000 kPa high-pressure trip threshold)?\n",
+    "conclusion": "The current reactor pressure is 2712.39 kPa gauge, which is below the 3000 kPa high-pressure trip threshold and therefore within the normal safe operating range.",
+    "findings": {
+      "get_current_value#1": {
+        "observation": {
+          "observation_id": "2028-06-29T01:30:00+00:00:REACTOR_PRESSURE",
+          "measurement_id": "urn:icab:measurement:reactor_pressure",
+          "timestamp": "2028-06-29T01:30:00Z",
+          "value": 2712.3935955989655,
+          "unit": "kPa gauge",
+          "quality": "GOOD",
+          "source": "tep",
+          "source_id": "REACTOR_PRESSURE",
+          "generation_id": "9d42ecddd8ef4a9f8c6b11b7825a7287"
+        }
+      }
+    },
+    "context": {
+      "assets": [],
+      "measurements": [],
+      "relationships": [],
+      "provenance": []
+    },
+    "evidence": [
+      {
+        "source": "get_current_value",
+        "identifier": "urn:icab:measurement:reactor_pressure"
+      }
+    ],
+    "termination": "submitted"
+  },
+  "information_flow": {
+    "discovered_canonical_ids": [],
+    "acquisitions": [
+      {
+        "canonical_id": "urn:icab:measurement:reactor_pressure",
+        "architecture": "historian",
+        "tool": "get_current_value",
+        "step": 1
+      }
+    ],
+    "architectures_used_per_measurement": {
+      "urn:icab:measurement:reactor_pressure": [
+        "historian"
+      ]
+    },
+    "redundant_measurements": [],
+    "redundant_acquisition_count": 0,
+    "unresolved_acquisition_count": 0,
+    "tool_error_count": 0
+  },
+  "trace_event_count": 3,
+  "total_latency_ms": 359.13219999929424,
+  "total_tokens": 1142
+}

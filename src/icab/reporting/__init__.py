@@ -18,6 +18,7 @@ from .aggregation import (
 from .hypothesis_report import HypothesisReport, build_hypothesis_report
 from .markdown import render_aggregation_markdown, render_hypothesis_markdown
 from .metrics import ALL_METRICS, EFFECTIVENESS_METRICS, EFFICIENCY_METRICS
+from .qa_report import CorrectAnswer, QAReport, QAReportEntry, build_qa_report, render_qa_report_markdown
 from .stats import SummaryStats, summarize
 from .store import ReportStore
 
@@ -26,14 +27,19 @@ __all__ = [
     "EFFECTIVENESS_METRICS",
     "EFFICIENCY_METRICS",
     "AggregationReport",
+    "CorrectAnswer",
     "GroupSummary",
     "HypothesisReport",
+    "QAReport",
+    "QAReportEntry",
     "ReportStore",
     "SummaryStats",
     "aggregate_records",
     "build_hypothesis_report",
+    "build_qa_report",
     "list_dimensions",
     "render_aggregation_markdown",
     "render_hypothesis_markdown",
+    "render_qa_report_markdown",
     "summarize",
 ]

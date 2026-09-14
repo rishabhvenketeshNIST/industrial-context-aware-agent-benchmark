@@ -6,6 +6,7 @@ functions) -- pytest does not collect it.
 
 from datetime import UTC, datetime
 
+from icab.agent.interface import InvestigationResult
 from icab.evaluation.grounded import EvaluationReport
 from icab.evaluation.information_flow import InformationFlowReport
 from icab.experiments.models import (
@@ -80,12 +81,27 @@ def make_record(
     information_flow: InformationFlowReport | None = None,
     total_latency_ms: float | None = None,
     total_tokens: int | None = None,
+    #: M13-D additions -- all optional/default-None so every existing
+    #: caller above is unaffected.
+    task_id: str | None = None,
+    task_type: str | None = None,
+    suite: str | None = None,
+    split: str | None = None,
+    repetition: int | None = None,
+    fault_id: str | None = None,
+    result: InvestigationResult | None = None,
+    error: str | None = None,
 ) -> ExperimentRecord:
     return ExperimentRecord(
         run_id=run_id,
         experiment_id=experiment_id,
         config=ExperimentConfig(
             scenario_id=scenario_id,
+            task_id=task_id,
+            task_type=task_type,
+            suite=suite,
+            split=split,
+            repetition=repetition,
             architectures=architectures or ["historian"],
             architecture_combination_key=combination_key,
             agent_type=agent_type,
@@ -96,10 +112,13 @@ def make_record(
         ),
         scenario_difficulty=difficulty,
         simulation_seed=simulation_seed,
+        fault_id=fault_id,
         started_at=datetime(2026, 9, 13, tzinfo=UTC),
         completed_at=datetime(2026, 9, 13, 0, 1, tzinfo=UTC),
         status=status,
+        error=error,
         validity=validity,
+        result=result,
         evaluation=evaluation,
         information_flow=information_flow,
         trace_event_count=1,

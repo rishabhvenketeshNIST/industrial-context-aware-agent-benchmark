@@ -17,6 +17,10 @@ format:
         -> ExperimentResultStore.save (M9) -- per-run persistence
         -> ExperimentResultStore.write_aggregate (M9/M12)
         -> icab.reporting.aggregate_records / render_aggregation_markdown / plotting (M12)
+        -> icab.reporting.build_qa_report / render_qa_report_markdown (M13-D follow-up)
+           -- a researcher-facing question/answer report, built purely
+           from already-persisted records (no additional agent/gateway/
+           LLM call, so it cannot leak ground truth back to an agent)
 
 Execution is strictly sequential -- no distributed workers, no task
 queue. A failure in one (task, architecture arm, seed, repetition) run is
@@ -43,7 +47,7 @@ from icab.experiments import (
     compute_configuration_hash,
 )
 from icab.experiments.runner import _icab_version
-from icab.reporting import aggregate_records, render_aggregation_markdown
+from icab.reporting import aggregate_records, build_qa_report, render_aggregation_markdown, render_qa_report_markdown
 from icab.reporting.plotting import plot_metric_by_group
 from icab.reporting.store import ReportStore
 from icab.scenarios import BenchmarkScenarioRegistry
@@ -95,6 +99,12 @@ class BenchmarkRunResult(BaseModel):
     report_json_path: str | None = None
     report_markdown_path: str | None = None
     figure_paths: list[str] = Field(default_factory=list)
+
+    #: The M13-D follow-up researcher-facing question/answer report --
+    #: one entry per run (question/agent answer/ground truth/evidence/
+    #: metrics) plus an overall summary. See icab.reporting.qa_report.
+    qa_report_json_path: str | None = None
+    qa_report_markdown_path: str | None = None
 
 
 class BenchmarkRunner:
@@ -189,6 +199,7 @@ class BenchmarkRunner:
 
         aggregate_json_path = aggregate_csv_path = None
         report_json_path = report_markdown_path = None
+        qa_report_json_path = qa_report_markdown_path = None
         figure_paths: list[str] = []
 
         if records:
@@ -231,6 +242,30 @@ class BenchmarkRunner:
                     )
                     figure_paths.append(str(figure_path))
 
+            # Researcher-facing question/answer report (M13-D follow-up):
+            # `tasks`/`scenario_registry` are already loaded above for
+            # this exact invocation -- no second registry load, and
+            # nothing here makes an agent/gateway/LLM call, so it cannot
+            # leak ground truth back to an agent (see
+            # icab.reporting.qa_report module docstring).
+            tasks_by_id = {task.task_id: task for task in tasks}
+            scenarios_by_id = {
+                task.scenario_id: scenario_registry.get(task.scenario_id) for task in tasks
+            }
+            qa_report = build_qa_report(
+                records,
+                benchmark_id=benchmark_id,
+                successful_runs=successful,
+                failed_runs=failed,
+                skipped_runs=skipped,
+                tasks_by_id=tasks_by_id,
+                scenarios_by_id=scenarios_by_id,
+            )
+            qa_report_json_path = str(self.report_store.write_qa_report(qa_report, benchmark_id))
+            qa_report_markdown_path = str(
+                self.report_store.write_markdown(render_qa_report_markdown(qa_report), f"{benchmark_id}-qa")
+            )
+
         return BenchmarkRunResult(
             benchmark_id=benchmark_id,
             suite=config.suite,
@@ -252,6 +287,8 @@ class BenchmarkRunner:
             report_json_path=report_json_path,
             report_markdown_path=report_markdown_path,
             figure_paths=figure_paths,
+            qa_report_json_path=qa_report_json_path,
+            qa_report_markdown_path=qa_report_markdown_path,
         )
 
     # -- task/split selection --------------------------------------------

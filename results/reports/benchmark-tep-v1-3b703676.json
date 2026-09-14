@@ -1,0 +1,152 @@
+{
+  "group_by": [
+    "task_type",
+    "difficulty",
+    "architecture"
+  ],
+  "hold_constant": [
+    "scenario_id",
+    "simulation_seed",
+    "llm_model",
+    "llm_temperature",
+    "max_steps"
+  ],
+  "controls_consistent": true,
+  "control_variance": {},
+  "include_invalid": false,
+  "excluded_invalid_runs": 0,
+  "groups": [
+    {
+      "group_key": {
+        "task_type": "qa",
+        "difficulty": "D1",
+        "architecture": "historian"
+      },
+      "run_ids": [
+        "benchmark-tep-v1-3b703676-d1-qa-current-pressure-historian-seed1-rep1"
+      ],
+      "n_runs": 1,
+      "n_completed": 0,
+      "n_failed": 1,
+      "n_valid": 1,
+      "n_legacy_control_only": 0,
+      "metrics": {
+        "conclusion_correctness_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "required_evidence_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "grounding_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "completeness_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "relationship_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "temporal_reasoning_score": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "unsupported_numeric_claims_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "tool_call_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "context_acquired_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "context_consumed_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "information_flow.redundant_acquisition_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "information_flow.tool_error_count": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "total_latency_ms": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        },
+        "total_tokens": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "stdev": null,
+          "minimum": null,
+          "maximum": null
+        }
+      }
+    }
+  ],
+  "source_run_ids": [
+    "benchmark-tep-v1-3b703676-d1-qa-current-pressure-historian-seed1-rep1"
+  ]
+}

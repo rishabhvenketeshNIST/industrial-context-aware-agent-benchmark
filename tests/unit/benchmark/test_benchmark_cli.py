@@ -11,6 +11,7 @@ import importlib.util
 import sys
 from pathlib import Path
 
+import httpx
 import pytest
 
 _SCRIPT_PATH = Path(__file__).resolve().parents[3] / "scripts" / "run_benchmark.py"
@@ -120,3 +121,44 @@ class TestNameOverride:
     def test_name_flag_overrides_auto_generated_id(self, cli):
         config = _parse(cli, ["--suite", "tep-v1", "--name", "my-benchmark-run"])
         assert config.name == "my-benchmark-run"
+
+
+class TestGatewayPreflightCheck:
+    """
+    Diagnoses the actual failure mode a real run hit: the Agent Gateway
+    wasn't running, so every run's first tool call raised a raw
+    `ConnectError` only AFTER a full scenario preparation had already
+    completed. `_check_gateway_reachable` must catch this up front, with
+    an actionable message, before any (expensive) run starts.
+    """
+
+    def test_unreachable_gateway_exits_with_an_actionable_message(self, cli, monkeypatch):
+        def fake_get(url, **kwargs):
+            raise httpx.ConnectError("Connection refused", request=httpx.Request("GET", url))
+
+        monkeypatch.setattr(httpx, "get", fake_get)
+
+        with pytest.raises(SystemExit) as excinfo:
+            cli._check_gateway_reachable("http://localhost:8000")
+
+        message = str(excinfo.value)
+        assert "not reachable" in message
+        assert "http://localhost:8000" in message
+        assert "uvicorn icab.gateway.app:app" in message  # actionable fix, not just a raw traceback
+
+    def test_reachable_gateway_returns_normally(self, cli, monkeypatch):
+        def fake_get(url, **kwargs):
+            return httpx.Response(200, json={"status": "ok"}, request=httpx.Request("GET", url))
+
+        monkeypatch.setattr(httpx, "get", fake_get)
+
+        cli._check_gateway_reachable("http://localhost:8000")  # must not raise
+
+    def test_gateway_returning_an_error_status_also_fails_fast(self, cli, monkeypatch):
+        def fake_get(url, **kwargs):
+            return httpx.Response(503, request=httpx.Request("GET", url))
+
+        monkeypatch.setattr(httpx, "get", fake_get)
+
+        with pytest.raises(SystemExit, match="not reachable"):
+            cli._check_gateway_reachable("http://localhost:8000")

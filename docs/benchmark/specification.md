@@ -357,3 +357,71 @@ aggregate/report output paths. A non-zero exit code is returned if any
 run failed. See `docs/benchmark/tasks.md` for the current task inventory
 and `docs/benchmark/splits.md` for split semantics, both unchanged by
 M13-D.
+
+Before any run starts, `scripts/run_benchmark.py` performs one cheap
+`GET /health` preflight check against `--gateway-url`
+(`_check_gateway_reachable`) and exits immediately with an actionable
+message if it fails, rather than letting every expanded run
+independently discover an unreachable gateway only AFTER a full,
+potentially expensive scenario preparation. This is a CLI-level
+fail-fast convenience only -- `BenchmarkRunner`/`ExperimentRunner`
+themselves are unchanged, and a per-run gateway failure that happens
+mid-invocation (e.g. the gateway crashes partway through a long run)
+still produces its own persisted FAILED record exactly as before.
+
+### 10.7 The researcher-facing question/answer report
+
+In addition to the M12-style aggregate report (10.5),
+`BenchmarkRunner.run()` also builds a per-run, researcher-only
+"question/answer" report (`icab.reporting.qa_report`) -- one section per
+persisted run showing exactly what happened on that benchmark question,
+followed by an overall summary:
+
+- Task ID, scenario ID, difficulty, task type, architecture, seed, fault
+  ID (if any), status.
+- The exact `objective` presented to the agent.
+- The agent's final answer, **verbatim** -- never paraphrased,
+  truncated, or re-summarized.
+- The **correct answer**, rendered as readable prose from the task's (or,
+  for a scenario-only run, the scenario's) own `GroundTruth` -- never a
+  raw Pydantic/Python dump. Only fields the ground truth actually
+  contains are shown (e.g. a relationship triple renders as `subject
+  --[predicate]--> object`); if neither a task nor a scenario could be
+  resolved for a run, the report says so explicitly
+  (`CorrectAnswer.limitation`) rather than fabricating an answer.
+- Required evidence (from the task/scenario) vs. evidence the agent
+  actually provided (`InvestigationResult.evidence`).
+- That run's own metrics, read directly off the existing
+  `EvaluationReport`/`ExperimentRecord` -- `required_evidence_score`,
+  `canonical_id_score`, `relationship_score`,
+  `conclusion_correctness_score`, `grounding_score`,
+  `completeness_score`, `tool_call_count`, `context_acquired`,
+  `context_consumed`, `latency_ms`, `total_tokens` -- nothing
+  recomputed.
+- A FAILED run still gets its own section (status/error only -- no
+  fabricated metrics or answer).
+
+At the bottom: total/successful/failed/skipped counts, plus
+architecture/difficulty/task-type breakdowns -- each one an
+`icab.reporting.aggregate_records` call (the same M12 mechanism 10.5
+uses), not a new statistics implementation.
+
+Written to `results/reports/<benchmark_id>-qa.json` (machine-readable)
+and `results/reports/<benchmark_id>-qa.md` (the rendered Markdown), via
+the existing `ReportStore` (`write_qa_report`/`write_markdown`) -- no new
+results directory.
+
+**This is a researcher-only artifact.** Building it makes no
+agent/gateway/LLM call -- it reads only already-persisted
+`ExperimentRecord`s (whose `result`/`evidence`/trace were produced by an
+agent that never had access to `ground_truth` in the first place; see
+§10.3) -- so it cannot leak ground truth back to an agent. Verified
+directly: `tests/unit/reporting/test_qa_report.py
+::TestGroundTruthNeverReachesTheAgent` captures the actual messages sent
+to a (mocked) LLM during a real `LLMInvestigationAgent.run()` call and
+asserts the task's ground truth is absent from them, then builds this
+same report from that run's own result and asserts the ground truth
+IS present in the rendered report -- proving the report legitimately
+knows more than the agent ever did, not merely that both happen to lack
+it. `tests/integration/test_benchmark_runner_against_real_stack.py`
+repeats the same check against a REAL run's REAL persisted trace.

@@ -15,12 +15,13 @@ from .config import (
     get_suite,
     resolve_architecture_arms,
 )
-from .runner import BenchmarkRunner, BenchmarkRunResult
+from .runner import BenchmarkIdCollisionError, BenchmarkRunner, BenchmarkRunResult
 
 __all__ = [
     "BENCHMARK_SUITE_VERSION",
     "ArchitectureArm",
     "BenchmarkConfig",
+    "BenchmarkIdCollisionError",
     "BenchmarkRunResult",
     "BenchmarkRunner",
     "SuiteConfig",

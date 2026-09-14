@@ -103,20 +103,22 @@ class MQTTClient:
         """
 
         collected: dict[str, MQTTMessage] = {}
-        parse_error_count = 0
 
         def _on_message(
             client: paho.Client,
             userdata: object,
             msg: paho.MQTTMessage,
         ) -> None:
-            nonlocal parse_error_count
-
             try:
                 payload = json.loads(msg.payload.decode("utf-8"))
                 message = MQTTMessage.model_validate({**payload, "topic": msg.topic})
             except Exception:
-                parse_error_count += 1
+                # A non-ICAB / malformed-JSON message on a matching topic --
+                # skip it silently rather than crashing this callback (paho
+                # swallows callback exceptions anyway); code-quality cleanup
+                # note: an earlier revision tracked a parse_error_count here
+                # that was incremented but never read/surfaced anywhere, so
+                # it was removed rather than kept as dead bookkeeping.
                 return
 
             collected[msg.topic] = message

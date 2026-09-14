@@ -15,8 +15,9 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
+from icab.agent.llm.tools import ARCHITECTURE_TOOL_NAMES
 from icab.experiments.architecture_combinations import get_combination, list_combination_keys
 from icab.tasks.benchmark_task import BenchmarkTask
 
@@ -149,6 +150,36 @@ def resolve_architecture_arms(spec: str, task: BenchmarkTask) -> list[Architectu
     return [ArchitectureArm(architectures=architectures, combination_key=None)]
 
 
+def validate_architectures_spec(spec: str) -> None:
+    """
+    Fails fast, with every unrecognized name listed, if ``spec`` names an
+    architecture ICAB doesn't know how to talk to AT ALL -- e.g. a typo
+    like ``"histroian"``. Deliberately distinct from a KNOWN architecture
+    a particular TASK simply doesn't grant (that is a per-task SKIP, not
+    a configuration error -- see `resolve_architecture_arms`); this
+    check only rules out names that could never be valid for ANY task,
+    so it can run once, before task selection, rather than per task.
+    """
+
+    spec = spec.strip()
+
+    if spec == "all" or spec in list_combination_keys():
+        return
+
+    unknown = [
+        name
+        for name in (part.strip() for part in spec.split(","))
+        if name and name not in ARCHITECTURE_TOOL_NAMES
+    ]
+
+    if unknown:
+        raise ValueError(
+            f"Unknown architecture(s) in --architectures {spec!r}: {unknown}. "
+            f"Valid architecture names: {sorted(ARCHITECTURE_TOOL_NAMES)}. "
+            f"Valid combination keys: {list_combination_keys()}. Or pass 'all'."
+        )
+
+
 class BenchmarkConfig(BaseModel):
     """
     One `run_benchmark.py` invocation's full configuration, reified as an
@@ -180,14 +211,33 @@ class BenchmarkConfig(BaseModel):
     architectures: str = "all"
 
     seeds: list[int] | None = None
-    repetitions: int = 1
+    #: Must be >= 1 -- a `--repetitions 0` (or negative) would otherwise
+    #: silently produce ZERO runs for every (task, architecture arm,
+    #: seed) combination (an empty `range(1, repetitions + 1)`), with no
+    #: error and no skipped-run count either. Rejected at construction
+    #: time instead, with pydantic's own clear message.
+    repetitions: int = Field(default=1, ge=1)
 
     llm_model: str | None = None
     llm_temperature: float | None = None
-    max_steps: int | None = None
-    max_tool_calls: int | None = None
-    max_context_tokens: int | None = None
-    max_wall_time_seconds: float | None = None
+    #: All four budgets must be positive when set -- a non-positive
+    #: budget doesn't crash (LLMInvestigationAgent degrades gracefully to
+    #: an immediate *_BUDGET_EXCEEDED result), but it is never a useful
+    #: benchmark configuration and is almost always a typo, so it is
+    #: rejected here as a clear configuration error instead.
+    max_steps: int | None = Field(default=None, ge=1)
+    max_tool_calls: int | None = Field(default=None, ge=1)
+    max_context_tokens: int | None = Field(default=None, ge=1)
+    max_wall_time_seconds: float | None = Field(default=None, gt=0)
 
     #: Overrides the auto-generated benchmark/experiment id.
     name: str | None = None
+
+    #: Production-safety guard: refuse to run when `results/` already
+    #: contains artifacts for this exact benchmark_id (see
+    #: BenchmarkRunner._check_no_existing_benchmark) -- only relevant
+    #: when `name` is explicitly set, since the auto-generated
+    #: `benchmark-<suite>-<uuid>` id is never reused. Pass `force=True`
+    #: to deliberately overwrite anyway (e.g. iterating on a smoke test
+    #: during development).
+    force: bool = False

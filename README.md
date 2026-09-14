@@ -1,501 +1,354 @@
 # ICAB — Industrial Context-Aware Agent Benchmark
 
-ICAB is a research benchmark for studying how the **context architecture** exposed
-to an LLM agent affects its ability to investigate and reason about an industrial
-process. The same investigation task is run against a simulated process through
-several different context-delivery architectures — a Unified Namespace (UNS), raw
-OPC UA, an i3X/CIM-style semantic API, and a graph database — so that agent
-performance can be compared across architectures rather than across models.
+ICAB is a research benchmark for studying how the **context architecture**
+exposed to an LLM agent affects its ability to investigate an industrial
+process. A real, closed-loop Tennessee Eastman Process (TEP) simulator drives
+a set of investigation tasks; the same task is run against several different
+context-delivery architectures (a historian, a knowledge graph, a Unified
+Namespace, OPC UA, MQTT, and a private i3X instance) so agent performance can
+be compared across architectures rather than across models.
 
-> **Status:** early-stage / prototype. The core data model, gateway, and a first
-> agent architecture comparison are implemented and tested; many benchmark
-> configs and docs under [`configs/`](configs/) and [`docs/`](docs/) are
-> placeholders for planned work (see [Project status](#project-status)).
+This README is a **user guide** for running the benchmark. For the research
+design (locked hypotheses, context dimensions C1-C7, research questions) and
+the milestone-by-milestone development history, see
+[`docs/research/`](docs/research/) and
+[`docs/research/development-history.md`](docs/research/development-history.md).
 
-## Why
+## What ICAB Does
 
-Industrial agents don't fail because the underlying model is weak — they fail
-because the process context they need (what is this sensor part of, what is its
-current value, what is upstream of it, what state is the plant in) is scattered
-across historians, SCADA/OPC UA servers, knowledge graphs, and paper procedures,
-each with a different access pattern. ICAB fixes the process, the task, and the
-agent logic, and varies only *how context is structured and retrieved*, to
-measure the effect of context architecture on investigation quality, tool-call
-efficiency, and context reuse.
+An agent is given an objective (e.g. "What is the current reactor pressure,
+and is it within the normal safe operating range?") and a fixed set of tools
+for one or more context architectures. It investigates by calling those
+tools, then submits a conclusion. A deterministic evaluator
+(`GroundedInvestigationEvaluator` — no LLM-as-judge) scores the result
+against hidden ground truth the agent never saw, and every result is
+persisted for later analysis. `scripts/run_benchmark.py` runs this whole
+pipeline — task selection, TEP simulation, fault injection, agent execution,
+evaluation, and reporting — from one command.
 
-## How it works
+## Quick Start
 
-```
-                        ┌─────────────────────────┐
-  TEP simulator/scenario │   Agent Gateway (FastAPI)│ ← Agent (HTTP tool calls)
-                        │  src/icab/gateway/       │
-                        └───────────┬─────────────┘
-                                     │
-        ┌──────────┬─────────┬──────┼──────┬───────────┐
-        ▼          ▼         ▼      ▼      ▼           ▼
-     Historian   Knowledge   UNS   MQTT    i3X        OPC UA
-    (Timescale/  Graph     (in-mem (Mosquitto client    client (asyncua)
-     Postgres)   (Neo4j)   tree)   /paho)  (HTTP)
-```
+Prerequisites: Python 3.11+, [uv](https://docs.astral.sh/uv/), and Docker
+(for PostgreSQL/TimescaleDB, Neo4j, MQTT, and the private i3X stack).
 
-1. A **TEP scenario** (`configs/prototype/scenarios/*.yaml`) defines a
-   deterministic snapshot of the Tennessee Eastman Process — an operating state,
-   a timestamp, and a set of measurement values.
-2. `TEPAdapter` (`src/icab/tep/`) turns that scenario into an `Environment` of
-   canonical entities and observations (`src/icab/cim/`), which an
-   `EnvironmentLoader` writes into the historian and knowledge graph.
-3. The **Agent Gateway** (`src/icab/gateway/app.py`) exposes that context over
-   HTTP as a fixed set of tools: `get_current_value`, `get_historical_values`,
-   `get_entity_relationships`, `browse_uns`, the `i3x_get_*` family, and
-   `opcua_browse` / `opcua_read`.
-4. An **agent** (`src/icab/agent/`) calls those tools through
-   `AgentGatewayClient` to answer an investigation objective (e.g. "investigate
-   the current reactor operating condition"), producing an `InvestigationResult`
-   with findings, normalized context, and evidence references.
-5. Every tool call is recorded by a `TraceCollector` into an `InvestigationTrace`
-   (`src/icab/trace/`), capturing which context was acquired vs. consumed at each
-   step — the raw material for comparing architectures.
-6. An `InvestigationEvaluator` (`src/icab/evaluation/`) scores a result against
-   an `InvestigationCase`'s required evidence, and
-   `ArchitectureComparisonRunner` (`src/icab/experiments/`) runs the *same* case
-   through the *same* agent logic across multiple architectures (UNS, OPC UA,
-   i3X, knowledge graph) to produce comparable metrics.
-
-### Canonical Information Model (CIM)
-
-`src/icab/cim/` defines an ISA-95-aligned entity hierarchy (Enterprise → Site →
-Area → WorkCenter → ProcessCell → Equipment) extended with process/context
-entities ICAB needs for investigation: `Measurement`, `ProcessVariable`,
-`ControlLoop`, `Alarm`, `OperatingState`, `Fault`, `Event`, `Procedure`,
-`Document`. JSON Schemas for entities, observations, and relationships live in
-`src/icab/cim/schemas/`.
-
-### Agents
-
-| Agent | Location | Behavior |
-|---|---|---|
-| `StructuredRetrievalAgent` | `agent/baseline/structured_retrieval.py` | Minimal deterministic baseline: reads one measurement + one relationship set directly by ID. |
-| `ContextAwareAgent` | `agent/context_aware.py` | Discovers reactor measurements by browsing the UNS, then reads each one's current value. |
-| `ArchitectureAwareAgent` | `agent/architecture_aware.py` | Same investigation logic, parameterized by architecture (`uns`, `opcua`, `i3x`, `kg`) — the workhorse for architecture comparison experiments. |
-| `LLMInvestigationAgent` | `agent/llm/agent.py` | Drives a tool-calling LLM (`LLMClient`) through the gateway's tools in a loop until it submits a conclusion. Real provider is configurable (NIST RChat by default); unit tests use a deterministic `MockLLMClient`. See [`docs/architecture/llm-agent.md`](docs/architecture/llm-agent.md). |
-
-## Repository layout
-
-```
-src/icab/
-  agent/            Agent interface + implementations, gateway HTTP client
-  cim/              Canonical Information Model (entities, observations, relationships, JSON Schemas)
-  common/           Shared settings (pydantic-settings, .env-driven)
-  context/          Context sources: historian, knowledge_graph, uns, i3x, opcua + normalizer
-  evaluation/       Investigation scoring (keyword + grounded evaluators, information-flow analysis)
-  experiments/       Experiment config/runner/storage, architecture combinations, H1-H5 hypotheses
-  gateway/          FastAPI app exposing context sources as agent tools
-  reporting/         M12 aggregation, hypothesis reports, plotting -- reads persisted results/ only
-  scenarios/         D1-D4 BenchmarkScenario model, YAML registry, ScenarioRunner
-  tasks/            Investigation task models
-  tep/              Tennessee Eastman Process state/scenario/adapter
-  trace/            Trace event models, collector, JSONL storage
-
-configs/
-  prototype/        Working prototype scenario + experiment config
-  benchmark/         Versioned benchmark definitions (placeholder)
-  experiments/       Ablation/comparison experiment configs (placeholder)
-
-docs/               Architecture, benchmark, and research docs (placeholder)
-scripts/            Runnable entry points (see below)
-services/           Per-component Dockerfiles (gateway, historian, knowledge_graph, tep)
-tests/              Unit, integration, and benchmark test suites
-results/            raw/traces/evaluations/aggregate/hypotheses (M9-M11) + reports/figures (M12)
-```
-
-## Getting started
-
-### Prerequisites
-
-- Python 3.11+
-- [uv](https://docs.astral.sh/uv/) (the project is managed via `pyproject.toml` + `uv.lock`)
-- Docker, for the historian (TimescaleDB) and knowledge graph (Neo4j)
-
-### Setup
-
-```bash
-# Install dependencies (including dev group)
+```powershell
+# 1. Install dependencies
 uv sync
 
-# Configure environment
-cp .env.example .env
-# edit .env if you change ports/credentials
+# 2. Configure environment
+copy .env.example .env
+# edit .env if you change ports/credentials -- never commit .env
 
-# Start the historian, knowledge graph, MQTT broker, and private i3X stack
+# 3. Start PostgreSQL/TimescaleDB, Neo4j, MQTT, and the private i3X stack
 docker compose up -d
+
+# 4. Start the Agent Gateway (in a separate terminal -- leave it running)
+uv run uvicorn icab.gateway.app:app --reload
+
+# 5. Smoke test: one real task, one architecture, one seed, the
+#    deterministic baseline agent
+uv run python scripts/run_benchmark.py --suite tep-v1 --split development --task d1-qa-current-pressure --agent baseline --architectures historian --seeds 1
 ```
 
+If the gateway or any required service isn't reachable, the command fails
+immediately with an actionable message (which service, and how to start it)
+rather than a raw connection error. On success it prints a summary and the
+paths to every output it wrote — see
+[Understanding the Output](#understanding-the-output).
+
 `docker compose up -d` builds two images the first time (`opcua_tep`,
-`icab`'s own TEP-backed OPC UA server; `i3x_server`, CESMII's `i3xua`
-wrapper pinned to a fixed commit) — see
+ICAB's own TEP-backed OPC UA server; `i3x_server`, CESMII's `i3xua` wrapper
+pinned to a fixed commit) — see
 [`docs/architecture/i3x-private-server.md`](docs/architecture/i3x-private-server.md).
 
-`.env` / `src/icab/common/config.py` expects:
+`.env` (see `.env.example` for the full list with placeholders, never real
+secrets):
 
 | Variable | Purpose |
 |---|---|
 | `ICAB_DATABASE_URL` | Postgres/TimescaleDB connection string for the historian |
-| `ICAB_NEO4J_URI` | Bolt URI for the knowledge graph |
-| `ICAB_NEO4J_USERNAME` | Neo4j username |
-| `ICAB_NEO4J_PASSWORD` | Neo4j password |
-| `ICAB_MQTT_HOST` | MQTT broker host (optional, defaults to `localhost`) |
-| `ICAB_MQTT_PORT` | MQTT broker port (optional, defaults to `1883`) |
+| `ICAB_NEO4J_URI` / `_USERNAME` / `_PASSWORD` | Neo4j connection |
+| `ICAB_MQTT_HOST` / `_PORT` | MQTT broker (optional, defaults to `localhost:1883`) |
 | `ICAB_I3X_BASE_URL` | ICAB's private, TEP-backed i3X instance (optional, defaults to `http://localhost:8090`) — **not** the public `api.i3x.dev` conformance server |
-| `ICAB_LLM_PROVIDER` | Label for the configured LLM provider (optional, e.g. `nist-rchat`) |
-| `ICAB_LLM_BASE_URL` | Base URL of an OpenAI-compatible chat-completions endpoint (optional; required to run `LLMInvestigationAgent` with a real provider) |
-| `ICAB_LLM_API_KEY` | API key for that endpoint (optional; **never commit a real value** — `.env.example` only documents the variable name) |
-| `ICAB_LLM_MODEL` | Model name to request (optional) |
+| `ICAB_LLM_PROVIDER` / `_BASE_URL` / `_API_KEY` / `_MODEL` | LLM provider config for `--agent llm` (optional unless you run the LLM agent; **never commit a real API key**) |
 
-### Run the agent gateway
+## Running the Benchmark
 
-```bash
-uv run uvicorn icab.gateway.app:app --reload
+All commands below assume the Docker stack and the Agent Gateway (step 3-4
+above) are already running.
+
+### Smoke test
+
+```powershell
+uv run python scripts/run_benchmark.py --suite tep-v1 --split development --task d1-qa-current-pressure --agent baseline --architectures historian --seeds 1
 ```
 
-This serves the tool API (`/tools/...`) that agents call, plus `GET /health`.
+One real task, one architecture, one seed, the fast deterministic baseline
+agent — exercises the complete real orchestration path (simulator → context
+sync → gateway → agent → evaluator → persistence → reports) in seconds, not
+a mocked shortcut.
 
-### Run a prototype investigation
+### Development / Validation / Test splits
 
-```bash
-uv run python scripts/run_context_aware_agent.py
+```powershell
+uv run python scripts/run_benchmark.py --suite tep-v1 --split development --agent llm --architectures all --seeds 1
+uv run python scripts/run_benchmark.py --suite tep-v1 --split validation --agent llm --architectures all --seeds 1
+uv run python scripts/run_benchmark.py --suite tep-v1 --split test --agent llm --architectures all --seeds 1
 ```
 
-Loads the `normal_001` TEP scenario, seeds the historian/knowledge graph, runs
-`ContextAwareAgent` against the gateway, prints the `InvestigationResult`, and
-writes a trace to `results/prototype/context_aware_trace.json`.
+Runs every task whose scenario is assigned to that split (splits are
+scenario-grouped to prevent leakage — see
+[`docs/benchmark/splits.md`](docs/benchmark/splits.md)). See
+[Research Data Collection](#research-data-collection) for the recommended
+order to actually run these in.
 
-### Run a real experiment (M9)
+### One specific task
 
-```bash
-uv run python scripts/run_experiment.py \
-    --scenario d1_reactor_pressure_reading --architectures historian --agent-type llm
-
-# architecture comparison: same scenario/seed/fault, only tools vary
-uv run python scripts/run_experiment.py --compare \
-    --scenario d2_reactor_context_combination \
-    --architectures historian --architectures historian,knowledge_graph --agent-type llm
-
-# named architecture-combination comparison (M10)
-uv run python scripts/run_experiment.py \
-    --scenario d4_plant_wide_investigation \
-    --combination historian_only --combination kg_historian --combination full \
-    --agent-type llm
-
-# hypothesis comparison (M11) -- runs H3's treatment/control combinations
-# and writes a HypothesisTestResult to results/hypotheses/
-uv run python scripts/run_hypothesis_experiment.py \
-    --scenario d4_plant_wide_investigation --hypothesis H3
-
-# aggregation/reporting (M12) -- reads already-persisted runs only, no
-# simulator/gateway/LLM calls; writes results/reports/*.{json,md} and
-# results/figures/*.png
-uv run python scripts/generate_report.py \
-    --experiment-id m10-d4-combo-validation-v2 \
-    --group-by architecture_combination_key --name my-report \
-    --plot-metric conclusion_correctness_score
-
-uv run python scripts/generate_hypothesis_report.py \
-    --hypothesis H3 --experiment-id m10-d4-combo-validation-v2 \
-    --name my-h3-report --plot
+```powershell
+uv run python scripts/run_benchmark.py --suite tep-v1 --task d1-qa-current-pressure --agent llm --architectures historian --seeds 1
 ```
 
-Runs any agent (deterministic or LLM) against a real `BenchmarkScenario`
-through the real gateway, evaluates the result, and persists everything
-under `results/{raw,traces,evaluations,aggregate}/`. See
-[`docs/research/experiment-plan.md`](docs/research/experiment-plan.md) for
-the full schema, reproducibility notes, and a flagged limitation with the
-deterministic baselines against real scenario data.
+### One specific architecture
 
-### Run the full benchmark, one command (M13-D)
-
-Requires the [Agent Gateway](#run-the-agent-gateway) running separately
-first -- `scripts/run_benchmark.py` checks for it (`GET /health`) before
-doing anything else and exits immediately with an actionable message if
-it isn't reachable, rather than wasting a full scenario preparation per
-run only to fail with a raw connection error:
-
-```bash
-uv run uvicorn icab.gateway.app:app --reload   # in a separate terminal
-
-# full benchmark: every LLM-eligible architecture, five seeds
-uv run python scripts/run_benchmark.py \
-    --suite tep-v1 --agent llm --architectures all --seeds 1,2,3,4,5
-
-# fast smoke test: one real task, one architecture, one seed, the
-# deterministic baseline -- exercises the real orchestration path end to
-# end over a tiny subset (no mocked shortcut)
-uv run python scripts/run_benchmark.py \
-    --suite tep-v1 --split development --task d1-qa-current-pressure \
-    --agent baseline --architectures historian --seeds 1
+```powershell
+uv run python scripts/run_benchmark.py --suite tep-v1 --split development --agent llm --architectures knowledge_graph --seeds 1
 ```
 
-Orchestrates the ENTIRE pipeline end to end -- task selection (from the
-suite's real, registered `icab.tasks.registry.BenchmarkTaskRegistry`
-inventory, M13-C) → scenario selection → deterministic TEP
-initialization/fault injection (M13-B) → context synchronization →
-agent execution through the real gateway → trace collection →
-`GroundedInvestigationEvaluator.evaluate_task` → persistence
-(`ExperimentResultStore`) → aggregation → an M12-style report — reusing
-every one of those components as-is; `icab.benchmark`/
-`scripts/run_benchmark.py` add no competing mechanism, only the
-orchestration gluing them into one command. `--architectures all`
-expands to one arm per architecture the SELECTED TASK itself declares
-available (never a superset — see
-[`docs/benchmark/specification.md §10.2`](docs/benchmark/specification.md#102-architecture-arm-resolution---architectures));
-an unsupported `(task, architecture)` pairing is skipped, not silently
-narrowed or run anyway. Every run — successful or failed — is persisted
-with a `configuration_hash`, `generation_id`, `git_commit`, and
-`benchmark_version` for reproducibility/audit; a failed run never
-fabricates an evaluation, and does not stop the rest of the invocation.
-Execution is sequential (no Kubernetes/Kafka/Celery). Alongside the
-M12-style aggregate report, every invocation also writes a
-researcher-facing **question/answer report**
-(`results/reports/<benchmark_id>-qa.{json,md}`) -- one section per run
-showing the exact question asked, the agent's verbatim answer, the
-ground truth rendered as readable prose (never a raw object dump),
-required vs. provided evidence, and that run's own metrics, plus an
-overall summary at the bottom. It is a researcher-only artifact built
-purely from already-persisted records (no agent/gateway/LLM call), so it
-cannot leak ground truth back to an agent -- verified in
-`tests/unit/reporting/test_qa_report.py` and
-`tests/integration/test_benchmark_runner_against_real_stack.py`. See
-[`docs/benchmark/specification.md §10`](docs/benchmark/specification.md#10-one-command-orchestration-m13-d)
-for the full CLI reference.
+`--architectures` also accepts `all` (one arm per architecture the selected
+task itself declares available — never a superset) or a named combination
+key (e.g. `kg_historian`) — see [Architectures](#architectures).
 
-Other scripts in [`scripts/`](scripts/):
+### Multiple seeds
 
-- `run_agent.py` — run an agent against the gateway
-- `run_opcua_demo_server.py` — start a small static-value OPC UA demo server
-  (backs `test_opcua_client.py` and `ArchitectureAwareAgent`'s OPC UA path)
-- `run_tep_opcua_server.py` — the real, TEP-backed OPC UA server (containerized
-  as the `opcua_tep` compose service; backs the private i3X instance)
-- `test_opcua_client.py` — smoke-test the OPC UA client against that server
-- `load_scenario.py` — load a TEP scenario into the historian/knowledge graph
-
-The real-simulator context bridges (`icab.tep.context_sync.TEPContextSync`,
-`icab.context.opcua.TEPOPCUAServer`) are exercised directly by
-`tests/integration/test_tep_context_sync.py` and
-`tests/integration/test_opcua_tep_server.py` — see
-[`docs/architecture/context-architecture.md`](docs/architecture/context-architecture.md).
-The private i3X stack (`opcua_tep` + `i3x_server` compose services) is
-exercised by `tests/integration/test_i3x_private_server.py` — see
-[`docs/architecture/i3x-private-server.md`](docs/architecture/i3x-private-server.md).
-
-## Testing
-
-```bash
-uv run pytest
+```powershell
+uv run python scripts/run_benchmark.py --suite tep-v1 --agent llm --architectures all --seeds 1,2,3,4,5
 ```
 
-- `tests/unit/` — pure unit tests, no external services required.
-- `tests/integration/` — require the full `docker compose up -d` stack
-  (Postgres/TimescaleDB, Neo4j, Mosquitto, and the private
-  `opcua_tep`/`i3x_server` pair). The gateway degrades gracefully if the
-  private i3X server specifically isn't running (a warning is printed, and
-  `i3x_get_*` tool calls raise a clear `RuntimeError`) rather than failing
-  to import — so most of `tests/unit/gateway/` still passes without it.
-- `tests/integration/test_llm_rchat.py`,
-  `tests/integration/test_scenario_llm_end_to_end.py`, and
-  `tests/integration/test_benchmark_runner_llm_real.py` are additionally
-  gated behind `ICAB_RUN_LLM_INTEGRATION_TESTS=1` — they make real,
-  metered calls to the configured LLM provider, so they are skipped by
-  default even when the rest of `tests/integration/` runs.
+Each seed overrides the scenario's own seed for that run, producing a
+controlled sweep over different simulated trajectories — task, objective,
+model, and budgets stay fixed; only the seed (and, separately, the
+architecture) varies.
 
-## Project status
+### Multiple repetitions
 
-Implemented and under test:
+```powershell
+uv run python scripts/run_benchmark.py --suite tep-v1 --task d1-qa-current-pressure --agent llm --architectures historian --seeds 1 --repetitions 3
+```
 
-- CIM entities/observations/relationships and JSON Schemas
-- Historian (TimescaleDB), knowledge graph (Neo4j), UNS, i3X, OPC UA, and MQTT
-  (Mosquitto) context sources, unified behind the Agent Gateway
-- A real, closed-loop Tennessee Eastman Process simulator
-  (`icab.tep.simulator.TEPSimulator`, wrapping the `tep-studio` Downs & Vogel
-  kernel) alongside the original static prototype scenario path — see
-  [`docs/architecture/tep-simulator.md`](docs/architecture/tep-simulator.md)
-- MQTT as a first-class context/data source (`icab.context.mqtt`), including
-  a `TEPMeasurementPublisher` bridge from the simulator onto an ICAB MQTT
-  topic namespace and gateway `browse_mqtt`/`read_mqtt` tools — see
-  [`docs/architecture/mqtt.md`](docs/architecture/mqtt.md)
-- The real simulator wired into Historian + Knowledge Graph
-  (`icab.tep.context_sync.TEPContextSync`), UNS
-  (`icab.context.uns.tep_builder`), a real, self-hosted OPC UA server
-  mirroring the full measurement set (`icab.context.opcua.TEPOPCUAServer`),
-  and a **private, TEP-backed i3X instance** (CESMII's `i3xua` wrapper in
-  front of that same OPC UA server) — each architecture deliberately keeps
-  its own access pattern rather than exposing an identical view; see
-  [`docs/architecture/context-architecture.md`](docs/architecture/context-architecture.md)
-  and [`docs/architecture/i3x-private-server.md`](docs/architecture/i3x-private-server.md)
-  (the public `api.i3x.dev` conformance server stays read-only/unused, by design)
-- `StructuredRetrievalAgent`, `ContextAwareAgent`, `ArchitectureAwareAgent`
-  (deterministic baselines) and `LLMInvestigationAgent` (real tool-calling
-  LLM agent, provider-configurable, NIST RChat by default) — see
-  [`docs/architecture/llm-agent.md`](docs/architecture/llm-agent.md)
-- Trace collection/storage, the original keyword-matching investigation
-  evaluator (`icab.evaluation.investigation.InvestigationEvaluator`,
-  unchanged), and a stronger, fully deterministic, structured evaluator
-  (`icab.evaluation.grounded.GroundedInvestigationEvaluator`) scoring
-  required evidence, evidence provenance, canonical-id validity, temporal
-  and relationship evidence, causal-reasoning/conclusion-correctness
-  heuristics, unsupported numeric claims, acquired-vs-consumed context, and
-  investigation completeness against a `BenchmarkScenario`'s ground truth —
-  deliberately not an LLM-as-judge; see
-  [`docs/benchmark/evaluation.md`](docs/benchmark/evaluation.md)
-- `ArchitectureComparisonRunner` for running one case across architectures
-  (unchanged since before M9 — see `icab.experiments.ExperimentRunner`
-  below for the newer, scenario-based path)
-- A D1-D4 investigation scenario framework (`icab.scenarios`) driving the
-  real simulator over time with deterministic seeds, scheduled faults, and
-  structured ground truth, plus one real, empirically-verified scenario per
-  difficulty level under `configs/benchmark/scenarios/` — connected
-  end-to-end to `LLMInvestigationAgent` and the real gateway/LLM provider;
-  see [`docs/benchmark/tasks.md`](docs/benchmark/tasks.md)
-- A locally reproducible experiment runner (`icab.experiments.
-  ExperimentRunner`, `scripts/run_experiment.py`) that runs any agent
-  (deterministic or LLM) against a `BenchmarkScenario`, holding the
-  process/seed/objective/model fixed while varying only which
-  architectures' tools are exposed — persisted as raw/trace/evaluation/
-  aggregate JSON+CSV under `results/`. Every run is tagged `RunValidity`
-  (the three pre-M5 deterministic baselines are `legacy_control_only` —
-  regression/control use only, excluded from the main benchmark
-  comparison by default — since they don't see real scenario data; a new,
-  separate `ScenarioAwareBaselineAgent` deterministic baseline does, and is
-  benchmark-eligible); a `generation_id` provenance tag on every
-  observation/relationship a scenario preparation writes lets the
-  evaluator scope relationship evidence to the current run rather than a
-  shared historian/knowledge graph's accumulated history. See
-  [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
-- Architecture combinations as a first-class experimental variable (M10):
-  eight named, documented tool-availability presets
-  (`icab.experiments.architecture_combinations`, `--combination` on
-  `scripts/run_experiment.py`) an agent is never told about beyond its own
-  tool list; a separate `InformationFlowAnalyzer`
-  (`icab.evaluation.information_flow`) that distinguishes discoverability
-  (learned a measurement exists) from acquisition (retrieved its value)
-  from cross-architecture redundancy (the same value fetched through more
-  than one architecture) per run; per-run latency/token-usage totals; and
-  a `HeterogeneousControlsError` check in `ExperimentResultStore.
-  write_aggregate` that refuses to treat a set of runs as a controlled
-  architecture comparison unless their scenario/seed/model/budget actually
-  match. See [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
-- H1-H5 hypothesis-testing infrastructure (M11): `icab.experiments
-  .hypotheses` maps each locked hypothesis
-  ([`docs/research/hypotheses.md`](docs/research/hypotheses.md)) to a
-  specific treatment/control architecture-combination pair and an
-  existing evaluator/information-flow metric, and produces a descriptive
-  (never inferential -- no significance test, no "proven" claim)
-  `HypothesisTestResult`; `scripts/run_hypothesis_experiment.py
-  --scenario <id> --hypothesis H<n>` runs it end-to-end. Real validation
-  against the live stack (one D4 run per arm) surfaced and fixed two
-  evaluator measurement bugs (`tool_call_count` double-counting a new
-  M10 trace-event kind; a cited timestamp's year misread as an
-  unsupported numeric claim) -- see
-  [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
-- Result aggregation and reporting (M12): `icab.reporting` turns
-  persisted `results/{raw,traces,evaluations}/` artifacts into grouped
-  summaries (`aggregate_records` -- by scenario, difficulty, architecture
-  (combination), agent type, LLM model, or seed/run, with
-  mean/median/stdev/min/max/n and success/failure counts per group,
-  reusing the same heterogeneous-controls safeguard as M9/M10's
-  `write_aggregate`), richer hypothesis reports
-  (`build_hypothesis_report` -- per-arm statistics plus data-derived
-  `limitations`, never a "proven"/"significant" verdict), and
-  reproducible plots (`icab.reporting.plotting`, matplotlib, headless).
-  Effectiveness and efficiency metrics are kept in two explicit, separate
-  groups rather than one collapsed score
-  (`icab.reporting.metrics.EFFECTIVENESS_METRICS`/`EFFICIENCY_METRICS`).
-  `scripts/generate_report.py`/`generate_hypothesis_report.py` operate
-  entirely on already-persisted runs -- no simulator/gateway/LLM calls --
-  and write `results/reports/*.{json,md}` + `results/figures/*.png`. See
-  [`docs/research/experiment-plan.md`](docs/research/experiment-plan.md)
-- Complete TEP process-context model and knowledge graph (M13-A): all 53
-  real TEP process variables (41 measurements + 12 manipulated
-  variables/actuators, verified against `tep_studio` directly rather than
-  assumed) now have a canonical identity, required metadata (unit,
-  equipment location, a unit-derived physical-quantity `category`,
-  source/provenance), and are synchronized into the knowledge graph.
-  Beyond the pre-existing `PART_OF`/`MONITORS` hierarchy, the KG now
-  represents `ACTUATES` (equipment -> actuator, structural),
-  `CONTROLS` (actuator -> measurement, sourced from the real
-  decentralized controller's own control-loop registry,
-  `tep_studio.control.registry.RICKER_MODE1`), and `HAS_LIMIT`/
-  `ASSOCIATED_WITH` (the two documented Mode-1 constraint overrides) --
-  every nontrivial relationship traceable to a specific, citable source,
-  no causal/diagnostic edges invented. See
-  [`docs/architecture/tep-context-model.md`](docs/architecture/tep-context-model.md)
-- Automated TEP fault injection (M13-B): all 28 real TEP disturbances are
-  injectable through ICAB without error; an empirical, paired
-  same-seed-baseline characterization
-  (`icab.tep.fault_characterization`, `scripts/characterize_tep_disturbances.py`,
-  persisted at `configs/benchmark/fault_catalog.json`) establishes that
-  **7 of 28** repeatably (across every tested seed) produce a real,
-  above-noise-floor measurement effect -- distinct, explicit tiers
-  (`simulator_supported`/`icab_injectable`/`empirically_verified`, never
-  conflated). `FaultSchedule` gained scheduled deactivation
-  (`duration_hours`); `BenchmarkScenario` gained an enforced technical
-  safeguard rejecting a scenario whose objective leaks its own fault id.
-  Hidden ground-truth separation (agent never sees the fault identifier
-  or `GroundTruth`) is verified end to end against the real simulator +
-  real Neo4j + real Historian + real MQTT, not merely asserted. See
-  [`docs/architecture/tep-fault-injection.md`](docs/architecture/tep-fault-injection.md)
-- Automated TEP benchmark task/question suite (M13-C): a first-class
-  `BenchmarkTask` model (`icab.tasks`), explicitly separate from
-  `BenchmarkScenario` — a scenario defines the process/fault conditions,
-  a task defines the question/required evidence/evaluation criteria
-  asked against it, and one scenario carries several tasks. 38 tasks
-  across 9 scenarios (4 original + 5 new, built on M13-B's remaining
-  verified faults), spanning all three locked task types
-  (QA/investigation/diagnosis), all four difficulty levels (D1-D4, not
-  D1-dominated), and all seven locked context dimensions (C1-C7, newly
-  operationalized and architecturally enforced — a task cannot declare
-  a dimension none of its own architectures can supply). Evaluated via
-  `GroundedInvestigationEvaluator.evaluate_task` — the same
-  deterministic, non-LLM-judge scoring `evaluate` already used, keyed on
-  a task's own ground truth/difficulty. Development/validation/test
-  splits are assigned per-SCENARIO specifically to prevent leakage (two
-  tasks sharing a scenario always land in the same split). See
-  [`docs/benchmark/specification.md`](docs/benchmark/specification.md),
-  [`docs/benchmark/tasks.md`](docs/benchmark/tasks.md), and
-  [`docs/benchmark/splits.md`](docs/benchmark/splits.md)
-- One-command automated benchmark orchestration (M13-D): `icab.benchmark`/
-  `scripts/run_benchmark.py` execute the FULL pipeline -- task selection
-  (the suite's real registered inventory, never hard-coded) → scenario
-  selection → deterministic TEP initialization/fault injection → context
-  synchronization → agent execution (`ScenarioAwareBaselineAgent` or
-  `LLMInvestigationAgent`; legacy deterministic agents remain available
-  only as an explicit, separate, non-default opt-in) → trace collection →
-  `GroundedInvestigationEvaluator.evaluate_task` → persistence → automatic
-  aggregation → an M12-style report, from one command, reusing every
-  M5/M9/M12/M13-A/B/C component as-is. `--architectures all` expands to
-  exactly the architectures the SELECTED TASK declares available (an
-  unsupported combination is skipped, never silently narrowed or run);
-  `--seeds`/`--repetitions` expand a controlled sweep holding task,
-  objective, model, and budgets fixed across architecture arms (the sole
-  independent treatment). Every run -- including a failed one -- persists
-  a `configuration_hash`, `generation_id`, `git_commit`, and
-  `benchmark_version` for audit; execution is strictly sequential (no
-  Kubernetes/Kafka/Celery). A CLI-level preflight check
-  (`GET /health` against `--gateway-url`) fails fast with an actionable
-  message if the Agent Gateway isn't running, rather than letting every
-  run independently waste a full scenario preparation on the same
-  connection error. Also produces a researcher-facing question/answer
-  report (`results/reports/<benchmark_id>-qa.{json,md}`) -- see the
-  workflow section above and
-  [`docs/benchmark/specification.md §10`](docs/benchmark/specification.md#10-one-command-orchestration-m13-d)
+Repeats the exact same (task, architecture, seed) 3 times — useful for
+observing run-to-run variance from LLM sampling even at a fixed seed.
 
-Not yet filled in (present as empty placeholders to reserve the intended
-structure):
+Every command above prints a final summary: benchmark ID, suite, split,
+task/scenario/architecture/agent/seed/repetition counts, and
+total/successful/failed/skipped run counts, plus every output path.
 
-- `configs/experiments/`, `configs/prototype/budget.yaml`,
-  `configs/prototype/environment.yaml` — versioned experiment definitions
-- A benchmark task suite broader than the current 38 tasks/9 scenarios
-  (e.g. an i3X-specific task, more seeds per scenario) — see
-  `docs/benchmark/tasks.md`'s known limitations
-- `LICENSE`, `Makefile`
+## Understanding the Output
+
+Every invocation writes under `results/` (created automatically; `.gitkeep`
+placeholders keep the directory skeleton in git, the generated contents
+themselves are gitignored — see `.gitignore` and
+[Research Data Collection](#research-data-collection)):
+
+```text
+results/raw/            one ExperimentRecord JSON per run (config, metadata, status)
+results/traces/         one JSONL trace per run (every tool call, argument, and result)
+results/evaluations/    one EvaluationReport JSON per completed run
+results/aggregate/      <benchmark_id>.{json,csv} -- cross-run comparison table
+results/reports/        <benchmark_id>.{json,md}  -- grouped aggregate report
+                        <benchmark_id>-qa.{json,md} -- the researcher QA report (below)
+results/figures/        <benchmark_id>-<metric>.png -- effectiveness/efficiency plots
+```
+
+**The researcher QA report** (`results/reports/<benchmark_id>-qa.md`) is the
+most useful single file for inspecting what actually happened. For every
+run, it shows:
+
+- the exact question/objective presented to the agent
+- the agent's final answer, verbatim
+- the correct answer, rendered as readable prose from the ground truth
+  (never a raw object dump)
+- required evidence vs. evidence the agent actually provided
+- that run's own metrics (`required_evidence_score`, `canonical_id_score`,
+  `relationship_score`, `conclusion_correctness_score`, `grounding_score`,
+  `completeness_score`, tool-call/context-acquired/context-consumed counts,
+  latency, token usage)
+
+followed by an overall summary (run counts, mean/median metrics, and
+architecture/difficulty/task-type breakdowns) at the bottom.
+
+**Ground truth is a researcher-only artifact.** The agent is given only its
+objective, legitimate initial state, and whatever it retrieves through
+tool calls — it never receives `ground_truth`, expected entities/
+relationships/evidence, or hidden fault information. The QA report may show
+this ground truth (since it's built entirely from already-persisted results,
+after the run completed); this is verified directly by test — see
+[Tests](#tests).
+
+## Benchmark Configuration
+
+The most commonly used `scripts/run_benchmark.py` flags:
+
+| Flag | Meaning |
+|---|---|
+| `--suite` | Registered suite (required; currently `tep-v1`) |
+| `--split` | `development` / `validation` / `test` (default: every split) |
+| `--task` | One explicit task id (overrides `--split`/`--scenario`) |
+| `--scenario` | Restrict to tasks against one scenario id |
+| `--agent` | `baseline` or `llm` (see [Agents](#agents)) |
+| `--architectures` | `all`, a named combination key, or a comma-separated list (see [Architectures](#architectures)) |
+| `--seeds` | Comma-separated seed overrides, e.g. `1,2,3,4,5` |
+| `--repetitions` | Repeat each (task, architecture, seed) this many times |
+| `--llm-model`, `--temperature` | LLM generation config (`--agent llm` only) |
+| `--max-steps`, `--max-tool-calls`, `--max-context-tokens`, `--max-wall-time` | Agent budgets (`--agent llm` only; unset = unbounded) |
+| `--name` | Benchmark id (default: auto-generated, never collides) |
+| `--force` | Allow `--name` to overwrite a benchmark id that already has results |
+| `--gateway-url`, `--results-root` | Infrastructure locations |
+
+Run `uv run python scripts/run_benchmark.py --help` for the full, current
+list with descriptions.
+
+## Agents
+
+| Agent (`--agent`) | Behavior |
+|---|---|
+| `baseline` | `ScenarioAwareBaselineAgent` — a fixed, deterministic tool sequence (no LLM). Fast, useful for smoke-testing the pipeline and as a non-LLM control. |
+| `llm` | `LLMInvestigationAgent` — a real tool-calling LLM, driven through the Agent Gateway's HTTP API only (never a direct database/broker/simulator connection). Provider-configurable; NIST RChat by default. |
+
+A legacy `DeterministicAgentKind` value (e.g. `structured_retrieval`) is
+also accepted as an explicit, separate opt-in for a labeled legacy control
+— never the default, and always excluded from normal aggregates.
+
+## Architectures
+
+| Name | What it gives the agent |
+|---|---|
+| `historian` | Current/historical measurement values (TimescaleDB) |
+| `knowledge_graph` | Entity relationships (Neo4j) |
+| `uns` | Hierarchical discovery/browsing (in-process Unified Namespace tree) |
+| `opcua` | Browse + read against a real, self-hosted OPC UA server |
+| `mqtt` | Browse + read over an MQTT topic namespace |
+| `i3x` | CESMII i3X semantic API, backed by ICAB's own private, TEP-backed instance |
+
+`--architectures all` expands to one arm per architecture the *selected
+task* itself declares available — never a superset, and never an
+architecture the task can't actually satisfy. `i3x` is currently not
+exercised by any registered task (see `docs/benchmark/tasks.md`'s known
+limitations) — it exists and works, but isn't yet part of the task suite.
+
+## Repository Structure
+
+```text
+icab/
+├── src/icab/
+│   ├── cim/          Canonical Information Model: entities, observations, relationships, JSON Schemas
+│   ├── tep/           Tennessee Eastman Process simulator, fault injection, measurement registry
+│   ├── context/       Context sources: historian, knowledge_graph, uns, opcua, mqtt, i3x
+│   ├── gateway/       FastAPI app exposing context sources as agent tools
+│   ├── agent/         Agent interface + implementations (baselines, LLM agent), gateway HTTP client
+│   ├── trace/         Trace event models, collector, JSONL storage
+│   ├── tasks/         BenchmarkTask model, registry, splits (M13-C)
+│   ├── scenarios/      BenchmarkScenario model, YAML registry, ScenarioRunner (M5)
+│   ├── evaluation/     Deterministic scoring (grounded evaluator, information-flow analysis)
+│   ├── experiments/    ExperimentConfig/Record/Store, architecture combinations, H1-H5 hypotheses
+│   ├── benchmark/      One-command orchestration: BenchmarkConfig/BenchmarkRunner (M13-D)
+│   ├── reporting/       Aggregation, QA report, hypothesis reports, plotting -- reads results/ only
+│   └── common/         Shared settings (pydantic-settings, .env-driven)
+├── tests/
+│   ├── unit/          Fast, deterministic, no external infrastructure
+│   └── integration/    Real Postgres/Neo4j/MQTT/OPC UA/i3X; some gated behind a live-LLM flag
+├── configs/
+│   ├── benchmark/      Scenarios, tasks, splits, fault catalog -- the registered tep-v1 suite
+│   ├── prototype/      Original prototype scenario/config (placeholders for budget/environment)
+│   └── experiments/     Ablation/comparison experiment configs (placeholders)
+├── docs/
+│   ├── benchmark/       Task specification, task inventory, splits, evaluation semantics
+│   ├── architecture/    Per-component design docs (simulator, context architectures, LLM agent, ...)
+│   └── research/        Research questions, hypotheses, experiment plan, development history
+├── scripts/            Runnable entry points (run_benchmark.py, run_experiment.py, ...)
+├── services/           Per-component Dockerfiles (gateway, historian, knowledge_graph, opcua, i3x, tep)
+├── data/               Reserved for future generated/ground_truth/raw datasets (placeholder)
+└── results/            raw/traces/evaluations/aggregate/reports/figures/hypotheses/prototype (generated, gitignored)
+```
+
+## Tests
+
+```powershell
+uv run pytest -q
+uv run pytest tests/unit -q
+uv run pytest tests/integration -q
+```
+
+`tests/unit/` is fast, fully deterministic, and requires no external
+services — it's what you run while making changes. `tests/integration/`
+requires the Docker stack (`docker compose up -d`) — PostgreSQL/
+TimescaleDB, Neo4j, MQTT, and the private OPC UA/i3X pair — and exercises
+the real thing end to end rather than mocks. A handful of integration tests
+additionally make live, metered calls to the configured LLM provider and are
+gated behind `ICAB_RUN_LLM_INTEGRATION_TESTS=1`; they never run as part of
+the default suite (`uv run pytest -q` skips them, reported as `skipped`).
+
+Conceptually, the suite protects:
+
+- **CIM/model validation** — entity/observation/relationship schemas stay internally consistent
+- **TEP simulator** — deterministic, seeded simulation; the real `tep-studio` kernel behaves as expected
+- **Fault injection** — each catalogued fault's empirically-verified behavior stays reproducible
+- **Scenario runner** — deterministic seeds/warmup/fault-schedule/context-sync, correct `generation_id` provenance
+- **Historian / Knowledge Graph / UNS / OPC UA / MQTT / i3X** — each context source's own contract, independent of any one agent
+- **Gateway** — every tool route, argument validation, and error propagation
+- **Agents** — baseline and LLM tool-calling behavior, termination handling, and that neither ever sees ground truth
+- **Traces** — every tool call is recorded with correct context-acquired/consumed/latency/token accounting
+- **Evaluation** — every deterministic score, including the acquired-vs-consumed context semantics (see `docs/architecture/llm-agent.md`)
+- **Tasks** — schema validation, registry uniqueness, split integrity, ground-truth isolation
+- **Benchmark orchestration** — run expansion, unique ids, no accidental overwrite, reproducibility, configuration metadata
+- **Reporting** — the QA report and aggregate report render correctly, including failed-run and multi-run cases
+- **Security** — ground truth and credentials never leak into a persisted artifact
+
+We do not enumerate individual test names here — read the test modules
+themselves (named for what they check) if you need that level of detail.
+
+## Development
+
+- Run `uv run pytest -q` before committing; add a regression test alongside
+  any bug fix.
+- Keep `tests/unit/` free of external-service dependencies — anything
+  needing Postgres/Neo4j/MQTT/OPC UA/i3X belongs in `tests/integration/`.
+- Never commit `.env`, a real API key, or generated `results/` content
+  (see `.gitignore`).
+- New scenarios/tasks/faults are a research-methodology decision, not a
+  routine code change — see `docs/benchmark/specification.md` before
+  adding one.
+
+## Research Data Collection
+
+Recommended workflow for an actual data-collection run:
+
+1. **Smoke test** — confirm the pipeline works end to end (see
+   [Quick Start](#quick-start)).
+2. **Development** — iterate against `--split development` while tuning
+   agent/architecture/budget configuration.
+3. **Validation** — run `--split validation` to compare configurations
+   before committing to a final run.
+4. **Test** — run `--split test` exactly once per configuration you intend
+   to report. **Test-split results should not be tuned against** — if you
+   change configuration based on a test-split result and re-run, you are
+   back in validation, not test, regardless of the flag you pass.
+
+Give each real data-collection invocation an explicit `--name` so its
+`results/reports/<name>-qa.md` and aggregate outputs are easy to find later;
+rerunning the same `--name` is refused unless you pass `--force`.
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `Agent Gateway is not reachable` | Start it: `uv run uvicorn icab.gateway.app:app --reload` (separate terminal, must stay running) |
+| `required infrastructure is not reachable` | Run `docker compose up -d`; confirm with `docker ps` |
+| A benchmark run raises about missing `ICAB_*` settings | Copy `.env.example` to `.env` and fill in real values (never commit `.env`) |
+| i3X-related calls fail | The private i3X stack failed to build/start — check `docker compose logs i3x_server`; ICAB's other architectures work independently of it |
+| Live-LLM integration tests are skipped | Expected by default — set `ICAB_RUN_LLM_INTEGRATION_TESTS=1` to opt in (makes real, metered calls) |
+| `Address already in use` on port 8000/5432/7687/1883/8090 | Another process is already using that port — stop it, or pass `--gateway-url`/adjust `.env`/`docker-compose.yml` port mappings |
+| Unexpected/stale files under `results/` | `results/` content is gitignored and meant to be disposable between data-collection runs — safe to delete anything under `results/{raw,traces,evaluations,aggregate,reports,figures}/` you don't need |
+| `A benchmark with id '...' already has persisted results` | You reused an existing `--name` — pick a different one, omit `--name` for an auto-generated id, or pass `--force` to deliberately overwrite |
 
 ## License
 

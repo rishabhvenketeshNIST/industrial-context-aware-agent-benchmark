@@ -52,11 +52,31 @@ from icab.reporting.plotting import plot_metric_by_group
 from icab.reporting.store import ReportStore
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.tasks.benchmark_task import BenchmarkTask
+from icab.tep.faults import FaultCatalog, load_fault_catalog
 from icab.tasks.registry import BenchmarkTaskRegistry
 from icab.tasks.splits import SplitAssignment, TaskSplit, load_split_assignment, tasks_in_split
 from icab.trace.models import TraceEvent
 
-from .config import BENCHMARK_SUITE_VERSION, BenchmarkConfig, get_git_commit, get_suite, resolve_architecture_arms
+from .config import (
+    BENCHMARK_SUITE_VERSION,
+    BenchmarkConfig,
+    get_git_commit,
+    get_suite,
+    resolve_architecture_arms,
+    validate_architectures_spec,
+)
+
+class BenchmarkIdCollisionError(ValueError):
+    """
+    Raised when `results/` already contains artifacts for the requested
+    `benchmark_id` and `BenchmarkConfig.force` was not set -- production
+    data-collection safeguard: a benchmark invocation must never silently
+    overwrite a previous one's raw records/traces/evaluations/aggregate/
+    reports. Only reachable when `--name` is explicitly reused (the
+    default, auto-generated `benchmark-<suite>-<uuid>` id is never
+    reused in practice).
+    """
+
 
 #: Agent-selector strings that map to a benchmark-eligible (non-legacy)
 #: agent -- the only two ever run without an explicit legacy opt-in.
@@ -137,6 +157,15 @@ class BenchmarkRunner:
                 f"{sorted(_PRIMARY_AGENTS | _LEGACY_AGENT_VALUES)}"
             )
 
+        # Also a configuration error, not a per-run failure -- an
+        # architecture name ICAB doesn't know about at all (a typo) is
+        # never valid for ANY task, so this is checked once, up front,
+        # rather than letting every expanded run independently discover
+        # it as a SKIP with a confusing "not available for this task"
+        # reason (that reason is reserved for a KNOWN architecture the
+        # task just doesn't grant).
+        validate_architectures_spec(config.architectures)
+
         suite = get_suite(config.suite)
         scenario_registry = BenchmarkScenarioRegistry(suite.scenarios_dir)
         task_registry = BenchmarkTaskRegistry(suite.tasks_dir, scenario_registry=scenario_registry)
@@ -144,8 +173,17 @@ class BenchmarkRunner:
 
         tasks = self._select_tasks(task_registry, split_assignment, config)
 
+        if not tasks:
+            raise ValueError(
+                f"No tasks matched suite={config.suite!r}, split={config.split!r}, "
+                f"scenario={config.scenario_id!r}, task={config.task_id!r} -- check "
+                "these for typos (e.g. via BenchmarkTaskRegistry.list_ids())."
+            )
+
         benchmark_id = config.name or f"benchmark-{config.suite}-{uuid.uuid4().hex[:8]}"
+        self._check_no_existing_benchmark(benchmark_id, force=config.force)
         git_commit = get_git_commit()
+        fault_catalog = self._load_fault_catalog_best_effort()
         seed_values: list[int | None] = list(config.seeds) if config.seeds else [None]
 
         records: list[ExperimentRecord] = []
@@ -186,6 +224,7 @@ class BenchmarkRunner:
                             benchmark_id=benchmark_id,
                             benchmark_version=BENCHMARK_SUITE_VERSION,
                             git_commit=git_commit,
+                            fault_catalog=fault_catalog,
                         )
 
                         self.experiment_store.save(record, trace)
@@ -291,6 +330,61 @@ class BenchmarkRunner:
             qa_report_markdown_path=qa_report_markdown_path,
         )
 
+    # -- production-safety: never silently overwrite a prior benchmark ----
+
+    def _check_no_existing_benchmark(self, benchmark_id: str, *, force: bool) -> None:
+        """
+        Refuses to proceed if `results/` already has ANY artifact for
+        `benchmark_id` -- checked before a single scenario is prepared,
+        so a collision is a fast, clear configuration error rather than
+        a benchmark invocation that silently overwrites/interleaves with
+        a previous one. Checks both the aggregate file (written once, at
+        the END of a completed invocation) AND individual raw run files
+        (written incrementally, per run) -- a prior invocation that
+        crashed before reaching its own aggregate step would otherwise
+        leave raw/trace/evaluation files this check must still catch.
+        """
+
+        if force:
+            return
+
+        aggregate_path = self.experiment_store.aggregate_dir / f"{benchmark_id}.json"
+        existing_raw = list(self.experiment_store.raw_dir.glob(f"{benchmark_id}-*.json"))
+
+        if aggregate_path.exists() or existing_raw:
+            raise BenchmarkIdCollisionError(
+                f"A benchmark with id {benchmark_id!r} already has persisted results "
+                f"under {self.experiment_store.root}/ -- refusing to overwrite it. "
+                "Pass a different --name (or omit --name for a fresh auto-generated "
+                "id), or pass --force to deliberately overwrite."
+            )
+
+    # -- fault-version metadata (production hardening) --------------------
+
+    @staticmethod
+    def _load_fault_catalog_best_effort() -> FaultCatalog | None:
+        """
+        Loads `configs/benchmark/fault_catalog.json` once per invocation
+        for `ExperimentRecord.fault_version` lookups -- best-effort only:
+        a missing/corrupt catalog file must never block a benchmark run,
+        since M13-B's catalog is reference/audit data, not something the
+        orchestration layer depends on to function.
+        """
+
+        try:
+            return load_fault_catalog()
+        except Exception:  # noqa: BLE001 -- audit metadata only, never fatal
+            return None
+
+    @staticmethod
+    def _fault_version_for(fault_id: str | None, fault_catalog: FaultCatalog | None) -> str | None:
+        if fault_id is None or fault_catalog is None:
+            return None
+        try:
+            return fault_catalog.get(fault_id).tep_studio_version
+        except KeyError:
+            return None
+
     # -- task/split selection --------------------------------------------
 
     @staticmethod
@@ -313,7 +407,13 @@ class BenchmarkRunner:
             # that split, but this makes an explicit --task unambiguous
             # either way rather than silently dropping it if it doesn't
             # match --split.
-            return [task_registry.get(config.task_id)]
+            try:
+                return [task_registry.get(config.task_id)]
+            except KeyError:
+                raise ValueError(
+                    f"Unknown --task {config.task_id!r} for suite {config.suite!r}. "
+                    f"Valid task ids: {task_registry.list_ids()}"
+                ) from None
 
         tasks = (
             tasks_in_split(task_registry, TaskSplit(config.split), assignment=split_assignment)
@@ -384,6 +484,7 @@ class BenchmarkRunner:
         benchmark_id: str,
         benchmark_version: str,
         git_commit: str | None,
+        fault_catalog: FaultCatalog | None,
     ) -> tuple[str, ExperimentRecord, list[TraceEvent]]:
         """
         Runs exactly one (task, architecture arm, seed, repetition)
@@ -421,6 +522,9 @@ class BenchmarkRunner:
                 benchmark_version=benchmark_version,
                 git_commit=git_commit,
             )
+            fault_version = self._fault_version_for(record.fault_id, fault_catalog)
+            if fault_version is not None:
+                record = record.model_copy(update={"fault_version": fault_version})
             return run_id, record, trace
         except Exception as error:  # noqa: BLE001 -- orchestration-level continue-on-error
             now = datetime.now(UTC)
@@ -449,6 +553,7 @@ class BenchmarkRunner:
                 benchmark_version=benchmark_version,
                 git_commit=git_commit,
                 fault_id=fault_id,
+                fault_version=self._fault_version_for(fault_id, fault_catalog),
                 scenario_version=scenario_version,
                 task_version=task.version,
                 configuration_hash=compute_configuration_hash(exp_config),

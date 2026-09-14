@@ -1,5 +1,17 @@
 # Experiment Infrastructure (M9)
 
+> **Historical development record.** This document describes the M9-M12
+> experiment/reporting infrastructure design AND the specific validation
+> runs performed while building it (M9-M12, real filenames like
+> `results/aggregate/m10-d4-combo-validation.json` included below as
+> that historical record). Those specific files no longer exist in
+> `results/` -- as of the production-readiness hardening pass, `results/`
+> is cleaned before each real data-collection phase (see the repo root
+> `README.md`'s "Research Data Collection" section and `.gitignore`).
+> The infrastructure/design description here remains current; the
+> specific numbers/filenames are a snapshot of when it was built and
+> validated, not live state.
+
 ## What this is, and isn't
 
 `icab.experiments` (M9) is a Python-first, locally reproducible experiment

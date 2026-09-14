@@ -25,3 +25,29 @@ htmlcov/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Generated benchmark/experiment artifacts -- results/'s directory
+# skeleton is tracked (via .gitkeep in each subdirectory), but the
+# generated content inside is NOT: a fresh benchmark invocation
+# (scripts/run_benchmark.py / run_experiment.py / generate_report.py /
+# run_context_aware_agent.py / run_agent.py) must never accidentally
+# commit development/debugging/smoke-test output as if it were
+# production research data. See docs/benchmark/specification.md for
+# the full results/ layout and README.md's "Research Data Collection"
+# section for the intended workflow.
+results/raw/*
+results/traces/*
+results/evaluations/*
+results/aggregate/*
+results/reports/*
+results/figures/*
+results/hypotheses/*
+results/prototype/*
+!results/raw/.gitkeep
+!results/traces/.gitkeep
+!results/evaluations/.gitkeep
+!results/aggregate/.gitkeep
+!results/reports/.gitkeep
+!results/figures/.gitkeep
+!results/hypotheses/.gitkeep
+!results/prototype/.gitkeep

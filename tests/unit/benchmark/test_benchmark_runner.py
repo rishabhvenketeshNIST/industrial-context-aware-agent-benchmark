@@ -102,15 +102,47 @@ class TestTaskSelection:
         with pytest.raises(KeyError):
             runner.run(config)
 
-    def test_unknown_task_id_raises(self, tmp_path):
+    def test_unknown_task_id_raises_with_an_actionable_message(self, tmp_path):
+        # A production-hardening improvement: re-raised as a ValueError
+        # naming every valid task id, instead of a bare KeyError -- see
+        # BenchmarkRunner._select_tasks.
         runner = _runner(tmp_path)
         config = BenchmarkConfig(suite="tep-v1", task_id="not-a-real-task")
 
-        with pytest.raises(KeyError):
+        with pytest.raises(ValueError, match="Unknown --task"):
+            runner.run(config)
+
+    def test_scenario_filter_matching_no_tasks_raises_with_an_actionable_message(self, tmp_path):
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(suite="tep-v1", scenario_id="not-a-real-scenario")
+
+        with pytest.raises(ValueError, match="No tasks matched"):
             runner.run(config)
 
 
 class TestArchitectureExpansionAndSkipping:
+    def test_named_combination_key_resolves_to_a_single_arm(self, tmp_path):
+        # d2ctx-investigation-pressure-level-and-relationship declares
+        # exactly [historian, knowledge_graph] -- a subset match for the
+        # real "kg_historian" combination (not "all"/a raw list).
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(
+            suite="tep-v1",
+            task_id="d2ctx-investigation-pressure-level-and-relationship",
+            agent="baseline",
+            architectures="kg_historian",
+            seeds=[1],
+        )
+
+        result = runner.run(config)
+
+        assert result.successful_runs == 1
+        assert set(result.architectures) == {"historian", "knowledge_graph"}
+
+        store = ExperimentResultStore(root=tmp_path)
+        record = store.load_record(result.run_ids[0])
+        assert record.config.architecture_combination_key == "kg_historian"
+
     def test_all_expands_to_the_tasks_own_architectures(self, tmp_path):
         runner = _runner(tmp_path)
         config = BenchmarkConfig(
@@ -141,6 +173,18 @@ class TestArchitectureExpansionAndSkipping:
         assert result.skipped_runs == 2  # 2 seeds x 1 repetition, never silently run
         assert result.skipped_reasons
         assert result.run_ids == []
+
+    def test_unknown_architecture_name_is_a_configuration_error_not_a_skip(self, tmp_path):
+        # Distinct from "opcua" above: "bogus_arch" isn't a real ICAB
+        # architecture at all (a typo), which must fail fast as a
+        # configuration error -- never silently skipped/run.
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(
+            suite="tep-v1", task_id=D1_TASK_ID, agent="baseline", architectures="bogus_arch", seeds=[1]
+        )
+
+        with pytest.raises(ValueError, match="Unknown architecture"):
+            runner.run(config)
 
 
 class TestSeedsAndRepetitions:
@@ -338,6 +382,62 @@ class TestAggregationAndReportInvocation:
         assert result.report_json_path is None
 
 
+class TestFaultVersionMetadata:
+    """
+    Production-hardening addition: ExperimentRecord.fault_version, looked
+    up from the real, checked-in configs/benchmark/fault_catalog.json --
+    the closest existing analog to a per-fault "version" (M13-B never
+    defined a separate scheme). Best-effort only: never blocks a run.
+    """
+
+    def test_fault_version_is_populated_for_a_real_verified_fault(self, tmp_path):
+        def run_task_with_fault(task, config, *, scenario, run_id, experiment_id, benchmark_version, git_commit):
+            record, trace = _fake_run_task(
+                task, config, scenario=scenario, run_id=run_id, experiment_id=experiment_id,
+                benchmark_version=benchmark_version, git_commit=git_commit,
+            )
+            # d2_reactor_cooling_deviation's real scheduled fault (M13-B).
+            record = record.model_copy(update={"fault_id": "idv_17"})
+            return record, trace
+
+        runner = _runner(tmp_path, run_task=run_task_with_fault)
+        config = BenchmarkConfig(
+            suite="tep-v1", task_id="d2cooling-qa-current-value", agent="baseline",
+            architectures="historian", seeds=[1],
+        )
+
+        result = runner.run(config)
+
+        record = ExperimentResultStore(root=tmp_path).load_record(result.run_ids[0])
+        assert record.fault_id == "idv_17"
+        assert record.fault_version is not None  # looked up from the real fault_catalog.json
+
+    def test_fault_version_is_none_when_there_is_no_fault(self, tmp_path):
+        runner = _runner(tmp_path)  # D1_TASK_ID's scenario has no fault schedule
+        config = BenchmarkConfig(suite="tep-v1", task_id=D1_TASK_ID, agent="baseline", architectures="historian", seeds=[1])
+
+        result = runner.run(config)
+
+        record = ExperimentResultStore(root=tmp_path).load_record(result.run_ids[0])
+        assert record.fault_id is None
+        assert record.fault_version is None
+
+    def test_missing_fault_catalog_never_blocks_a_run(self, tmp_path, monkeypatch):
+        import icab.benchmark.runner as runner_module
+
+        def raise_on_load(*args, **kwargs):
+            raise FileNotFoundError("simulated missing catalog")
+
+        monkeypatch.setattr(runner_module, "load_fault_catalog", raise_on_load)
+
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(suite="tep-v1", task_id=D1_TASK_ID, agent="baseline", architectures="historian", seeds=[1])
+
+        result = runner.run(config)  # must not raise
+
+        assert result.successful_runs == 1
+
+
 class TestRunPersistence:
     def test_every_run_is_persisted_under_raw_and_evaluations(self, tmp_path):
         runner = _runner(tmp_path)
@@ -366,3 +466,88 @@ class TestRunPersistence:
         assert len(result.run_ids) == len(set(result.run_ids)) == 4
         for run_id in result.run_ids:
             assert D1_TASK_ID in run_id
+
+
+class TestConfigurationValidation:
+    """
+    Production-hardening: --repetitions/budgets that would otherwise
+    silently do something useless (zero runs, an instantly-exceeded
+    budget) are rejected as configuration errors instead.
+    """
+
+    @pytest.mark.parametrize("repetitions", [0, -1])
+    def test_non_positive_repetitions_is_rejected(self, repetitions):
+        with pytest.raises(Exception, match="repetitions"):
+            BenchmarkConfig(suite="tep-v1", repetitions=repetitions)
+
+    @pytest.mark.parametrize(
+        "field", ["max_steps", "max_tool_calls", "max_context_tokens", "max_wall_time_seconds"]
+    )
+    def test_non_positive_budgets_are_rejected(self, field):
+        with pytest.raises(Exception):
+            BenchmarkConfig(suite="tep-v1", **{field: 0})
+
+
+class TestBenchmarkIdCollisionProtection:
+    """
+    Production-safety: rerunning the same --name must never silently
+    overwrite a previous benchmark's persisted artifacts.
+    """
+
+    def test_reusing_an_existing_name_raises_without_force(self, tmp_path):
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(
+            suite="tep-v1", task_id=D1_TASK_ID, agent="baseline", architectures="historian", seeds=[1],
+            name="my-benchmark",
+        )
+
+        first = runner.run(config)
+        assert first.successful_runs == 1
+
+        from icab.benchmark import BenchmarkIdCollisionError
+
+        with pytest.raises(BenchmarkIdCollisionError, match="my-benchmark"):
+            runner.run(config)
+
+    def test_force_allows_deliberately_reusing_an_existing_name(self, tmp_path):
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(
+            suite="tep-v1", task_id=D1_TASK_ID, agent="baseline", architectures="historian", seeds=[1],
+            name="my-benchmark",
+        )
+
+        runner.run(config)
+
+        forced_config = config.model_copy(update={"force": True})
+        second = runner.run(forced_config)  # must not raise
+        assert second.successful_runs == 1
+
+    def test_a_prior_invocations_raw_files_alone_are_enough_to_be_detected(self, tmp_path):
+        """
+        Even if a prior invocation crashed before ever reaching its own
+        aggregate-writing step (so no aggregate/report JSON exists yet),
+        its individual raw run file(s) alone must still be detected as a
+        collision -- see BenchmarkRunner._check_no_existing_benchmark.
+        """
+
+        store = ExperimentResultStore(root=tmp_path)
+
+        # Simplest, most direct way to plant a "leftover raw file": run a
+        # real (mocked) run once, then delete only its aggregate/report
+        # outputs -- simulating a crash that happened after save() but
+        # before the aggregate step.
+        runner = _runner(tmp_path)
+        config = BenchmarkConfig(
+            suite="tep-v1", task_id=D1_TASK_ID, agent="baseline", architectures="historian", seeds=[1],
+            name="my-benchmark",
+        )
+        runner.run(config)
+
+        # Remove the aggregate/report so only the raw run file remains --
+        # simulating a crash that happened after save() but before the
+        # aggregate step.
+        (store.aggregate_dir / "my-benchmark.json").unlink()
+        (store.aggregate_dir / "my-benchmark.csv").unlink()
+
+        with pytest.raises(Exception, match="my-benchmark"):
+            runner.run(config)

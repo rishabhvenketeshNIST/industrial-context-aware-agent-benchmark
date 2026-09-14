@@ -181,6 +181,7 @@ def test_faulted_scenario_task_propagates_fault_id_onto_the_record(tmp_path, mon
 
         assert record.status == ExperimentRunStatus.COMPLETED
         assert record.fault_id == "idv_17"  # d2_reactor_cooling_deviation's real scheduled fault
+        assert record.fault_version is not None  # looked up from the real fault_catalog.json
         assert record.config.split == "validation"
         assert record.simulation_seed == 2
 

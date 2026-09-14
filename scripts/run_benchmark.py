@@ -44,6 +44,9 @@ from __future__ import annotations
 import argparse
 import sys
 
+import psycopg
+from neo4j import GraphDatabase
+
 from icab.benchmark import BenchmarkConfig, BenchmarkRunner
 from icab.context.environment_loader import EnvironmentLoader
 from icab.context.historian.repository import PostgresHistorianRepository
@@ -58,6 +61,56 @@ from icab.scenarios.runner import ScenarioRunner
 from icab.tep import TEPContextSync
 
 DEFAULT_GATEWAY_URL = "http://localhost:8000"
+
+
+def _check_infrastructure_reachable(settings) -> None:
+    """
+    Fail fast, with one clear, consolidated message, if PostgreSQL/
+    TimescaleDB, Neo4j, or MQTT aren't reachable. Constructing
+    `PostgresHistorianRepository`/`Neo4jKnowledgeGraphRepository`/
+    `MQTTClient` never actually connects (all three connect lazily, on
+    first real use) -- without this check, an unreachable service would
+    only surface deep inside the FIRST scenario preparation, as a raw
+    driver exception, and then identically again for every subsequent
+    run in the invocation. Mirrors `_check_gateway_reachable`'s
+    rationale; the Agent Gateway's own `/health` is a static check and
+    does not itself verify these services.
+    """
+
+    problems: list[str] = []
+
+    try:
+        with psycopg.connect(settings.database_url, connect_timeout=5):
+            pass
+    except Exception as error:  # noqa: BLE001 -- reported, not silenced
+        problems.append(f"PostgreSQL/TimescaleDB ({settings.database_url}): {type(error).__name__}: {error}")
+
+    try:
+        driver = GraphDatabase.driver(
+            settings.neo4j_uri, auth=(settings.neo4j_username, settings.neo4j_password)
+        )
+        try:
+            driver.verify_connectivity()
+        finally:
+            driver.close()
+    except Exception as error:  # noqa: BLE001
+        problems.append(f"Neo4j ({settings.neo4j_uri}): {type(error).__name__}: {error}")
+
+    try:
+        probe = MQTTClient(settings.mqtt_host, settings.mqtt_port)
+        probe.connect()
+        probe.disconnect()
+    except Exception as error:  # noqa: BLE001
+        problems.append(f"MQTT ({settings.mqtt_host}:{settings.mqtt_port}): {type(error).__name__}: {error}")
+
+    if problems:
+        details = "\n  - ".join(problems)
+        raise SystemExit(
+            "error: required infrastructure is not reachable:\n  - " + details + "\n\n"
+            "Start the docker-compose stack first:\n"
+            "    docker compose up -d\n"
+            "then re-run this command."
+        )
 
 
 def _check_gateway_reachable(gateway_url: str) -> None:
@@ -152,7 +205,16 @@ def _build_benchmark_runner(gateway_url: str, results_root: str) -> tuple[Benchm
 def _parse_seeds(raw: str | None) -> list[int] | None:
     if not raw:
         return None
-    return [int(part.strip()) for part in raw.split(",") if part.strip()]
+
+    parts = [part.strip() for part in raw.split(",") if part.strip()]
+
+    try:
+        return [int(part) for part in parts]
+    except ValueError:
+        raise SystemExit(
+            f"error: --seeds {raw!r} is not a comma-separated list of integers "
+            "(e.g. '1,2,3,4,5')."
+        ) from None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -188,16 +250,17 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--seeds", default=None, help="Comma-separated seed overrides, e.g. '1,2,3,4,5'. Default: each scenario's own built-in seed, once.")
     parser.add_argument("--repetitions", type=int, default=1, help="Repeat each (task, architecture arm, seed) this many times.")
 
-    parser.add_argument("--llm-model", default=None)
-    parser.add_argument("--temperature", dest="llm_temperature", type=float, default=None)
-    parser.add_argument("--max-steps", type=int, default=None)
-    parser.add_argument("--max-tool-calls", type=int, default=None)
-    parser.add_argument("--max-context-tokens", type=int, default=None)
-    parser.add_argument("--max-wall-time", dest="max_wall_time_seconds", type=float, default=None)
+    parser.add_argument("--llm-model", default=None, help="LLM model name (--agent llm only). Default: ICAB_LLM_MODEL from .env.")
+    parser.add_argument("--temperature", dest="llm_temperature", type=float, default=None, help="LLM sampling temperature (--agent llm only). Default: 0.0.")
+    parser.add_argument("--max-steps", type=int, default=None, help="Max tool-calling loop iterations per run (--agent llm only). Default: unbounded.")
+    parser.add_argument("--max-tool-calls", type=int, default=None, help="Max total tool calls per run (--agent llm only). Default: unbounded.")
+    parser.add_argument("--max-context-tokens", type=int, default=None, help="Max cumulative LLM token usage per run (--agent llm only). Default: unbounded.")
+    parser.add_argument("--max-wall-time", dest="max_wall_time_seconds", type=float, default=None, help="Max wall-clock seconds per run (--agent llm only). Default: unbounded.")
 
-    parser.add_argument("--name", default=None, help="Benchmark/experiment id -- default: auto-generated.")
-    parser.add_argument("--gateway-url", default=DEFAULT_GATEWAY_URL)
-    parser.add_argument("--results-root", default="results")
+    parser.add_argument("--name", default=None, help="Benchmark/experiment id -- default: auto-generated (never collides). Reusing an existing --name is refused unless --force is also passed.")
+    parser.add_argument("--force", action="store_true", help="Allow --name to overwrite a benchmark id that already has persisted results. Off by default -- see docs/benchmark/specification.md.")
+    parser.add_argument("--gateway-url", default=DEFAULT_GATEWAY_URL, help=f"Agent Gateway base URL. Default: {DEFAULT_GATEWAY_URL}.")
+    parser.add_argument("--results-root", default="results", help="Root directory for raw/traces/evaluations/aggregate/reports/figures. Default: 'results'.")
 
     return parser
 
@@ -219,22 +282,46 @@ def build_benchmark_config(args: argparse.Namespace) -> BenchmarkConfig:
         max_context_tokens=args.max_context_tokens,
         max_wall_time_seconds=args.max_wall_time_seconds,
         name=args.name,
+        force=args.force,
     )
 
 
 def main() -> int:
-    args = build_parser().parse_args()
-    config = build_benchmark_config(args)
+    from pydantic import ValidationError
 
+    from icab.common.config import get_settings
+
+    args = build_parser().parse_args()
+
+    try:
+        config = build_benchmark_config(args)
+    except ValidationError as error:
+        print(f"error: invalid configuration:\n{error}", file=sys.stderr)
+        return 2
+
+    settings = get_settings()
+    _check_infrastructure_reachable(settings)
     _check_gateway_reachable(args.gateway_url)
 
     benchmark_runner, mqtt_client, kg_repository = _build_benchmark_runner(args.gateway_url, args.results_root)
 
     try:
-        with mqtt_client:
-            result = benchmark_runner.run(config)
-    finally:
-        kg_repository.close()
+        try:
+            with mqtt_client:
+                result = benchmark_runner.run(config)
+        finally:
+            kg_repository.close()
+    except (ValueError, KeyError) as error:
+        # Configuration-level failures raised by BenchmarkRunner itself
+        # (unknown suite/task/architecture, no tasks matched, a
+        # benchmark_id collision, ...) -- a clear, one-line message
+        # rather than a raw Python traceback as the only explanation.
+        # Genuine per-run failures (a specific run's own scenario
+        # preparation or agent execution failing) are NOT raised here --
+        # those are already caught inside BenchmarkRunner and persisted
+        # as their own FAILED ExperimentRecord instead.
+        print(f"error: {error}", file=sys.stderr)
+        return 2
 
     print(f"benchmark_id:      {result.benchmark_id}")
     print(f"suite:             {result.suite}   split: {result.split or '(all)'}")

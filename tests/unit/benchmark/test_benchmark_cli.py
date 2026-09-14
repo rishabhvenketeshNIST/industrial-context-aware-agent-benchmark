@@ -10,6 +10,7 @@ from __future__ import annotations
 import importlib.util
 import sys
 from pathlib import Path
+from unittest.mock import Mock
 
 import httpx
 import pytest
@@ -40,6 +41,23 @@ class TestRequiredArguments:
     def test_suite_is_required(self, cli):
         with pytest.raises(SystemExit):
             cli.build_parser().parse_args([])
+
+    def test_help_exits_cleanly_and_documents_every_flag(self, cli, capsys):
+        # --help must work without any gateway/infrastructure -- argparse
+        # short-circuits before main()'s own preflight checks ever run.
+        with pytest.raises(SystemExit) as excinfo:
+            cli.build_parser().parse_args(["--help"])
+        assert excinfo.value.code == 0
+
+        help_text = capsys.readouterr().out
+        for flag in (
+            "--suite", "--split", "--task", "--scenario", "--agent",
+            "--architectures", "--seeds", "--repetitions", "--llm-model",
+            "--temperature", "--max-steps", "--max-tool-calls",
+            "--max-context-tokens", "--max-wall-time", "--name", "--force",
+            "--gateway-url", "--results-root",
+        ):
+            assert flag in help_text
 
     def test_minimal_valid_invocation(self, cli):
         config = _parse(cli, ["--suite", "tep-v1"])
@@ -122,6 +140,32 @@ class TestNameOverride:
         config = _parse(cli, ["--suite", "tep-v1", "--name", "my-benchmark-run"])
         assert config.name == "my-benchmark-run"
 
+    def test_force_defaults_to_false(self, cli):
+        config = _parse(cli, ["--suite", "tep-v1", "--name", "my-benchmark-run"])
+        assert config.force is False
+
+    def test_force_flag_is_parsed(self, cli):
+        config = _parse(cli, ["--suite", "tep-v1", "--name", "my-benchmark-run", "--force"])
+        assert config.force is True
+
+
+class TestConfigurationErrorsExitCleanly:
+    """
+    A bad --repetitions/budget value must fail as ONE clear message
+    (pydantic's ValidationError, caught in main()), never a bare Python
+    traceback as the only explanation.
+    """
+
+    def test_invalid_repetitions_raises_a_validation_error(self, cli):
+        args = cli.build_parser().parse_args(["--suite", "tep-v1", "--repetitions", "0"])
+        with pytest.raises(Exception, match="repetitions"):
+            cli.build_benchmark_config(args)
+
+    def test_malformed_seeds_exits_with_an_actionable_message(self, cli):
+        args = cli.build_parser().parse_args(["--suite", "tep-v1", "--seeds", "abc"])
+        with pytest.raises(SystemExit, match="not a comma-separated list of integers"):
+            cli.build_benchmark_config(args)
+
 
 class TestGatewayPreflightCheck:
     """
@@ -162,3 +206,91 @@ class TestGatewayPreflightCheck:
 
         with pytest.raises(SystemExit, match="not reachable"):
             cli._check_gateway_reachable("http://localhost:8000")
+
+
+class _FakeSettings:
+    database_url = "postgresql://icab:icab@localhost:5432/icab"
+    neo4j_uri = "bolt://localhost:7687"
+    neo4j_username = "neo4j"
+    neo4j_password = "icabpassword"
+    mqtt_host = "localhost"
+    mqtt_port = 1883
+
+
+class TestInfrastructurePreflightCheck:
+    """
+    Mirrors TestGatewayPreflightCheck's rationale, but for PostgreSQL/
+    Neo4j/MQTT -- all three connect lazily, so an unreachable service
+    would otherwise only surface deep inside the first scenario
+    preparation.
+    """
+
+    def test_all_reachable_returns_normally(self, cli, monkeypatch):
+        monkeypatch.setattr(cli.psycopg, "connect", lambda *a, **k: _NullContext())
+        fake_driver = Mock()
+        monkeypatch.setattr(cli, "GraphDatabase", Mock(driver=lambda *a, **k: fake_driver))
+        monkeypatch.setattr(cli.MQTTClient, "connect", lambda self: None)
+        monkeypatch.setattr(cli.MQTTClient, "disconnect", lambda self: None)
+
+        cli._check_infrastructure_reachable(_FakeSettings())  # must not raise
+
+    def test_unreachable_postgres_is_reported_by_name(self, cli, monkeypatch):
+        def fake_connect(*a, **k):
+            raise OSError("connection refused")
+
+        monkeypatch.setattr(cli.psycopg, "connect", fake_connect)
+        fake_driver = Mock()
+        monkeypatch.setattr(cli, "GraphDatabase", Mock(driver=lambda *a, **k: fake_driver))
+        monkeypatch.setattr(cli.MQTTClient, "connect", lambda self: None)
+        monkeypatch.setattr(cli.MQTTClient, "disconnect", lambda self: None)
+
+        with pytest.raises(SystemExit, match="PostgreSQL"):
+            cli._check_infrastructure_reachable(_FakeSettings())
+
+    def test_unreachable_neo4j_is_reported_by_name(self, cli, monkeypatch):
+        monkeypatch.setattr(cli.psycopg, "connect", lambda *a, **k: _NullContext())
+
+        def fake_driver(*a, **k):
+            raise RuntimeError("service unavailable")
+
+        monkeypatch.setattr(cli, "GraphDatabase", Mock(driver=fake_driver))
+        monkeypatch.setattr(cli.MQTTClient, "connect", lambda self: None)
+        monkeypatch.setattr(cli.MQTTClient, "disconnect", lambda self: None)
+
+        with pytest.raises(SystemExit, match="Neo4j"):
+            cli._check_infrastructure_reachable(_FakeSettings())
+
+    def test_unreachable_mqtt_is_reported_by_name(self, cli, monkeypatch):
+        monkeypatch.setattr(cli.psycopg, "connect", lambda *a, **k: _NullContext())
+        fake_driver = Mock()
+        monkeypatch.setattr(cli, "GraphDatabase", Mock(driver=lambda *a, **k: fake_driver))
+
+        def fake_connect(self):
+            raise OSError("connection refused")
+
+        monkeypatch.setattr(cli.MQTTClient, "connect", fake_connect)
+
+        with pytest.raises(SystemExit, match="MQTT"):
+            cli._check_infrastructure_reachable(_FakeSettings())
+
+    def test_all_unreachable_lists_every_problem_in_one_message(self, cli, monkeypatch):
+        monkeypatch.setattr(cli.psycopg, "connect", lambda *a, **k: (_ for _ in ()).throw(OSError("no")))
+        monkeypatch.setattr(cli, "GraphDatabase", Mock(driver=lambda *a, **k: (_ for _ in ()).throw(RuntimeError("no"))))
+        monkeypatch.setattr(cli.MQTTClient, "connect", lambda self: (_ for _ in ()).throw(OSError("no")))
+
+        with pytest.raises(SystemExit) as excinfo:
+            cli._check_infrastructure_reachable(_FakeSettings())
+
+        message = str(excinfo.value)
+        assert "PostgreSQL" in message
+        assert "Neo4j" in message
+        assert "MQTT" in message
+        assert "docker compose up -d" in message
+
+
+class _NullContext:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        return False

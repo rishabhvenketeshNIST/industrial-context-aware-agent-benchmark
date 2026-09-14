@@ -233,6 +233,15 @@ class ExperimentRecord(BaseModel):
     #: GroundTruth.root_cause_disturbance but derived from the scenario's
     #: own fault schedule rather than duplicated authoring.
     fault_id: str | None = None
+    #: Production-hardening addition: the fault catalog
+    #: (configs/benchmark/fault_catalog.json, icab.tep.faults)
+    #: entry's own `tep_studio_version` for `fault_id`, when the catalog
+    #: has an entry for it -- the closest existing analog to a "fault
+    #: version" (M13-B never defined a separate per-fault version
+    #: scheme). Best-effort/auditability only: None if `fault_id` is
+    #: None, or if the catalog has no matching entry, or if the catalog
+    #: file itself could not be loaded -- never blocks a run.
+    fault_version: str | None = None
     #: BenchmarkScenario.version (M13-D) of the scenario actually run --
     #: recorded so a persisted record stays self-describing even if the
     #: scenario's own YAML is later revised.

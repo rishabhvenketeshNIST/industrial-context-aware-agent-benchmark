@@ -134,3 +134,135 @@ class TestFindMinimumSufficientContext:
         report = find_minimum_sufficient_context([failed], use_case)
 
         assert report.minimum_sufficient_context_among_tested is None
+
+    def test_a_superset_of_a_sufficient_condition_is_excluded_from_candidates(self):
+        # C3+C5 ⊂ C2+C3+C4+C5+C6+C7, and both meet the threshold -- the
+        # larger one is DOMINATED (not a minimal element) and must not
+        # appear as its own candidate.
+        use_case = _use_case()
+        smaller = make_v2_record(
+            "r1", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        larger = make_v2_record(
+            "r2", context_combination_id="C2+C3+C4+C5+C6+C7", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+
+        report = find_minimum_sufficient_context([smaller, larger], use_case)
+
+        assert report.candidate_minimum_sufficient_contexts == ["C3+C5"]
+        assert report.minimum_sufficient_context_among_tested == "C3+C5"
+
+
+class TestPartialOrderMultipleCandidates:
+    """
+    Context combinations form a PARTIAL order by dimension subset, not a
+    total order -- two sufficient tested conditions can be genuinely
+    incomparable (neither a subset of the other), including but not
+    limited to equal-cardinality ties. Both must be reported, never one
+    arbitrarily preferred.
+    """
+
+    def test_two_equal_cardinality_sufficient_conditions_are_both_reported(self):
+        use_case = _use_case()
+        a = make_v2_record(
+            "r1", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        b = make_v2_record(
+            "r2", context_combination_id="C2+C3", architectures=["knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+
+        report = find_minimum_sufficient_context([a, b], use_case)
+
+        assert set(report.candidate_minimum_sufficient_contexts) == {"C3+C5", "C2+C3"}
+        # The singular field is deterministic (lexicographically first) but never claims uniqueness on its own.
+        assert report.minimum_sufficient_context_among_tested in {"C3+C5", "C2+C3"}
+
+    def test_incomparable_conditions_of_different_cardinality_are_both_reported(self):
+        # C5 (cardinality 1) is NOT a subset of C2+C3 (cardinality 2) and
+        # vice versa -- genuinely incomparable despite different sizes.
+        use_case = _use_case()
+        small = make_v2_record(
+            "r1", context_combination_id="C5", architectures=["historian"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        different = make_v2_record(
+            "r2", context_combination_id="C2+C3", architectures=["knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+
+        report = find_minimum_sufficient_context([small, different], use_case)
+
+        assert set(report.candidate_minimum_sufficient_contexts) == {"C5", "C2+C3"}
+
+    def test_empty_candidate_list_when_nothing_is_sufficient(self):
+        use_case = _use_case()
+        record = make_v2_record(
+            "r1", context_combination_id="C5", architectures=["historian"],
+            evaluation=make_evaluation(required_evidence_score=0.0, relationship_score=0.0),
+        )
+
+        report = find_minimum_sufficient_context([record], use_case)
+
+        assert report.candidate_minimum_sufficient_contexts == []
+
+
+class TestTraceabilityFromConditionToExperimentId:
+    """Every tested condition (and so every context-requirement-matrix cell derived from it) must be traceable back to the exact run_id(s) it rests on."""
+
+    def test_each_tested_condition_carries_its_own_run_ids(self):
+        use_case = _use_case()
+        a = make_v2_record(
+            "run-alpha", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        b = make_v2_record(
+            "run-beta", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        other_combo = make_v2_record(
+            "run-gamma", context_combination_id="C4+C5+C7", architectures=["historian"],
+            evaluation=make_evaluation(required_evidence_score=0.0, relationship_score=0.0),
+        )
+
+        report = find_minimum_sufficient_context([a, b, other_combo], use_case)
+
+        by_id = {c.context_combination_id: c for c in report.tested_conditions}
+        assert set(by_id["C3+C5"].run_ids) == {"run-alpha", "run-beta"}
+        assert by_id["C4+C5+C7"].run_ids == ["run-gamma"]
+
+    def test_candidate_msc_table_supporting_experiment_ids_match_the_real_run_ids(self):
+        from icab.analysis import candidate_msc_table
+
+        use_case = _use_case()
+        a = make_v2_record(
+            "run-alpha", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+
+        rows = candidate_msc_table([use_case], [a])
+
+        assert rows[0]["supporting_experiment_ids"] == {"C3+C5": ["run-alpha"]}
+
+    def test_a_failed_run_never_contributes_a_run_id_to_a_sufficient_condition(self):
+        use_case = _use_case()
+        completed = make_v2_record(
+            "run-good", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+        )
+        failed = make_v2_record(
+            "run-bad", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+            status=ExperimentRunStatus.FAILED, error="boom",
+        )
+
+        report = find_minimum_sufficient_context([completed, failed], use_case)
+
+        condition = next(c for c in report.tested_conditions if c.context_combination_id == "C3+C5")
+        # Both run_ids are recorded (the condition genuinely includes both
+        # attempts), but the FAILED run must never silently vanish from
+        # the record OR silently count toward the passing mean.
+        assert set(condition.run_ids) == {"run-good", "run-bad"}
+        assert condition.n_runs == 2

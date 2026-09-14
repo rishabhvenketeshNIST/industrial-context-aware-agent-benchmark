@@ -235,11 +235,23 @@ def candidate_msc_table(
         if not scoped:
             continue
         report = find_minimum_sufficient_context(records, use_case)
+        conditions_by_id = {c.context_combination_id: c for c in report.tested_conditions}
         rows.append(
             {
                 "use_case_id": use_case.use_case_id,
                 "isa95_level": use_case.isa95_level.value,
                 "candidate_msc": report.minimum_sufficient_context_among_tested,
+                #: Every minimal candidate, not just one arbitrarily
+                #: chosen among incomparable ties -- see
+                #: SufficiencyReport.candidate_minimum_sufficient_contexts.
+                "candidate_msc_combinations": report.candidate_minimum_sufficient_contexts,
+                #: run_id(s) backing each candidate MSC -- traceability
+                #: from this table's claim back to the exact persisted
+                #: ExperimentRecord(s) it rests on.
+                "supporting_experiment_ids": {
+                    combination_id: conditions_by_id[combination_id].run_ids
+                    for combination_id in report.candidate_minimum_sufficient_contexts
+                },
                 "tested_conditions": [c.context_combination_id for c in report.tested_conditions],
                 "n_runs": len(scoped),
                 "sample_size_label": sample_size_label(len(scoped)),

@@ -61,7 +61,25 @@ class TestUseCaseExperimentMatrix:
         assert matrix.sample_size_label == "tentative_small_n"
         assert matrix.sufficiency.minimum_sufficient_context_among_tested == "C3+C5"
         assert matrix.candidate_msc == ["C3", "C5"]
+        assert matrix.candidate_msc_combinations == ["C3+C5"]
         assert sum(matrix.discoverability_breakdown.values()) == 2
+
+    def test_exposes_every_incomparable_candidate_msc_not_just_one(self):
+        use_case = _use_case()
+        records = [
+            make_v2_record(
+                "r1", context_combination_id="C3+C5", architectures=["historian", "knowledge_graph"],
+                evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+            ),
+            make_v2_record(
+                "r2", context_combination_id="C2+C3", architectures=["knowledge_graph"],
+                evaluation=make_evaluation(required_evidence_score=1.0, relationship_score=1.0),
+            ),
+        ]
+
+        matrix = build_use_case_experiment_matrix(records, use_case)
+
+        assert set(matrix.candidate_msc_combinations) == {"C3+C5", "C2+C3"}
 
     def test_failed_runs_are_never_silently_dropped_from_counters(self):
         use_case = _use_case()
@@ -183,3 +201,4 @@ class TestCandidateMscTable:
         assert len(rows) == 1
         assert rows[0]["use_case_id"] == "eq-value-and-relationship-combination"
         assert rows[0]["candidate_msc"] == "C3+C5"
+        assert rows[0]["candidate_msc_combinations"] == ["C3+C5"]

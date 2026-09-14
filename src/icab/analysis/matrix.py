@@ -49,7 +49,19 @@ class UseCaseExperimentMatrix(BaseModel):
 
     necessity: NecessityReport
     sufficiency: SufficiencyReport
+    #: Dimensions of ONE chosen candidate MSC (the same single value
+    #: `sufficiency.minimum_sufficient_context_among_tested` resolves to)
+    #: -- kept for backward compatibility. When several tested conditions
+    #: are genuinely incomparable (see `candidate_msc_combinations`
+    #: below), this reflects only the deterministic tie-break, not the
+    #: full picture.
     candidate_msc: list[str] | None
+    #: EVERY minimal candidate MSC's own combination id (see
+    #: `SufficiencyReport.candidate_minimum_sufficient_contexts`) --
+    #: prefer this field when reporting on Minimum Sufficient Context,
+    #: since context combinations form a partial order and can have more
+    #: than one incomparable minimal element.
+    candidate_msc_combinations: list[str]
 
     failure_breakdown: dict[str, int]
     discoverability_breakdown: dict[str, int]
@@ -106,6 +118,7 @@ def build_use_case_experiment_matrix(
         necessity=necessity,
         sufficiency=sufficiency,
         candidate_msc=candidate_msc,
+        candidate_msc_combinations=sufficiency.candidate_minimum_sufficient_contexts,
         failure_breakdown=_count_by(classify_failures(scoped), key="category"),
         discoverability_breakdown=discoverability_breakdown(scoped),
     )

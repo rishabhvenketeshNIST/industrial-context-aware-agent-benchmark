@@ -32,6 +32,10 @@ class _ConditionResult(BaseModel):
     n_runs: int
     scores: dict[str, float | None]
     meets_threshold: bool
+    #: Every run_id that fed this condition's scores -- traceability from
+    #: a sufficiency/MSC conclusion back to the exact persisted
+    #: ExperimentRecord(s) (results/raw/<run_id>.json) it rests on.
+    run_ids: list[str] = []
 
 
 class SufficiencyReport(BaseModel):
@@ -44,15 +48,33 @@ class SufficiencyReport(BaseModel):
     tested_conditions: list[_ConditionResult]
 
     #: The smallest-cardinality tested condition meeting every binding
-    #: score's threshold -- None if NO tested condition met it.
+    #: score's threshold -- None if NO tested condition met it. Kept for
+    #: backward compatibility (e.g. icab.analysis.profile); when several
+    #: conditions tie for smallest/incomparable, this is simply the
+    #: first of `candidate_minimum_sufficient_contexts` (lexicographically
+    #: smallest id) -- prefer that field when the full picture matters.
     minimum_sufficient_context_among_tested: str | None
+    #: EVERY tested sufficient condition that is not a proper superset of
+    #: another tested sufficient condition -- i.e. the minimal elements of
+    #: the sufficient conditions under the DIMENSION-SUBSET partial order,
+    #: not merely "smallest cardinality." Context combinations do not form
+    #: a total order: two sufficient conditions of equal cardinality (or
+    #: of different cardinality, if neither's dimensions are a subset of
+    #: the other's) are INCOMPARABLE, and both are reported here rather
+    #: than one being arbitrarily preferred. Empty when nothing tested met
+    #: the threshold.
+    candidate_minimum_sufficient_contexts: list[str] = []
     #: Explicit, honest label distinguishing this from a global claim --
     #: always present in the rendered report/profile.
     caveat: str = (
         "Minimum Sufficient Context Among Tested Conditions -- NOT a "
         "claim of global mathematical minimality. Only context "
         "combinations actually run are considered; an untested, "
-        "smaller combination may or may not also be sufficient."
+        "smaller combination may or may not also be sufficient. Context "
+        "combinations form a partial order (by dimension subset), not a "
+        "total order -- see candidate_minimum_sufficient_contexts for "
+        "every incomparable minimal candidate, not just one arbitrarily "
+        "chosen among ties."
     )
 
 
@@ -94,11 +116,12 @@ def find_minimum_sufficient_context(
                 n_runs=len(combination_records),
                 scores=scores,
                 meets_threshold=meets,
+                run_ids=sorted(r.run_id for r in combination_records),
             )
         )
 
-    sufficient = [condition for condition in conditions if condition.meets_threshold]
-    minimum = min(sufficient, key=lambda condition: (condition.cardinality, condition.context_combination_id)).context_combination_id if sufficient else None
+    candidates = _minimal_sufficient_conditions(conditions)
+    minimum = candidates[0] if candidates else None
 
     return SufficiencyReport(
         use_case_id=use_case.use_case_id,
@@ -106,4 +129,38 @@ def find_minimum_sufficient_context(
         pass_threshold=threshold,
         tested_conditions=conditions,
         minimum_sufficient_context_among_tested=minimum,
+        candidate_minimum_sufficient_contexts=candidates,
     )
+
+
+def _minimal_sufficient_conditions(conditions: list[_ConditionResult]) -> list[str]:
+    """
+    Every sufficient (meets_threshold) tested condition whose dimensions
+    are NOT a proper superset of another sufficient tested condition's
+    dimensions -- the minimal elements of the sufficient set under the
+    dimension-SUBSET partial order. Two sufficient conditions of equal
+    cardinality are always incomparable (neither's dimensions can be a
+    proper subset of the other's when they have the same size), so BOTH
+    are always included -- this generalizes "smallest cardinality" to the
+    partial order context combinations actually form, per the ICAB v2
+    direction: "If two incomparable conditions have the same number of
+    dimensions, do not arbitrarily choose one."
+    """
+
+    sufficient = [condition for condition in conditions if condition.meets_threshold]
+    dimension_sets = {
+        condition.context_combination_id: set(combination_for_id(condition.context_combination_id).dimensions)
+        for condition in sufficient
+    }
+
+    minimal_ids = [
+        condition_id
+        for condition_id, dims in dimension_sets.items()
+        if not any(
+            other_dims < dims  # a strictly smaller sufficient condition's dimensions are a proper subset
+            for other_id, other_dims in dimension_sets.items()
+            if other_id != condition_id
+        )
+    ]
+
+    return sorted(minimal_ids, key=lambda condition_id: (combination_for_id(condition_id).cardinality, condition_id))

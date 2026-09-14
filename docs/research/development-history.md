@@ -329,6 +329,64 @@
   `pass_threshold=1.0` -- reported plainly as an open sufficiency gap in
   `docs/benchmark/specification-v2.md`, not rounded up.
 
+- First real empirical context-requirement CAMPAIGN (a follow-up on the
+  prior two ICAB v2 milestones, same broad direction): those milestones
+  built the machinery; this one used it to actually produce, analyze,
+  and write up a controlled empirical study. New
+  `docs/research/context-requirement-protocol.md` (the fixed protocol:
+  what varies/is held constant, the explicit `pass_threshold=1.0`
+  success predicate, the partial-order MSC rule, the traceability
+  requirement) and `docs/research/context-requirement-campaign-1.md`
+  (the first campaign's full write-up: cohort selection rationale, Phase
+  4 realizable-maximum-vs-candidate_context comparison for all 5 use
+  cases, Tables A-E, and an explicit observed/tentative/unsupported
+  claim audit). Ran 18 new real LLM runs (NIST RChat) across a 5-use-case
+  cohort (`eq-abnormal-behavior-diagnosis`, `eq-value-and-relationship-combination`,
+  `pc-equipment-composition-discovery`, `pc-cross-unit-diagnosis` --
+  brand new, zero prior data -- and `area-process-cell-composition`),
+  bringing the cohort to 33 real runs total (18 new + 15 carried over).
+  **Fixed a real, load-bearing gap in `icab.analysis.sufficiency`**
+  found while trying to report Table B honestly: the existing MSC
+  determination used `min()` to pick ONE smallest-cardinality sufficient
+  condition, silently discarding genuinely incomparable ties (context
+  combinations form a partial order by dimension subset, not a total
+  order) -- fixed by adding `SufficiencyReport
+  .candidate_minimum_sufficient_contexts` (every minimal, non-dominated
+  sufficient condition) computed via a proper subset-domination check,
+  keeping the old singular field only as a backward-compatible
+  tie-break; also added `run_ids` traceability to every tested condition
+  so a matrix cell or candidate-MSC row can always be traced back to its
+  exact `results/raw/<run_id>.json`. Propagated through
+  `icab.analysis.matrix`/`.reports`. 8 new tests
+  (`TestPartialOrderMultipleCandidates`,
+  `TestTraceabilityFromConditionToExperimentId`, plus matrix/report
+  field-propagation checks).
+  **Real findings** (not merely designed, cited by `run_id` in the
+  campaign report): only ONE (use case, condition) pair across the whole
+  33-run cohort met its `pass_threshold=1.0` --
+  `eq-value-and-relationship-combination` at the full realizable
+  `C2+C3+C4+C5+C6+C7` (n=2, both seeds); every cohort task's
+  architecture-realizable maximum context exceeded its own use case's
+  declared `candidate_context` (5/5 use cases, extending the prior
+  milestone's 13/127-realizable finding); combining `uns`+`opcua` for
+  `pc-equipment-composition-discovery` produced a WORSE
+  `canonical_id_score` (0.0, both seeds) than either architecture alone
+  (0.31/0.96 pooled) -- a concrete "more context is not automatically
+  better" case; the Area `knowledge_graph`-only discoverability failure
+  reproduced a THIRD time (now across 3 runs, 2 distinct seeds), always
+  stalling at the identical `discovered_identifier` stage; both
+  diagnosis-type use cases reached `required_evidence_score`/
+  `relationship_score`/`grounding_score`=1.0 at full context while
+  `conclusion_correctness_score` stayed at 0.25 in every case -- traced
+  to a genuine, pre-existing evaluator heuristic limitation
+  (`root_cause_identified` requires exact-form matching), not
+  necessarily poor agent reasoning, and reported with that caveat rather
+  than overclaimed; full-context conditions were also frequently MORE
+  efficient (fewer tool calls, lower latency) than the narrower
+  conditions that failed to retrieve evidence at all, directly
+  contradicting a naive "more context costs more" assumption.
+  740 passed + 3 skipped (up from 732/3).
+
 ## Not yet filled in
 
 Present as empty placeholders/known gaps, not yet addressed:

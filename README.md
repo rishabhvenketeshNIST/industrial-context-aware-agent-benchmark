@@ -285,6 +285,14 @@ uv run python scripts/icab_v2_cli.py matrix-context-requirement
 uv run python scripts/icab_v2_cli.py matrix-isa95-coverage
 ```
 
+The first real empirical campaign run with this machinery — a
+5-use-case cohort, 33 real runs, full context-requirement/candidate-MSC/
+architecture/failure tables, and an explicit observed-vs-tentative-vs-
+unsupported claim audit — is written up in
+[`docs/research/context-requirement-campaign-1.md`](docs/research/context-requirement-campaign-1.md),
+following the fixed protocol in
+[`docs/research/context-requirement-protocol.md`](docs/research/context-requirement-protocol.md).
+
 ## Repository Structure
 
 ```text

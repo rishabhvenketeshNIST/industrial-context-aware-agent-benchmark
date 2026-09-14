@@ -380,6 +380,29 @@ M13-D already persists (`benchmark_id`, `configuration_hash`,
 `generation_id`, `git_commit`, seed, architecture, etc. -- unchanged).
 No new randomness is introduced anywhere in v2.
 
+## The empirical context-requirement campaigns
+
+The machinery above is deliberately generic -- it does not, on its own,
+constitute a scientific finding. The actual empirical campaigns run with
+it live in `docs/research/`, separate from this specification, so this
+document can describe the STABLE mechanism while campaign documents
+describe SPECIFIC, dated, evidence-backed observations that this
+mechanism happened to produce:
+
+- [`docs/research/context-requirement-protocol.md`](../research/context-requirement-protocol.md)
+  -- the fixed experimental protocol (what varies, what is held
+  constant, the success predicate, the partial-order MSC rule, the
+  traceability requirement) every campaign follows.
+- [`docs/research/context-requirement-campaign-1.md`](../research/context-requirement-campaign-1.md)
+  -- the first campaign: a 5-use-case cohort (2 Equipment, 2 Process
+  Cell, 1 Area), 33 real runs (18 new + 15 carried over), full Tables
+  A-E, and an explicit observed/tentative/unsupported claim audit.
+  Headline results: only ONE (use case, condition) pair met its
+  `pass_threshold=1.0` across the whole cohort; the Area
+  `knowledge_graph`-only discoverability failure reproduced 3/3 times
+  across 2 seeds; combining two architectures made one use case's
+  `canonical_id_score` WORSE, not better.
+
 ## What ICAB v2 claims -- and does not yet claim
 
 ICAB v2's experimental machinery (context-condition resolution, the five

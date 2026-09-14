@@ -31,7 +31,6 @@ runs (see `BenchmarkRunner._run_one`).
 from __future__ import annotations
 
 import uuid
-from datetime import UTC, datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -43,22 +42,18 @@ from icab.experiments import (
     ExperimentResultStore,
     ExperimentRunner,
     ExperimentRunStatus,
-    RunValidity,
-    compute_configuration_hash,
 )
-from icab.experiments.runner import _icab_version
 from icab.reporting import aggregate_records, build_qa_report, render_aggregation_markdown, render_qa_report_markdown
 from icab.reporting.plotting import plot_metric_by_group
 from icab.reporting.store import ReportStore
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.tasks.benchmark_task import BenchmarkTask
-from icab.tasks.context_combinations import combination_id_for
-from icab.tasks.context_dimensions import provided_dimensions
 from icab.tep.faults import FaultCatalog, load_fault_catalog
 from icab.tasks.registry import BenchmarkTaskRegistry
 from icab.tasks.splits import SplitAssignment, TaskSplit, load_split_assignment, tasks_in_split
 from icab.trace.models import TraceEvent
 
+from ._execution import LEGACY_AGENT_VALUES, PRIMARY_AGENTS, build_experiment_config, run_one
 from .config import (
     BENCHMARK_SUITE_VERSION,
     BenchmarkConfig,
@@ -82,15 +77,16 @@ class BenchmarkIdCollisionError(ValueError):
 
 #: Agent-selector strings that map to a benchmark-eligible (non-legacy)
 #: agent -- the only two ever run without an explicit legacy opt-in.
-_PRIMARY_AGENTS = {"baseline", "llm"}
+#: (Defined in `icab.benchmark._execution`, shared with
+#: `ContextExperimentRunner`; re-bound here under their original names so
+#: nothing else in this file needs to change.)
+_PRIMARY_AGENTS = PRIMARY_AGENTS
 
 #: `--agent` values that name an M9 legacy deterministic baseline
 #: directly -- an explicit, separate opt-in (never `_PRIMARY_AGENTS`'
 #: default), always excluded from normal benchmark aggregates via
 #: `RunValidity.LEGACY_CONTROL_ONLY` (see `ExperimentRunner._validity_for`).
-_LEGACY_AGENT_VALUES = {kind.value for kind in DeterministicAgentKind} - {
-    DeterministicAgentKind.SCENARIO_AWARE.value
-}
+_LEGACY_AGENT_VALUES = LEGACY_AGENT_VALUES
 
 
 class BenchmarkRunResult(BaseModel):
@@ -378,15 +374,6 @@ class BenchmarkRunner:
         except Exception:  # noqa: BLE001 -- audit metadata only, never fatal
             return None
 
-    @staticmethod
-    def _fault_version_for(fault_id: str | None, fault_catalog: FaultCatalog | None) -> str | None:
-        if fault_id is None or fault_catalog is None:
-            return None
-        try:
-            return fault_catalog.get(fault_id).tep_studio_version
-        except KeyError:
-            return None
-
     # -- task/split selection --------------------------------------------
 
     @staticmethod
@@ -439,37 +426,13 @@ class BenchmarkRunner:
         split: TaskSplit,
         config: BenchmarkConfig,
     ) -> ExperimentConfig:
-        if config.agent in _PRIMARY_AGENTS:
-            agent_type = AgentType.DETERMINISTIC if config.agent == "baseline" else AgentType.LLM
-            deterministic_agent = DeterministicAgentKind.SCENARIO_AWARE if config.agent == "baseline" else None
-        elif config.agent in _LEGACY_AGENT_VALUES:
-            # Explicit, separate opt-in for a labeled legacy control (see
-            # module docstring) -- never reached via config.agent's own
-            # default ("llm").
-            agent_type = AgentType.DETERMINISTIC
-            deterministic_agent = DeterministicAgentKind(config.agent)
-        else:
-            raise ValueError(
-                f"Unknown --agent {config.agent!r}. Valid: "
-                f"{sorted(_PRIMARY_AGENTS | _LEGACY_AGENT_VALUES)}"
-            )
-
-        return ExperimentConfig(
-            scenario_id=task.scenario_id,
-            task_id=task.task_id,
-            task_type=task.task_type.value,
-            isa95_level=task.isa95_level.value if task.isa95_level is not None else None,
-            use_case_id=task.use_case_id,
-            # PROVIDED context (this arm's own architectures), not the
-            # task's fixed required_context_dimensions -- see
-            # ExperimentConfig.context_combination_id's own docstring.
-            context_combination_id=combination_id_for(provided_dimensions(list(arm_architectures))),
+        return build_experiment_config(
+            task=task,
+            arm_architectures=arm_architectures,
+            combination_key=combination_key,
+            split=split,
+            agent=config.agent,
             suite=config.suite,
-            split=split.value,
-            architectures=list(arm_architectures),
-            architecture_combination_key=combination_key,
-            agent_type=agent_type,
-            deterministic_agent=deterministic_agent,
             llm_model=config.llm_model,
             llm_temperature=config.llm_temperature,
             max_steps=config.max_steps,
@@ -516,63 +479,15 @@ class BenchmarkRunner:
         )
         exp_config = exp_config.model_copy(update={"repetition": repetition})
 
-        try:
-            scenario = scenario_registry.get(task.scenario_id)
-            if seed is not None:
-                scenario = scenario.model_copy(update={"seed": seed})
-
-            record, trace = self.experiment_runner.run_task(
-                task,
-                exp_config,
-                scenario=scenario,
-                run_id=run_id,
-                experiment_id=benchmark_id,
-                benchmark_version=benchmark_version,
-                git_commit=git_commit,
-            )
-            fault_version = self._fault_version_for(record.fault_id, fault_catalog)
-            if fault_version is not None:
-                record = record.model_copy(update={"fault_version": fault_version})
-            return run_id, record, trace
-        except Exception as error:  # noqa: BLE001 -- orchestration-level continue-on-error
-            now = datetime.now(UTC)
-            fault_id = None
-            scenario_version = None
-            try:
-                fault_id = scenario.faults[0].disturbance if scenario.faults else None
-                scenario_version = scenario.version
-                simulation_seed = scenario.seed
-                scenario_difficulty = scenario.difficulty.value
-            except NameError:
-                # scenario_registry.get() itself failed -- fall back to
-                # the task's own difficulty/id so the failure record is
-                # still fully identifiable even without a scenario object.
-                simulation_seed = seed if seed is not None else 0
-                scenario_difficulty = task.difficulty.value
-
-            record = ExperimentRecord(
-                run_id=run_id,
-                experiment_id=benchmark_id,
-                config=exp_config,
-                scenario_difficulty=scenario_difficulty,
-                simulation_seed=simulation_seed,
-                generation_id=None,
-                icab_version=_icab_version(),
-                benchmark_version=benchmark_version,
-                git_commit=git_commit,
-                fault_id=fault_id,
-                fault_version=self._fault_version_for(fault_id, fault_catalog),
-                scenario_version=scenario_version,
-                task_version=task.version,
-                configuration_hash=compute_configuration_hash(exp_config),
-                started_at=now,
-                completed_at=now,
-                status=ExperimentRunStatus.FAILED,
-                error=f"{type(error).__name__}: {error}",
-                validity=RunValidity.VALID,
-                result=None,
-                evaluation=None,
-                information_flow=None,
-                trace_event_count=0,
-            )
-            return run_id, record, []
+        return run_one(
+            experiment_runner=self.experiment_runner,
+            task=task,
+            scenario_registry=scenario_registry,
+            exp_config=exp_config,
+            run_id=run_id,
+            experiment_id=benchmark_id,
+            seed=seed,
+            benchmark_version=benchmark_version,
+            git_commit=git_commit,
+            fault_catalog=fault_catalog,
+        )

@@ -265,6 +265,26 @@ uv run python scripts/icab_v2_cli.py analyze-sufficiency --use-case eq-value-and
 uv run python scripts/icab_v2_cli.py generate-profiles --out results/reports/context-design-profiles.json
 ```
 
+Choosing WHICH context conditions to test, systematically, is a separate
+layer on top of the above (`docs/benchmark/specification-v2.md`'s
+"Experimental design strategies" section): single-dimension, pairwise,
+progressive, targeted, and ablation designs, each resolved against a
+task's own architectures (`exact`/`overshoot`/`unrealizable` -- most of
+the 127-combination space cannot be realized in isolation by ICAB's six
+architectures, a real finding reported explicitly rather than hidden).
+
+```powershell
+# Dry run -- see how a design strategy resolves for one task, no infrastructure needed
+uv run python scripts/icab_v2_cli.py resolve-conditions --task d4plant-investigation-open-ended --design single
+
+# Actually run an ablation campaign against real infrastructure
+uv run python scripts/run_context_experiment.py --suite tep-v2 --task d2cooling-diagnosis-heat-transfer-category --design ablation --baseline C3+C5 --allow-overshoot --agent llm --seeds 1
+
+# Cross-use-case analysis outputs (context requirement matrix, architecture x context, failure modes, ISA-95 coverage, candidate MSC table)
+uv run python scripts/icab_v2_cli.py matrix-context-requirement
+uv run python scripts/icab_v2_cli.py matrix-isa95-coverage
+```
+
 ## Repository Structure
 
 ```text
@@ -276,13 +296,13 @@ icab/
 │   ├── gateway/       FastAPI app exposing context sources as agent tools
 │   ├── agent/         Agent interface + implementations (baselines, LLM agent), gateway HTTP client
 │   ├── trace/         Trace event models, collector, JSONL storage
-│   ├── tasks/         BenchmarkTask model/registry/splits (M13-C) + context_combinations/isa95 (v2)
+│   ├── tasks/         BenchmarkTask model/registry/splits (M13-C) + context_combinations/isa95/context_conditions/experiment_design (v2)
 │   ├── scenarios/      BenchmarkScenario model, YAML registry, ScenarioRunner (M5)
 │   ├── usecases/       IndustrialUseCase model + registry -- ISA-95-level use cases (v2)
 │   ├── evaluation/     Deterministic scoring (grounded evaluator, information-flow analysis)
 │   ├── experiments/    ExperimentConfig/Record/Store, architecture combinations, H1-H5 hypotheses
-│   ├── benchmark/      One-command orchestration: BenchmarkConfig/BenchmarkRunner (M13-D)
-│   ├── analysis/       Context necessity/sufficiency/composition/representation/efficiency (v2)
+│   ├── benchmark/      One-command orchestration: BenchmarkConfig/BenchmarkRunner (M13-D) + ContextExperimentRunner (v2)
+│   ├── analysis/       Context necessity/sufficiency/composition/representation/efficiency/discoverability/matrix/reports (v2)
 │   ├── architecture_health.py   Real architecture connectivity checks (v2, mandatory)
 │   ├── reporting/       Aggregation, QA report, hypothesis reports, plotting -- reads results/ only
 │   └── common/         Shared settings (pydantic-settings, .env-driven)
@@ -298,7 +318,7 @@ icab/
 │   ├── benchmark/       Task specification (v1 + v2), task inventory, splits, evaluation semantics
 │   ├── architecture/    Per-component design docs (simulator, context architectures, LLM agent, ...)
 │   └── research/        Research questions, hypotheses, experiment plan, development history
-├── scripts/            Runnable entry points (run_benchmark.py, icab_v2_cli.py, check_architecture_health.py, ...)
+├── scripts/            Runnable entry points (run_benchmark.py, run_context_experiment.py, icab_v2_cli.py, check_architecture_health.py, ...)
 ├── services/           Per-component Dockerfiles (gateway, historian, knowledge_graph, opcua, i3x, tep)
 ├── data/               Reserved for future generated/ground_truth/raw datasets (placeholder)
 └── results/            raw/traces/evaluations/aggregate/reports/figures/hypotheses/prototype (generated, gitignored)
@@ -335,7 +355,8 @@ Conceptually, the suite protects:
 - **Evaluation** — every deterministic score, including the acquired-vs-consumed context semantics (see `docs/architecture/llm-agent.md`)
 - **Tasks** — schema validation, registry uniqueness, split integrity, ground-truth isolation
 - **ISA-95 use cases / context combinations** — honest 0-use-case coverage at unsupported levels, the exact 127-combination space, tep-v2's task classification staying in sync with tep-v1's real inventory
-- **Context analysis** — necessity/sufficiency/composition/representation/efficiency/failure-taxonomy, always scoped to conditions actually tested
+- **Context analysis** — necessity/sufficiency/composition/representation/efficiency/failure-taxonomy/discoverability, always scoped to conditions actually tested
+- **Context-condition resolution / experimental design** — exact/overshoot/unrealizable classification against the real architecture-dimension mapping, all five design strategies, and that a context-experiment campaign never counts a not-executed condition as a failure (`tests/integration/test_context_experiment_against_real_stack.py` exercises the real stack)
 - **Benchmark orchestration** — run expansion, unique ids, no accidental overwrite, reproducibility, configuration metadata
 - **Reporting** — the QA report and aggregate report render correctly, including failed-run and multi-run cases
 - **Security** — ground truth and credentials never leak into a persisted artifact

@@ -32,3 +32,18 @@ def tested_combination_ids(records: list[ExperimentRecord]) -> list[str]:
 
     ids = {record.config.context_combination_id for record in records if record.config.context_combination_id}
     return sorted(ids, key=lambda combination_id: (combination_for_id(combination_id).cardinality, combination_id))
+
+
+#: Phase 15 (repeated-run support): a fixed, documented, deterministic
+#: rule for labeling how much weight a sample size can bear -- NEVER a
+#: statistical significance/confidence-interval claim (n this small never
+#: supports one). Shared by every icab.analysis module that reports a
+#: mean over usable runs, so the same n is always described the same way.
+def sample_size_label(n: int) -> str:
+    if n <= 0:
+        return "no_evidence"
+    if n == 1:
+        return "single_observation"
+    if n < 5:
+        return "tentative_small_n"
+    return "repeated_empirical_result"

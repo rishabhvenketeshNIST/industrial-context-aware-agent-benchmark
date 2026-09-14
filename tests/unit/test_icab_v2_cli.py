@@ -124,6 +124,69 @@ class TestAnalyzeCommandsWithNoEvidence:
         assert exit_code == 2
 
 
+class TestResolveConditions:
+    def test_single_design_classifies_exact_overshoot_and_not_applicable(self, cli, capsys):
+        args = cli.build_parser().parse_args(
+            ["resolve-conditions", "--task", "d4plant-investigation-open-ended", "--design", "single"]
+        )
+        exit_code = args.func(args)
+
+        assert exit_code == 0
+        out = capsys.readouterr().out
+        assert "C5" in out and "exact" in out
+        assert "not_applicable" in out  # C6 is outside this use case's candidate_context
+
+    def test_ablation_design_uses_the_default_baseline(self, cli, capsys):
+        args = cli.build_parser().parse_args(
+            ["resolve-conditions", "--task", "d2cooling-diagnosis-heat-transfer-category", "--design", "ablation"]
+        )
+        exit_code = args.func(args)
+
+        assert exit_code == 0
+        assert "C2+C3+C4+C5+C6+C7" in capsys.readouterr().out
+
+    def test_replay_is_refused_with_an_actionable_message(self, cli, capsys):
+        args = cli.build_parser().parse_args(
+            ["resolve-conditions", "--task", "d4plant-investigation-open-ended", "--design", "replay"]
+        )
+        exit_code = args.func(args)
+
+        assert exit_code == 2
+
+    def test_unknown_task_fails_clearly(self, cli, tmp_path):
+        import sys as _sys
+
+        old_argv = _sys.argv
+        try:
+            _sys.argv = ["icab_v2_cli.py", "resolve-conditions", "--task", "not-a-real-task", "--design", "single"]
+            exit_code = cli.main()
+        finally:
+            _sys.argv = old_argv
+
+        assert exit_code == 2
+
+
+class TestMatrixCommandsWithNoEvidence:
+    @pytest.mark.parametrize(
+        "subcommand",
+        ["matrix-context-requirement", "matrix-architecture-context", "matrix-failure-mode", "matrix-isa95-coverage", "matrix-candidate-msc"],
+    )
+    def test_runs_cleanly_with_no_persisted_results(self, cli, capsys, tmp_path, subcommand):
+        args = cli.build_parser().parse_args([subcommand, "--results-root", str(tmp_path)])
+        exit_code = args.func(args)
+
+        assert exit_code == 0
+        capsys.readouterr()  # must not raise while producing output
+
+    def test_isa95_coverage_lists_every_level(self, cli, capsys, tmp_path):
+        args = cli.build_parser().parse_args(["matrix-isa95-coverage", "--results-root", str(tmp_path)])
+        args.func(args)
+
+        out = capsys.readouterr().out
+        for level in ("enterprise", "site", "area", "work_center", "process_cell", "equipment"):
+            assert level in out
+
+
 class TestGenerateProfiles:
     def test_writes_a_json_file_when_out_is_given(self, cli, tmp_path):
         output_path = tmp_path / "profiles.json"

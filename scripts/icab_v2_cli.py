@@ -28,6 +28,17 @@ Examples::
     uv run python scripts/icab_v2_cli.py analyze-composition --use-case eq-value-and-relationship-combination
     uv run python scripts/icab_v2_cli.py analyze-representation --use-case eq-value-and-relationship-combination
     uv run python scripts/icab_v2_cli.py generate-profiles --out results/reports/context-design-profiles.json
+    uv run python scripts/icab_v2_cli.py resolve-conditions --task d4plant-investigation-open-ended --design single
+    uv run python scripts/icab_v2_cli.py matrix-context-requirement
+    uv run python scripts/icab_v2_cli.py matrix-architecture-context
+    uv run python scripts/icab_v2_cli.py matrix-failure-mode
+    uv run python scripts/icab_v2_cli.py matrix-isa95-coverage
+    uv run python scripts/icab_v2_cli.py matrix-candidate-msc
+
+For actually RUNNING a context-condition design strategy against real
+infrastructure (single/pairwise/progressive/targeted/ablation/replay),
+see scripts/run_context_experiment.py -- this script is read-only/
+analysis-only (it makes no simulator/gateway/LLM call).
 """
 
 from __future__ import annotations
@@ -210,6 +221,102 @@ def cmd_generate_profiles(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_resolve_conditions(args: argparse.Namespace) -> int:
+    from icab.benchmark.config import get_suite
+    from icab.tasks.context_combinations import combination_for_dimensions, combination_for_id
+    from icab.tasks.context_conditions import resolve_condition_architectures
+    from icab.tasks.context_dimensions import ContextDimension, provided_dimensions
+    from icab.tasks.experiment_design import generate_conditions
+    from icab.tasks.registry import BenchmarkTaskRegistry
+
+    from icab.scenarios import BenchmarkScenarioRegistry
+
+    if args.design == "replay":
+        print(
+            "error: 'replay' depends on already-persisted results -- run "
+            "'scripts/run_context_experiment.py --design replay' directly, "
+            "or inspect results/ via the analyze-* commands.",
+            file=sys.stderr,
+        )
+        return 2
+
+    suite = get_suite(args.suite)
+    scenario_registry = BenchmarkScenarioRegistry(SCENARIOS_DIR)
+    task_registry = BenchmarkTaskRegistry(suite.tasks_dir, scenario_registry=scenario_registry)
+    task = task_registry.get(args.task)
+
+    use_case = None
+    if task.use_case_id:
+        try:
+            use_case = _use_case_registry().get(task.use_case_id)
+        except KeyError:
+            use_case = None  # best-effort classification only
+
+    baseline = None
+    if args.design == "ablation":
+        baseline_id = args.baseline or combination_for_dimensions(provided_dimensions(list(task.available_architectures))).combination_id
+        baseline = combination_for_id(baseline_id)
+
+    progressive_order = [ContextDimension(v.strip()) for v in args.progressive_order.split(",")] if args.progressive_order else None
+    targets = [t.strip() for t in args.targets.split(",")] if args.targets else None
+
+    conditions = generate_conditions(args.design, targets=targets, baseline=baseline, progressive_order=progressive_order)
+
+    print(f"task: {task.task_id}   available_architectures: {task.available_architectures}   use_case: {task.use_case_id or '(none)'}")
+    print()
+    for combo in conditions:
+        if use_case is not None and not (set(combo.dimensions) <= set(use_case.candidate_context)):
+            print(f"  {combo.combination_id:<20} not_applicable   (outside {use_case.use_case_id}'s candidate_context)")
+            continue
+        resolution = resolve_condition_architectures(combo, task.available_architectures)
+        archs = "+".join(resolution.architectures) if resolution.architectures else "-"
+        print(f"  {combo.combination_id:<20} {resolution.status.value:<12} arch={archs:<30} {resolution.reason}")
+    return 0
+
+
+def cmd_matrix_context_requirement(args: argparse.Namespace) -> int:
+    from icab.analysis import context_requirement_matrix
+
+    registry = _use_case_registry()
+    records = _load_v2_records(args.results_root, args.suite)
+    print(context_requirement_matrix(list(registry), records).model_dump_json(indent=2))
+    return 0
+
+
+def cmd_matrix_architecture_context(args: argparse.Namespace) -> int:
+    from icab.analysis import architecture_context_matrix
+
+    records = _load_v2_records(args.results_root, args.suite)
+    print(architecture_context_matrix(records).model_dump_json(indent=2))
+    return 0
+
+
+def cmd_matrix_failure_mode(args: argparse.Namespace) -> int:
+    from icab.analysis import failure_mode_matrix
+
+    records = _load_v2_records(args.results_root, args.suite)
+    print(json.dumps(failure_mode_matrix(records), indent=2))
+    return 0
+
+
+def cmd_matrix_isa95_coverage(args: argparse.Namespace) -> int:
+    from icab.analysis import isa95_coverage_matrix
+
+    registry = _use_case_registry()
+    records = _load_v2_records(args.results_root, args.suite)
+    print(isa95_coverage_matrix(registry, records).model_dump_json(indent=2))
+    return 0
+
+
+def cmd_matrix_candidate_msc(args: argparse.Namespace) -> int:
+    from icab.analysis import candidate_msc_table
+
+    registry = _use_case_registry()
+    records = _load_v2_records(args.results_root, args.suite)
+    print(json.dumps(candidate_msc_table(list(registry), records), indent=2))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -261,6 +368,30 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out", default=None, help="Write JSON here instead of stdout.")
     p.set_defaults(func=cmd_generate_profiles)
 
+    p = subparsers.add_parser(
+        "resolve-conditions",
+        help="Dry run: show which context conditions a design strategy selects for one task, and how each resolves (exact/overshoot/unrealizable/not_applicable) -- no infrastructure, no execution.",
+    )
+    p.add_argument("--task", required=True)
+    p.add_argument("--suite", default="tep-v2")
+    p.add_argument("--design", required=True, choices=["single", "pairwise", "progressive", "targeted", "ablation", "replay"])
+    p.add_argument("--targets", default=None, help="TARGETED only: comma-separated combination ids.")
+    p.add_argument("--baseline", default=None, help="ABLATION only: combination id. Default: this task's own architectures, used together.")
+    p.add_argument("--progressive-order", default=None, help="PROGRESSIVE only: comma-separated permutation of C1..C7.")
+    p.set_defaults(func=cmd_resolve_conditions)
+
+    for name, func, help_text in (
+        ("matrix-context-requirement", cmd_matrix_context_requirement, "Use case x C1-C7 matrix: required/sufficient/beneficial/not_demonstrated/not_applicable."),
+        ("matrix-architecture-context", cmd_matrix_architecture_context, "Which architectures, run alone, actually exposed which context effectively."),
+        ("matrix-failure-mode", cmd_matrix_failure_mode, "Tally of icab.analysis.failure_taxonomy categories across every persisted run."),
+        ("matrix-isa95-coverage", cmd_matrix_isa95_coverage, "Per ISA-95 level: framework support, use-case count, experiment coverage."),
+        ("matrix-candidate-msc", cmd_matrix_candidate_msc, "One row per use case with evidence: its candidate Minimum Sufficient Context Among Tested Conditions."),
+    ):
+        p = subparsers.add_parser(name, help=help_text)
+        p.add_argument("--suite", default="tep-v2")
+        p.add_argument("--results-root", default="results")
+        p.set_defaults(func=func)
+
     return parser
 
 
@@ -268,7 +399,7 @@ def main() -> int:
     args = build_parser().parse_args()
     try:
         return args.func(args)
-    except KeyError as error:
+    except (KeyError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 2
 

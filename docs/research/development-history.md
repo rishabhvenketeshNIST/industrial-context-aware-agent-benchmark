@@ -257,6 +257,78 @@
   id from a plain-language reference -- a real representation-gap
   finding, not a bug masked or hidden.
 
+- ICAB v2 context-requirement EXPERIMENTATION layer (a follow-up
+  milestone on top of the above, same session boundary): the prior
+  milestone built the framework and its analysis suites; this one built
+  the missing EXPERIMENTAL-DESIGN machinery to actually choose and run
+  context conditions systematically, rather than only analyzing whatever
+  happened to already be persisted. New
+  `icab.tasks.context_conditions.resolve_condition_architectures` --
+  the direction `provided_dimensions()` didn't cover: given a TARGET
+  context combination, which real architecture arm realizes it, exactly
+  or only as an overshoot, or not at all (`unrealizable`). This
+  surfaced a genuine, load-bearing finding purely from the existing
+  `CONTEXT_DIMENSION_ARCHITECTURES` mapping: only 13 of the 127 possible
+  combinations are exactly realizable by ICAB's six architectures in
+  isolation (each architecture supplies more than one dimension; `i3x`
+  alone supplies all seven), so most single- and low-cardinality
+  combinations can only ever be tested as a real, larger, honestly-
+  labeled overshoot arm -- documented in
+  `docs/benchmark/specification-v2.md`, not hidden or worked around.
+  New `icab.tasks.experiment_design`: five design strategies (single-
+  dimension, pairwise, progressive, targeted, ablation) as deterministic
+  generators over the existing 127-combination space, plus a sixth
+  (replay) resolved from already-persisted records. New
+  `icab.benchmark.context_experiment.ContextExperimentRunner` +
+  `scripts/run_context_experiment.py`: runs a chosen design strategy
+  against one task, resolving and classifying every selected condition
+  (`not_applicable`/`unrealizable`/`overshoot`/`exact`) and executing
+  only the realizable ones -- "not executed" is never counted as a
+  failure. Reuses the EXACT SAME execution path `BenchmarkRunner` uses
+  (extracted into `icab.benchmark._execution` as a pure, behavior-
+  preserving refactor, verified by the pre-existing `BenchmarkRunner`
+  test suite passing unchanged) so every run lands in the same
+  `results/` layout the existing `icab.analysis` suites already read.
+  New `icab.analysis.discoverability`: a 5-stage pipeline
+  (`exists_in_architecture` -> `discovered_identifier` ->
+  `retrieved_value` -> `used_as_evidence` -> `grounded_in_conclusion`)
+  classifying how far a run's evidence pipeline got, from existing
+  `EvaluationReport` fields only -- complementary to (not a replacement
+  for) the existing failure taxonomy. New `icab.analysis.matrix`
+  (a per-use-case experiment matrix combining necessity/sufficiency/
+  failure/discoverability with the actual factor inventory tested) and
+  `icab.analysis.reports` (context requirement matrix, architecture x
+  context matrix, failure-mode matrix, ISA-95 coverage matrix, candidate
+  MSC table) -- five cross-use-case outputs, all thin facades over
+  already-existing analyses, reusing a new shared
+  `icab.analysis._shared.sample_size_label` (a fixed, documented,
+  descriptive n-size label -- `single_observation`/`tentative_small_n`/
+  `repeated_empirical_result` -- never a statistical significance
+  claim). `scripts/icab_v2_cli.py` gained `resolve-conditions` (a
+  dry-run preview needing no infrastructure) and five `matrix-*`
+  commands. 62 new unit tests (context-condition resolution, all five
+  design strategies, the orchestrator's classification logic via a
+  mocked `ExperimentRunner`, discoverability staging, the new matrices)
+  + 3 new integration tests against the real stack
+  (`tests/integration/test_context_experiment_against_real_stack.py`).
+  Validated with REAL LLM runs (NIST RChat) covering one Equipment, one
+  Process Cell, and one Area use case, each exercising a baseline/full
+  condition, at least one ablation, and (where the task's own
+  architectures allowed it) at least two distinct single-architecture
+  conditions: `eq-abnormal-behavior-diagnosis` (historian+
+  knowledge_graph, 3 runs), `pc-equipment-composition-discovery` (uns+
+  opcua, 3 runs, baseline EXACT via `uns` alone), and
+  `area-process-cell-composition` (knowledge_graph only -- the SAME
+  discoverability failure as the prior milestone's `v2-area-smoke`
+  reproduced a second time, both runs landing at the identical
+  `discovered_identifier` stage, strengthening rather than merely
+  repeating the earlier finding). Across all tep-v2 evidence gathered so
+  far (8 prior + 7 new = 15 real records), NO tested context combination
+  for either `eq-abnormal-behavior-diagnosis` or
+  `pc-equipment-composition-discovery` yet meets its use case's own
+  `pass_threshold=1.0` -- reported plainly as an open sufficiency gap in
+  `docs/benchmark/specification-v2.md`, not rounded up.
+
 ## Not yet filled in
 
 Present as empty placeholders/known gaps, not yet addressed:

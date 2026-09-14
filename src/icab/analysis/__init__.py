@@ -19,30 +19,67 @@ implies).
 """
 
 from .composition import CompositionFinding, CompositionReport, analyze_context_composition
+from .discoverability import (
+    DiscoverabilityClassification,
+    DiscoverabilityStage,
+    classify_discoverability,
+    discoverability_breakdown,
+)
 from .efficiency import EfficiencyReport, analyze_context_efficiency
 from .failure_taxonomy import FailureCategory, FailureClassification, classify_failures
+from .matrix import UseCaseExperimentMatrix, build_use_case_experiment_matrix
 from .necessity import DimensionNecessityFinding, NecessityReport, analyze_context_necessity
 from .profile import ContextDesignProfile, build_context_design_profile
 from .representation import RepresentationFinding, RepresentationReport, analyze_representation
+from .reports import (
+    ArchitectureContextMatrix,
+    ArchitectureContextRow,
+    ContextRequirementMatrix,
+    ContextRequirementRow,
+    ISA95CoverageMatrix,
+    ISA95CoverageRow,
+    architecture_context_matrix,
+    candidate_msc_table,
+    context_requirement_matrix,
+    failure_mode_matrix,
+    isa95_coverage_matrix,
+)
 from .sufficiency import SufficiencyReport, find_minimum_sufficient_context
 
 __all__ = [
+    "ArchitectureContextMatrix",
+    "ArchitectureContextRow",
     "CompositionFinding",
     "CompositionReport",
     "ContextDesignProfile",
+    "ContextRequirementMatrix",
+    "ContextRequirementRow",
     "DimensionNecessityFinding",
+    "DiscoverabilityClassification",
+    "DiscoverabilityStage",
     "EfficiencyReport",
     "FailureCategory",
     "FailureClassification",
+    "ISA95CoverageMatrix",
+    "ISA95CoverageRow",
     "NecessityReport",
     "RepresentationFinding",
     "RepresentationReport",
     "SufficiencyReport",
+    "UseCaseExperimentMatrix",
     "analyze_context_composition",
     "analyze_context_efficiency",
     "analyze_context_necessity",
     "analyze_representation",
+    "architecture_context_matrix",
     "build_context_design_profile",
+    "build_use_case_experiment_matrix",
+    "candidate_msc_table",
+    "classify_discoverability",
     "classify_failures",
+    "context_requirement_matrix",
+    "discoverability_breakdown",
+    "failure_mode_matrix",
     "find_minimum_sufficient_context",
+    "isa95_coverage_matrix",
 ]

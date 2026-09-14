@@ -15,6 +15,12 @@ from .config import (
     get_suite,
     resolve_architecture_arms,
 )
+from .context_experiment import (
+    ContextConditionOutcome,
+    ContextExperimentConfig,
+    ContextExperimentResult,
+    ContextExperimentRunner,
+)
 from .runner import BenchmarkIdCollisionError, BenchmarkRunner, BenchmarkRunResult
 
 __all__ = [
@@ -24,6 +30,10 @@ __all__ = [
     "BenchmarkIdCollisionError",
     "BenchmarkRunResult",
     "BenchmarkRunner",
+    "ContextConditionOutcome",
+    "ContextExperimentConfig",
+    "ContextExperimentResult",
+    "ContextExperimentRunner",
     "SuiteConfig",
     "get_git_commit",
     "get_suite",

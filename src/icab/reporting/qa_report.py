@@ -43,6 +43,23 @@ _ENTRY_METRIC_LABELS: tuple[tuple[str, str], ...] = (
     ("completeness_score", "Completeness score"),
 )
 
+#: Clarifying suffixes appended to specific metric ROW LABELS in the
+#: rendered Markdown table only -- never changes `QAReportEntry.metrics`'
+#: underlying dict keys/JSON. Added after a researcher flagged
+#: `context_consumed=0` on a single-tool-call run (nothing else to
+#: "consume" -- see the glossary this module's markdown renders, and
+#: docs/architecture/llm-agent.md#context_acquired-vs-context_consumed
+#: for the full audit) as looking like a bug when it is the CORRECT
+#: value under context_consumed's actual, narrower definition.
+_METRIC_ROW_NOTES: dict[str, str] = {
+    "context_acquired": "ids THIS trace's tool calls each individually learned about",
+    "context_consumed": (
+        "discovery→retrieval hand-offs only -- NOT whether the "
+        "conclusion used its evidence (see required_evidence_score/"
+        "grounding_score above, and the glossary at the top of this report)"
+    ),
+}
+
 #: The three breakdowns the M13-D follow-up asks for at the bottom of
 #: the report, plus a single-group "overall" grouping (every benchmark
 #: invocation shares one `suite`, so grouping by it alone yields exactly
@@ -354,7 +371,9 @@ def _render_entry(entry: QAReportEntry) -> list[str]:
     ]
     for name, value in entry.metrics.items():
         display = "n/a" if value is None else (f"{value:.3f}" if isinstance(value, float) else str(value))
-        lines.append(f"| {name} | {display} |")
+        note = _METRIC_ROW_NOTES.get(name)
+        label = f"{name} _({note})_" if note else name
+        lines.append(f"| {label} | {display} |")
     lines.append("")
 
     return lines
@@ -395,6 +414,24 @@ def render_qa_report_markdown(report: QAReport) -> str:
             "Researcher-only artifact -- the ground truth shown below was "
             "NEVER visible to the agent during its run; see "
             "`tests/unit/reporting/test_qa_report.py` for the isolation check."
+        ),
+        "",
+        (
+            "**Reading `context_acquired`/`context_consumed` below:** "
+            "`context_acquired` counts distinct ids THIS run's tool calls "
+            "individually learned about. `context_consumed` counts "
+            "discovery→retrieval hand-offs ONLY -- an id an earlier "
+            "browse/relationship call acquired, later exploited by a "
+            "specific value-retrieval call in the SAME trace -- it is "
+            "**not** a judgment about whether the conclusion actually used "
+            "its evidence. A run with `context_acquired=1, "
+            "context_consumed=0` after exactly one direct tool call (no "
+            "discovery step) is expected, not a defect: check "
+            "`required_evidence_score`/`grounding_score` and \"Evidence "
+            "provided by the agent\" below for whether acquired evidence "
+            "was actually used. See "
+            "`docs/architecture/llm-agent.md#context_acquired-vs-context_consumed` "
+            "for the full audit."
         ),
         "",
         "---",

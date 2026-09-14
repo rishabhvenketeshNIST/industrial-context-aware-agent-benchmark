@@ -242,6 +242,87 @@ class TestPerTaskMetrics:
         assert entry.metrics["tool_call_count"] is None
 
 
+class TestContextAcquiredVsConsumedAudit:
+    """
+    Regression coverage for the M13-D follow-up audit: a researcher flagged
+    a real D1 run showing `context_acquired=1, context_consumed=0` after a
+    single `get_current_value` call whose value the agent's own conclusion
+    clearly used, and asked whether that was a bug. Finding: it is CORRECT
+    under context_consumed's actual, narrower definition (a discovery id
+    exploited by a LATER call -- there is no discovery step here at all),
+    and grounding_score/required_evidence_score already answer "was the
+    acquired value actually used" -- see
+    docs/architecture/llm-agent.md#context_acquired-vs-context_consumed.
+    These tests reproduce that exact, real scenario and lock in that the
+    report renders it accurately AND explains it, rather than leaving a
+    reader to conclude the agent ignored its own evidence.
+    """
+
+    def test_reproduces_the_exact_reported_scenario_and_is_self_consistent(self):
+        task = _task()
+        evaluation = make_evaluation(
+            required_evidence_score=1.0,
+            canonical_id_score=1.0,
+            grounding_score=1.0,
+            context_acquired=["urn:icab:measurement:reactor_pressure"],
+            context_consumed=[],  # no discovery step preceded the single call
+            tool_call_count=1,
+        )
+        record = make_record(
+            "run-audit-1",
+            task_id=task.task_id,
+            result=InvestigationResult(
+                objective=task.objective,
+                conclusion=(
+                    "The current reactor pressure is 2712.39 kPa gauge, which is below the "
+                    "3000 kPa high-pressure trip threshold and therefore within the normal "
+                    "safe operating range."
+                ),
+                evidence=[EvidenceReference(source="get_current_value", identifier="urn:icab:measurement:reactor_pressure")],
+                termination=TerminationReason.SUBMITTED,
+            ),
+            evaluation=evaluation,
+        )
+
+        entry = build_qa_report_entry(record, task=task)
+
+        # The reported numbers, reproduced exactly.
+        assert entry.metrics["context_acquired"] == 1
+        assert entry.metrics["context_consumed"] == 0
+        assert entry.metrics["tool_call_count"] == 1
+        # Not a contradiction: the SAME run's own evidence/grounding
+        # metrics confirm the acquired value WAS used correctly.
+        assert entry.metrics["required_evidence_score"] == 1.0
+        assert entry.metrics["grounding_score"] == 1.0
+        assert entry.evidence_provided == ["get_current_value: urn:icab:measurement:reactor_pressure"]
+
+    def test_report_explains_context_consumed_is_not_usage(self):
+        report = build_qa_report(
+            [
+                make_record(
+                    "run-audit-2",
+                    result=InvestigationResult(objective="q", conclusion="a", termination=TerminationReason.SUBMITTED),
+                    evaluation=make_evaluation(context_acquired=["x"], context_consumed=[]),
+                )
+            ],
+            benchmark_id="audit",
+            successful_runs=1,
+            failed_runs=0,
+            skipped_runs=0,
+        )
+
+        rendered = render_qa_report_markdown(report)
+
+        # A top-of-report glossary explains the distinction once...
+        assert "discovery" in rendered.lower()
+        assert "not" in rendered.lower() and "used" in rendered.lower()
+        assert "required_evidence_score" in rendered
+        # ...and the per-run metrics table itself carries a clarifying
+        # note directly on the context_consumed row, not just at the top.
+        assert "context_consumed _(" in rendered
+        assert "context_acquired _(" in rendered
+
+
 class TestOverallSummary:
     def test_counts_and_breakdowns_reflect_the_records_passed_in(self):
         task = _task()

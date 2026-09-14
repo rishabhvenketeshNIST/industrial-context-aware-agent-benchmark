@@ -21,8 +21,12 @@ The agent's own hidden reasoning is never captured or exposed: only
 structured tool decisions (name + arguments), their observations (raw tool
 results), and the final conclusion are kept, in `InvestigationResult` and
 in the trace recorded via `AgentGatewayClient`'s `TraceCollector` (which
-tracks per-call context_acquired/context_consumed -- the same mechanism
-`ArchitectureAwareAgent` uses).
+tracks per-call context_acquired -- the same mechanism `ArchitectureAwareAgent`
+uses). Unlike the deterministic baselines, this agent does NOT currently
+populate context_consumed for any call -- see
+docs/architecture/llm-agent.md#context_acquired-vs-context_consumed for
+the precise definitions and why (a documented gap, not a scoring bug:
+context_acquired/context_consumed feed no EvaluationReport score).
 """
 
 from __future__ import annotations
@@ -215,6 +219,12 @@ class LLMInvestigationAgent(Agent):
                 call.name,
                 call.arguments,
                 step=step,
+                # Deliberately never passes context_consumed -- see
+                # docs/architecture/llm-agent.md#context_acquired-vs-context_consumed.
+                # This agent's tool sequence has no single, deterministic
+                # earlier-discovery to attribute a later call to, unlike
+                # the fixed baselines that mechanically iterate over
+                # their own browse response.
                 context_acquired=[identifier] if identifier else None,
                 method=tool.http_method,
             )

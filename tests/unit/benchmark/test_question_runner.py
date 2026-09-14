@@ -159,6 +159,32 @@ class TestResultPathIsolation:
         assert set(manifest["run_ids"]) >= set(rid for outcome in result.outcomes for rid in outcome.run_ids)
 
 
+class TestPlan:
+    def test_plan_makes_no_run_task_call_and_persists_nothing(self, tmp_path):
+        runner = _runner(tmp_path, ISA95Level.EQUIPMENT)
+        config = QuestionBenchmarkConfig(question_ids=[EQUIPMENT_QUESTION_ID], agent="baseline", allow_overshoot=True, repetitions=7)
+
+        plan = runner.plan(config)
+
+        runner.experiment_runner.run_task.assert_not_called()
+        assert ExperimentResultStore(root=tmp_path).list_run_ids() == []
+        assert plan.isa95_level == "equipment"
+        assert plan.planned_instances == 1
+        assert plan.planned_executions == 7  # 1 instance x 7 repetitions x 1 (default) seed
+        assert plan.outcomes[0].question_id == EQUIPMENT_QUESTION_ID
+        assert plan.outcomes[0].instance_id is not None
+
+    def test_plan_reflects_the_same_resolution_as_a_real_run(self, tmp_path):
+        runner = _runner(tmp_path, ISA95Level.EQUIPMENT)
+        config = QuestionBenchmarkConfig(question_ids=[EQUIPMENT_QUESTION_ID], agent="baseline", allow_overshoot=True, repetitions=2)
+
+        plan = runner.plan(config)
+        result = runner.run(config)
+
+        assert plan.outcomes[0].instance_id == result.outcomes[0].instance_id
+        assert plan.outcomes[0].resolved_architectures == result.outcomes[0].resolved_architectures
+
+
 class TestIsaLevelMismatchGuard:
     def test_a_run_whose_config_disagrees_with_the_benchmark_level_fails_loudly(self, tmp_path):
         def _wrong_level_run_task(task, config, *, scenario, run_id, experiment_id, benchmark_version, git_commit):
@@ -216,6 +242,64 @@ class TestCampaignIdCollision:
 
         forced = config.model_copy(update={"force": True})
         runner.run(forced)  # does not raise
+
+
+class TestResume:
+    def test_resume_continues_a_started_campaign_without_a_collision_error(self, tmp_path):
+        runner = _runner(tmp_path, ISA95Level.EQUIPMENT)
+        config = QuestionBenchmarkConfig(
+            question_ids=[EQUIPMENT_QUESTION_ID], agent="baseline", allow_overshoot=True, repetitions=2, name="resume-campaign"
+        )
+
+        runner.run(config)  # first invocation: 2 runs
+
+        # A second, non-resume invocation of the SAME name still collides.
+        with pytest.raises(BenchmarkIdCollisionError):
+            runner.run(config)
+
+        resumed = config.model_copy(update={"resume": True})
+        result = runner.run(resumed)  # does not raise
+
+        assert result.total_runs == 2  # both repetitions accounted for, none duplicated
+
+    def test_resume_never_re_executes_an_already_completed_run_id(self, tmp_path):
+        call_count = {"n": 0}
+
+        def _counting_run_task(task, config, *, scenario, run_id, experiment_id, benchmark_version, git_commit):
+            call_count["n"] += 1
+            return _fake_run_task(task, config, scenario=scenario, run_id=run_id, experiment_id=experiment_id, benchmark_version=benchmark_version, git_commit=git_commit)
+
+        runner = _runner(tmp_path, ISA95Level.EQUIPMENT, run_task=_counting_run_task)
+        config = QuestionBenchmarkConfig(
+            question_ids=[EQUIPMENT_QUESTION_ID], agent="baseline", allow_overshoot=True, repetitions=3, name="resume-count-campaign"
+        )
+        runner.run(config)
+        assert call_count["n"] == 3
+
+        resumed = config.model_copy(update={"resume": True})
+        result = runner.run(resumed)
+
+        # No NEW execution() calls -- every (instance, seed, repetition) run_id
+        # from the first invocation already existed, so resume only reads them back.
+        assert call_count["n"] == 3
+        assert result.total_runs == 3
+
+    def test_resume_picks_up_where_a_partial_campaign_left_off(self, tmp_path):
+        runner = _runner(tmp_path, ISA95Level.EQUIPMENT)
+        config = QuestionBenchmarkConfig(
+            question_ids=[EQUIPMENT_QUESTION_ID], agent="baseline", allow_overshoot=True, repetitions=2, name="partial-campaign"
+        )
+        runner.run(config)  # 2/2 repetitions done
+
+        more_repetitions = config.model_copy(update={"repetitions": 5, "resume": True})
+        result = runner.run(more_repetitions)
+
+        # Repetitions 1-2 skipped (already persisted), 3-5 newly executed --
+        # total_runs reflects the FULL, now-5-repetition campaign.
+        assert result.total_runs == 5
+        run_ids = result.outcomes[0].run_ids
+        assert len(run_ids) == 5
+        assert len(set(run_ids)) == 5  # no duplicate run_ids
 
 
 class TestRepetitions:

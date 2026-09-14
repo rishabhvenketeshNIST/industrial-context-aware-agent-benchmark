@@ -337,6 +337,28 @@ uv run python scripts/icab_v2_cli.py analyze-question-stats --level equipment --
 uv run python scripts/icab_v2_cli.py analyze-benchmark-level-stats --level equipment
 ```
 
+### Standalone execution and export (`icab.export`)
+
+A user-facing layer on top of the same `scripts/run_level_benchmark.py` runner: inspect a level's question bank, see the exact execution plan before spending any LLM call, execute (or resume an interrupted campaign), and get a completely self-contained dataset under `benchmark_exports/` that an external analyst can use WITHOUT installing ICAB — everything is plain JSON/JSONL/CSV. See [`docs/benchmark/specification-v3.md`](docs/benchmark/specification-v3.md) ("Standalone benchmark execution and export layer") for the full canonical-record schema and the "keep ICAB analysis separate from conclusions" principle.
+
+```powershell
+# 1. See exactly which questions would be asked
+uv run python scripts/run_level_benchmark.py --level equipment --list-questions
+uv run python scripts/run_level_benchmark.py --level equipment --show-question Q-d1-qa-current-pressure
+
+# 2. See the exact execution plan -- no LLM call made
+uv run python scripts/run_level_benchmark.py --level equipment --dry-run --repetitions 10
+
+# 3. Run it (writes both results/ and a standalone benchmark_exports/ dataset)
+uv run python scripts/run_level_benchmark.py --level equipment --repetitions 10 --name my-campaign
+
+# 4. If interrupted, resume -- never duplicates a completed execution
+uv run python scripts/run_level_benchmark.py --level equipment --repetitions 10 --name my-campaign --resume
+
+# 5. Analyze benchmark_exports/equipment/<campaign_id>/ independently --
+#    executions.jsonl / results.csv, no ICAB import required.
+```
+
 ## Repository Structure
 
 ```text

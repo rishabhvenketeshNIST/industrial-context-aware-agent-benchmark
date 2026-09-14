@@ -40,6 +40,7 @@ from .runner import BenchmarkIdCollisionError
 __all__ = [
     "IsaLevelMismatchError",
     "QuestionBenchmarkConfig",
+    "QuestionBenchmarkPlan",
     "QuestionBenchmarkResult",
     "QuestionBenchmarkRunner",
     "QuestionRunOutcome",
@@ -94,6 +95,18 @@ class QuestionBenchmarkConfig(BaseModel):
 
     name: str | None = None
     force: bool = False
+    #: Continue a PREVIOUSLY STARTED campaign of the same `name`: any
+    #: (question, scenario, architecture arm, seed, repetition) whose
+    #: deterministic run_id already has a persisted record is skipped
+    #: (counted into the returned totals from its existing record)
+    #: rather than re-executed -- never a duplicate execution, and never
+    #: a silent partial-as-complete report (see
+    #: QuestionBenchmarkResult.executed_instances/total_runs, which
+    #: reflect the FULL campaign, resumed runs included). Mutually
+    #: exclusive in effect with `force` (force starts over; resume
+    #: continues) -- `name` must be set to something you can find again
+    #: for `resume` to do anything meaningful.
+    resume: bool = False
 
 
 class QuestionRunOutcome(BaseModel):
@@ -126,6 +139,34 @@ class QuestionBenchmarkResult(BaseModel):
     failed_runs: int
 
     manifest_path: str | None = None
+
+
+class QuestionBenchmarkPlan(BaseModel):
+    """
+    What `QuestionBenchmarkRunner.run(config)` WOULD do, computed by the
+    exact same selection/resolution path `.run()` itself uses
+    (`_select_questions`/`_select_combinations`/
+    `resolve_condition_architectures`/`QuestionInstance.build`) -- never
+    a separate/approximate estimate. Makes no gateway/agent/LLM call and
+    persists nothing.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    campaign_id: str
+    benchmark_id: str
+    isa95_level: str
+
+    outcomes: list[QuestionRunOutcome]
+
+    planned_instances: int
+    planned_executions: int
+
+    repetitions: int
+    repetition_mode: str
+    agent: str
+    llm_model: str | None
+    seeds: list[int | None]
 
 
 class QuestionBenchmarkRunner:
@@ -165,7 +206,7 @@ class QuestionBenchmarkRunner:
             )
 
         campaign_id = config.name or f"{self.definition.benchmark_id}-{uuid.uuid4().hex[:8]}"
-        self._check_no_existing_campaign(campaign_id, force=config.force)
+        self._check_no_existing_campaign(campaign_id, force=config.force, resume=config.resume)
 
         git_commit = get_git_commit()
         fault_catalog = self._load_fault_catalog_best_effort()
@@ -273,6 +314,104 @@ class QuestionBenchmarkRunner:
             manifest_path=manifest_path,
         )
 
+    def plan(self, config: QuestionBenchmarkConfig) -> QuestionBenchmarkPlan:
+        """
+        A `--dry-run`: computes the exact execution plan (which
+        questions/scenarios/context conditions resolve to which
+        architecture arm and instance id, and how many total executions
+        that implies) WITHOUT calling `run_one`/the Agent Gateway/any
+        LLM, and without touching `self.experiment_store`. Reuses the
+        SAME selection/resolution calls `.run()` uses, so a plan that
+        says "N executions, all resolvable" is a reliable guarantee that
+        `.run()` with the same config will not immediately fail on
+        selection/resolution -- it can still fail during actual
+        execution (infrastructure/gateway/LLM issues), which no dry run
+        can rule out.
+        """
+
+        questions = self._select_questions(config)
+        if not questions:
+            raise ValueError(
+                f"No questions matched the given filters for {self.definition.benchmark_id} -- "
+                f"check question_ids/use_case_ids/tags against {self.question_registry.list_ids()}."
+            )
+
+        campaign_id = config.name or f"{self.definition.benchmark_id}-<auto>"
+        seed_values: list[int | None] = list(config.seeds) if config.seeds else [None]
+
+        outcomes: list[QuestionRunOutcome] = []
+        planned_instances = 0
+
+        for question in questions:
+            scenario_ids = config.scenario_ids or list(question.realizations.keys())
+            for scenario_id in scenario_ids:
+                if scenario_id not in question.realizations:
+                    outcomes.append(
+                        QuestionRunOutcome(
+                            question_id=question.question_id,
+                            scenario_id=scenario_id,
+                            context_combination_id="(n/a)",
+                            resolution_status="not_applicable",
+                            resolved_architectures=None,
+                            instance_id=None,
+                            executed=False,
+                            reason=f"{question.question_id} has no realization for scenario {scenario_id!r}.",
+                        )
+                    )
+                    continue
+
+                task_id = question.realizations[scenario_id]
+                task = self.task_registry.get(task_id)
+
+                for combo in self._select_combinations(config, question):
+                    resolution = resolve_condition_architectures(combo, task.available_architectures)
+
+                    if resolution.status == ConditionStatus.UNREALIZABLE:
+                        outcomes.append(self._skip_outcome(question, scenario_id, combo, resolution))
+                        continue
+                    if resolution.status == ConditionStatus.OVERSHOOT and not config.allow_overshoot:
+                        outcomes.append(self._skip_outcome(question, scenario_id, combo, resolution))
+                        continue
+
+                    instance = QuestionInstance.build(
+                        question_id=question.question_id,
+                        scenario_id=scenario_id,
+                        architectures=resolution.architectures,
+                        agent=config.agent,
+                        llm_model=config.llm_model,
+                        llm_temperature=config.llm_temperature,
+                    )
+                    planned_instances += 1
+
+                    outcomes.append(
+                        QuestionRunOutcome(
+                            question_id=question.question_id,
+                            scenario_id=scenario_id,
+                            context_combination_id=combo.combination_id,
+                            resolution_status=resolution.status.value,
+                            resolved_architectures=list(resolution.architectures),
+                            instance_id=instance.instance_id,
+                            executed=False,
+                            reason=f"would execute {config.repetitions} repetition(s) x {len(seed_values)} seed(s): {resolution.reason}",
+                        )
+                    )
+
+        planned_executions = planned_instances * config.repetitions * len(seed_values)
+
+        return QuestionBenchmarkPlan(
+            campaign_id=campaign_id,
+            benchmark_id=self.definition.benchmark_id,
+            isa95_level=self.definition.isa95_level.value,
+            outcomes=outcomes,
+            planned_instances=planned_instances,
+            planned_executions=planned_executions,
+            repetitions=config.repetitions,
+            repetition_mode=config.repetition_mode,
+            agent=config.agent,
+            llm_model=config.llm_model,
+            seeds=seed_values,
+        )
+
     # -- selection -----------------------------------------------------
 
     def _select_questions(self, config: QuestionBenchmarkConfig) -> list[Question]:
@@ -347,6 +486,17 @@ class QuestionBenchmarkRunner:
         for seed in seed_values:
             for repetition in range(1, config.repetitions + 1):
                 run_id = f"{campaign_id}-{instance.instance_id}-seed{seed if seed is not None else 'default'}-rep{repetition}"
+
+                if config.resume and (self.experiment_store.raw_dir / f"{run_id}.json").exists():
+                    # Deterministic run_id (campaign + instance + seed +
+                    # repetition) already has a persisted record from a
+                    # prior invocation of this SAME campaign -- resume
+                    # means "continue", never "duplicate" or "re-run":
+                    # skip execution and count the existing record as-is.
+                    existing = self.experiment_store.load_record(run_id)
+                    results.append((run_id, existing.status))
+                    continue
+
                 run_config = exp_config.model_copy(update={"repetition": repetition})
 
                 run_id, record, trace = run_one(
@@ -388,15 +538,16 @@ class QuestionBenchmarkRunner:
 
     # -- misc -------------------------------------------------------------
 
-    def _check_no_existing_campaign(self, campaign_id: str, *, force: bool) -> None:
-        if force:
+    def _check_no_existing_campaign(self, campaign_id: str, *, force: bool, resume: bool = False) -> None:
+        if force or resume:
             return
         existing_raw = list(self.experiment_store.raw_dir.glob(f"{campaign_id}-*.json"))
         if existing_raw:
             raise BenchmarkIdCollisionError(
                 f"A question-benchmark campaign with id {campaign_id!r} already has persisted results "
                 f"under {self.experiment_store.root}/ -- refusing to overwrite it. Pass a different "
-                "name (or omit it for a fresh auto-generated id), or force=True."
+                "name (or omit it for a fresh auto-generated id), force=True to overwrite, or "
+                "resume=True to continue it (skips already-completed executions)."
             )
 
     @staticmethod

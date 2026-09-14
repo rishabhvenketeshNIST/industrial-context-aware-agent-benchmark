@@ -539,3 +539,98 @@ speculating about -- see "Known limitations."
   archives (verified: the prior milestone's 38 real records are intact
   under `results/_archive/`).
 - Did not claim the 3,000-execution benchmark is complete -- it is not.
+
+## Standalone benchmark execution and export layer (`icab.export`)
+
+A separate, later milestone from the 50-question suite above: a
+user-facing execution/export layer sitting ABOVE
+`icab.benchmark.question_runner.QuestionBenchmarkRunner` (no new
+execution mechanism -- every execution still goes through
+`icab.benchmark._execution.run_one`, the same path
+`BenchmarkRunner`/`QuestionBenchmarkRunner` already use). Its purpose:
+let a user inspect, dry-run, execute, resume, and export a fully
+self-contained Q&A/results dataset for ONE ISA-95 level's campaign,
+without needing to import or understand ICAB's own Python internals.
+
+### CLI (`scripts/run_level_benchmark.py`)
+
+```
+# Inspect the question bank
+uv run python scripts/run_level_benchmark.py --level equipment --list-questions
+uv run python scripts/run_level_benchmark.py --level equipment --show-question Q-d1-qa-current-pressure
+
+# See the exact plan -- no LLM call
+uv run python scripts/run_level_benchmark.py --level equipment --dry-run --repetitions 10
+
+# Execute (also writes the standalone export, unless --no-export)
+uv run python scripts/run_level_benchmark.py --level equipment --repetitions 10 --name my-campaign
+
+# Resume an interrupted campaign -- never duplicates a completed execution
+uv run python scripts/run_level_benchmark.py --level equipment --repetitions 10 --name my-campaign --resume
+```
+
+`scripts/run_benchmark.py` already existed (the pre-existing tep-v1/
+tep-v2 suite runner, M13-D) -- rather than introduce a THIRD,
+confusingly named script, this functionality was added to the existing
+`scripts/run_level_benchmark.py` (the ICAB v3 50-question-per-level
+runner), which already had the `--level`/`--repetitions` shape the
+export milestone asked for.
+
+### Resume semantics (`QuestionBenchmarkConfig.resume`)
+
+Every execution's `run_id` is fully deterministic
+(`{campaign_id}-{instance_id}-seed{seed}-rep{repetition}`). `resume=True`
+checks, per planned execution, whether that exact `run_id` already has a
+persisted record; if so it is loaded and counted, never re-executed. A
+`--resume` on a campaign that added MORE repetitions since its last
+invocation only executes the new ones.
+
+### Standalone export (`benchmark_exports/<level>/<campaign_id>/`)
+
+A NEW root, entirely separate from `results/` (never read from or
+written into by the exporter):
+
+```
+benchmark_exports/<level>/<campaign_id>/
+  README.md                  written for a researcher who has never opened the ICAB repo
+  benchmark_manifest.json    what exactly was run (config, question ids, git commit, environment)
+  questions.json              the question bank slice this campaign covers
+  ground_truth.json           one entry per question, kept separate from any LLM answer
+  executions.jsonl            one canonical execution record per line (primary dataset)
+  results.json                the same executions, with campaign-level metadata
+  results.csv                 a flattened, analysis-friendly table
+  metrics.json                completion/correctness rates, breakdowns, repetition consistency
+  q_and_a/<execution_id>.json / .md
+  traces/<execution_id>.json
+```
+
+Every file is plain JSON/JSONL/CSV -- `icab.export.validation
+.validate_export` (and its own tests) confirm a written export parses
+with nothing but `json`/`csv` from the standard library. A field with no
+ICAB analog (e.g. `ground_truth.unit`/`acceptable_range`,
+`llm.raw_response`) is always `null`, never guessed.
+
+### Canonical execution record (`icab.export.schema.CanonicalExecutionRecord`)
+
+`benchmark` / `isa95` / `question` / `ground_truth` / `llm` / `execution`
+/ `context` / `evidence` / `trace` / `evaluation` -- built by
+`icab.export.build.build_canonical_record`, which computes no new score
+itself: ground truth/per-run metrics are read via the existing
+`icab.reporting.qa_report.build_qa_report_entry`, and `failure_mode` via
+the existing `icab.analysis.failure_taxonomy.classify_failures`.
+`evaluation.correct` is the one genuinely new (but not fabricated)
+computation: the run's own task `EvaluationCriteria.binding_scores`/
+`pass_threshold` applied to that ONE run -- the same binding criteria
+`icab.analysis.sufficiency` already applies at the aggregate level.
+
+### What the export layer deliberately does NOT do
+
+Per its own milestone's explicit instruction, `icab.export` makes no
+scientific claim -- no "context X is necessary," no "architecture Y is
+the minimum sufficient context." It executes, observes, evaluates, and
+exports; independent analysis (aggregation, comparison, statistical
+inference, necessity/sufficiency conclusions) stays entirely in
+`icab.analysis`, applied AFTER export, never inside it. Launching the
+full 3,000-execution campaign was explicitly out of scope for this
+milestone -- see `docs/research/development-history.md` for what was
+actually run.

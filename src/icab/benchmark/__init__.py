@@ -37,6 +37,7 @@ from .manifest import BenchmarkManifest, build_manifest, write_manifest
 from .question_runner import (
     IsaLevelMismatchError,
     QuestionBenchmarkConfig,
+    QuestionBenchmarkPlan,
     QuestionBenchmarkResult,
     QuestionBenchmarkRunner,
     QuestionRunOutcome,
@@ -64,6 +65,7 @@ __all__ = [
     "IsaLevelMismatchError",
     "LevelCompletenessReport",
     "QuestionBenchmarkConfig",
+    "QuestionBenchmarkPlan",
     "QuestionBenchmarkResult",
     "QuestionBenchmarkRunner",
     "QuestionCompleteness",

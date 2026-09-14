@@ -601,6 +601,52 @@
   integration tests against live infrastructure); `tep-v1` verified
   untouched via `git diff` before committing.
 
+- Standalone benchmark execution and export layer (`icab.export`): a
+  user-facing layer added ABOVE the existing execution path -- no new
+  execution mechanism, no redesign of the question suite or the six
+  ISA-95 levels. Extended the EXISTING `scripts/run_level_benchmark.py`
+  (rather than create a THIRD, confusingly-named `run_benchmark.py`
+  variant -- `scripts/run_benchmark.py` already existed as the M13-D tep-
+  v1/tep-v2 suite runner) with `--list-questions`, `--show-question`,
+  `--dry-run`, `--resume`, `--output`. New
+  `QuestionBenchmarkRunner.plan()` computes the exact execution plan
+  (same selection/resolution calls `.run()` itself uses) with no
+  gateway/agent/LLM call. New `QuestionBenchmarkConfig.resume`: every
+  run_id is deterministic (`{campaign}-{instance}-seed{s}-rep{r}`), so
+  resume checks per-planned-execution whether that exact run_id already
+  has a persisted record and skips it rather than re-executing --
+  verified via a dedicated test that a second `--resume` call makes zero
+  additional `run_task` calls. New `icab.export` package
+  (`schema.py`/`build.py`/`metrics.py`/`writer.py`/`validation.py`):
+  transforms an already-persisted `ExperimentRecord` (+ trace + Question
+  + BenchmarkTask) into a `CanonicalExecutionRecord` -- reusing
+  `icab.reporting.qa_report.build_qa_report_entry` for ground truth and
+  `icab.analysis.failure_taxonomy.classify_failures` for failure mode
+  rather than reimplementing either; computes no new score except
+  `evaluation.correct`, which applies the run's own task
+  `EvaluationCriteria.binding_scores`/`pass_threshold` to that ONE run
+  (the same binding criteria `icab.analysis.sufficiency` already applies
+  at the aggregate level). Writes a fully self-contained
+  `benchmark_exports/<level>/<campaign_id>/` tree (README.md,
+  benchmark_manifest.json, questions.json, ground_truth.json,
+  executions.jsonl, results.json/.csv, metrics.json, q_and_a/, traces/)
+  -- a SEPARATE root from `results/`, never read from or written into by
+  the exporter. A field with no ICAB analog (`ground_truth.unit`/
+  `acceptable_range`, `llm.raw_response`) is always `null`, never
+  guessed. `icab.export.validation.validate_export` reads back a written
+  export using only `json`/`csv` (no ICAB import) and catches duplicate
+  execution ids, manifest/file count mismatches, cross-level
+  contamination, and missing per-execution files. A dedicated end-to-end
+  smoke test (`tests/unit/export/test_end_to_end_smoke.py`, mocked
+  `ExperimentRunner.run_task`) exercises the full documented workflow --
+  dry-run -> execute -> resume (no duplicate calls) -> export -> validate
+  -- in one test. The full 3,000-execution campaign was explicitly NOT
+  launched this milestone, per its own instruction. 41 new tests added
+  (question_runner resume/plan + icab.export build/writer/metrics/
+  validation/CLI/smoke) -- full suite: 864 passed + 3 skipped (up from
+  823/3); `tep-v1` untouched (no file under it appears in `git status`/
+  `git diff` for this milestone).
+
 ## Not yet filled in
 
 Present as empty placeholders/known gaps, not yet addressed:

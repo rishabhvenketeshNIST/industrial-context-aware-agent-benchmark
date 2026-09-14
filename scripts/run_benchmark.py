@@ -261,6 +261,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--force", action="store_true", help="Allow --name to overwrite a benchmark id that already has persisted results. Off by default -- see docs/benchmark/specification.md.")
     parser.add_argument("--gateway-url", default=DEFAULT_GATEWAY_URL, help=f"Agent Gateway base URL. Default: {DEFAULT_GATEWAY_URL}.")
     parser.add_argument("--results-root", default="results", help="Root directory for raw/traces/evaluations/aggregate/reports/figures. Default: 'results'.")
+    parser.add_argument(
+        "--validate-architectures",
+        action="store_true",
+        help=(
+            "Run the full architecture connectivity/health check (icab.architecture_health -- "
+            "see scripts/check_architecture_health.py) before the benchmark, and refuse to "
+            "proceed if any component fails. Off by default (adds real latency: a short real "
+            "scenario preparation plus a live check of every architecture)."
+        ),
+    )
 
     return parser
 
@@ -302,6 +312,21 @@ def main() -> int:
     settings = get_settings()
     _check_infrastructure_reachable(settings)
     _check_gateway_reachable(args.gateway_url)
+
+    if args.validate_architectures:
+        from icab.architecture_health import run_architecture_health_check
+
+        print("Validating architecture connectivity (--validate-architectures)...")
+        health_report = run_architecture_health_check(gateway_url=args.gateway_url, settings=settings)
+        for result in health_report.results:
+            print(f"  {result.component:<15} {result.status}")
+        if not health_report.all_passed:
+            raise SystemExit(
+                f"error: architecture connectivity check failed for: {', '.join(health_report.failed_components)}.\n"
+                "Run 'uv run python scripts/check_architecture_health.py' for full details, "
+                "fix the failing component(s), then re-run this command."
+            )
+        print("Architecture connectivity: PASS\n")
 
     benchmark_runner, mqtt_client, kg_repository = _build_benchmark_runner(args.gateway_url, args.results_root)
 

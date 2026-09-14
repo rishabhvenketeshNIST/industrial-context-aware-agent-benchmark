@@ -1,0 +1,93 @@
+# ICAB v2 Process-Cell-level industrial use cases -- derived from the
+# real tep-v1 D4 task suite, whose objectives are plant-wide/cross-unit
+# rather than anchored to one pre-named equipment item. See
+# configs/usecases/equipment.yaml's header note (same discipline
+# applies here).
+
+use_cases:
+  - use_case_id: pc-equipment-composition-discovery
+    name: Discover which equipment participates in the process cell
+    description: >
+      Discover which equipment items exist within the process cell --
+      structural/semantic discovery with no equipment named in advance.
+    isa95_level: process_cell
+    task_type: qa
+    required_context: [C1, C2]
+    candidate_context: [C1, C2, C3]
+    success_criteria:
+      binding_scores: [required_evidence_score, canonical_id_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d4_plant_wide_investigation
+    difficulty: D4
+
+  - use_case_id: pc-open-ended-abnormal-investigation
+    name: Investigate plant-wide abnormal behavior with no equipment named
+    description: >
+      Investigate why the process cell is behaving abnormally when the
+      objective names no specific equipment -- the agent must discover
+      what is affected using semantic, hierarchy, relational, temporal,
+      and operational context together.
+    isa95_level: process_cell
+    task_type: investigation
+    required_context: [C1, C2, C3, C4, C5]
+    candidate_context: [C1, C2, C3, C4, C5, C7]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score, completeness_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d4_plant_wide_investigation
+      - d4_unknown_plant_disturbance
+    difficulty: D4
+
+  - use_case_id: pc-selective-evidence-retrieval
+    name: Selectively retrieve the most relevant plant-wide evidence
+    description: >
+      Answer a plant-wide question efficiently -- retrieve the
+      relational/temporal/operational evidence that actually matters,
+      without exhaustively discovering the entire process cell first.
+    isa95_level: process_cell
+    task_type: investigation
+    required_context: [C3, C4, C5]
+    candidate_context: [C3, C4, C5, C2]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d4_plant_wide_investigation
+    difficulty: D4
+
+  - use_case_id: pc-cross-unit-diagnosis
+    name: Diagnose abnormal behavior spanning multiple equipment units
+    description: >
+      Diagnose a disturbance whose responsible equipment is not
+      obvious from the objective alone, and which may implicate more
+      than one equipment item across the process cell.
+    isa95_level: process_cell
+    task_type: diagnosis
+    required_context: [C4, C3]
+    candidate_context: [C4, C3, C5]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d4_plant_wide_investigation
+      - d4_unknown_plant_disturbance
+    difficulty: D4
+
+  - use_case_id: pc-relational-structure-enumeration
+    name: Enumerate relationships across the process cell
+    description: >
+      Enumerate the actual structural/monitoring relationships across
+      the process cell relevant to an abnormal condition, rather than
+      confirming one specific pre-named relationship.
+    isa95_level: process_cell
+    task_type: investigation
+    required_context: [C4, C3]
+    candidate_context: [C4, C3, C2]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d4_unknown_plant_disturbance
+    difficulty: D4

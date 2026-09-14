@@ -52,6 +52,8 @@ from icab.reporting.plotting import plot_metric_by_group
 from icab.reporting.store import ReportStore
 from icab.scenarios import BenchmarkScenarioRegistry
 from icab.tasks.benchmark_task import BenchmarkTask
+from icab.tasks.context_combinations import combination_id_for
+from icab.tasks.context_dimensions import provided_dimensions
 from icab.tep.faults import FaultCatalog, load_fault_catalog
 from icab.tasks.registry import BenchmarkTaskRegistry
 from icab.tasks.splits import SplitAssignment, TaskSplit, load_split_assignment, tasks_in_split
@@ -456,6 +458,12 @@ class BenchmarkRunner:
             scenario_id=task.scenario_id,
             task_id=task.task_id,
             task_type=task.task_type.value,
+            isa95_level=task.isa95_level.value if task.isa95_level is not None else None,
+            use_case_id=task.use_case_id,
+            # PROVIDED context (this arm's own architectures), not the
+            # task's fixed required_context_dimensions -- see
+            # ExperimentConfig.context_combination_id's own docstring.
+            context_combination_id=combination_id_for(provided_dimensions(list(arm_architectures))),
             suite=config.suite,
             split=split.value,
             architectures=list(arm_architectures),

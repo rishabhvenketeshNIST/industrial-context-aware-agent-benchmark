@@ -26,6 +26,7 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from icab.scenarios.models import GroundTruth, ScenarioDifficulty, TaskMode
+from icab.tasks.isa95 import ISA95Level
 
 from .context_dimensions import ContextDimension, unsupported_dimensions
 
@@ -136,6 +137,20 @@ class BenchmarkTask(BaseModel):
         description="Where this task's design came from -- e.g. a fault-catalog entry + scenario ground truth.",
     )
     version: str = Field(default="1.0.0")
+
+    #: ICAB v2: which ISA-95 level and industrial use case (icab.usecases)
+    #: this task serves -- both OPTIONAL/additive so every existing
+    #: tep-v1 task keeps validating unchanged (task_id, in effect,
+    #: reused directly for tep-v2 by adding these two fields rather than
+    #: duplicating task content -- see scripts/generate_tep_v2_tasks.py).
+    #: `use_case_id` is not cross-validated against
+    #: IndustrialUseCaseRegistry here (BenchmarkTask has no reference to
+    #: one, mirroring how scenario_id is validated by
+    #: BenchmarkTaskRegistry rather than by the model itself) -- see
+    #: icab.usecases.registry / icab.benchmark.config for where that
+    #: cross-check happens for the tep-v2 suite.
+    isa95_level: ISA95Level | None = None
+    use_case_id: str | None = None
 
     @model_validator(mode="after")
     def _dimensions_are_architecturally_supportable(self) -> "BenchmarkTask":

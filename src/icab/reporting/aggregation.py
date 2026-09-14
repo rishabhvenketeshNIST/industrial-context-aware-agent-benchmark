@@ -72,6 +72,10 @@ DIMENSION_RESOLVERS: dict[str, Callable[[ExperimentRecord], Any]] = {
     "suite": lambda r: r.config.suite,
     "split": lambda r: r.config.split,
     "repetition": lambda r: r.config.repetition,
+    #: ICAB v2 dimensions -- see icab.usecases/icab.tasks.context_combinations.
+    "isa95_level": lambda r: r.config.isa95_level,
+    "use_case_id": lambda r: r.config.use_case_id,
+    "context_combination_id": lambda r: r.config.context_combination_id,
 }
 
 

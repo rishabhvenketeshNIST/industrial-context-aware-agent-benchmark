@@ -52,6 +52,22 @@ SUITES: dict[str, SuiteConfig] = {
         tasks_dir=Path("configs/benchmark/tasks"),
         splits_path=Path("configs/benchmark/splits.yaml"),
     ),
+    #: ICAB v2 (see docs/benchmark/specification-v2.md): the SAME
+    #: real scenarios/splits as tep-v1 (reused, not duplicated -- process/
+    #: fault conditions and split assignment are scenario properties,
+    #: unaffected by ISA-95/use-case classification), but tasks_dir
+    #: points at ISA-95-level/use-case-tagged tasks
+    #: (scripts/generate_tep_v2_tasks.py backfills tep-v1's own task
+    #: content plus a small number of genuinely new Area-level tasks --
+    #: see configs/benchmark/tasks_v2/). tep-v1 itself is completely
+    #: unmodified by this -- a clearly versioned, additive suite, not a
+    #: silent change to what "tep-v1" means.
+    "tep-v2": SuiteConfig(
+        name="tep-v2",
+        scenarios_dir=Path("configs/benchmark/scenarios"),
+        tasks_dir=Path("configs/benchmark/tasks_v2"),
+        splits_path=Path("configs/benchmark/splits.yaml"),
+    ),
 }
 
 

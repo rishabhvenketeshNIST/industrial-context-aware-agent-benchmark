@@ -121,3 +121,31 @@ def unsupported_dimensions(
         for dimension in required_context_dimensions
         if not (CONTEXT_DIMENSION_ARCHITECTURES[dimension] & available)
     ]
+
+
+def provided_dimensions(architectures: list[str]) -> list[ContextDimension]:
+    """
+    ICAB v2: which context dimensions a given architecture ARM actually
+    makes AVAILABLE -- the union, over every dimension, of "is at least
+    one of `architectures` in that dimension's own supporting set"
+    (`CONTEXT_DIMENSION_ARCHITECTURES`). Distinct from a task's
+    `required_context_dimensions` (what the task's ground truth NEEDS,
+    fixed regardless of which architecture arm actually ran it) -- this
+    is what varies as `--architectures` varies, and so is the right
+    grouping key for context necessity/sufficiency/composition analysis
+    (icab.analysis): running the SAME task with progressively fewer
+    architectures changes what is PROVIDED, not what is required.
+
+    Deliberately a superset-oriented notion (matches the ICAB v2
+    direction's own example: available_context is broader than
+    required_context) -- an architecture arm "provides" C5 as soon as
+    ANY of its architectures could supply operational values, whether or
+    not this particular task's ground truth happens to need C5.
+    """
+
+    available = set(architectures)
+    return [
+        dimension
+        for dimension in ContextDimension
+        if CONTEXT_DIMENSION_ARCHITECTURES[dimension] & available
+    ]

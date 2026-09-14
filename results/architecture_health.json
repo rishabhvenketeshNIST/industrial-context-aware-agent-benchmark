@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-09-14T16:08:13.956241Z",
+  "results": [
+    {
+      "component": "UNS",
+      "endpoint": "in-process (icab.context.uns.tep_builder)",
+      "status": "PASS",
+      "test_performed": "browse('site/tep') and browse('site/tep/reactor') over the real TEP UNS tree",
+      "expected": "'Reactor' node present; urn:icab:measurement:reactor_pressure discoverable under it",
+      "observed": "7 top-level node(s) under site/tep, including Reactor with 13 child measurement(s)",
+      "latency_ms": 397.16419999604113,
+      "timestamp": "2026-09-14T16:08:08.350703Z",
+      "failure_reason": null
+    },
+    {
+      "component": "Historian",
+      "endpoint": "postgresql://icab:***@localhost:5432/icab",
+      "status": "PASS",
+      "test_performed": "get_current_value(urn:icab:measurement:reactor_pressure) after a real scenario preparation",
+      "expected": "A recent observation with a plausible reactor-pressure value and unit",
+      "observed": "value=2712.39 kPa gauge, timestamp=2028-06-29T01:30:00+00:00",
+      "latency_ms": 1830.016699997941,
+      "timestamp": "2026-09-14T16:08:10.181125Z",
+      "failure_reason": null
+    },
+    {
+      "component": "KnowledgeGraph",
+      "endpoint": "bolt://localhost:7687",
+      "status": "PASS",
+      "test_performed": "get_entity_relationships(urn:icab:equipment:reactor) via the real discovery interface (no fuzzy search)",
+      "expected": "A real MONITORS relationship from urn:icab:equipment:reactor to urn:icab:measurement:reactor_pressure",
+      "observed": "17 relationship(s) for urn:icab:equipment:reactor, including MONITORS -> urn:icab:measurement:reactor_pressure",
+      "latency_ms": 6.9770999980391935,
+      "timestamp": "2026-09-14T16:08:10.187877Z",
+      "failure_reason": null
+    },
+    {
+      "component": "MQTT",
+      "endpoint": "localhost:1883",
+      "status": "PASS",
+      "test_performed": "discover/read a real, retained reactor-pressure message on the icab/tep/# namespace",
+      "expected": "A retained message for the reactor pressure measurement, published by TEPMeasurementPublisher",
+      "observed": "topic=icab/tep/reactor/reactor_pressure, payload keys=['canonical_id', 'quality', 'source', 'timestamp', 'topic', 'unit', 'value']",
+      "latency_ms": 3040.8874999993714,
+      "timestamp": "2026-09-14T16:08:13.228616Z",
+      "failure_reason": null
+    },
+    {
+      "component": "OPCUA",
+      "endpoint": "opc.tcp://127.0.0.1:4841/icab/tep/",
+      "status": "PASS",
+      "test_performed": "browse the real, already-running TEP-backed OPC UA server and read a live value",
+      "expected": "A 'Reactor' object with a plausible pressure variable value",
+      "observed": "Reactor object with 11 variable(s); Reactor pressure=2704.971392450416",
+      "latency_ms": 52.743799999007024,
+      "timestamp": "2026-09-14T16:08:13.281420Z",
+      "failure_reason": null
+    },
+    {
+      "component": "i3X",
+      "endpoint": "http://localhost:8090",
+      "status": "PASS",
+      "test_performed": "get_objects/get_related_objects/get_value against the real private i3X instance",
+      "expected": "A 'Reactor' object with a related, plausible pressure value -- never the public api.i3x.dev",
+      "observed": "server=i3xua v1.0; Reactor -> Reactor pressure=2704.971392450416",
+      "latency_ms": 355.1055000134511,
+      "timestamp": "2026-09-14T16:08:13.636637Z",
+      "failure_reason": null
+    },
+    {
+      "component": "Gateway",
+      "endpoint": "http://localhost:8000/tools/get_current_value",
+      "status": "PASS",
+      "test_performed": "a real HTTP POST to the gateway's own FastAPI route, backed by the real Historian",
+      "expected": "HTTP 200 with a real, plausible reactor-pressure observation (not just status code 200)",
+      "observed": "HTTP 200, observation.value=2712.3935955989655, unit=kPa gauge",
+      "latency_ms": 319.53329998941626,
+      "timestamp": "2026-09-14T16:08:13.956241Z",
+      "failure_reason": null
+    }
+  ]
+}

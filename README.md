@@ -231,9 +231,39 @@ also accepted as an explicit, separate opt-in for a labeled legacy control
 
 `--architectures all` expands to one arm per architecture the *selected
 task* itself declares available — never a superset, and never an
-architecture the task can't actually satisfy. `i3x` is currently not
-exercised by any registered task (see `docs/benchmark/tasks.md`'s known
-limitations) — it exists and works, but isn't yet part of the task suite.
+architecture the task can't actually satisfy. `i3x` is exercised by
+`tep-v2` (see below), though not yet by any `tep-v1` task.
+
+## ICAB v2: ISA-95 use cases and context analysis
+
+`--suite tep-v2` runs the SAME `scripts/run_benchmark.py` command against
+a broader research question than fault diagnosis alone: what industrial
+context is required at each ISA-95 level (`Enterprise`/`Site`/`Area`/
+`WorkCenter`/`ProcessCell`/`Equipment`), how should it be represented,
+how much is sufficient, and which architectures can provide it? See
+[`docs/benchmark/specification-v2.md`](docs/benchmark/specification-v2.md)
+for the full concept chain, the 14 real, honestly-scoped
+`IndustrialUseCase`s (0 at Enterprise/Site/Work Center — TEP genuinely
+has no data there, reported rather than fabricated), the deterministic
+127-combination context-dimension generator, and the necessity/
+sufficiency/composition/representation/efficiency analysis suites.
+
+```powershell
+# Run tep-v2 exactly like tep-v1
+uv run python scripts/run_benchmark.py --suite tep-v2 --agent llm --architectures all --seeds 1
+
+# Explore the framework
+uv run python scripts/icab_v2_cli.py list-isa95-levels
+uv run python scripts/icab_v2_cli.py list-use-cases
+uv run python scripts/icab_v2_cli.py list-context-combinations --cardinality 2
+
+# Verify every architecture is actually connected before trusting results
+uv run python scripts/check_architecture_health.py
+
+# Analyze already-persisted tep-v2 results for one use case
+uv run python scripts/icab_v2_cli.py analyze-sufficiency --use-case eq-value-and-relationship-combination
+uv run python scripts/icab_v2_cli.py generate-profiles --out results/reports/context-design-profiles.json
+```
 
 ## Repository Structure
 
@@ -246,25 +276,29 @@ icab/
 │   ├── gateway/       FastAPI app exposing context sources as agent tools
 │   ├── agent/         Agent interface + implementations (baselines, LLM agent), gateway HTTP client
 │   ├── trace/         Trace event models, collector, JSONL storage
-│   ├── tasks/         BenchmarkTask model, registry, splits (M13-C)
+│   ├── tasks/         BenchmarkTask model/registry/splits (M13-C) + context_combinations/isa95 (v2)
 │   ├── scenarios/      BenchmarkScenario model, YAML registry, ScenarioRunner (M5)
+│   ├── usecases/       IndustrialUseCase model + registry -- ISA-95-level use cases (v2)
 │   ├── evaluation/     Deterministic scoring (grounded evaluator, information-flow analysis)
 │   ├── experiments/    ExperimentConfig/Record/Store, architecture combinations, H1-H5 hypotheses
 │   ├── benchmark/      One-command orchestration: BenchmarkConfig/BenchmarkRunner (M13-D)
+│   ├── analysis/       Context necessity/sufficiency/composition/representation/efficiency (v2)
+│   ├── architecture_health.py   Real architecture connectivity checks (v2, mandatory)
 │   ├── reporting/       Aggregation, QA report, hypothesis reports, plotting -- reads results/ only
 │   └── common/         Shared settings (pydantic-settings, .env-driven)
 ├── tests/
 │   ├── unit/          Fast, deterministic, no external infrastructure
 │   └── integration/    Real Postgres/Neo4j/MQTT/OPC UA/i3X; some gated behind a live-LLM flag
 ├── configs/
-│   ├── benchmark/      Scenarios, tasks, splits, fault catalog -- the registered tep-v1 suite
+│   ├── benchmark/      Scenarios, tasks (tep-v1), tasks_v2 (tep-v2), splits, fault catalog
+│   ├── usecases/       IndustrialUseCase YAML definitions, by ISA-95 level (v2)
 │   ├── prototype/      Original prototype scenario/config (placeholders for budget/environment)
 │   └── experiments/     Ablation/comparison experiment configs (placeholders)
 ├── docs/
-│   ├── benchmark/       Task specification, task inventory, splits, evaluation semantics
+│   ├── benchmark/       Task specification (v1 + v2), task inventory, splits, evaluation semantics
 │   ├── architecture/    Per-component design docs (simulator, context architectures, LLM agent, ...)
 │   └── research/        Research questions, hypotheses, experiment plan, development history
-├── scripts/            Runnable entry points (run_benchmark.py, run_experiment.py, ...)
+├── scripts/            Runnable entry points (run_benchmark.py, icab_v2_cli.py, check_architecture_health.py, ...)
 ├── services/           Per-component Dockerfiles (gateway, historian, knowledge_graph, opcua, i3x, tep)
 ├── data/               Reserved for future generated/ground_truth/raw datasets (placeholder)
 └── results/            raw/traces/evaluations/aggregate/reports/figures/hypotheses/prototype (generated, gitignored)
@@ -294,11 +328,14 @@ Conceptually, the suite protects:
 - **Fault injection** — each catalogued fault's empirically-verified behavior stays reproducible
 - **Scenario runner** — deterministic seeds/warmup/fault-schedule/context-sync, correct `generation_id` provenance
 - **Historian / Knowledge Graph / UNS / OPC UA / MQTT / i3X** — each context source's own contract, independent of any one agent
+- **Architecture connectivity** — a REAL functional round trip (real data, not just "port is open") through every component at once (`tests/integration/test_architecture_connectivity.py`) -- a broken component must fail as itself, never as a misleading score
 - **Gateway** — every tool route, argument validation, and error propagation
 - **Agents** — baseline and LLM tool-calling behavior, termination handling, and that neither ever sees ground truth
 - **Traces** — every tool call is recorded with correct context-acquired/consumed/latency/token accounting
 - **Evaluation** — every deterministic score, including the acquired-vs-consumed context semantics (see `docs/architecture/llm-agent.md`)
 - **Tasks** — schema validation, registry uniqueness, split integrity, ground-truth isolation
+- **ISA-95 use cases / context combinations** — honest 0-use-case coverage at unsupported levels, the exact 127-combination space, tep-v2's task classification staying in sync with tep-v1's real inventory
+- **Context analysis** — necessity/sufficiency/composition/representation/efficiency/failure-taxonomy, always scoped to conditions actually tested
 - **Benchmark orchestration** — run expansion, unique ids, no accidental overwrite, reproducibility, configuration metadata
 - **Reporting** — the QA report and aggregate report render correctly, including failed-run and multi-run cases
 - **Security** — ground truth and credentials never leak into a persisted artifact

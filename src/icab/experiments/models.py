@@ -111,6 +111,23 @@ class ExperimentConfig(BaseModel):
     #: time) so `icab.reporting.aggregation` can group by it without
     #: needing task-registry access.
     task_type: str | None = None
+    #: ICAB v2: the ISA-95 level (icab.tasks.isa95.ISA95Level) and
+    #: industrial use case (icab.usecases) this run's task serves, and
+    #: the canonical id (icab.tasks.context_combinations) of the context
+    #: dimensions this run's ARCHITECTURE ARM actually PROVIDED
+    #: (icab.tasks.context_dimensions.provided_dimensions(architectures)
+    #: -- NOT the task's fixed required_context_dimensions, which stays
+    #: the same regardless of which architecture arm ran it. This is
+    #: deliberate: running the SAME task with progressively fewer
+    #: architectures changes what was PROVIDED, which is exactly the
+    #: variable icab.analysis's necessity/sufficiency/composition suites
+    #: need to group by. All recorded directly (same convention as
+    #: task_type above: no task-registry lookup needed at aggregation
+    #: time). None for a tep-v1-only run (no v2 metadata) or any run
+    #: made outside the benchmark orchestrator.
+    isa95_level: str | None = None
+    use_case_id: str | None = None
+    context_combination_id: str | None = None
     #: Which named benchmark suite (icab.benchmark) this run belongs to,
     #: e.g. "tep-v1".
     suite: str | None = None

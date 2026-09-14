@@ -1,0 +1,45 @@
+# ICAB v2 Area-level industrial use cases.
+#
+# TEP has exactly ONE real Area entity (urn:icab:area:reaction,
+# icab.tep.adapter.TEPAdapter) -- real, but with no variation to study
+# (nothing to compare it against). The two use cases below are
+# deliberately thin: real, verified hierarchy facts (the Area's own
+# Site/ProcessCell PART_OF relationships), not scenario-varying
+# investigations. See icab.usecases.registry.ISA95_LEVEL_COVERAGE_NOTES
+# for why Area coverage stops here, and why Enterprise/Site/Work Center
+# have ZERO use cases rather than fabricated ones.
+
+use_cases:
+  - use_case_id: area-site-membership-identification
+    name: Identify the site an area belongs to
+    description: >
+      Identify which site the process area is part of -- a single,
+      real PART_OF hierarchy fact (Area -> Site), not scenario-varying.
+    isa95_level: area
+    task_type: qa
+    required_context: [C2, C3]
+    candidate_context: [C2, C3]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d2_reactor_context_combination
+    difficulty: D1
+
+  - use_case_id: area-process-cell-composition
+    name: Identify the process cell(s) and equipment within an area
+    description: >
+      Identify which process cell(s) operate within the area, and
+      which equipment those process cells contain -- a real,
+      two-level PART_OF chain (ProcessCell -> Area, Equipment ->
+      ProcessCell), not scenario-varying.
+    isa95_level: area
+    task_type: investigation
+    required_context: [C2, C3]
+    candidate_context: [C2, C3, C1]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, completeness_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d2_reactor_context_combination
+    difficulty: D2

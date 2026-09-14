@@ -1,0 +1,145 @@
+# ICAB v2 Equipment-level industrial use cases.
+#
+# Every use case here is derived from the ACTUAL, already-registered
+# tep-v1 task suite (configs/benchmark/tasks/) -- required_context is
+# each use case's REAL required_context_dimensions (taken directly from
+# its member tasks, not assigned because it "sounds appropriate"), and
+# applicable_scenarios lists only scenarios a real member task actually
+# runs against. See scripts/generate_tep_v2_tasks.py for the exact
+# task_id -> use_case_id assignment this file's use cases are built from.
+
+use_cases:
+  - use_case_id: eq-current-value-interpretation
+    name: Interpret a current equipment measurement value
+    description: >
+      Retrieve and interpret one equipment item's current measurement
+      value, including whether it is within a normal/safe operating
+      range. The most common, simplest Equipment-level use case in the
+      real task suite.
+    isa95_level: equipment
+    task_type: qa
+    required_context: [C5]
+    candidate_context: [C5, C4]
+    success_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d1_reactor_pressure_reading
+      - d2_reactor_cooling_deviation
+      - d4_feed_pressure_reactor_effect
+      - d4_unknown_plant_disturbance
+    difficulty: D1
+
+  - use_case_id: eq-value-and-relationship-combination
+    name: Combine a current value with its equipment relationships
+    description: >
+      Retrieve a current measurement value AND the structural
+      relationship(s) (e.g. MONITORS) connecting it to its owning
+      equipment, rather than either in isolation.
+    isa95_level: equipment
+    task_type: investigation
+    required_context: [C5, C3]
+    candidate_context: [C5, C3, C2]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d2_reactor_cooling_deviation
+      - d2_reactor_context_combination
+    difficulty: D2
+
+  - use_case_id: eq-control-relationship-identification
+    name: Identify a control relationship between an actuator and a measurement
+    description: >
+      Identify which actuator CONTROLS which measurement -- real,
+      structural control-loop evidence (M13-A, sourced from
+      tep_studio's own decentralized controller registry), distinct
+      from a general MONITORS/PART_OF structural relationship.
+    isa95_level: equipment
+    task_type: qa
+    required_context: [C6]
+    candidate_context: [C6, C3]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d2_reactor_context_combination
+    difficulty: D2
+
+  - use_case_id: eq-temporal-trend-interpretation
+    name: Determine whether a measurement is stable or trending
+    description: >
+      Determine, from recent recorded history, whether a single
+      equipment measurement has remained stable or is trending in a
+      particular direction.
+    isa95_level: equipment
+    task_type: qa
+    required_context: [C4]
+    candidate_context: [C4, C5]
+    success_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d1_reactor_pressure_reading
+      - d3_reactor_pressure_deviation
+      - d3_stream4_composition_shift
+    difficulty: D1
+
+  - use_case_id: eq-historical-pattern-characterization
+    name: Characterize a gradual pattern across a wide historical window
+    description: >
+      Determine whether a measurement's behavior across a WIDE
+      historical window reflects a gradual/statistical drift, as
+      opposed to a single bounded-range lookup (C4) -- requires
+      comparing an early segment of history against a late one.
+    isa95_level: equipment
+    task_type: investigation
+    required_context: [C7]
+    candidate_context: [C7, C3]
+    success_criteria:
+      binding_scores: [required_evidence_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d3_stochastic_composition_drift
+    difficulty: D3
+
+  - use_case_id: eq-abnormal-behavior-diagnosis
+    name: Diagnose the cause of abnormal equipment behavior
+    description: >
+      Given an equipment item behaving abnormally, identify the
+      responsible disturbance/root cause and the affected
+      measurements/equipment, grounded in real historical and
+      relational evidence.
+    isa95_level: equipment
+    task_type: diagnosis
+    required_context: [C4, C3]
+    candidate_context: [C4, C3, C5, C7]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, conclusion_correctness_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d2_reactor_cooling_deviation
+      - d3_reactor_pressure_deviation
+      - d3_stochastic_composition_drift
+      - d3_stream4_composition_shift
+      - d4_feed_pressure_reactor_effect
+    difficulty: D3
+
+  - use_case_id: eq-related-measurement-discovery
+    name: Discover measurements related to an affected one
+    description: >
+      Starting from one affected measurement, discover which OTHER
+      measurements/equipment are also implicated -- relational
+      discovery, not a pre-named target.
+    isa95_level: equipment
+    task_type: investigation
+    required_context: [C4, C3]
+    candidate_context: [C4, C3, C5]
+    success_criteria:
+      binding_scores: [required_evidence_score, relationship_score, grounding_score]
+      pass_threshold: 1.0
+    applicable_scenarios:
+      - d3_reactor_pressure_deviation
+      - d3_stream4_composition_shift
+      - d4_feed_pressure_reactor_effect
+    difficulty: D3

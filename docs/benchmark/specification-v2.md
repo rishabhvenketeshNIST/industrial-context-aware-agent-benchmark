@@ -71,6 +71,14 @@ seven-equipment-item simulation:
 | `process_cell` | 5 | Well supported -- the existing D4 "plant-wide"/"unknown" task suite. |
 | `equipment` | 7 | Best supported -- most of the existing tep-v1 task suite. |
 
+> **Superseded by ICAB v3** (`docs/benchmark/specification-v3.md`): the
+> `0`-use-case gaps at Enterprise/Site/Work Center below were later closed
+> by a deterministic, versioned, clearly-labeled **controlled benchmark
+> context layer** (`icab.benchmark_context`) -- every level now has 50
+> real, validated, executable questions. This table is left exactly as
+> it was written for v2, as an honest record of the state at that time;
+> it does not describe the current benchmark's coverage.
+
 A 0-use-case level is a stated limitation (`icab.usecases.registry
 .ISA95_LEVEL_COVERAGE_NOTES`), never silently absent -- `uv run python
 scripts/icab_v2_cli.py list-isa95-levels` prints these notes directly.
@@ -455,7 +463,9 @@ claiming:
 ## Known limitations
 
 - Enterprise/Site/Work Center have zero use cases -- a real, stated data
-  gap, not a bug (see the coverage table above).
+  gap, not a bug (see the coverage table above). **Superseded by ICAB
+  v3** -- see `docs/benchmark/specification-v3.md`, which closes this
+  gap via the controlled benchmark context layer.
 - Only 13 of the 127 possible context combinations are exactly
   realizable by ICAB's current six architectures in isolation (see
   "Resolving a target context combination" above) -- most single- and

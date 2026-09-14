@@ -35,8 +35,6 @@ import uuid
 from pydantic import BaseModel, ConfigDict, Field
 
 from icab.experiments import (
-    AgentType,
-    DeterministicAgentKind,
     ExperimentConfig,
     ExperimentRecord,
     ExperimentResultStore,

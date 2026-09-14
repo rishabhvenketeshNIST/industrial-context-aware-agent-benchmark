@@ -40,7 +40,7 @@ import asyncio
 import re
 import time
 from datetime import UTC, datetime
-from typing import Any, Callable
+from typing import Callable
 
 from pydantic import BaseModel, ConfigDict
 

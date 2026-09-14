@@ -73,7 +73,6 @@ def context_requirement_matrix(
     rows: list[ContextRequirementRow] = []
 
     for use_case in use_cases:
-        scoped = records_for_use_case(records, use_case.use_case_id)
         sufficiency = find_minimum_sufficient_context(records, use_case)
         necessity = analyze_context_necessity(records, use_case)
 

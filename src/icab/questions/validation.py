@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict
 from icab.tasks.benchmark_task import KNOWN_SCORE_FIELDS
 from icab.tasks.registry import BenchmarkTaskRegistry
 
-from .models import Question, ValidationStatus
+from .models import Question
 from .registry import QuestionBankRegistry
 
 

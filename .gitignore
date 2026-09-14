@@ -29,10 +29,10 @@ Thumbs.db
 # Generated benchmark/experiment artifacts -- results/'s directory
 # skeleton is tracked (via .gitkeep in each subdirectory), but the
 # generated content inside is NOT: a fresh benchmark invocation
-# (scripts/run_benchmark.py / run_experiment.py / generate_report.py /
-# run_context_aware_agent.py / run_agent.py) must never accidentally
-# commit development/debugging/smoke-test output as if it were
-# production research data. See docs/benchmark/specification.md for
+# (scripts/run_benchmark.py / scripts/run_level_benchmark.py /
+# scripts/run_experiment.py / scripts/generate_report.py) must never
+# accidentally commit development/debugging/smoke-test output as if it
+# were production research data. See docs/benchmark/specification.md for
 # the full results/ layout and README.md's "Research Data Collection"
 # section for the intended workflow.
 results/raw/*
@@ -93,3 +93,11 @@ results/equipment/*/*
 !results/process_cell/*/.gitkeep
 !results/equipment/*/.gitkeep
 results/_archive/
+
+# icab.export standalone benchmark_exports/<level>/<campaign_id>/ tree --
+# a SEPARATE root from results/ (never merged with it), but the same
+# "generated content is local-disk-only by default" policy applies: a
+# real 500/3,000-execution campaign export is large and must never be
+# committed by accident. If a specific export is ever deliberately
+# meant to be versioned/shared, commit it explicitly with `git add -f`.
+benchmark_exports/

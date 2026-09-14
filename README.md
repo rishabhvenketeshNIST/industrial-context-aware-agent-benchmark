@@ -373,9 +373,12 @@ icab/
 │   ├── tasks/         BenchmarkTask model/registry/splits (M13-C) + context_combinations/isa95/context_conditions/experiment_design (v2)
 │   ├── scenarios/      BenchmarkScenario model, YAML registry, ScenarioRunner (M5)
 │   ├── usecases/       IndustrialUseCase model + registry -- ISA-95-level use cases (v2)
+│   ├── questions/       Question/QuestionInstance/RepetitionMode, taxonomy, bank registry + validation (v3)
+│   ├── benchmark_context/  Deterministic, versioned, clearly-labeled controlled context layer for Enterprise/Site/Work Center (v3)
 │   ├── evaluation/     Deterministic scoring (grounded evaluator, information-flow analysis)
 │   ├── experiments/    ExperimentConfig/Record/Store, architecture combinations, H1-H5 hypotheses
-│   ├── benchmark/      One-command orchestration: BenchmarkConfig/BenchmarkRunner (M13-D) + ContextExperimentRunner (v2)
+│   ├── benchmark/      Orchestration: BenchmarkRunner (M13-D) + ContextExperimentRunner (v2) + QuestionBenchmarkRunner/levels/completeness (v3), all sharing one canonical `_execution.run_one`
+│   ├── export/          Standalone benchmark_exports/ execution-record/writer/metrics/validation layer, above QuestionBenchmarkRunner
 │   ├── analysis/       Context necessity/sufficiency/composition/representation/efficiency/discoverability/matrix/reports (v2)
 │   ├── architecture_health.py   Real architecture connectivity checks (v2, mandatory)
 │   ├── reporting/       Aggregation, QA report, hypothesis reports, plotting -- reads results/ only
@@ -386,16 +389,18 @@ icab/
 ├── configs/
 │   ├── benchmark/      Scenarios, tasks (tep-v1), tasks_v2 (tep-v2), splits, fault catalog
 │   ├── usecases/       IndustrialUseCase YAML definitions, by ISA-95 level (v2)
-│   ├── prototype/      Original prototype scenario/config (placeholders for budget/environment)
+│   ├── questions/       Question bank YAML, by ISA-95 level -- 50 questions/level, 300 total (v3)
+│   ├── prototype/      Original prototype scenario/config (placeholders for budget/environment; normal_001.yaml is still a live test fixture)
 │   └── experiments/     Ablation/comparison experiment configs (placeholders)
 ├── docs/
-│   ├── benchmark/       Task specification (v1 + v2), task inventory, splits, evaluation semantics
+│   ├── benchmark/       Task specification (v1 + v2 + v3), task inventory, splits, evaluation semantics
 │   ├── architecture/    Per-component design docs (simulator, context architectures, LLM agent, ...)
 │   └── research/        Research questions, hypotheses, experiment plan, development history
-├── scripts/            Runnable entry points (run_benchmark.py, run_context_experiment.py, icab_v2_cli.py, check_architecture_health.py, ...)
+├── scripts/            Runnable entry points (run_benchmark.py, run_level_benchmark.py, run_context_experiment.py, icab_v2_cli.py, check_architecture_health.py, ...)
 ├── services/           Per-component Dockerfiles (gateway, historian, knowledge_graph, opcua, i3x, tep)
 ├── data/               Reserved for future generated/ground_truth/raw datasets (placeholder)
-└── results/            raw/traces/evaluations/aggregate/reports/figures/hypotheses/prototype (generated, gitignored)
+├── results/            raw/traces/evaluations/aggregate/reports/figures/hypotheses/prototype + per-level results/<level>/ (v3) -- generated, gitignored
+└── benchmark_exports/  icab.export's standalone <level>/<campaign_id>/ datasets -- a SEPARATE root from results/, generated, gitignored
 ```
 
 ## Tests

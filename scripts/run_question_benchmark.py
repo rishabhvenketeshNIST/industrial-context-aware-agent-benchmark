@@ -30,7 +30,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from icab.benchmark.levels import LEVEL_BENCHMARKS, get_level_benchmark
+from icab.benchmark.levels import get_level_benchmark
 from icab.benchmark.question_runner import QuestionBenchmarkConfig, QuestionBenchmarkRunner
 from icab.questions import QuestionBankRegistry
 from icab.scenarios import BenchmarkScenarioRegistry

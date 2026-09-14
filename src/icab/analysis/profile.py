@@ -12,8 +12,7 @@ from pydantic import BaseModel, ConfigDict
 from icab.experiments.models import ExperimentRecord
 from icab.usecases import IndustrialUseCase
 
-from .necessity import analyze_context_necessity
-from .representation import ARCHITECTURE_REPRESENTATION_LABELS, analyze_representation
+from .representation import analyze_representation
 from .sufficiency import find_minimum_sufficient_context
 
 

@@ -31,7 +31,7 @@ claimed to be empirically measured.
 from __future__ import annotations
 
 import random
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 BENCHMARK_CONTEXT_SOURCE = "icab_benchmark_context"
 BENCHMARK_CONTEXT_VERSION = "1.0.0"

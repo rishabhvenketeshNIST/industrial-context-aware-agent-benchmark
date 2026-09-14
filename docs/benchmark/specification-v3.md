@@ -488,6 +488,16 @@ speculating about -- see "Known limitations."
   this milestone. `scripts/run_level_benchmark.py --all --repetitions 10`
   is the documented, tested, resumable path to complete it -- doing so
   is explicit remaining work, not claimed as done.
+  **Update (pre-production cleanup pass):** those 24 Step-B validation
+  records were archived to `results/_archive/` (preserved intact, never
+  deleted) ahead of the first real campaign -- `icab.benchmark
+  .completeness` counts every record under `results/<level>/`
+  regardless of which campaign produced it, so leaving them live risked
+  silently counting toward (and, for any question/repetition pair using
+  the same LLM model, potentially colliding with) the first real
+  campaign's own totals. `results/<level>/` is currently a clean 0/3000
+  as of this cleanup pass; the 300-question bank and 3,000-execution
+  target are unchanged.
 - **The Enterprise/Site/Work-Center/Area-extra/Process-Cell-extra
   discoverability finding above is OBSERVED, not yet explained.** Only
   20 real runs support it; no root-cause investigation (e.g. comparing

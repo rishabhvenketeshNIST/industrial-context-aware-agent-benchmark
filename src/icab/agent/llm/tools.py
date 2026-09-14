@@ -291,7 +291,6 @@ def tools_for_architectures(
 ) -> tuple[AgentTool, ...]:
     """Return only the tools belonging to the given architecture names."""
 
-    tools_by_name = {tool.name: tool for tool in tools}
     allowed_names: set[str] = set()
 
     for architecture in architectures:

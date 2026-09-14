@@ -12,7 +12,6 @@ import uuid
 from collections.abc import Callable
 from datetime import UTC, datetime
 from importlib.metadata import PackageNotFoundError, version as _pkg_version
-from typing import Any
 
 from icab.agent.architecture_aware import ArchitectureAwareAgent
 from icab.agent.baseline.scenario_aware import ScenarioAwareBaselineAgent

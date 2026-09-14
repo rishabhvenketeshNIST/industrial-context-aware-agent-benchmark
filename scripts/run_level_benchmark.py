@@ -64,7 +64,7 @@ from icab.benchmark.completeness import (
     check_level_completeness,
     render_completeness_table,
 )
-from icab.benchmark.levels import LEVEL_BENCHMARKS, get_level_benchmark
+from icab.benchmark.levels import get_level_benchmark
 from icab.benchmark.question_runner import QuestionBenchmarkConfig, QuestionBenchmarkRunner
 from icab.experiments import ExperimentResultStore
 from icab.export import CampaignExportWriter, build_canonical_record, validate_export

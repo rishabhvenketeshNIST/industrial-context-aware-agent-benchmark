@@ -647,6 +647,95 @@
   823/3); `tep-v1` untouched (no file under it appears in `git status`/
   `git diff` for this milestone).
 
+- Repository cleanup/freeze pass complete, committed and pushed (`chore:
+  clean and freeze benchmark for production execution` -- see `git log`
+  for the exact hash), 865 passed + 3 skipped. Explicit "no new
+  features, no redesign" preparation pass before the first real
+  3,000-execution campaign. **Code cleanup** (ruff-audited, not broad style
+  refactoring): removed 12 genuinely dead unused imports/locals across
+  `scripts/run_level_benchmark.py`, `scripts/run_question_benchmark.py`,
+  `src/icab/agent/llm/tools.py`, `src/icab/analysis/{profile,reports}.py`,
+  `src/icab/architecture_health.py`, `src/icab/benchmark/runner.py`,
+  `src/icab/benchmark_context/data.py`, `src/icab/experiments/runner.py`,
+  `src/icab/questions/validation.py` -- zero behavior change, each
+  confirmed to be a genuinely unused computation before removal. Left
+  ONE ruff finding deliberately untouched and reported instead of
+  silently fixed: `icab.context.normalizer.ContextNormalizer.from_opcua`
+  computes real OPC UA asset entities into a local `assets` variable,
+  then discards it and returns `assets=[]` -- a real bug, but confirmed
+  to live entirely in FROZEN legacy code (`ContextNormalizer` is used
+  only by the pre-M9 `ArchitectureAwareAgent`/`InvestigationEvaluator`
+  path, explicitly kept unmodified per an earlier explicit decision, not
+  the `GroundedInvestigationEvaluator`/LLM-agent path the real benchmark
+  uses) -- does not affect the current benchmark, left as documented
+  technical debt rather than silently fixed mid-cleanup.
+  **Obsolete script removal** (zero references anywhere in
+  docs/tests/src/config, confirmed via repo-wide search before
+  deleting): `scripts/run_agent.py`, `scripts/run_context_aware_agent.py`,
+  `scripts/load_scenario.py` -- all three pre-M5/M9 prototype-era debug
+  scripts that hand-wired the legacy `InvestigationTask`/
+  `InvestigationTrace` models directly against `configs/prototype/`,
+  bypassing the entire modern `ExperimentConfig`/`ExperimentRunner`/
+  `ExperimentResultStore`/evaluator pipeline entirely -- fully superseded
+  by `scripts/run_experiment.py --agent-type deterministic
+  --deterministic-agent structured_retrieval`/`context_aware`. The
+  underlying agent classes (`StructuredRetrievalAgent`/
+  `ContextAwareAgent`) themselves remain intentionally in place -- still
+  real, tested, legacy-control-baseline agents reachable via
+  `ExperimentRunner`, not removed. `scripts/run_opcua_demo_server.py`/
+  `scripts/test_opcua_client.py` were investigated and kept: explicitly
+  documented, still-referenced manual OPC UA debugging tools, distinct
+  from (and clearly contrasted against, in
+  `docs/architecture/context-architecture.md`) the real production
+  `scripts/run_tep_opcua_server.py`.
+  **A real result-contamination risk found and fixed** (the milestone's
+  central ask, Section 5): `icab.benchmark.completeness
+  .check_level_completeness()` counts every persisted record under
+  `results/<level>/` regardless of which named campaign produced it --
+  the 24 real Step-B validation records left over from the 50-question
+  milestone (built with the SAME `llm_model` a real production campaign
+  would likely use) would have silently counted toward, and could
+  collide instance-id-for-instance-id with, the very first real
+  campaign's own repetition/execution totals, producing a misleading
+  completeness report. Fixed using the EXISTING, previously-used
+  `scripts/reset_active_results.py --force` (archive, never delete) --
+  all 24 records preserved intact at
+  `results/_archive/20260914T210658.563360Z/` (verified: raw file count
+  matches exactly), `results/<level>/` now a genuinely clean 0/3000
+  across all six levels. Confirmed all THREE prior archive snapshots
+  (238/38/24 real records respectively) remain intact and untouched.
+  **`.gitignore` gap found and fixed**: `benchmark_exports/` (the new
+  standalone export root) had NO gitignore rule at all -- the first real
+  500-execution campaign would have produced thousands of ungitignored
+  files, one `git add -A` away from an accidental mass-commit of
+  generated benchmark data. Added a `benchmark_exports/` rule, verified
+  via `git check-ignore -v`. Also fixed a stale `.gitignore` comment
+  still naming the two just-removed scripts.
+  **Documentation**: added a "Superseded by ICAB v3" note (additive,
+  history preserved, not rewritten) to `specification-v2.md`'s now-stale
+  "Enterprise/Site/Work Center have zero use cases" claims (closed by
+  v3's controlled context layer); updated `specification-v3.md`'s Known
+  Limitations to reflect the just-performed archive (24/3000 -> 0/3000
+  active); updated README's Repository Structure tree, which was missing
+  the `icab.questions`/`icab.benchmark_context`/`icab.export` packages
+  and the new `benchmark_exports/` root entirely. Verified `LICENSE`/
+  `Makefile`/`configs/experiments/*.yaml` are still genuinely empty
+  placeholders (not stale claims) before leaving development-history's
+  "Not yet filled in" section unchanged.
+  **Question bank integrity re-verified end to end**: 300/300 questions,
+  exactly 50/level across all six levels, 300 unique question_ids, every
+  question re-passes the full Section-25 validation checklist (ground
+  truth resolvable, deterministically evaluable, context hypothesis
+  documented) -- identical to Step A's original result, confirming
+  nothing regressed.
+  **No real LLM execution was launched** -- only unit tests, dry-runs,
+  the completeness check-only path, and the local archive/reset action
+  (no gateway/LLM call) were run. `tep-v1` untouched (confirmed via
+  `git status`). Single canonical execution path re-confirmed: exactly
+  three modules import `icab.benchmark._execution`
+  (`question_runner.py`, `context_experiment.py`, `runner.py`) -- no
+  competing execution mechanism exists.
+
 ## Not yet filled in
 
 Present as empty placeholders/known gaps, not yet addressed:
